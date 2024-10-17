@@ -1,0 +1,21 @@
+<header class="bg-gray-800 p-4 text-white flex justify-between items-center">
+    <h1 class="text-lg font-bold">Cementerio del Condado</h1>
+  
+    <!-- Navbar Links -->
+    <nav class="flex space-x-4">
+      <a routerLink="/" class="text-white hover:underline">Home</a>
+      <a routerLink="/guias" class="text-white hover:underline">Guías</a>
+      <a routerLink="/servicio-info" class="text-white hover:underline">ServicioInfo</a>
+      <a routerLink="/articulos" class="text-white hover:underline">Detalles de Artículos</a>
+    </nav>
+  
+    <!-- Botón de Login/Logout -->
+    <div>
+      <button *ngIf="!isAuthenticated(); else loggedInTemplate" (click)="navigateToLogin()"
+        class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded">Login</button>
+  
+      <ng-template #loggedInTemplate>
+        <button (click)="logout()" class="ml-4 bg-red-600 hover:bg-red-700 px-4 py-2 rounded">Logout</button>
+      </ng-template>
+    </div>
+  </header>

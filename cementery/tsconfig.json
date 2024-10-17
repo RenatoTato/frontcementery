@@ -26,6 +26,8 @@
     "paths": {
       "@admin/*":["./src/app/domains/panel-admin/*"],
       "@info/*":["./src/app/domains/panel-info/*"],
+      "@shared/*":["./src/app/domains/shared/*"],
+      "@externo/*":["./src/app/shared/*"],
     }
   },
   "angularCompilerOptions": {
