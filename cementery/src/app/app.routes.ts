@@ -20,7 +20,7 @@ export const routes: Routes = [
                 loadComponent: ()=>import('@info/pages/servi-info/servi-info.component').then(m=>m.ServiInfoComponent)
             },
             {
-                path: 'ser-queirodo',
+                path: 'consulta-ser-queirodo',
                 loadComponent: ()=>import('@info/pages/difunto-info/difunto-info.component').then(m=>m.DifuntoInfoComponent)
             },
             {
@@ -32,6 +32,7 @@ export const routes: Routes = [
     {
         path: 'admin',
         component:LayoutAdminComponent,
+        canActivate: [authGuard], // Protege las rutas del PanelAdmin
         children:[
             {
                 path: '',
@@ -41,20 +42,24 @@ export const routes: Routes = [
                 path: 'consulta-disponibilidad',
                 loadComponent: ()=>import('@admin/pages/consulta-grafica/consulta-grafica.component').then(m=>m.ConsultaGraficaComponent)
             },
-            {
-                path: '',
-                loadComponent: ()=>import('@admin/pages/dashboard/dashboard.component').then(m=>m.DashboardComponent)
-            },
-            {
-                path: '',
-                loadComponent: ()=>import('@admin/pages/dashboard/dashboard.component').then(m=>m.DashboardComponent)
-            },
-            {
-                path: '',
-                loadComponent: ()=>import('@admin/pages/dashboard/dashboard.component').then(m=>m.DashboardComponent)
-            },
+            // {
+            //     path: '',
+            //     loadComponent: ()=>import('@admin/pages/dashboard/dashboard.component').then(m=>m.DashboardComponent)
+            // },
+            // {
+            //     path: '',
+            //     loadComponent: ()=>import('@admin/pages/dashboard/dashboard.component').then(m=>m.DashboardComponent)
+            // },
+            // {
+            //     path: '',
+            //     loadComponent: ()=>import('@admin/pages/dashboard/dashboard.component').then(m=>m.DashboardComponent)
+            // },
         ]
 
+    },
+    {
+        path:'login',
+        loadComponent:()=>import('@auth/login/login.component').then(m=>m.LoginComponent)
     },
     {
         path:'**',

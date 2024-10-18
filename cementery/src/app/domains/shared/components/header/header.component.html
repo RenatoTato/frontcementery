@@ -5,17 +5,19 @@
     <nav class="flex space-x-4">
       <a routerLink="/" class="text-white hover:underline">Home</a>
       <a routerLink="/guias" class="text-white hover:underline">Guías</a>
-      <a routerLink="/servicio-info" class="text-white hover:underline">ServicioInfo</a>
+      <a routerLink="/servicios" class="text-white hover:underline">ServicioInfo</a>
       <a routerLink="/articulos" class="text-white hover:underline">Detalles de Artículos</a>
     </nav>
   
-    <!-- Botón de Login/Logout -->
+    <!-- Botón de Login/Logout y Desplegar Sidebar -->
     <div>
       <button *ngIf="!isAuthenticated(); else loggedInTemplate" (click)="navigateToLogin()"
         class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded">Login</button>
   
       <ng-template #loggedInTemplate>
-        <button (click)="logout()" class="ml-4 bg-red-600 hover:bg-red-700 px-4 py-2 rounded">Logout</button>
+        <!-- Botón de Logout -->
+        <button (click)="logout()" class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded">Logout</button>
       </ng-template>
     </div>
   </header>
+  

@@ -27,6 +27,7 @@
       "@admin/*":["./src/app/domains/panel-admin/*"],
       "@info/*":["./src/app/domains/panel-info/*"],
       "@shared/*":["./src/app/domains/shared/*"],
+      "@auth/*":["./src/app/domains/auth/*"],
       "@externo/*":["./src/app/shared/*"],
     }
   },

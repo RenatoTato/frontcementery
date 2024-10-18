@@ -1,14 +1,15 @@
 <div class="min-h-screen flex flex-col">
-    <!-- Header -->
-    <app-header class="flex-none"/>
-  
-    <div class="flex flex-1">
-      <!-- Sidebar (oculto en pantallas pequeñas) -->
-      <app-siderbar class="hidden md:block w-64 bg-gray-800 text-white"/>
-  
-      <!-- Contenido Principal -->
-      <main class="flex-1 p-4">
-        <router-outlet/>
-      </main>
-    </div>
+  <!-- Header -->
+  <app-header class="flex-none"></app-header>
+
+  <!-- Contenido Principal con Sidebar a la izquierda -->
+  <div class="flex flex-1">
+    <!-- Sidebar a la izquierda -->
+    <app-siderbar class="w-64 bg-gray-800 text-white"></app-siderbar>
+
+    <!-- Contenido Principal a la derecha -->
+    <main class="flex-1 p-4">
+      <router-outlet></router-outlet>
+    </main>
   </div>
+</div>
