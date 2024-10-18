@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DeudoDashboardComponent } from './deudo-dashboard.component';
+import { GuiaDashboardComponent } from './guia-dashboard.component';
 
-describe('DeudoDashboardComponent', () => {
-  let component: DeudoDashboardComponent;
-  let fixture: ComponentFixture<DeudoDashboardComponent>;
+describe('GuiaDashboardComponent', () => {
+  let component: GuiaDashboardComponent;
+  let fixture: ComponentFixture<GuiaDashboardComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DeudoDashboardComponent]
+      imports: [GuiaDashboardComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(DeudoDashboardComponent);
+    fixture = TestBed.createComponent(GuiaDashboardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

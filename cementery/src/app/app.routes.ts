@@ -35,27 +35,18 @@ export const routes: Routes = [
         canActivate: [authGuard], // Protege las rutas del PanelAdmin
         children:[
             {
-                path: '',
+                path: 'dashboard',
                 loadComponent: ()=>import('@admin/pages/dashboard/dashboard.component').then(m=>m.DashboardComponent)
             },
             {
-                path: 'consulta-disponibilidad',
+                path: 'disponibilidad',
                 loadComponent: ()=>import('@admin/pages/consulta-grafica/consulta-grafica.component').then(m=>m.ConsultaGraficaComponent)
             },
-            // {
-            //     path: '',
-            //     loadComponent: ()=>import('@admin/pages/dashboard/dashboard.component').then(m=>m.DashboardComponent)
-            // },
-            // {
-            //     path: '',
-            //     loadComponent: ()=>import('@admin/pages/dashboard/dashboard.component').then(m=>m.DashboardComponent)
-            // },
-            // {
-            //     path: '',
-            //     loadComponent: ()=>import('@admin/pages/dashboard/dashboard.component').then(m=>m.DashboardComponent)
-            // },
+            {
+                path:'articulo',
+                loadComponent: ()=>import('@admin/pages/articulo/articulo.component').then(m=>m.ArticuloComponent)
+            }
         ]
-
     },
     {
         path:'login',
