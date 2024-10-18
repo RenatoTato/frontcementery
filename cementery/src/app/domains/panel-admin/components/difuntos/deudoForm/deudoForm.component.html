@@ -1,0 +1,87 @@
+<div
+    class="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex justify-center items-center p-4">
+    <div class="w-full max-w-2xl bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+
+        <!-- Título del Formulario -->
+        <h1 class="text-2xl font-bold mb-4 dark:text-white">Crear/Editar Deudo</h1>
+
+        <!-- Formulario de Deudo -->
+        <form [formGroup]="deudoForm" (ngSubmit)="onSubmit()" class="space-y-6">
+
+            <!-- Nombres -->
+            <div>
+                <label for="nombres" class="block text-sm font-medium mb-2 dark:text-gray-200">Nombres</label>
+                <input id="nombres" formControlName="nombres" type="text"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                    placeholder="Ingrese los nombres del deudo">
+                <div *ngIf="deudoForm.get('nombres')?.invalid && deudoForm.get('nombres')?.touched"
+                    class="text-red-500 mt-2">
+                    Los nombres son obligatorios
+                </div>
+            </div>
+
+            <!-- Apellidos -->
+            <div>
+                <label for="apellidos" class="block text-sm font-medium mb-2 dark:text-gray-200">Apellidos</label>
+                <input id="apellidos" formControlName="apellidos" type="text"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                    placeholder="Ingrese los apellidos del deudo">
+                <div *ngIf="deudoForm.get('apellidos')?.invalid && deudoForm.get('apellidos')?.touched"
+                    class="text-red-500 mt-2">
+                    Los apellidos son obligatorios
+                </div>
+            </div>
+
+            <!-- Cédula -->
+            <div>
+                <label for="cedula" class="block text-sm font-medium mb-2 dark:text-gray-200">Cédula</label>
+                <input id="cedula" formControlName="cedula" type="text"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                    placeholder="Ingrese la cédula del deudo">
+                <div *ngIf="deudoForm.get('cedula')?.invalid && deudoForm.get('cedula')?.touched"
+                    class="text-red-500 mt-2">
+                    La cédula es obligatoria
+                </div>
+            </div>
+
+            <!-- Teléfono -->
+            <div>
+                <label for="telefono" class="block text-sm font-medium mb-2 dark:text-gray-200">Teléfono</label>
+                <input id="telefono" formControlName="telefono" type="text"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                    placeholder="Ingrese el número de teléfono del deudo">
+            </div>
+
+            <!-- Email -->
+            <div>
+                <label for="email" class="block text-sm font-medium mb-2 dark:text-gray-200">Email</label>
+                <input id="email" formControlName="email" type="email"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                    placeholder="Ingrese el email del deudo">
+            </div>
+
+            <!-- Dirección -->
+            <div>
+                <label for="direccion" class="block text-sm font-medium mb-2 dark:text-gray-200">Dirección</label>
+                <input id="direccion" formControlName="direccion" type="text"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                    placeholder="Ingrese la dirección del deudo">
+            </div>
+
+            <!-- Botones -->
+            <div class="flex justify-end space-x-4">
+                <button type="button"
+                    class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600"
+                    (click)="cancelar()">
+                    Cancelar
+                </button>
+                <button type="submit"
+                    class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
+                    [disabled]="deudoForm.invalid">
+                    Guardar Deudo
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>

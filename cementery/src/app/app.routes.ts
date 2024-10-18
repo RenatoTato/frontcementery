@@ -45,6 +45,34 @@ export const routes: Routes = [
             {
                 path:'articulo',
                 loadComponent: ()=>import('@admin/pages/articulo/articulo.component').then(m=>m.ArticuloComponent)
+            },
+            {
+                path:'difunto',
+                loadComponent: ()=>import('@admin/pages/difunto-dashboard/difunto-dashboard.component').then(m=>m.DifuntoDashboardComponent)
+            },
+            {
+                path:'guia',
+                loadComponent: ()=>import('@admin/pages/guia-dashboard/guia-dashboard.component').then(m=>m.GuiaDashboardComponent)
+            },
+            {
+                path:'iglesia',
+                loadComponent: ()=>import('@admin/pages/iglesia/iglesia.component').then(m=>m.IglesiaComponent)
+            },
+            {
+                path:'info',
+                loadComponent: ()=>import('@admin/pages/info/info.component').then(m=>m.InfoComponent)
+            },
+            {
+                path:'obituario',
+                loadComponent: ()=>import('@admin/pages/obituario-dashboard/obituario-dashboard.component').then(m=>m.ObituarioDashboardComponent)
+            },
+            {
+                path:'servicio',
+                loadComponent: ()=>import('@admin/pages/servicio-dashboard/servicio-dashboard.component').then(m=>m.ServicioDashboardComponent)
+            },
+            {
+                path:'tumba',
+                loadComponent: ()=>import('@admin/pages/tumba-dashboard/tumba-dashboard.component').then(m=>m.TumbaDashboardComponent)
             }
         ]
     },
