@@ -1,21 +1,21 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { DifuntoService } from '@externo/services/difunto.service'; 
-import { Difunto } from '@externo/models/difunto/difunto.model'; 
+import { IglesiaService } from '@externo/services/iglesia.service';
+import { Iglesia } from '@externo/models/iglesia/iglesia.model';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-difuntoForm',
+  selector: 'app-iglesiaForm',
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule],
-  templateUrl: './difuntoForm.component.html',
-  styleUrl: './difuntoForm.component.css'
+  templateUrl: './iglesiaForm.component.html',
+  styleUrl: './iglesiaForm.component.css'
 })
-export class DifuntoFormComponent {
-  difuntoForm!: FormGroup;
+export class IglesiaFormComponent {
+  iglesiaForm!: FormGroup;
   isDarkMode: boolean = false;
 
-  constructor(private fb: FormBuilder, private difuntoService: DifuntoService) { }
+  constructor(private fb: FormBuilder, private iglesiaService: IglesiaService) { }
 
   ngOnInit() {
     this.initForm();
@@ -23,23 +23,29 @@ export class DifuntoFormComponent {
   }
 
   initForm(): void {
-    this.difuntoForm = this.fb.group({
-      nombres: ['', Validators.required],
-      apellidos: ['', Validators.required],
-      cedula: ['', Validators.required],
-      solicitud: ['', Validators.required],
-      observaciones: [''],
+    this.iglesiaForm = this.fb.group({
+      name: ['', Validators.required],
+      address: [''],
+      latitude: [null, [Validators.min(-90), Validators.max(90)]],
+      longitude: [null, [Validators.min(-180), Validators.max(180)]],
+      phone: [''],
+      email: ['', Validators.email],
+      schedule: [''],
+      priest: [''],
+      sector: [''],
+      parish: ['', Validators.required],  // Elige una parroquia para asignar la iglesia
+      image: [''],  // URL opcional de la imagen
     });
   }
 
   onSubmit(): void {
-    if (this.difuntoForm.valid) {
-      const newDifunto: Difunto = this.difuntoForm.value;
+    if (this.iglesiaForm.valid) {
+      const newIglesia: Iglesia= this.iglesiaForm.value;
   
       // Verificar los datos que estás enviando
-      console.log('Datos a enviar:', newDifunto);
+      console.log('Datos a enviar:', newIglesia);
   
-      this.difuntoService.createDifunto(newDifunto).subscribe(
+      this.iglesiaService.createIglesia(newIglesia).subscribe(
         (response) => {
           console.log('Artículo creado:', response);
         },
@@ -53,7 +59,7 @@ export class DifuntoFormComponent {
     }
   }
   resetForm(): void {
-    this.difuntoForm.reset()
+    this.iglesiaForm.reset()
   }
   cancelar(): void {
     this.resetForm();
@@ -80,3 +86,6 @@ export class DifuntoFormComponent {
     }
   }
 }
+
+
+

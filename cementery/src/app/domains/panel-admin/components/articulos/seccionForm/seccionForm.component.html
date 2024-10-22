@@ -1,1 +1,68 @@
-<p>seccion works!</p>
+<div
+    class="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex justify-center items-center p-4">
+    <div class="w-full max-w-2xl bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+
+        <!-- Título del Formulario -->
+        <h1 class="text-2xl font-bold mb-4 dark:text-white">Crear/Editar Sección Artículo</h1>
+
+        <!-- Formulario de Sección Artículo -->
+        <form [formGroup]="seccionArticuloForm" (ngSubmit)="onSubmit()" class="space-y-6">
+
+            <!-- Subtítulo -->
+            <div>
+                <label for="subtitle" class="block text-sm font-medium mb-2 dark:text-gray-200">Subtítulo</label>
+                <input id="subtitle" formControlName="subtitle" type="text"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                    placeholder="Ingrese el subtítulo">
+                <div *ngIf="seccionArticuloForm.get('subtitle')?.invalid && seccionArticuloForm.get('subtitle')?.touched"
+                    class="text-red-500 mt-2">
+                    El subtítulo es obligatorio
+                </div>
+            </div>
+
+            <!-- Contenido -->
+            <div>
+                <label for="content" class="block text-sm font-medium mb-2 dark:text-gray-200">Contenido</label>
+                <textarea id="content" formControlName="content" rows="4"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                    placeholder="Ingrese el contenido de la sección"></textarea>
+                <div *ngIf="seccionArticuloForm.get('content')?.invalid && seccionArticuloForm.get('content')?.touched"
+                    class="text-red-500 mt-2">
+                    El contenido es obligatorio
+                </div>
+            </div>
+
+            <!-- Observaciones -->
+            <div>
+                <label for="description" class="block text-sm font-medium mb-2 dark:text-gray-200">Observaciones (opcional)</label>
+                <textarea id="description" formControlName="description" rows="3"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                    placeholder="Ingrese alguna observación adicional"></textarea>
+            </div>
+
+            <!-- Artículo (relación) -->
+            <div>
+                <label for="article" class="block text-sm font-medium mb-2 dark:text-gray-200">Artículo</label>
+                <select id="article" formControlName="article"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                    <option *ngFor="let articulo of articulos" [value]="articulo.id">{{ articulo.title }}</option>
+                </select>
+            </div>
+
+            <!-- Botones -->
+            <div class="flex justify-end space-x-4">
+                <button type="button"
+                    class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600"
+                    (click)="cancelar()">
+                    Cancelar
+                </button>
+                <button type="submit"
+                    class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
+                    [disabled]="seccionArticuloForm.invalid">
+                    Guardar Sección Artículo
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>

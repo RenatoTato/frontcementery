@@ -1,21 +1,21 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { DifuntoService } from '@externo/services/difunto.service'; 
-import { Difunto } from '@externo/models/difunto/difunto.model'; 
 import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Info } from '@externo/models/info/info.model';
+import { InfoService } from '@externo/services/info.service';
 
 @Component({
-  selector: 'app-difuntoForm',
+  selector: 'app-infoForm',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
-  templateUrl: './difuntoForm.component.html',
-  styleUrl: './difuntoForm.component.css'
+  imports: [CommonModule, ReactiveFormsModule],
+  templateUrl: './infoForm.component.html',
+  styleUrl: './infoForm.component.css'
 })
-export class DifuntoFormComponent {
-  difuntoForm!: FormGroup;
+export class InfoFormComponent {
+  servicioInfoForm!: FormGroup;
   isDarkMode: boolean = false;
 
-  constructor(private fb: FormBuilder, private difuntoService: DifuntoService) { }
+  constructor(private fb: FormBuilder, private infoService: InfoService) { }
 
   ngOnInit() {
     this.initForm();
@@ -23,23 +23,26 @@ export class DifuntoFormComponent {
   }
 
   initForm(): void {
-    this.difuntoForm = this.fb.group({
-      nombres: ['', Validators.required],
-      apellidos: ['', Validators.required],
-      cedula: ['', Validators.required],
-      solicitud: ['', Validators.required],
-      observaciones: [''],
+    this.servicioInfoForm = this.fb.group({
+      category: ['', Validators.required],
+      title: ['', Validators.required],
+      description_short: [''],
+      image: [''],  // Campo opcional para la URL de la imagen
+      description: [''],
+      features: ['', Validators.required],  // Características son obligatorias
+      exclusions: [''],  // Exclusiones son opcionales
+      price: [''],  // Precio es opcional, puedes agregar validadores si lo deseas
     });
   }
 
   onSubmit(): void {
-    if (this.difuntoForm.valid) {
-      const newDifunto: Difunto = this.difuntoForm.value;
+    if (this.servicioInfoForm.valid) {
+      const newInfo: Info= this.servicioInfoForm.value;
   
       // Verificar los datos que estás enviando
-      console.log('Datos a enviar:', newDifunto);
+      console.log('Datos a enviar:', newInfo);
   
-      this.difuntoService.createDifunto(newDifunto).subscribe(
+      this.infoService.createInfo(newInfo).subscribe(
         (response) => {
           console.log('Artículo creado:', response);
         },
@@ -53,7 +56,7 @@ export class DifuntoFormComponent {
     }
   }
   resetForm(): void {
-    this.difuntoForm.reset()
+    this.servicioInfoForm.reset()
   }
   cancelar(): void {
     this.resetForm();

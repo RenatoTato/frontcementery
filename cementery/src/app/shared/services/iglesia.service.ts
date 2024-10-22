@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Parroquia } from '@externo/models/iglesia/parroquia.model';
+import { Iglesia } from '@externo/models/iglesia/iglesia.model';
+import { Social } from '@externo/models/iglesia/social.model';
 
 @Injectable({
   providedIn: 'root'

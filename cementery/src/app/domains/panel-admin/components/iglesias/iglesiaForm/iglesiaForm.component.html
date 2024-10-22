@@ -1,0 +1,131 @@
+<div
+    class="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex justify-center items-center p-4">
+    <div class="w-full max-w-2xl bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+
+        <!-- Título del Formulario -->
+        <h1 class="text-2xl font-bold mb-4 dark:text-white">Crear/Editar Iglesia</h1>
+
+        <!-- Formulario de Iglesia -->
+        <form [formGroup]="iglesiaForm" (ngSubmit)="onSubmit()" class="space-y-6">
+
+            <!-- Nombre -->
+            <div>
+                <label for="name" class="block text-sm font-medium mb-2 dark:text-gray-200">Nombre de la Iglesia</label>
+                <input id="name" formControlName="name" type="text"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                    placeholder="Ingrese el nombre de la iglesia">
+                <div *ngIf="iglesiaForm.get('name')?.invalid && iglesiaForm.get('name')?.touched"
+                    class="text-red-500 mt-2">
+                    El nombre es obligatorio
+                </div>
+            </div>
+
+            <!-- Dirección -->
+            <div>
+                <label for="address" class="block text-sm font-medium mb-2 dark:text-gray-200">Dirección</label>
+                <input id="address" formControlName="address" type="text"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                    placeholder="Ingrese la dirección de la iglesia">
+            </div>
+
+            <!-- Latitud -->
+            <div>
+                <label for="latitude" class="block text-sm font-medium mb-2 dark:text-gray-200">Latitud</label>
+                <input id="latitude" formControlName="latitude" type="number"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                    placeholder="Ingrese la latitud de la iglesia">
+                <div *ngIf="iglesiaForm.get('latitude')?.invalid && iglesiaForm.get('latitude')?.touched"
+                    class="text-red-500 mt-2">
+                    La latitud debe estar entre -90 y 90 grados
+                </div>
+            </div>
+
+            <!-- Longitud -->
+            <div>
+                <label for="longitude" class="block text-sm font-medium mb-2 dark:text-gray-200">Longitud</label>
+                <input id="longitude" formControlName="longitude" type="number"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                    placeholder="Ingrese la longitud de la iglesia">
+                <div *ngIf="iglesiaForm.get('longitude')?.invalid && iglesiaForm.get('longitude')?.touched"
+                    class="text-red-500 mt-2">
+                    La longitud debe estar entre -180 y 180 grados
+                </div>
+            </div>
+
+            <!-- Teléfono -->
+            <div>
+                <label for="phone" class="block text-sm font-medium mb-2 dark:text-gray-200">Teléfono</label>
+                <input id="phone" formControlName="phone" type="text"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                    placeholder="Ingrese el número de teléfono">
+            </div>
+
+            <!-- Email -->
+            <div>
+                <label for="email" class="block text-sm font-medium mb-2 dark:text-gray-200">Email</label>
+                <input id="email" formControlName="email" type="email"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                    placeholder="Ingrese el email de la iglesia">
+            </div>
+
+            <!-- Horario -->
+            <div>
+                <label for="schedule" class="block text-sm font-medium mb-2 dark:text-gray-200">Horario</label>
+                <textarea id="schedule" formControlName="schedule" rows="3"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                    placeholder="Ingrese el horario de la iglesia"></textarea>
+            </div>
+
+            <!-- Sacerdote -->
+            <div>
+                <label for="priest" class="block text-sm font-medium mb-2 dark:text-gray-200">Sacerdote</label>
+                <input id="priest" formControlName="priest" type="text"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                    placeholder="Ingrese el nombre del sacerdote">
+            </div>
+
+            <!-- Sector -->
+            <div>
+                <label for="sector" class="block text-sm font-medium mb-2 dark:text-gray-200">Sector</label>
+                <textarea id="sector" formControlName="sector" rows="3"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                    placeholder="Ingrese el sector de la iglesia"></textarea>
+            </div>
+
+            <!-- Parroquia -->
+            <div>
+                <label for="parish" class="block text-sm font-medium mb-2 dark:text-gray-200">Parroquia</label>
+                <input id="parish" formControlName="parish" type="number"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                    placeholder="ID de la parroquia relacionada">
+                <div *ngIf="iglesiaForm.get('parish')?.invalid && iglesiaForm.get('parish')?.touched"
+                    class="text-red-500 mt-2">
+                    La parroquia es obligatoria
+                </div>
+            </div>
+
+            <!-- Imagen -->
+            <div>
+                <label for="image" class="block text-sm font-medium mb-2 dark:text-gray-200">Imagen (opcional)</label>
+                <input id="image" formControlName="image" type="text"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                    placeholder="Ingrese la URL de la imagen">
+            </div>
+
+            <!-- Botones -->
+            <div class="flex justify-end space-x-4">
+                <button type="button"
+                    class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600"
+                    (click)="cancelar()">
+                    Cancelar
+                </button>
+                <button type="submit"
+                    class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
+                    [disabled]="iglesiaForm.invalid">
+                    Guardar Iglesia
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>

@@ -1,21 +1,23 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { DifuntoService } from '@externo/services/difunto.service'; 
-import { Difunto } from '@externo/models/difunto/difunto.model'; 
+import { ArticuloService } from '@externo/services/articulo.service';
+import { Seccion } from '@externo/models/articulo/seccion.model';
+import { Articulo } from '@externo/models/articulo/articulo.model';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-difuntoForm',
+  selector: 'app-seccion-editar',
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule],
-  templateUrl: './difuntoForm.component.html',
-  styleUrl: './difuntoForm.component.css'
+  templateUrl: './seccion-editar.component.html',
+  styleUrl: './seccion-editar.component.css'
 })
-export class DifuntoFormComponent {
-  difuntoForm!: FormGroup;
+export class SeccionEditarComponent {
+  seccionArticuloForm!: FormGroup;
+  articulos: Articulo[] = [];
   isDarkMode: boolean = false;
 
-  constructor(private fb: FormBuilder, private difuntoService: DifuntoService) { }
+  constructor(private fb: FormBuilder, private seccionService: ArticuloService) { }
 
   ngOnInit() {
     this.initForm();
@@ -23,23 +25,22 @@ export class DifuntoFormComponent {
   }
 
   initForm(): void {
-    this.difuntoForm = this.fb.group({
-      nombres: ['', Validators.required],
-      apellidos: ['', Validators.required],
-      cedula: ['', Validators.required],
-      solicitud: ['', Validators.required],
-      observaciones: [''],
+    this.seccionArticuloForm = this.fb.group({
+      subtitle: ['', Validators.required],
+      content: ['', Validators.required],
+      description: [''],
+      article: ['', Validators.required]  // Relación con el artículo
     });
   }
 
   onSubmit(): void {
-    if (this.difuntoForm.valid) {
-      const newDifunto: Difunto = this.difuntoForm.value;
+    if (this.seccionArticuloForm.valid) {
+      const newSeccion: Seccion = this.seccionArticuloForm.value;
   
       // Verificar los datos que estás enviando
-      console.log('Datos a enviar:', newDifunto);
+      console.log('Datos a enviar:', newSeccion);
   
-      this.difuntoService.createDifunto(newDifunto).subscribe(
+      this.seccionService.createSeccion(newSeccion).subscribe(
         (response) => {
           console.log('Artículo creado:', response);
         },
@@ -52,8 +53,18 @@ export class DifuntoFormComponent {
       );
     }
   }
+  loadArticulos(): void {
+    this.seccionService.getArticulos().subscribe(
+      (response: Articulo[]) => {
+        this.articulos = response;
+      },
+      (error) => {
+        console.error('Error al cargar los artículos:', error);
+      }
+    );
+  }
   resetForm(): void {
-    this.difuntoForm.reset()
+    this.seccionArticuloForm.reset()
   }
   cancelar(): void {
     this.resetForm();
@@ -80,3 +91,4 @@ export class DifuntoFormComponent {
     }
   }
 }
+

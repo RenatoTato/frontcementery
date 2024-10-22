@@ -1,0 +1,78 @@
+<div
+    class="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex justify-center items-center p-4">
+    <div class="w-full max-w-2xl bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+
+        <!-- Título del Formulario -->
+        <h1 class="text-2xl font-bold mb-4 dark:text-white">Crear/Editar Guía</h1>
+
+        <!-- Formulario de Guía -->
+        <form [formGroup]="guiaForm" (ngSubmit)="onSubmit()" class="space-y-6">
+
+            <!-- Categoría -->
+            <div>
+                <label for="category" class="block text-sm font-medium mb-2 dark:text-gray-200">Categoría</label>
+                <input id="category" formControlName="category" type="text"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                    placeholder="Ingrese la categoría de la guía">
+                <div *ngIf="guiaForm.get('category')?.invalid && guiaForm.get('category')?.touched"
+                    class="text-red-500 mt-2">
+                    La categoría es obligatoria
+                </div>
+            </div>
+
+            <!-- Título -->
+            <div>
+                <label for="title" class="block text-sm font-medium mb-2 dark:text-gray-200">Título</label>
+                <input id="title" formControlName="title" type="text"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                    placeholder="Ingrese el título de la guía">
+                <div *ngIf="guiaForm.get('title')?.invalid && guiaForm.get('title')?.touched"
+                    class="text-red-500 mt-2">
+                    El título es obligatorio
+                </div>
+            </div>
+
+            <!-- Descripción Breve -->
+            <div>
+                <label for="description_short" class="block text-sm font-medium mb-2 dark:text-gray-200">Descripción
+                    Breve</label>
+                <textarea id="description_short" formControlName="description_short" rows="4"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                    placeholder="Ingrese una breve descripción de la guía"></textarea>
+            </div>
+
+            <!-- Pasos a seguir -->
+            <div>
+                <label for="steps" class="block text-sm font-medium mb-2 dark:text-gray-200">Pasos a seguir</label>
+                <textarea id="steps" formControlName="steps" rows="4"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                    placeholder="Ingrese los pasos a seguir"></textarea>
+            </div>
+
+            <!-- Recursos adicionales -->
+            <div>
+                <label for="aditional_resources" class="block text-sm font-medium mb-2 dark:text-gray-200">Recursos
+                    adicionales (opcional)</label>
+                <input id="aditional_resources" formControlName="aditional_resources" type="text"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                    placeholder="Ingrese la URL de recursos adicionales">
+            </div>
+
+            <!-- Botones -->
+            <div class="flex justify-end space-x-4">
+                <button type="button"
+                    class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600"
+                    (click)="cancelar()">
+                    Cancelar
+                </button>
+                <button type="submit"
+                    class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
+                    [disabled]="guiaForm.invalid">
+                    Guardar Guía
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>
+

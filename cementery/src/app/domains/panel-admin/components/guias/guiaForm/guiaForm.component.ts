@@ -1,21 +1,20 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { DifuntoService } from '@externo/services/difunto.service'; 
-import { Difunto } from '@externo/models/difunto/difunto.model'; 
 import { CommonModule } from '@angular/common';
-
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Guia } from '@externo/models/guia/guia.model';
+import { GuiaService } from '@externo/services/guia.service';
 @Component({
-  selector: 'app-difuntoForm',
+  selector: 'app-guiaForm',
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule],
-  templateUrl: './difuntoForm.component.html',
-  styleUrl: './difuntoForm.component.css'
+  templateUrl: './guiaForm.component.html',
+  styleUrl: './guiaForm.component.css'
 })
-export class DifuntoFormComponent {
-  difuntoForm!: FormGroup;
+export class GuiaFormComponent {
+  guiaForm!: FormGroup;
   isDarkMode: boolean = false;
 
-  constructor(private fb: FormBuilder, private difuntoService: DifuntoService) { }
+  constructor(private fb: FormBuilder, private guiaService: GuiaService) { }
 
   ngOnInit() {
     this.initForm();
@@ -23,23 +22,23 @@ export class DifuntoFormComponent {
   }
 
   initForm(): void {
-    this.difuntoForm = this.fb.group({
-      nombres: ['', Validators.required],
-      apellidos: ['', Validators.required],
-      cedula: ['', Validators.required],
-      solicitud: ['', Validators.required],
-      observaciones: [''],
+    this.guiaForm = this.fb.group({
+      category: ['', Validators.required],
+      title: ['', Validators.required],
+      description_short: [''],
+      steps: [''],
+      aditional_resources: [''],
     });
   }
 
   onSubmit(): void {
-    if (this.difuntoForm.valid) {
-      const newDifunto: Difunto = this.difuntoForm.value;
+    if (this.guiaForm.valid) {
+      const newGuia: Guia= this.guiaForm.value;
   
       // Verificar los datos que estás enviando
-      console.log('Datos a enviar:', newDifunto);
+      console.log('Datos a enviar:', newGuia);
   
-      this.difuntoService.createDifunto(newDifunto).subscribe(
+      this.guiaService.createGuia(newGuia).subscribe(
         (response) => {
           console.log('Artículo creado:', response);
         },
@@ -53,7 +52,7 @@ export class DifuntoFormComponent {
     }
   }
   resetForm(): void {
-    this.difuntoForm.reset()
+    this.guiaForm.reset()
   }
   cancelar(): void {
     this.resetForm();
@@ -80,3 +79,5 @@ export class DifuntoFormComponent {
     }
   }
 }
+
+

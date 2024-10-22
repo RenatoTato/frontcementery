@@ -16,7 +16,7 @@ export class ArticuloService {
   // ============================
 
   // Obtener todos los artículos
-  getArticulo(): Observable<Articulo[]>{
+  getArticulos(): Observable<Articulo[]>{
     return this.http.get<Articulo[]>(this.articuloUrl)
   }
   // Obtener un artículo por ID
@@ -40,7 +40,7 @@ export class ArticuloService {
   // ============================
 
   // Obtener todos los artículos
-  getSeccion(): Observable<Seccion[]>{
+  getSeccions(): Observable<Seccion[]>{
     return this.http.get<Seccion[]>(this.seccionUrl)
   }
   // Obtener un artículo por ID

@@ -1,21 +1,21 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { DifuntoService } from '@externo/services/difunto.service'; 
-import { Difunto } from '@externo/models/difunto/difunto.model'; 
 import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Parroquia } from '@externo/models/iglesia/parroquia.model';
+import { IglesiaService } from '@externo/services/iglesia.service';
 
 @Component({
-  selector: 'app-difuntoForm',
+  selector: 'app-parroquiaForm',
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule],
-  templateUrl: './difuntoForm.component.html',
-  styleUrl: './difuntoForm.component.css'
+  templateUrl: './parroquiaForm.component.html',
+  styleUrl: './parroquiaForm.component.css'
 })
-export class DifuntoFormComponent {
-  difuntoForm!: FormGroup;
+export class ParroquiaFormComponent {
+  parroquiaForm!: FormGroup;
   isDarkMode: boolean = false;
 
-  constructor(private fb: FormBuilder, private difuntoService: DifuntoService) { }
+  constructor(private fb: FormBuilder, private parroquiaService: IglesiaService) { }
 
   ngOnInit() {
     this.initForm();
@@ -23,23 +23,21 @@ export class DifuntoFormComponent {
   }
 
   initForm(): void {
-    this.difuntoForm = this.fb.group({
-      nombres: ['', Validators.required],
-      apellidos: ['', Validators.required],
-      cedula: ['', Validators.required],
-      solicitud: ['', Validators.required],
-      observaciones: [''],
+    this.parroquiaForm = this.fb.group({
+      name: ['', Validators.required],
+      churches_number: ['', [Validators.required, Validators.min(1)]],
+      image: [''],  // URL opcional de la imagen
     });
   }
 
   onSubmit(): void {
-    if (this.difuntoForm.valid) {
-      const newDifunto: Difunto = this.difuntoForm.value;
+    if (this.parroquiaForm.valid) {
+      const newParroquia: Parroquia= this.parroquiaForm.value;
   
       // Verificar los datos que estás enviando
-      console.log('Datos a enviar:', newDifunto);
+      console.log('Datos a enviar:', newParroquia);
   
-      this.difuntoService.createDifunto(newDifunto).subscribe(
+      this.parroquiaService.createParroquia(newParroquia).subscribe(
         (response) => {
           console.log('Artículo creado:', response);
         },
@@ -53,7 +51,7 @@ export class DifuntoFormComponent {
     }
   }
   resetForm(): void {
-    this.difuntoForm.reset()
+    this.parroquiaForm.reset()
   }
   cancelar(): void {
     this.resetForm();
@@ -80,3 +78,6 @@ export class DifuntoFormComponent {
     }
   }
 }
+
+
+
