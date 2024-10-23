@@ -21,6 +21,7 @@ export class SeccionFormComponent {
 
   ngOnInit() {
     this.initForm();
+    this.loadArticulos();
     this.loadDarkModePreference();
   }
 

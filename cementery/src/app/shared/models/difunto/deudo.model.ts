@@ -1,11 +1,16 @@
+export enum Relacion {
+    Allegado = 'Allegado',
+    Familiar = 'Familiar',
+    Conocido = 'Conocido',
+  }
 export interface Deudo {
     id: number;
-    nombres: string;
-    apellidos: string;
-    cedula: string;
-    telefono: string;
+    names: string;
+    last_names: string;
+    idNumber: string;
+    phoneNumber: string;
     email: string;
-    direccion?: string;
-    tipoRelacion?: string;
-    observaciones?: string;
+    address?: string;
+    tipo?: Relacion;
+    description?: string;
 }

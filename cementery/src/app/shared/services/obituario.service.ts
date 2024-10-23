@@ -1,6 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Obituario } from '@externo/models/obituario/obituario.model';
+import { EtapasObituario } from '@externo/models/obituario/etapas.model';
+import { Memoria } from '@externo/models/obituario/memoria.model';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +20,7 @@ export class ObituarioService {
   // ============================
 
   // Obtener todos los artículos
-  getObituario(): Observable<Obituario[]>{
+  getObituarios(): Observable<Obituario[]>{
     return this.http.get<Obituario[]>(this.obituarioUrl)
   }
   // Obtener un artículo por ID
@@ -41,7 +44,7 @@ export class ObituarioService {
   // ============================
 
   // Obtener todos los artículos
-  getMemoria(): Observable<Memoria[]>{
+  getMemorias(): Observable<Memoria[]>{
     return this.http.get<Memoria[]>(this.memoriaUrl)
   }
   // Obtener un artículo por ID
@@ -65,20 +68,20 @@ export class ObituarioService {
   // ============================
 
   // Obtener todos los artículos
-  getEtapa(): Observable<Etapa[]>{
-    return this.http.get<Etapa[]>(this.etapaUrl)
+  getEtapas(): Observable<EtapasObituario[]>{
+    return this.http.get<EtapasObituario[]>(this.etapaUrl)
   }
   // Obtener un artículo por ID
-  getEtapaId(id:number): Observable<Etapa>{
-    return this.http.get<Etapa>(`${this.etapaUrl}${id}/`)
+  getEtapaId(id:number): Observable<EtapasObituario>{
+    return this.http.get<EtapasObituario>(`${this.etapaUrl}${id}/`)
   }
   // Crear un nuevo artículo
-  createEtapa(data:Etapa): Observable<Etapa>{
-    return this.http.post<Etapa>(this.etapaUrl, data)
+  createEtapa(data:EtapasObituario): Observable<EtapasObituario>{
+    return this.http.post<EtapasObituario>(this.etapaUrl, data)
   }
   // Actualizar un artículo existente
-  updateEtapa(id:number, data:Etapa): Observable<Etapa>{
-    return this.http.put<Etapa>(`${this.etapaUrl}${id}/`, data)
+  updateEtapa(id:number, data:EtapasObituario): Observable<EtapasObituario>{
+    return this.http.put<EtapasObituario>(`${this.etapaUrl}${id}/`, data)
   }
   // Eliminar un artículo
   deleteEtapa(id:number): Observable<void>{

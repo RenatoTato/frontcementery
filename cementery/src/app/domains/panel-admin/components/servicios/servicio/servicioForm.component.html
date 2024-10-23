@@ -1,1 +1,107 @@
-<p>servicio works!</p>
+<div
+  class="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex justify-center items-center p-4">
+  <div class="w-full max-w-2xl bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+
+    <!-- Título del Formulario -->
+    <h1 class="text-2xl font-bold mb-4 dark:text-white">Crear/Editar Servicio</h1>
+
+    <!-- Formulario de Servicio -->
+    <form [formGroup]="servicioForm" (ngSubmit)="onSubmit()" class="space-y-6">
+
+      <!-- Fecha de Inicio -->
+      <div>
+        <label for="startDate" class="block text-sm font-medium mb-2 dark:text-gray-200">Fecha de Inicio</label>
+        <input id="startDate" formControlName="startDate" type="datetime-local"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+          placeholder="Seleccione la fecha de inicio">
+        <div *ngIf="servicioForm.get('startDate')?.invalid && servicioForm.get('startDate')?.touched"
+          class="text-red-500 mt-2">
+          La fecha de inicio es obligatoria
+        </div>
+      </div>
+
+      <!-- Fecha de Vencimiento -->
+      <div>
+        <label for="endDate" class="block text-sm font-medium mb-2 dark:text-gray-200">Fecha de Vencimiento (opcional)</label>
+        <input id="endDate" formControlName="endDate" type="datetime-local"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+          placeholder="Seleccione la fecha de vencimiento">
+      </div>
+
+      <!-- Tipo de Ceremonia -->
+      <div>
+        <label for="ceremony" class="block text-sm font-medium mb-2 dark:text-gray-200">Tipo de Ceremonia</label>
+        <select id="ceremony" formControlName="ceremony"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+          <option value="Cremacion">Cremación</option>
+          <option value="Inhumacion">Inhumación</option>
+          <option value="Exhumacion">Exhumación</option>
+          <option value="Conmemoracion">Conmemoración</option>
+          <option value="Mantenimiento">Mantenimiento</option>
+        </select>
+        <div *ngIf="servicioForm.get('ceremony')?.invalid && servicioForm.get('ceremony')?.touched"
+          class="text-red-500 mt-2">
+          El tipo de ceremonia es obligatorio
+        </div>
+      </div>
+
+      <!-- Pago -->
+      <div>
+        <label for="is_paid" class="block text-sm font-medium mb-2 dark:text-gray-200">¿Pagado?</label>
+        <input id="is_paid" formControlName="is_paid" type="checkbox" class="w-4 h-4 text-blue-600"
+          [checked]="servicioForm.get('is_paid')?.value">
+      </div>
+
+      <!-- Monto Pagado -->
+      <div>
+        <label for="amount_paid" class="block text-sm font-medium mb-2 dark:text-gray-200">Monto Pagado (opcional)</label>
+        <input id="amount_paid" formControlName="amount_paid" type="number"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+          placeholder="Ingrese el monto pagado">
+      </div>
+
+      <!-- Fecha de Pago -->
+      <div>
+        <label for="payment_date" class="block text-sm font-medium mb-2 dark:text-gray-200">Fecha de Pago (opcional)</label>
+        <input id="payment_date" formControlName="payment_date" type="datetime-local"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+          placeholder="Seleccione la fecha de pago">
+      </div>
+
+      <!-- Selección de Tumba -->
+      <div>
+        <label for="numberTomb" class="block text-sm font-medium mb-2 dark:text-gray-200">Seleccionar Tumba (opcional)</label>
+        <select id="numberTomb" formControlName="numberTomb"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+          <option *ngFor="let tumba of tumbas" [value]="tumba.id">{{ tumba.nicheNumber }}</option>
+        </select>
+      </div>
+
+      <!-- Selección de Difunto -->
+      <div>
+        <label for="deceased" class="block text-sm font-medium mb-2 dark:text-gray-200">Seleccionar Difunto</label>
+        <select id="deceased" formControlName="deceased"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+          <option *ngFor="let difunto of difuntos" [value]="difunto.id">{{ difunto.names }} {{ difunto.last_names }}</option>
+        </select>
+        <div *ngIf="servicioForm.get('deceased')?.invalid && servicioForm.get('deceased')?.touched"
+          class="text-red-500 mt-2">
+          El difunto es obligatorio
+        </div>
+      </div>
+
+      <!-- Botones -->
+      <div class="flex justify-end space-x-4">
+        <button type="button" class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600"
+          (click)="cancelar()">
+          Cancelar
+        </button>
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
+          [disabled]="servicioForm.invalid">
+          Guardar Servicio
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

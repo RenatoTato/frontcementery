@@ -1,1 +1,74 @@
-<p>obituario works!</p>
+<div
+  class="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex justify-center items-center p-4">
+  <div class="w-full max-w-2xl bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+
+    <!-- Título del Formulario -->
+    <h1 class="text-2xl font-bold mb-4 dark:text-white">Crear/Editar Obituario</h1>
+
+    <!-- Formulario de Obituario -->
+    <form [formGroup]="obituarioForm" (ngSubmit)="onSubmit()" class="space-y-6">
+
+      <!-- Detalle del Obituario -->
+      <div>
+        <label for="obituary_detail" class="block text-sm font-medium mb-2 dark:text-gray-200">Detalle del Obituario</label>
+        <textarea id="obituary_detail" formControlName="obituary_detail" rows="4"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+          placeholder="Ingrese el detalle del obituario"></textarea>
+        <div *ngIf="obituarioForm.get('obituary_detail')?.invalid && obituarioForm.get('obituary_detail')?.touched"
+          class="text-red-500 mt-2">
+          El detalle del obituario es obligatorio
+        </div>
+      </div>
+
+      <!-- Cementerio -->
+      <div>
+        <label for="cementery" class="block text-sm font-medium mb-2 dark:text-gray-200">Cementerio</label>
+        <input id="cementery" formControlName="cementery" type="text"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+          placeholder="Ingrese el cementerio (opcional)">
+      </div>
+
+      <!-- Lugar de la Ceremonia -->
+      <div>
+        <label for="place" class="block text-sm font-medium mb-2 dark:text-gray-200">Lugar de la Ceremonia</label>
+        <input id="place" formControlName="place" type="text"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+          placeholder="Ingrese el lugar de la ceremonia (opcional)">
+      </div>
+
+      <!-- Fecha y Hora de la Ceremonia -->
+      <div>
+        <label for="date" class="block text-sm font-medium mb-2 dark:text-gray-200">Fecha y Hora de la Ceremonia</label>
+        <input id="date" formControlName="date" type="datetime-local"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+          placeholder="Seleccione la fecha y hora de la ceremonia (opcional)">
+      </div>
+
+      <!-- Selección de Difunto -->
+      <div>
+        <label for="deceased" class="block text-sm font-medium mb-2 dark:text-gray-200">Seleccionar Difunto</label>
+        <select id="deceased" formControlName="deceased"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+          <option *ngFor="let difunto of difuntos" [value]="difunto.id">{{ difunto.names }} {{ difunto.last_names }}</option>
+        </select>
+        <div *ngIf="obituarioForm.get('deceased')?.invalid && obituarioForm.get('deceased')?.touched"
+          class="text-red-500 mt-2">
+          El difunto es obligatorio
+        </div>
+      </div>
+
+      <!-- Botones -->
+      <div class="flex justify-end space-x-4">
+        <button type="button" class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600"
+          (click)="cancelar()">
+          Cancelar
+        </button>
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
+          [disabled]="obituarioForm.invalid">
+          Guardar Obituario
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

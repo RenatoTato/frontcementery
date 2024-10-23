@@ -1,1 +1,97 @@
-<p>lote works!</p>
+<div
+    class="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex justify-center items-center p-4">
+    <div class="w-full max-w-2xl bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+
+        <!-- Título del Formulario -->
+        <h1 class="text-2xl font-bold mb-4 dark:text-white">Crear/Editar Lote</h1>
+
+        <!-- Formulario de Lote -->
+        <form [formGroup]="loteForm" (ngSubmit)="onSubmit()" class="space-y-6">
+
+            <!-- Nombre del bloque -->
+            <div>
+                <label for="blockName" class="block text-sm font-medium mb-2 dark:text-gray-200">Nombre del
+                    Bloque</label>
+                <input id="blockName" formControlName="blockName" type="number"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                    placeholder="Ingrese el nombre del bloque">
+                <div *ngIf="loteForm.get('blockName')?.invalid && loteForm.get('blockName')?.touched"
+                    class="text-red-500 mt-2">
+                    El nombre del bloque es obligatorio
+                </div>
+            </div>
+
+            <!-- Tipo de bloque -->
+            <div>
+                <label for="typeblock" class="block text-sm font-medium mb-2 dark:text-gray-200">Tipo de Bloque</label>
+                <input id="typeblock" formControlName="typeblock" type="text"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                    placeholder="Ingrese el tipo de bloque">
+                <div *ngIf="loteForm.get('typeblock')?.invalid && loteForm.get('typeblock')?.touched"
+                    class="text-red-500 mt-2">
+                    El tipo de bloque es obligatorio
+                </div>
+            </div>
+
+            <!-- Número de tipo -->
+            <div>
+                <label for="numbersblock" class="block text-sm font-medium mb-2 dark:text-gray-200">Número de Tipo
+                    (Opcional)</label>
+                <input id="numbersblock" formControlName="numbersblock" type="number"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                    placeholder="Ingrese el número de tipo (opcional)">
+            </div>
+
+            <!-- Filas -->
+            <div>
+                <label for="filas" class="block text-sm font-medium mb-2 dark:text-gray-200">Número de Filas</label>
+                <input id="filas" formControlName="filas" type="number"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                    placeholder="Ingrese el número de filas">
+                <div *ngIf="loteForm.get('filas')?.invalid && loteForm.get('filas')?.touched" class="text-red-500 mt-2">
+                    El número de filas es obligatorio
+                </div>
+            </div>
+
+            <!-- Columnas -->
+            <div>
+                <label for="columnas" class="block text-sm font-medium mb-2 dark:text-gray-200">Número de
+                    Columnas</label>
+                <input id="columnas" formControlName="columnas" type="number"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                    placeholder="Ingrese el número de columnas">
+                <div *ngIf="loteForm.get('columnas')?.invalid && loteForm.get('columnas')?.touched"
+                    class="text-red-500 mt-2">
+                    El número de columnas es obligatorio
+                </div>
+            </div>
+
+            <!-- Límite de espacio -->
+            <div>
+                <label for="limite" class="block text-sm font-medium mb-2 dark:text-gray-200">Límite de Tumbas</label>
+                <input id="limite" formControlName="limite" type="number"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                    placeholder="Ingrese el límite de espacio">
+                <div *ngIf="loteForm.get('limite')?.invalid && loteForm.get('limite')?.touched"
+                    class="text-red-500 mt-2">
+                    El límite de Tumbas es obligatorio
+                </div>
+            </div>
+
+            <!-- Botones -->
+            <div class="flex justify-end space-x-4">
+                <button type="button"
+                    class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600"
+                    (click)="cancelar()">
+                    Cancelar
+                </button>
+                <button type="submit"
+                    class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
+                    [disabled]="loteForm.invalid">
+                    Guardar Lote
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>

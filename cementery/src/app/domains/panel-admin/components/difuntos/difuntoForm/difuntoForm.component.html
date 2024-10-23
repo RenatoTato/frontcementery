@@ -10,11 +10,11 @@
 
             <!-- Nombres -->
             <div>
-                <label for="nombres" class="block text-sm font-medium mb-2 dark:text-gray-200">Nombres</label>
-                <input id="nombres" formControlName="nombres" type="text"
+                <label for="names" class="block text-sm font-medium mb-2 dark:text-gray-200">Nombres</label>
+                <input id="names" formControlName="names" type="text"
                     class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
                     placeholder="Ingrese los nombres del difunto">
-                <div *ngIf="difuntoForm.get('nombres')?.invalid && difuntoForm.get('nombres')?.touched"
+                <div *ngIf="difuntoForm.get('names')?.invalid && difuntoForm.get('names')?.touched"
                     class="text-red-500 mt-2">
                     Los nombres son obligatorios
                 </div>
@@ -22,11 +22,11 @@
 
             <!-- Apellidos -->
             <div>
-                <label for="apellidos" class="block text-sm font-medium mb-2 dark:text-gray-200">Apellidos</label>
-                <input id="apellidos" formControlName="apellidos" type="text"
+                <label for="last_names" class="block text-sm font-medium mb-2 dark:text-gray-200">Apellidos</label>
+                <input id="last_names" formControlName="last_names" type="text"
                     class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
                     placeholder="Ingrese los apellidos del difunto">
-                <div *ngIf="difuntoForm.get('apellidos')?.invalid && difuntoForm.get('apellidos')?.touched"
+                <div *ngIf="difuntoForm.get('last_names')?.invalid && difuntoForm.get('last_names')?.touched"
                     class="text-red-500 mt-2">
                     Los apellidos son obligatorios
                 </div>
@@ -34,28 +34,39 @@
 
             <!-- Cédula -->
             <div>
-                <label for="cedula" class="block text-sm font-medium mb-2 dark:text-gray-200">Cédula</label>
-                <input id="cedula" formControlName="cedula" type="text"
+                <label for="idNumber" class="block text-sm font-medium mb-2 dark:text-gray-200">Cédula</label>
+                <input id="idNumber" formControlName="idNumber" type="text"
                     class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
                     placeholder="Ingrese la cédula del difunto">
-                <div *ngIf="difuntoForm.get('cedula')?.invalid && difuntoForm.get('cedula')?.touched"
+                <div *ngIf="difuntoForm.get('idNumber')?.invalid && difuntoForm.get('idNumber')?.touched"
                     class="text-red-500 mt-2">
                     La cédula es obligatoria
                 </div>
             </div>
             <!-- Solicitud -->
             <div>
-                <label for="solicitud" class="block text-sm font-medium mb-2 dark:text-gray-200">Número de
+                <label for="requestNumber:" class="block text-sm font-medium mb-2 dark:text-gray-200">Número de
                     Solicitud</label>
-                <input id="solicitud" formControlName="solicitud" type="text"
+                <input id="requestNumber:" formControlName="requestNumber:" type="text"
                     class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
                     placeholder="Ingrese el número de solicitud del difunto">
-                <div *ngIf="difuntoForm.get('solicitud')?.invalid && difuntoForm.get('solicitud')?.touched"
+                <div *ngIf="difuntoForm.get('requestNumber:')?.invalid && difuntoForm.get('requestNumber:')?.touched"
                     class="text-red-500 mt-2">
                     El número de solicitud es obligatorio
                 </div>
             </div>
-
+            <!-- Tumbas -->
+            <div>
+                <label for="tumba" class="block text-sm font-medium mb-2 dark:text-gray-200">Seleccionar Tumba</label>
+                <select id="tumba" formControlName="tumba" 
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                  <option *ngFor="let tumba of tumbas" [value]="tumba.id">{{ tumba.descripcion }}</option>
+                </select>
+                <div *ngIf="difuntoForm.get('tumba')?.invalid && difuntoForm.get('tumba')?.touched"
+                    class="text-red-500 mt-2">
+                  La tumba es obligatoria
+                </div>
+              </div>
             <!-- Observaciones -->
             <div>
                 <label for="observaciones"

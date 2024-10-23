@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Lote } from '@externo/models/tumba/lote.model';
+import { Tumba } from '@externo/models/tumba/tumba.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +17,7 @@ export class TumbaService {
   // ============================
 
   // Obtener todos los artículos
-  getLote(): Observable<Lote[]>{
+  getLotes(): Observable<Lote[]>{
     return this.http.get<Lote[]>(this.loteUrl)
   }
   // Obtener un artículo por ID
@@ -39,7 +41,7 @@ export class TumbaService {
   // ============================
 
   // Obtener todos los artículos
-  getTumba(): Observable<Tumba[]>{
+  getTumbas(): Observable<Tumba[]>{
     return this.http.get<Tumba[]>(this.tumbaUrl)
   }
   // Obtener un artículo por ID
@@ -58,3 +60,4 @@ export class TumbaService {
   deleteTumba(id:number): Observable<void>{
     return this.http.delete<void>(`${this.tumbaUrl}${id}/`)
   }
+}

@@ -1,1 +1,73 @@
-<p>tumba works!</p>
+<div
+  class="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex justify-center items-center p-4">
+  <div class="w-full max-w-2xl bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+
+    <!-- Título del Formulario -->
+    <h1 class="text-2xl font-bold mb-4 dark:text-white">Crear/Editar Tumba</h1>
+
+    <!-- Formulario de Tumba -->
+    <form [formGroup]="tumbaForm" (ngSubmit)="onSubmit()" class="space-y-6">
+
+      <!-- Número de Tumba -->
+      <div>
+        <label for="nicheNumber" class="block text-sm font-medium mb-2 dark:text-gray-200">Número de Tumba</label>
+        <input id="nicheNumber" formControlName="nicheNumber" type="number"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+          placeholder="Ingrese el número de la tumba">
+        <div *ngIf="tumbaForm.get('nicheNumber')?.invalid && tumbaForm.get('nicheNumber')?.touched"
+          class="text-red-500 mt-2">
+          El número de la tumba es obligatorio
+        </div>
+      </div>
+
+      <!-- Tipo de Tumba -->
+      <div>
+        <label for="nicheType" class="block text-sm font-medium mb-2 dark:text-gray-200">Tipo de Tumba</label>
+        <select id="nicheType" formControlName="nicheType"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+          <option value="T">Tumba de tierra</option>
+          <option value="E">Tumba extramuros</option>
+        </select>
+        <div *ngIf="tumbaForm.get('nicheType')?.invalid && tumbaForm.get('nicheType')?.touched"
+          class="text-red-500 mt-2">
+          El tipo de tumba es obligatorio
+        </div>
+      </div>
+
+      <!-- Disponibilidad -->
+      <div>
+        <label for="available" class="block text-sm font-medium mb-2 dark:text-gray-200">Disponible</label>
+        <input id="available" formControlName="available" type="checkbox" class="w-4 h-4 text-blue-600"
+          [checked]="tumbaForm.get('available')?.value">
+      </div>
+
+      <!-- Seleccionar Lote -->
+      <div>
+        <label for="nameLote" class="block text-sm font-medium mb-2 dark:text-gray-200">Seleccionar Lote</label>
+        <select id="nameLote" formControlName="nameLote"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+          <option *ngFor="let lote of lotes" [value]="lote.id">{{ lote.blockName }} - {{ lote.typeblock }}</option>
+        </select>
+        <div *ngIf="tumbaForm.get('nameLote')?.invalid && tumbaForm.get('nameLote')?.touched"
+          class="text-red-500 mt-2">
+          El lote es obligatorio
+        </div>
+      </div>
+
+      <!-- Botones -->
+      <div class="flex justify-end space-x-4">
+        <button type="button"
+          class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600"
+          (click)="cancelar()">
+          Cancelar
+        </button>
+        <button type="submit"
+          class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
+          [disabled]="tumbaForm.invalid">
+          Guardar Tumba
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

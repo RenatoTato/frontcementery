@@ -20,7 +20,7 @@ export class IglesiaService {
   // ============================
 
   // Obtener todos los artículos
-  getIglesia(): Observable<Iglesia[]>{
+  getIglesias(): Observable<Iglesia[]>{
     return this.http.get<Iglesia[]>(this.iglesiaUrl)
   }
   // Obtener un artículo por ID

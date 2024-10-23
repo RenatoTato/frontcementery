@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DifuntoService } from '@externo/services/difunto.service'; 
+import { TumbaService } from '@externo/services/tumba.service';
 import { Difunto } from '@externo/models/difunto/difunto.model'; 
+import { Deudo } from '@externo/models/difunto/deudo.model';
 import { CommonModule } from '@angular/common';
+import { Tumba } from '@externo/models/tumba/tumba.model';
 
 @Component({
   selector: 'app-difuntoForm',
@@ -13,21 +16,27 @@ import { CommonModule } from '@angular/common';
 })
 export class DifuntoFormComponent {
   difuntoForm!: FormGroup;
+  deudos: Deudo[] = [];
+  tumbas: Tumba[] = [];
   isDarkMode: boolean = false;
 
-  constructor(private fb: FormBuilder, private difuntoService: DifuntoService) { }
+  constructor(private fb: FormBuilder, private difuntoService: DifuntoService, private tumbaService: TumbaService) { }
 
   ngOnInit() {
     this.initForm();
+    this.loadTumbas();
+    this.loadDeudos();
     this.loadDarkModePreference();
   }
 
   initForm(): void {
     this.difuntoForm = this.fb.group({
-      nombres: ['', Validators.required],
-      apellidos: ['', Validators.required],
-      cedula: ['', Validators.required],
-      solicitud: ['', Validators.required],
+      names: ['', Validators.required],
+      last_names: ['', Validators.required],
+      idNumber: ['', Validators.required],
+      requestNumber: ['', Validators.required],
+      tumba: ['', Validators.required],
+      deudo: ['', Validators.required],
       observaciones: [''],
     });
   }
@@ -51,6 +60,27 @@ export class DifuntoFormComponent {
         }
       );
     }
+  }
+  loadTumbas(): void {
+    this.tumbaService.getTumbas().subscribe(
+      (response: Tumba[]) => {
+        this.tumbas = response;
+      },
+      (error) => {
+        console.error('Error al cargar las tumbas:', error);
+      }
+    );
+  }
+  
+  loadDeudos(): void {
+    this.difuntoService.getDeudos().subscribe(
+      (response: Deudo[]) => {
+        this.deudos = response;
+      },
+      (error) => {
+        console.error('Error al cargar los deudos:', error);
+      }
+    );
   }
   resetForm(): void {
     this.difuntoForm.reset()

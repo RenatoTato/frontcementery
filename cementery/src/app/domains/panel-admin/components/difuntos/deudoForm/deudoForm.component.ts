@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DifuntoService } from '@externo/services/difunto.service'; 
-import { Deudo } from '@externo/models/difunto/deudo.model'; 
+import { Deudo, Relacion } from '@externo/models/difunto/deudo.model'; 
 import { CommonModule } from '@angular/common';
 
 
@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
 })
 export class DeudoFormComponent {
   deudoForm!: FormGroup;
+  relacion = Object.values(Relacion)
   isDarkMode: boolean = false;
 
   constructor(private fb: FormBuilder, private deudoService: DifuntoService) { }
@@ -25,12 +26,12 @@ export class DeudoFormComponent {
 
   initForm(): void {
     this.deudoForm = this.fb.group({
-      nombres: ['', Validators.required],
-      apellidos: ['', Validators.required],
-      cedula: ['', Validators.required],
-      telefono: ['', Validators.required],
+      names: ['', Validators.required],
+      last_names: ['', Validators.required],
+      idNumber: ['', Validators.required],
+      phoneNumber: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      direccion: [''],
+      address: [''],
     });
   }
 

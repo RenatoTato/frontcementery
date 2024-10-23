@@ -10,11 +10,11 @@
 
             <!-- Nombres -->
             <div>
-                <label for="nombres" class="block text-sm font-medium mb-2 dark:text-gray-200">Nombres</label>
-                <input id="nombres" formControlName="nombres" type="text"
+                <label for="names" class="block text-sm font-medium mb-2 dark:text-gray-200">Nombres</label>
+                <input id="names" formControlName="names" type="text"
                     class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
                     placeholder="Ingrese los nombres del deudo">
-                <div *ngIf="deudoForm.get('nombres')?.invalid && deudoForm.get('nombres')?.touched"
+                <div *ngIf="deudoForm.get('names')?.invalid && deudoForm.get('names')?.touched"
                     class="text-red-500 mt-2">
                     Los nombres son obligatorios
                 </div>
@@ -22,11 +22,11 @@
 
             <!-- Apellidos -->
             <div>
-                <label for="apellidos" class="block text-sm font-medium mb-2 dark:text-gray-200">Apellidos</label>
-                <input id="apellidos" formControlName="apellidos" type="text"
+                <label for="last_names" class="block text-sm font-medium mb-2 dark:text-gray-200">Apellidos</label>
+                <input id="last_names" formControlName="last_names" type="text"
                     class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
                     placeholder="Ingrese los apellidos del deudo">
-                <div *ngIf="deudoForm.get('apellidos')?.invalid && deudoForm.get('apellidos')?.touched"
+                <div *ngIf="deudoForm.get('last_names')?.invalid && deudoForm.get('last_names')?.touched"
                     class="text-red-500 mt-2">
                     Los apellidos son obligatorios
                 </div>
@@ -34,11 +34,11 @@
 
             <!-- Cédula -->
             <div>
-                <label for="cedula" class="block text-sm font-medium mb-2 dark:text-gray-200">Cédula</label>
-                <input id="cedula" formControlName="cedula" type="text"
+                <label for="idNumber" class="block text-sm font-medium mb-2 dark:text-gray-200">Cédula</label>
+                <input id="idNumber" formControlName="idNumber" type="text"
                     class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
                     placeholder="Ingrese la cédula del deudo">
-                <div *ngIf="deudoForm.get('cedula')?.invalid && deudoForm.get('cedula')?.touched"
+                <div *ngIf="deudoForm.get('idNumber')?.invalid && deudoForm.get('idNumber')?.touched"
                     class="text-red-500 mt-2">
                     La cédula es obligatoria
                 </div>
@@ -46,8 +46,8 @@
 
             <!-- Teléfono -->
             <div>
-                <label for="telefono" class="block text-sm font-medium mb-2 dark:text-gray-200">Teléfono</label>
-                <input id="telefono" formControlName="telefono" type="text"
+                <label for="phoneNumber" class="block text-sm font-medium mb-2 dark:text-gray-200">Teléfono</label>
+                <input id="phoneNumber" formControlName="phoneNumber" type="text"
                     class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
                     placeholder="Ingrese el número de teléfono del deudo">
             </div>
@@ -62,10 +62,22 @@
 
             <!-- Dirección -->
             <div>
-                <label for="direccion" class="block text-sm font-medium mb-2 dark:text-gray-200">Dirección</label>
-                <input id="direccion" formControlName="direccion" type="text"
+                <label for="address" class="block text-sm font-medium mb-2 dark:text-gray-200">Dirección</label>
+                <input id="address" formControlName="address" type="text"
                     class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
                     placeholder="Ingrese la dirección del deudo">
+            </div>
+            <!-- Tipo de relacion -->
+            <div>
+                <label for="tipo" class="block text-sm font-medium mb-2 dark:text-gray-200">Relacion</label>
+                <select id="tipo" formControlName="tipo"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                    <option *ngFor="let relation of relacion" [value]="relation">{{ relation }}</option>
+                </select>
+                <div *ngIf="deudoForm.get('tipo')?.invalid && deudoForm.get('tipo')?.touched"
+                    class="text-red-500 mt-2">
+                    La relación es obligatoria
+                </div>
             </div>
 
             <!-- Botones -->

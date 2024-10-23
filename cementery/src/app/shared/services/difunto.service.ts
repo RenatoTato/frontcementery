@@ -17,7 +17,7 @@ export class DifuntoService {
   // ============================
 
   // Obtener todos los artículos
-  getDifunto(): Observable<Difunto[]>{
+  getDifuntos(): Observable<Difunto[]>{
     return this.http.get<Difunto[]>(this.difuntoUrl)
   }
   // Obtener un artículo por ID
@@ -41,7 +41,7 @@ export class DifuntoService {
   // ============================
 
   // Obtener todos los artículos
-  getDeudo(): Observable<Deudo[]>{
+  getDeudos(): Observable<Deudo[]>{
     return this.http.get<Deudo[]>(this.deudoUrl)
   }
   // Obtener un artículo por ID

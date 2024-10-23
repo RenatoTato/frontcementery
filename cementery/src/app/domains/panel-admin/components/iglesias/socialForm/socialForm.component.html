@@ -1,1 +1,82 @@
-<p>social works!</p>
+<div
+    class="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex justify-center items-center p-4">
+    <div class="w-full max-w-2xl bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+
+        <!-- Título del Formulario -->
+        <h1 class="text-2xl font-bold mb-4 dark:text-white">Crear/Editar Red Social</h1>
+
+        <!-- Formulario de Red Social -->
+        <form [formGroup]="RedSocialForm" (ngSubmit)="onSubmit()" class="space-y-6">
+
+            <!-- Plataforma -->
+            <!-- <div>
+                <label for="stage_type" class="block text-sm font-medium mb-2 dark:text-gray-200">Plataforma</label>
+                <select id="stage_type" formControlName="stage_type"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                    <option *ngFor="let stage_type of stage_type" [value]="stage_type">{{ stage_type }}</option>
+                </select>
+                <div *ngIf="RedSocialForm.get('stage_type')?.invalid && RedSocialForm.get('stage_type')?.touched"
+                    class="text-red-500 mt-2">
+                    La plataforma es obligatoria
+                </div>
+            </div> -->
+            <div>
+                <label for="stage_type" class="block text-sm font-medium mb-2 dark:text-gray-200">Plataforma</label>
+                <select id="stage_type" formControlName="stage_type"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                    <option *ngFor="let platform of socialPlatforms" [value]="platform">{{ platform }}</option>
+                </select>
+                <div *ngIf="RedSocialForm.get('stage_type')?.invalid && RedSocialForm.get('stage_type')?.touched"
+                    class="text-red-500 mt-2">
+                    La plataforma es obligatoria
+                </div>
+            </div>
+
+            <!-- URL -->
+            <div>
+                <label for="url" class="block text-sm font-medium mb-2 dark:text-gray-200">URL</label>
+                <input id="url" formControlName="url" type="text"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                    placeholder="Ingrese la URL de la red social">
+                <div *ngIf="RedSocialForm.get('url')?.invalid && RedSocialForm.get('url')?.touched"
+                    class="text-red-500 mt-2">
+                    La URL es obligatoria y debe ser válida
+                </div>
+            </div>
+
+            <!-- Iglesia -->
+            <!-- <div>
+                <label for="iglesia" class="block text-sm font-medium mb-2 dark:text-gray-200">Iglesia</label>
+                <input id="iglesia" formControlName="iglesia" type="number"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                    placeholder="ID de la iglesia relacionada">
+                <div *ngIf="RedSocialForm.get('iglesia')?.invalid && RedSocialForm.get('iglesia')?.touched"
+                    class="text-red-500 mt-2">
+                    La iglesia es obligatoria
+                </div>
+            </div> -->
+            <div>
+                <label for="iglesia" class="block text-sm font-medium mb-2 dark:text-gray-200">Seleccionar Iglesia</label>
+                <select id="iglesia" formControlName="iglesia" 
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                  <option *ngFor="let iglesia of iglesias" [value]="iglesia.id">{{ iglesia.name }}</option>
+                </select>
+              </div>
+
+            <!-- Botones -->
+            <div class="flex justify-end space-x-4">
+                <button type="button"
+                    class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600"
+                    (click)="cancelar()">
+                    Cancelar
+                </button>
+                <button type="submit"
+                    class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
+                    [disabled]="RedSocialForm.invalid">
+                    Guardar Red Social
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>
