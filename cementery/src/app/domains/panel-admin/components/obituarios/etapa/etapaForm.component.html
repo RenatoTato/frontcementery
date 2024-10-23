@@ -1,1 +1,86 @@
 <p>etapa works!</p>
+<div
+  class="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex justify-center items-center p-4">
+  <div class="w-full max-w-2xl bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+
+    <!-- Título del Formulario -->
+    <h1 class="text-2xl font-bold mb-4 dark:text-white">Crear/Editar Etapas del Obituario</h1>
+
+    <!-- Formulario de Etapas del Obituario -->
+    <form [formGroup]="etapasObituarioForm" (ngSubmit)="onSubmit()" class="space-y-6">
+
+      <!-- Etapa de la Ceremonia -->
+      <div>
+        <label for="stage_type" class="block text-sm font-medium mb-2 dark:text-gray-200">Etapa de la Ceremonia</label>
+        <select id="stage_type" formControlName="stage_type"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+          <option value="Velacion">Velación</option>
+          <option value="Misa">Misa</option>
+          <option value="Recepcion">Recepción</option>
+          <option value="Entrega_cenizas">Entrega de las Cenizas</option>
+          <option value="Lectura_recuerdos">Lectura de Recuerdos</option>
+          <option value="Celebracion_vida">Celebración de Vida</option>
+        </select>
+        <div *ngIf="etapasObituarioForm.get('stage_type')?.invalid && etapasObituarioForm.get('stage_type')?.touched"
+          class="text-red-500 mt-2">
+          La etapa de la ceremonia es obligatoria
+        </div>
+      </div>
+
+      <!-- Lugar de la Ceremonia -->
+      <div>
+        <label for="place" class="block text-sm font-medium mb-2 dark:text-gray-200">Lugar de la Ceremonia</label>
+        <input id="place" formControlName="place" type="text"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+          placeholder="Ingrese el lugar de la ceremonia (opcional)">
+      </div>
+
+      <!-- Fecha y Hora de la Ceremonia -->
+      <div>
+        <label for="date" class="block text-sm font-medium mb-2 dark:text-gray-200">Fecha y Hora de la Ceremonia</label>
+        <input id="date" formControlName="date" type="datetime-local"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+          placeholder="Seleccione la fecha y hora de la ceremonia (opcional)">
+      </div>
+
+      <!-- Selección de Obituario -->
+      <div>
+        <label for="obituary" class="block text-sm font-medium mb-2 dark:text-gray-200">Seleccionar Obituario</label>
+        <select id="obituary" formControlName="obituary"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+          <option *ngFor="let obituario of obituarios" [value]="obituario.id">{{ obituario.obituary_detail }}</option>
+        </select>
+        <div *ngIf="etapasObituarioForm.get('obituary')?.invalid && etapasObituarioForm.get('obituary')?.touched"
+          class="text-red-500 mt-2">
+          El obituario es obligatorio
+        </div>
+      </div>
+
+      <!-- Selección de Ceremonia -->
+      <div>
+        <label for="ceremony" class="block text-sm font-medium mb-2 dark:text-gray-200">Seleccionar Ceremonia</label>
+        <select id="ceremony" formControlName="ceremony"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+          <option *ngFor="let servicio of servicios" [value]="servicio.id">{{ servicio.ceremony }}</option>
+        </select>
+        <div *ngIf="etapasObituarioForm.get('ceremony')?.invalid && etapasObituarioForm.get('ceremony')?.touched"
+          class="text-red-500 mt-2">
+          La ceremonia es obligatoria
+        </div>
+      </div>
+
+      <!-- Botones -->
+      <div class="flex justify-end space-x-4">
+        <button type="button" class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600"
+          (click)="cancelar()">
+          Cancelar
+        </button>
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
+          [disabled]="etapasObituarioForm.invalid">
+          Guardar Etapa del Obituario
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

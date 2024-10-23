@@ -15,7 +15,7 @@ export class ServicioService {
   // ============================
 
   // Obtener todos los artículos
-  getServicio(): Observable<Servicio[]>{
+  getServicios(): Observable<Servicio[]>{
     return this.http.get<Servicio[]>(this.servicioUrl)
   }
   // Obtener un artículo por ID
