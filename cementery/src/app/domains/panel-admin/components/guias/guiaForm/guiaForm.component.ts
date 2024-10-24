@@ -12,6 +12,7 @@ import { GuiaService } from '@externo/services/guia.service';
 })
 export class GuiaFormComponent {
   guiaForm!: FormGroup;
+  selectedFile: File | null = null;  // Para almacenar el archivo de imagen seleccionado
   isDarkMode: boolean = false;
 
   constructor(private fb: FormBuilder, private guiaService: GuiaService) { }
@@ -33,12 +34,12 @@ export class GuiaFormComponent {
 
   onSubmit(): void {
     if (this.guiaForm.valid) {
-      const newGuia: Guia= this.guiaForm.value;
+      const guiaData: Guia= this.guiaForm.value;
   
       // Verificar los datos que estás enviando
-      console.log('Datos a enviar:', newGuia);
+      console.log('Datos a enviar:', guiaData);
   
-      this.guiaService.createGuia(newGuia).subscribe(
+      this.guiaService.createGuia(guiaData, this.selectedFile).subscribe(
         (response) => {
           console.log('Artículo creado:', response);
         },
@@ -49,6 +50,12 @@ export class GuiaFormComponent {
           }
         }
       );
+    }
+  }
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];  // Almacenar el archivo seleccionado
     }
   }
   resetForm(): void {

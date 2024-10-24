@@ -15,7 +15,24 @@ export class GuiaService {
   // ============================
   // CRUD para Guias
   // ============================
+  private buildFormDataGuia(guiaData: Guia, file: File | null): FormData {
+    const formData = new FormData();
 
+    // Añadir los campos del modelo Iglesia al FormData
+    formData.append('category', guiaData.category);
+    formData.append('title', guiaData.title);
+    if (guiaData.description_short) formData.append('description_short', guiaData.description_short);
+    if (guiaData.description) formData.append('description', guiaData.description.toString());
+    if (guiaData.steps) formData.append('steps', guiaData.steps.toString());
+    if (guiaData.aditional_resources) formData.append('aditional_resources', guiaData.aditional_resources.toString());
+
+    // Añadir la imagen solo si se ha seleccionado una
+    if (file) {
+      formData.append('image', file, file.name);
+    }
+
+    return formData;
+  }
   // Obtener todos los artículos
   getGuia(): Observable<Guia[]>{
     return this.http.get<Guia[]>(this.guiaUrl)
@@ -25,12 +42,14 @@ export class GuiaService {
     return this.http.get<Guia>(`${this.guiaUrl}${id}/`)
   }
   // Crear un nuevo artículo
-  createGuia(data:Guia): Observable<Guia>{
-    return this.http.post<Guia>(this.guiaUrl, data)
+  createGuia(guiaData: Guia, file: File | null): Observable<Guia> {
+    const formData = this.buildFormDataGuia(guiaData, file);
+    return this.http.post<Guia>(this.guiaUrl, formData)
   }
   // Actualizar un artículo existente
-  updateGuia(id:number, data:Guia): Observable<Guia>{
-    return this.http.put<Guia>(`${this.guiaUrl}${id}/`, data)
+  updateGuia(id: number, guiaData: Guia, file: File | null): Observable<Guia> {
+    const formData = this.buildFormDataGuia(guiaData, file);
+    return this.http.put<Guia>(`${this.guiaUrl}${id}/`, formData)
   }
   // Eliminar un artículo
   deleteGuia(id:number): Observable<void>{

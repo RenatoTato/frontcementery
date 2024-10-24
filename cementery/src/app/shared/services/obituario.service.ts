@@ -43,6 +43,22 @@ export class ObituarioService {
   // CRUD para Memorias
   // ============================
 
+  private buildFormDataMemoria(memoriaData: Memoria, file: File | null): FormData {
+    const formData = new FormData();
+
+    // Añadir los campos del modelo Iglesia al FormData
+    formData.append('name', memoriaData.names);
+    formData.append('text', memoriaData.text);
+    formData.append('obituary', memoriaData.obituary.toString() || '');
+    if (memoriaData.relationship) formData.append('relationship', memoriaData.relationship);
+  
+    // Añadir la imagen solo si se ha seleccionado una
+    if (file) {
+      formData.append('image', file, file.name);
+    }
+
+    return formData;
+  }
   // Obtener todos los artículos
   getMemorias(): Observable<Memoria[]>{
     return this.http.get<Memoria[]>(this.memoriaUrl)
@@ -52,12 +68,14 @@ export class ObituarioService {
     return this.http.get<Memoria>(`${this.memoriaUrl}${id}/`)
   }
   // Crear un nuevo artículo
-  createMemoria(data:Memoria): Observable<Memoria>{
-    return this.http.post<Memoria>(this.memoriaUrl, data)
+  createMemoria(memoriaData: Memoria, file: File | null): Observable<Memoria> {
+    const formData = this.buildFormDataMemoria(memoriaData, file);
+    return this.http.post<Memoria>(this.memoriaUrl, formData)
   }
   // Actualizar un artículo existente
-  updateMemoria(id:number, data:Memoria): Observable<Memoria>{
-    return this.http.put<Memoria>(`${this.memoriaUrl}${id}/`, data)
+  updateMemoria(id: number, memoriaData: Memoria, file: File | null): Observable<Memoria> {
+    const formData = this.buildFormDataMemoria(memoriaData, file);
+    return this.http.put<Memoria>(`${this.memoriaUrl}${id}/`, formData)
   }
   // Eliminar un artículo
   deleteMemoria(id:number): Observable<void>{
