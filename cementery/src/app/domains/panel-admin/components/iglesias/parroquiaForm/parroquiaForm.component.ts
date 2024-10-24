@@ -13,6 +13,7 @@ import { IglesiaService } from '@externo/services/iglesia.service';
 })
 export class ParroquiaFormComponent {
   parroquiaForm!: FormGroup;
+  selectedFile: File | null = null;
   isDarkMode: boolean = false;
 
   constructor(private fb: FormBuilder, private parroquiaService: IglesiaService) { }
@@ -32,22 +33,28 @@ export class ParroquiaFormComponent {
 
   onSubmit(): void {
     if (this.parroquiaForm.valid) {
-      const newParroquia: Parroquia= this.parroquiaForm.value;
+      const parroquiaData: Parroquia= this.parroquiaForm.value;
   
       // Verificar los datos que estás enviando
-      console.log('Datos a enviar:', newParroquia);
+      console.log('Datos a enviar:', parroquiaData);
   
-      this.parroquiaService.createParroquia(newParroquia).subscribe(
+      this.parroquiaService.createParroquia(parroquiaData, this.selectedFile).subscribe(
         (response) => {
-          console.log('Artículo creado:', response);
+          console.log('Parroquia creado:', response);
         },
         (error) => {
-          console.error('Error al crear el artículo:', error);
+          console.error('Error al crear el Parroquia:', error);
           if (error.error) {
             console.error('Detalles del error:', error.error);  // Aquí obtendrás más detalles del backend
           }
         }
       );
+    }
+  }
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];  // Almacenar el archivo seleccionado
     }
   }
   resetForm(): void {

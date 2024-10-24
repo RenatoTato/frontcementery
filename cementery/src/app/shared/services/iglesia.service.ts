@@ -90,7 +90,7 @@ export class IglesiaService {
   // Crear un nuevo artículo
   createParroquia(parroquiaData: Parroquia, file: File | null): Observable<Parroquia> {
     const formData = this.buildFormDataParroquia(parroquiaData, file);
-    return this.http.post<Parroquia>(this.parroquiaUrl, FormData)
+    return this.http.post<Parroquia>(this.parroquiaUrl, formData)
   }
   // Actualizar un artículo existente
   updateParroquia(id: number, parroquiaData: Parroquia, file: File | null): Observable<Parroquia> {
