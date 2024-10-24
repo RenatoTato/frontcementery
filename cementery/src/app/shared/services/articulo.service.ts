@@ -14,7 +14,25 @@ export class ArticuloService {
   // ============================
   // CRUD para Artículos
   // ============================
+  private buildFormData(iglesiaData: Articulo, file: File | null): FormData {
+    const formData = new FormData();
 
+    // Añadir los campos del modelo Iglesia al FormData
+    formData.append('name', iglesiaData.category);
+    formData.append('address', iglesiaData.title);
+    formData.append('phone', iglesiaData.description);
+    formData.append('email', iglesiaData.publication_date);
+    formData.append('schedule', iglesiaData.author);
+    if (iglesiaData.references) formData.append('references', iglesiaData.references);
+    if (iglesiaData.external_source) formData.append('external_source', iglesiaData.external_source.toString());
+
+    // Añadir la imagen solo si se ha seleccionado una
+    if (file) {
+      formData.append('image', file, file.name);
+    }
+
+    return formData;
+  }
   // Obtener todos los artículos
   getArticulos(): Observable<Articulo[]>{
     return this.http.get<Articulo[]>(this.articuloUrl)
@@ -24,12 +42,14 @@ export class ArticuloService {
     return this.http.get<Articulo>(`${this.articuloUrl}${id}/`)
   }
   // Crear un nuevo artículo
-  createArticulo(data:Articulo): Observable<Articulo>{
-    return this.http.post<Articulo>(this.articuloUrl, data)
+  createArticulo(iglesiaData: Articulo, file: File | null): Observable<Articulo> {
+    const formData = this.buildFormData(iglesiaData, file);
+    return this.http.post<Articulo>(this.articuloUrl, formData)
   }
   // Actualizar un artículo existente
-  updateArticulo(id:number, data:Articulo): Observable<Articulo>{
-    return this.http.put<Articulo>(`${this.articuloUrl}${id}/`, data)
+  updateArticulo(id: number, iglesiaData: Articulo, file: File | null): Observable<Articulo> {
+    const formData = this.buildFormData(iglesiaData, file);
+    return this.http.put<Articulo>(`${this.articuloUrl}${id}/`, formData)
   }
   // Eliminar un artículo
   deleteArticulo(id:number): Observable<void>{

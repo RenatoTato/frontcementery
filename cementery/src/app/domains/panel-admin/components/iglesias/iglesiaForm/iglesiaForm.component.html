@@ -26,6 +26,10 @@
                 <input id="address" formControlName="address" type="text"
                     class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
                     placeholder="Ingrese la dirección de la iglesia">
+                <div *ngIf="iglesiaForm.get('address')?.invalid && iglesiaForm.get('address')?.touched"
+                    class="text-red-500 mt-2">
+                    La dirección es obligatoria
+                </div>
             </div>
 
             <!-- Latitud -->
@@ -58,6 +62,10 @@
                 <input id="phone" formControlName="phone" type="text"
                     class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
                     placeholder="Ingrese el número de teléfono">
+                <div *ngIf="iglesiaForm.get('phone')?.invalid && iglesiaForm.get('phone')?.touched"
+                    class="text-red-500 mt-2">
+                    El teléfono es obligatorio
+                </div>
             </div>
 
             <!-- Email -->
@@ -73,7 +81,12 @@
                 <label for="schedule" class="block text-sm font-medium mb-2 dark:text-gray-200">Horario</label>
                 <textarea id="schedule" formControlName="schedule" rows="3"
                     class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
-                    placeholder="Ingrese el horario de la iglesia"></textarea>
+                    placeholder="Ingrese el horario de la iglesia">
+                </textarea>
+                <div *ngIf="iglesiaForm.get('schedule')?.invalid && iglesiaForm.get('schedule')?.touched"
+                    class="text-red-500 mt-2">
+                    Los horarios son obligatorios
+                </div>
             </div>
 
             <!-- Sacerdote -->
@@ -89,15 +102,17 @@
                 <label for="sector" class="block text-sm font-medium mb-2 dark:text-gray-200">Sector</label>
                 <textarea id="sector" formControlName="sector" rows="3"
                     class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
-                    placeholder="Ingrese el sector de la iglesia"></textarea>
+                    placeholder="Ingrese el sector de la iglesia">
+                </textarea>
             </div>
 
-            <!-- Parroquia -->
-            <div>
+             <!-- Parroquia -->
+             <div>
                 <label for="parish" class="block text-sm font-medium mb-2 dark:text-gray-200">Parroquia</label>
-                <input id="parish" formControlName="parish" type="number"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
-                    placeholder="ID de la parroquia relacionada">
+                <select id="parish" formControlName="parish"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                    <option *ngFor="let parroquia of parroquias" [value]="parroquia.id">{{ parroquia.name }}</option>
+                </select>
                 <div *ngIf="iglesiaForm.get('parish')?.invalid && iglesiaForm.get('parish')?.touched"
                     class="text-red-500 mt-2">
                     La parroquia es obligatoria
@@ -107,9 +122,9 @@
             <!-- Imagen -->
             <div>
                 <label for="image" class="block text-sm font-medium mb-2 dark:text-gray-200">Imagen (opcional)</label>
-                <input id="image" formControlName="image" type="text"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
-                    placeholder="Ingrese la URL de la imagen">
+                <input id="image" type="file" (change)="onFileSelected($event)"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+
             </div>
 
             <!-- Botones -->

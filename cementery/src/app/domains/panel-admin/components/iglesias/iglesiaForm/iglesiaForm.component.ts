@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { IglesiaService } from '@externo/services/iglesia.service';
 import { Iglesia } from '@externo/models/iglesia/iglesia.model';
 import { CommonModule } from '@angular/common';
+import { Parroquia } from '@externo/models/iglesia/parroquia.model';
 
 @Component({
   selector: 'app-iglesiaForm',
@@ -13,13 +14,19 @@ import { CommonModule } from '@angular/common';
 })
 export class IglesiaFormComponent {
   iglesiaForm!: FormGroup;
+  parroquias: Parroquia[] = []; 
+  selectedFile: File | null = null;  // Para almacenar el archivo de imagen seleccionado
   isDarkMode: boolean = false;
 
-  constructor(private fb: FormBuilder, private iglesiaService: IglesiaService) { }
+  constructor(
+    private fb: FormBuilder, 
+    private iglesiaService: IglesiaService,
+    private parroquiaService: IglesiaService) { }
 
   ngOnInit() {
     this.initForm();
     this.loadDarkModePreference();
+    this.loadParroquias();
   }
 
   initForm(): void {
@@ -33,29 +40,40 @@ export class IglesiaFormComponent {
       schedule: [''],
       priest: [''],
       sector: [''],
-      parish: ['', Validators.required],  // Elige una parroquia para asignar la iglesia
-      image: [''],  // URL opcional de la imagen
+      parish: ['', Validators.required],  // Parroquia requerida
+      image: [''],  // Campo de la imagen se manejará por separado
     });
   }
 
   onSubmit(): void {
     if (this.iglesiaForm.valid) {
-      const newIglesia: Iglesia= this.iglesiaForm.value;
-  
-      // Verificar los datos que estás enviando
-      console.log('Datos a enviar:', newIglesia);
-  
-      this.iglesiaService.createIglesia(newIglesia).subscribe(
+      const iglesiaData: Iglesia = this.iglesiaForm.value;
+
+      // Llamar al servicio para crear la iglesia, pasando los datos y el archivo seleccionado
+      this.iglesiaService.createIglesia(iglesiaData, this.selectedFile).subscribe(
         (response) => {
-          console.log('Artículo creado:', response);
+          console.log('Iglesia creada:', response);
         },
         (error) => {
-          console.error('Error al crear el artículo:', error);
-          if (error.error) {
-            console.error('Detalles del error:', error.error);  // Aquí obtendrás más detalles del backend
-          }
+          console.error('Error al crear la iglesia:', error);
         }
       );
+    }
+  }
+  loadParroquias(): void {
+    this.parroquiaService.getParroquias().subscribe(
+      (response: Parroquia[]) => {
+        this.parroquias = response;
+      },
+      (error) => {
+        console.error('Error al cargar las parroquias:', error);
+      }
+    );
+  }
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];  // Almacenar el archivo seleccionado
     }
   }
   resetForm(): void {

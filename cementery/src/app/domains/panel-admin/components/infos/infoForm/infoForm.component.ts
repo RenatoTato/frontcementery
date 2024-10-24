@@ -13,6 +13,7 @@ import { InfoService } from '@externo/services/info.service';
 })
 export class InfoFormComponent {
   servicioInfoForm!: FormGroup;
+  selectedFile: File | null = null;
   isDarkMode: boolean = false;
 
   constructor(private fb: FormBuilder, private infoService: InfoService) { }
@@ -35,22 +36,24 @@ export class InfoFormComponent {
     });
   }
 
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];  // Almacenar el archivo seleccionado
+    }
+  }
+
   onSubmit(): void {
     if (this.servicioInfoForm.valid) {
-      const newInfo: Info= this.servicioInfoForm.value;
-  
-      // Verificar los datos que estás enviando
-      console.log('Datos a enviar:', newInfo);
-  
-      this.infoService.createInfo(newInfo).subscribe(
-        (response) => {
-          console.log('Artículo creado:', response);
+      const newInfo: Info = this.servicioInfoForm.value;
+
+      // Llamar al servicio pasando el formulario y el archivo seleccionado (si existe)
+      this.infoService.createInfo(newInfo, this.selectedFile).subscribe(
+        response => {
+          console.log('Servicio creado:', response);
         },
-        (error) => {
-          console.error('Error al crear el artículo:', error);
-          if (error.error) {
-            console.error('Detalles del error:', error.error);  // Aquí obtendrás más detalles del backend
-          }
+        error => {
+          console.error('Error al crear el servicio:', error);
         }
       );
     }

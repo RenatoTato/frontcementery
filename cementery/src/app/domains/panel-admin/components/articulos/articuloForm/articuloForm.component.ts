@@ -13,6 +13,7 @@ import { CommonModule } from '@angular/common';
 })
 export class ArticuloFormComponent {
   articuloForm!: FormGroup;
+  selectedFile: File | null = null;  // Para almacenar el archivo de imagen seleccionado
   isDarkMode: boolean = false;
 
   constructor(private fb: FormBuilder, private articuloService: ArticuloService) { }
@@ -37,12 +38,9 @@ export class ArticuloFormComponent {
 
   onSubmit(): void {
     if (this.articuloForm.valid) {
-      const newArticulo: Articulo = this.articuloForm.value;
+      const articuloData: Articulo = this.articuloForm.value;
   
-      // Verificar los datos que estás enviando
-      console.log('Datos a enviar:', newArticulo);
-  
-      this.articuloService.createArticulo(newArticulo).subscribe(
+      this.articuloService.createArticulo(articuloData, this.selectedFile).subscribe(
         (response) => {
           console.log('Artículo creado:', response);
         },
@@ -53,6 +51,12 @@ export class ArticuloFormComponent {
           }
         }
       );
+    }
+  }
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];  // Almacenar el archivo seleccionado
     }
   }
   resetForm(): void {

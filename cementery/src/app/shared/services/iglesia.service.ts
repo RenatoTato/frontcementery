@@ -18,7 +18,41 @@ export class IglesiaService {
   // ============================
   // CRUD para Iglesias
   // ============================
+  private buildFormData(iglesiaData: Iglesia, file: File | null): FormData {
+    const formData = new FormData();
 
+    // Añadir los campos del modelo Iglesia al FormData
+    formData.append('name', iglesiaData.name);
+    formData.append('address', iglesiaData.address);
+    formData.append('phone', iglesiaData.phone);
+    formData.append('email', iglesiaData.email);
+    formData.append('schedule', iglesiaData.schedule);
+    formData.append('priest', iglesiaData.priest);
+    if (iglesiaData.sector) formData.append('sector', iglesiaData.sector);
+    if (iglesiaData.latitude) formData.append('latitude', iglesiaData.latitude.toString());
+    if (iglesiaData.longitude) formData.append('longitude', iglesiaData.longitude.toString());
+    formData.append('parish', iglesiaData.parish.toString());
+
+    // Añadir la imagen solo si se ha seleccionado una
+    if (file) {
+      formData.append('image', file, file.name);
+    }
+
+    return formData;
+  }
+  private buildFormDataParroquia(parroquiaData: Parroquia, file: File | null): FormData {
+    const formData = new FormData();
+
+    // Añadir los campos del modelo Iglesia al FormData
+    formData.append('name', parroquiaData.name);
+    formData.append('address', parroquiaData.churches_number.toString() || '');
+    // Añadir la imagen solo si se ha seleccionado una
+    if (file) {
+      formData.append('image', file, file.name);
+    }
+
+    return formData;
+  }
   // Obtener todos los artículos
   getIglesias(): Observable<Iglesia[]>{
     return this.http.get<Iglesia[]>(this.iglesiaUrl)
@@ -28,12 +62,14 @@ export class IglesiaService {
     return this.http.get<Iglesia>(`${this.iglesiaUrl}${id}/`)
   }
   // Crear un nuevo artículo
-  createIglesia(data:Iglesia): Observable<Iglesia>{
-    return this.http.post<Iglesia>(this.iglesiaUrl, data)
+  createIglesia(iglesiaData: Iglesia, file: File | null): Observable<Iglesia> {
+    const formData = this.buildFormData(iglesiaData, file);
+    return this.http.post<Iglesia>(this.iglesiaUrl, formData)
   }
   // Actualizar un artículo existente
-  updateIglesia(id:number, data:Iglesia): Observable<Iglesia>{
-    return this.http.put<Iglesia>(`${this.iglesiaUrl}${id}/`, data)
+  updateIglesia(id: number, iglesiaData: Iglesia, file: File | null): Observable<Iglesia> {
+    const formData = this.buildFormData(iglesiaData, file);
+    return this.http.put<Iglesia>(`${this.iglesiaUrl}${id}/`, formData)
   }
   // Eliminar un artículo
   deleteIglesia(id:number): Observable<void>{
@@ -44,7 +80,7 @@ export class IglesiaService {
   // ============================
 
   // Obtener todos los artículos
-  getParroquia(): Observable<Parroquia[]>{
+  getParroquias(): Observable<Parroquia[]>{
     return this.http.get<Parroquia[]>(this.parroquiaUrl)
   }
   // Obtener un artículo por ID
@@ -52,23 +88,26 @@ export class IglesiaService {
     return this.http.get<Parroquia>(`${this.parroquiaUrl}${id}/`)
   }
   // Crear un nuevo artículo
-  createParroquia(data:Parroquia): Observable<Parroquia>{
-    return this.http.post<Parroquia>(this.parroquiaUrl, data)
+  createParroquia(parroquiaData: Parroquia, file: File | null): Observable<Parroquia> {
+    const formData = this.buildFormDataParroquia(parroquiaData, file);
+    return this.http.post<Parroquia>(this.parroquiaUrl, FormData)
   }
   // Actualizar un artículo existente
-  updateParroquia(id:number, data:Parroquia): Observable<Parroquia>{
-    return this.http.put<Parroquia>(`${this.parroquiaUrl}${id}/`, data)
+  updateParroquia(id: number, parroquiaData: Parroquia, file: File | null): Observable<Parroquia> {
+    const formData = this.buildFormDataParroquia(parroquiaData, file);
+    return this.http.put<Parroquia>(`${this.parroquiaUrl}${id}/`, formData)
   }
   // Eliminar un artículo
   deleteParroquia(id:number): Observable<void>{
     return this.http.delete<void>(`${this.parroquiaUrl}${id}/`)
   }
-      // ============================
+      
+  // ============================
   // CRUD para Socials
   // ============================
 
   // Obtener todos los artículos
-  getSocial(): Observable<Social[]>{
+  getSocials(): Observable<Social[]>{
     return this.http.get<Social[]>(this.socialUrl)
   }
   // Obtener un artículo por ID

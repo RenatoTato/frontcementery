@@ -4,5 +4,6 @@ export interface Obituario {
     cementery?: string;  // Cementerio opcional
     place?: string;  // Lugar de la ceremonia opcional
     date?: Date;  // Fecha y hora de la ceremonia opcional
+    name?: string;
     deceased: number;  // ID del difunto (relación uno a uno)
   }

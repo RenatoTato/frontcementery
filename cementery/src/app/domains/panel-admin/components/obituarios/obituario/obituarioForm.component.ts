@@ -27,7 +27,9 @@ export class ObituarioFormComponent {
   ngOnInit() {
     this.initForm();
     this.loadDifuntos();  // Cargar los difuntos disponibles
+    this.updateNameOnDeceasedChange();
     this.loadDarkModePreference();
+    
   }
 
   initForm(): void {
@@ -36,16 +38,18 @@ export class ObituarioFormComponent {
       cementery: [''],  // Cementerio opcional
       place: [''],  // Lugar opcional
       date: [null],  // Fecha opcional
-      deceased: [null, Validators.required]  // Difunto es requerido
+      deceased: [null, Validators.required],  // Difunto es requerido
+      name: [''],
     });
   }
 
   onSubmit(): void {
     if (this.obituarioForm.valid) {
-      const newObituario: Obituario = this.obituarioForm.value;
-      console.log('Datos a enviar:', newObituario);
-
-      this.obituarioService.createObituario(newObituario).subscribe(
+      // Convertir 'deceased' a número antes de enviar
+      const obituarioData = { ...this.obituarioForm.value, deceased: +this.obituarioForm.value.deceased };
+      
+      console.log('Datos a enviar:', obituarioData);
+      this.obituarioService.createObituario(obituarioData).subscribe(
         (response) => {
           console.log('Obituario creado:', response);
         },
@@ -55,18 +59,32 @@ export class ObituarioFormComponent {
       );
     }
   }
-
   loadDifuntos(): void {
     this.difuntoService.getDifuntos().subscribe(
       (response: Difunto[]) => {
         this.difuntos = response;
+        console.log('Difuntos cargados:', this.difuntos);  // Verificar si se cargan los difuntos
       },
       (error) => {
         console.error('Error al cargar los difuntos:', error);
       }
     );
   }
-
+  updateNameOnDeceasedChange(): void {
+    this.obituarioForm.get('deceased')?.valueChanges.subscribe(deceasedId => {
+      console.log('Difunto seleccionado ID:', deceasedId);  // Verifica qué difunto ha sido seleccionado
+      const selectedDifunto = this.difuntos.find(d => d.id === +deceasedId);
+      
+      if (selectedDifunto) {
+        const fullName = `${selectedDifunto.names} ${selectedDifunto.last_names}`;
+        console.log('Nombre completo del difunto:', fullName);  // Verifica si se está obteniendo el nombre
+        this.obituarioForm.patchValue({ name: fullName });
+      } else {
+        console.log('No se encontró el difunto con el ID:', deceasedId);
+        this.obituarioForm.patchValue({ name: '' });
+      }
+    });
+  }
   resetForm(): void {
     this.obituarioForm.reset();
   }

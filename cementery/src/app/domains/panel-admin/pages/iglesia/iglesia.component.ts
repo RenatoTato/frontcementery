@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
+import { IglesiaFormComponent } from "../../components/iglesias/iglesiaForm/iglesiaForm.component";
 
 @Component({
   selector: 'app-iglesia',
   standalone: true,
-  imports: [],
+  imports: [IglesiaFormComponent],
   templateUrl: './iglesia.component.html',
   styleUrl: './iglesia.component.css'
 })
