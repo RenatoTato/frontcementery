@@ -17,25 +17,34 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./difunto-editar.component.css']
 })
 export class DifuntoEditarComponent implements OnInit {
-  
+
   difuntos: Difunto[] = [];
   paginatedDifuntos: Difunto[] = [];
   tumbas: Tumba[] = [];
   deudos: Deudo[] = [];
   difuntoEditarForm!: FormGroup;
   isDarkMode: boolean = false;
-  
   currentPage: number = 1;
   pageSize: number = 17;
-  totalPages: number = 0;
-  constructor(private fb: FormBuilder, 
+  totalItems: number = 0;
+  filterFields = [
+    { name: 'names', label: 'Nombre' },
+    { name: 'last_names', label: 'Apellidos' },
+    { name: 'idNumber', label: 'Cédula' },
+    { name: 'requestNumber', label: 'Número de Solicitud' }
+  ];
+
+  tableHeaders = ['Nombre', 'Apellido', 'Cédula', 'Solicitud', 'Tumba', 'Deudo'];
+  editableFields: (keyof Difunto)[] = ['names', 'last_names', 'idNumber', 'requestNumber', 'tumba', 'deudo'];
+  constructor(
+    private fb: FormBuilder,
     private difuntoService: DifuntoService,
     private tumbasService: TumbaService
   ) { }
 
   ngOnInit(): void {
     this.initForm();
-    this.loadDifuntos();
+    this.loadDifuntos(this.currentPage, this.pageSize);;
     this.loadTumbas();
     this.loadDeudos();
     this.loadDarkModePreference();
@@ -46,144 +55,104 @@ export class DifuntoEditarComponent implements OnInit {
       names: ['', Validators.required],
       last_names: ['', Validators.required],
       idNumber: ['', Validators.required],
-      requestNumber: ['', Validators.required]  // Incluye este campo
+      requestNumber: ['', Validators.required]
     });
   }
-
-  loadDifuntos(filterParams?: any): void {
-    this.difuntoService.getDifuntos(filterParams).subscribe(
-      (response: Difunto[]) => {
-        this.difuntos = response;
-        this.totalPages = Math.max(1, Math.ceil(this.difuntos.length / this.pageSize)); // Calcular el número total de páginas
-      this.updatePaginatedDifuntos(); // Actualizar la lista paginada
+  get totalPages(): number {
+    return Math.ceil(this.totalItems / this.pageSize);
+  }
+  loadDifuntos(page: number, pageSize: number, filterParams?: any): void {
+    this.difuntoService.getDifuntos(this.currentPage, this.pageSize).subscribe(
+      (response) => {
+        this.difuntos = response.results; // Accede a la lista de Difuntos en `results`
+        this.totalItems = response.count; // Número total de elementos
       },
-      (error) => {
-        console.error('Error al cargar los difuntos:', error);
-      }
+      (error) => console.error('Error al cargar los difuntos:', error)
     );
   }
-  // Cargar las tumbas disponibles
+
   loadTumbas(): void {
     this.tumbasService.getTumbas().subscribe(
-      (response: Tumba[]) => {
-        this.tumbas = response;
-      },
-      (error) => {
-        console.error('Error al cargar las tumbas:', error);
-      }
+      (response: Tumba[]) => (this.tumbas = response),
+      (error) => console.error('Error al cargar las tumbas:', error)
     );
   }
 
-  // Cargar los deudos disponibles
   loadDeudos(): void {
     this.difuntoService.getDeudos().subscribe(
-      (response: Deudo[]) => {
-        this.deudos = response;
-      },
-      (error) => {
-        console.error('Error al cargar los deudos:', error);
-      }
+      (response: Deudo[]) => (this.deudos = response),
+      (error) => console.error('Error al cargar los deudos:', error)
     );
   }
+
   onSubmit(): void {
-    const filters = this.difuntoEditarForm.value;
-    this.loadDifuntos(filters);
+    this.loadDifuntos(this.currentPage, this.pageSize, this.difuntoEditarForm.value);
   }
-   // Actualizar la lista paginada
-   updatePaginatedDifuntos(): void {
+
+  updatePaginatedDifuntos(): void {
     const startIndex = (this.currentPage - 1) * this.pageSize;
-    const endIndex = startIndex + this.pageSize;
-    this.paginatedDifuntos = this.difuntos.slice(startIndex, endIndex);
+    this.paginatedDifuntos = this.difuntos.slice(startIndex, startIndex + this.pageSize);
   }
 
-  // Cambiar a la página anterior
-  previousPage(): void {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-      this.updatePaginatedDifuntos();
-    }
-  }
-
-  // Cambiar a la página siguiente
   nextPage(): void {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
-      this.updatePaginatedDifuntos();
+      this.loadDifuntos(this.currentPage, this.pageSize);
     }
   }
+
+  previousPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.loadDifuntos(this.currentPage, this.pageSize);
+    }
+  }
+
   resetFilters(): void {
     this.difuntoEditarForm.reset();
-    this.loadDifuntos();
+    this.loadDifuntos(this.currentPage, this.pageSize);
   }
+
 
   toggleEdit(difunto: Difunto, isEditing: boolean): void {
     difunto.isEditing = isEditing;
   }
-  
-  // Guarda los cambios realizados
+
   saveDifunto(difunto: Difunto): void {
-    this.difuntoService.updateDifunto(difunto.id, difunto).subscribe(
-      (response) => {
-        console.log('Difunto actualizado:', response);
-        difunto.isEditing = false; // Desactiva el modo de edición después de guardar
-      },
-      (error) => {
-        console.error('Error al actualizar el difunto:', error);
-      }
-    );
-  }
-  
-  updateDifunto(): void {
-    if (this.difuntoEditarForm.valid) {
-      const updatedDifunto: Difunto = this.difuntoEditarForm.value;
-      const difuntoId = updatedDifunto.id;
-  
-      this.difuntoService.updateDifunto(difuntoId, updatedDifunto).subscribe(
+    if (difunto.id == null) {
+      console.error('El ID del difunto es nulo o indefinido.');
+      return;
+    }
+
+    if (confirm('¿Estás seguro de que deseas actualizar este difunto?')) {
+      this.difuntoService.updateDifunto(difunto.id, difunto).subscribe(
         (response) => {
-          console.log('Difunto actualizado:', response);
-          this.loadDifuntos();
+          difunto.isEditing = false;
+          console.log('Difunto actualizado correctamente:', response);
         },
-        (error) => {
-          console.error('Error al actualizar el difunto:', error);
-        }
+        (error) => console.error('Error al actualizar el difunto:', error)
       );
-    } else {
-      console.log('Formulario inválido');
     }
   }
+
 
   deleteDifunto(id: number): void {
     if (confirm('¿Estás seguro de que deseas eliminar este difunto?')) {
       this.difuntoService.deleteDifunto(id).subscribe(
-        () => {
-          console.log('Difunto eliminado');
-          this.loadDifuntos();
-        },
-        (error) => {
-          console.error('Error al eliminar el difunto:', error);
-        }
+        () => this.loadDifuntos(this.currentPage, this.pageSize),
+        (error) => console.error('Error al eliminar el difunto:', error)
       );
     }
   }
 
   toggleDarkMode(): void {
     this.isDarkMode = !this.isDarkMode;
-    const htmlElement = document.documentElement;
-
-    if (this.isDarkMode) {
-      htmlElement.classList.add('dark');
-      localStorage.setItem('darkMode', 'true');
-    } else {
-      htmlElement.classList.remove('dark');
-      localStorage.setItem('darkMode', 'false');
-    }
+    document.documentElement.classList.toggle('dark', this.isDarkMode);
+    localStorage.setItem('darkMode', String(this.isDarkMode));
   }
 
   loadDarkModePreference(): void {
-    const darkMode = localStorage.getItem('darkMode');
-    if (darkMode === 'true') {
-      this.isDarkMode = true;
-      document.documentElement.classList.add('dark');
-    }
+    this.isDarkMode = localStorage.getItem('darkMode') === 'true';
+    document.documentElement.classList.toggle('dark', this.isDarkMode);
   }
 }
