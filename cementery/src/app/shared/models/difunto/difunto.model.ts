@@ -8,6 +8,6 @@ export interface Difunto {
     idNumber: string;
     requestNumber: string;
     observaciones?: string;
-    tumba:Tumba
-    deudo:Deudo
+    tumba?:number;
+    deudo:number;
 }

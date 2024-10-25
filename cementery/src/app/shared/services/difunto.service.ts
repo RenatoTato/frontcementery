@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Difunto } from '@externo/models/difunto/difunto.model';
 import { Deudo } from '@externo/models/difunto/deudo.model';
@@ -17,8 +17,17 @@ export class DifuntoService {
   // ============================
 
   // Obtener todos los artículos
-  getDifuntos(): Observable<Difunto[]>{
-    return this.http.get<Difunto[]>(this.difuntoUrl)
+ 
+  getDifuntos(filterParams?: any): Observable<Difunto[]> {
+    let params = new HttpParams();
+    if (filterParams) {
+      for (const key in filterParams) {
+        if (filterParams.hasOwnProperty(key)&& filterParams[key]) {
+          params = params.set(key, filterParams[key]);
+        }
+      }
+    }
+    return this.http.get<Difunto[]>(this.difuntoUrl, { params });
   }
   // Obtener un artículo por ID
   getDifuntoId(id:number): Observable<Difunto>{

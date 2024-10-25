@@ -1,5 +1,25 @@
-<div>
-    <app-difuntoForm/>
-<hr>
-    <app-deudoForm/>
-</div>
+<div class="flex space-x-4">
+    <!-- Botón para mostrar el formulario -->
+    <button (click)="mostrarFormulario()"
+      class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700">
+      Mostrar Formulario
+    </button>
+  
+    <!-- Botón para mostrar la edición -->
+    <button (click)="mostrarEdicion()"
+      class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600">
+      Modificar Difunto
+    </button>
+  </div>
+  
+  <!-- Contenido del formulario -->
+  <div *ngIf="mostrarFormularioDiv">
+    <app-difuntoForm></app-difuntoForm>
+    <hr>
+    <app-deudoForm></app-deudoForm>
+  </div>
+  
+  <!-- Contenido de edición -->
+  <div *ngIf="mostrarEdicionDiv">
+    <app-difunto-editar></app-difunto-editar>
+  </div>

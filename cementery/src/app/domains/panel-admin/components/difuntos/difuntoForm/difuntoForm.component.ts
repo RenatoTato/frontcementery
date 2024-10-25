@@ -17,14 +17,12 @@ import { Tumba } from '@externo/models/tumba/tumba.model';
 export class DifuntoFormComponent {
   difuntoForm!: FormGroup;
   deudos: Deudo[] = [];
-  tumbas: Tumba[] = [];
   isDarkMode: boolean = false;
 
-  constructor(private fb: FormBuilder, private difuntoService: DifuntoService, private tumbaService: TumbaService) { }
+  constructor(private fb: FormBuilder, private difuntoService: DifuntoService) { }
 
   ngOnInit() {
     this.initForm();
-    this.loadTumbas();
     this.loadDeudos();
     this.loadDarkModePreference();
   }
@@ -34,8 +32,8 @@ export class DifuntoFormComponent {
       names: ['', Validators.required],
       last_names: ['', Validators.required],
       idNumber: ['', Validators.required],
-      requestNumber: ['', Validators.required],
-      tumba: ['', Validators.required],
+      requestNumber: ['', Validators.required],  // Campo sin ":"
+      tumba: [''],
       deudo: ['', Validators.required],
       observaciones: [''],
     });
@@ -45,15 +43,17 @@ export class DifuntoFormComponent {
     if (this.difuntoForm.valid) {
       const newDifunto: Difunto = this.difuntoForm.value;
   
-      // Verificar los datos que estás enviando
-      console.log('Datos a enviar:', newDifunto);
+      if (!newDifunto.deudo) {
+        console.error('El campo deudo es obligatorio');
+        return;
+      }
   
       this.difuntoService.createDifunto(newDifunto).subscribe(
         (response) => {
-          console.log('Artículo creado:', response);
+          console.log('Difunto creado:', response);
         },
         (error) => {
-          console.error('Error al crear el artículo:', error);
+          console.error('Error al crear el difunto:', error);
           if (error.error) {
             console.error('Detalles del error:', error.error);  // Aquí obtendrás más detalles del backend
           }
@@ -61,16 +61,16 @@ export class DifuntoFormComponent {
       );
     }
   }
-  loadTumbas(): void {
-    this.tumbaService.getTumbas().subscribe(
-      (response: Tumba[]) => {
-        this.tumbas = response;
-      },
-      (error) => {
-        console.error('Error al cargar las tumbas:', error);
-      }
-    );
-  }
+  // loadTumbas(): void {
+  //   this.tumbaService.getTumbas().subscribe(
+  //     (response: Tumba[]) => {
+  //       this.tumbas = response;
+  //     },
+  //     (error) => {
+  //       console.error('Error al cargar las tumbas:', error);
+  //     }
+  //   );
+  // }
   
   loadDeudos(): void {
     this.difuntoService.getDeudos().subscribe(
