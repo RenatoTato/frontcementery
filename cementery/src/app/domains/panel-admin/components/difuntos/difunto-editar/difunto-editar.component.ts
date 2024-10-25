@@ -6,16 +6,18 @@ import { Difunto } from '@externo/models/difunto/difunto.model';
 import { Tumba } from '@externo/models/tumba/tumba.model';
 import { Deudo } from '@externo/models/difunto/deudo.model';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 
 @Component({
   selector: 'app-difunto-editar',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, FormsModule],
   templateUrl: './difunto-editar.component.html',
   styleUrls: ['./difunto-editar.component.css']
 })
 export class DifuntoEditarComponent implements OnInit {
+  
   difuntos: Difunto[] = [];
   paginatedDifuntos: Difunto[] = [];
   tumbas: Tumba[] = [];
@@ -41,9 +43,10 @@ export class DifuntoEditarComponent implements OnInit {
 
   initForm(): void {
     this.difuntoEditarForm = this.fb.group({
-      names: [''],
-      last_names: [''],
-      idNumber: [''],
+      names: ['', Validators.required],
+      last_names: ['', Validators.required],
+      idNumber: ['', Validators.required],
+      requestNumber: ['', Validators.required]  // Incluye este campo
     });
   }
 
@@ -113,11 +116,29 @@ export class DifuntoEditarComponent implements OnInit {
     this.loadDifuntos();
   }
 
-  updateDifunto(id: number): void {
+  toggleEdit(difunto: Difunto, isEditing: boolean): void {
+    difunto.isEditing = isEditing;
+  }
+  
+  // Guarda los cambios realizados
+  saveDifunto(difunto: Difunto): void {
+    this.difuntoService.updateDifunto(difunto.id, difunto).subscribe(
+      (response) => {
+        console.log('Difunto actualizado:', response);
+        difunto.isEditing = false; // Desactiva el modo de edición después de guardar
+      },
+      (error) => {
+        console.error('Error al actualizar el difunto:', error);
+      }
+    );
+  }
+  
+  updateDifunto(): void {
     if (this.difuntoEditarForm.valid) {
-      const updatedDifunto = this.difuntoEditarForm.value;
-
-      this.difuntoService.updateDifunto(id, updatedDifunto).subscribe(
+      const updatedDifunto: Difunto = this.difuntoEditarForm.value;
+      const difuntoId = updatedDifunto.id;
+  
+      this.difuntoService.updateDifunto(difuntoId, updatedDifunto).subscribe(
         (response) => {
           console.log('Difunto actualizado:', response);
           this.loadDifuntos();
