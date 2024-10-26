@@ -90,6 +90,15 @@ export class DifuntoEditarComponent implements OnInit {
       this.loadDifuntos(this.currentPage, this.pageSize);
     }
   }
+  goToFirstPage() {
+    this.currentPage = 1;
+    this.loadDifuntos(this.currentPage, this.pageSize);;
+  }
+  
+  goToLastPage() {
+    this.currentPage = this.totalPages;
+    this.loadDifuntos(this.currentPage, this.pageSize);
+  }
 
   // Resetear filtros
   resetFilters(): void {

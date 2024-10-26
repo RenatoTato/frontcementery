@@ -10,8 +10,9 @@ import { Router, RouterModule } from '@angular/router';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
+  isDarkMode = false;
   sidebarVisible = false;
-  constructor(private router: Router){}
+  constructor(private router: Router){this.isDarkMode = document.body.classList.contains('dark');}
 
   isAuthenticated():boolean{
     return !!localStorage.getItem('token');
@@ -24,5 +25,15 @@ export class HeaderComponent {
     localStorage.removeItem('token');
     localStorage.removeItem('refresh_token');
     this.router.navigate(['/']);
+  }
+  toggleDarkMode(): void {
+    this.isDarkMode = !this.isDarkMode;
+    document.documentElement.classList.toggle('dark', this.isDarkMode);
+    localStorage.setItem('darkMode', String(this.isDarkMode));
+  }
+
+  loadDarkModePreference(): void {
+    this.isDarkMode = localStorage.getItem('darkMode') === 'true';
+    document.documentElement.classList.toggle('dark', this.isDarkMode);
   }
 }
