@@ -51,7 +51,7 @@ export class DifuntoEditarComponent implements OnInit {
       requestNumber: ['', Validators.required]
     });
   }
-  
+
   // Carga los datos de los difuntos con la paginación y filtros
   loadDifuntos(page: number, pageSize: number, filterParams?: any): void {
     this.difuntoService.getDifuntos(page, pageSize, filterParams).subscribe(
@@ -70,7 +70,10 @@ export class DifuntoEditarComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.loadDifuntos(this.currentPage, this.pageSize); // Sin filtros para prueba
+    const filterParams = this.difuntoEditarForm.value; // Obtiene los valores de filtro
+    console.log('Filtrando con parámetros:', filterParams); // Verificación
+
+    this.loadDifuntos(this.currentPage, this.pageSize, filterParams);
   }
 
   nextPage(): void {
@@ -104,11 +107,15 @@ export class DifuntoEditarComponent implements OnInit {
       console.error('El ID del difunto es nulo o indefinido.');
       return;
     }
+
+    console.log('Datos enviados para actualización:', difunto); // Verificación de datos
+
     if (confirm('¿Estás seguro de que deseas actualizar este difunto?')) {
       this.difuntoService.updateDifunto(difunto.id, difunto).subscribe(
-        () => {
-          difunto.isEditing = false;
-          this.loadDifuntos(this.currentPage, this.pageSize); // Recargar la página
+        (response) => {
+          difunto.isEditing = false; // Finaliza el modo de edición
+          console.log('Difunto actualizado correctamente:', response);
+          this.loadDifuntos(this.currentPage, this.pageSize); // Recarga la lista
         },
         (error) => console.error('Error al actualizar el difunto:', error)
       );
