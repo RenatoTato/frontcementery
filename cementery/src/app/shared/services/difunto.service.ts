@@ -18,9 +18,13 @@ export class DifuntoService {
 
   // Obtener todos los artículos
 
-  getDifuntos(page: number, pageSize: number, filterParams?: any): Observable<{ results: Difunto[]; count: number }> {
-    let params = new HttpParams().set('page', page).set('page_size', pageSize.toString());
-
+  private generateParams(page?: number, pageSize?: number, filterParams?: any): HttpParams {
+    let params = new HttpParams();
+  
+    if (page != null && pageSize != null) {
+      params = params.set('page', page.toString()).set('page_size', pageSize.toString());
+    }
+  
     if (filterParams) {
       for (const key in filterParams) {
         if (filterParams[key]) {
@@ -28,8 +32,21 @@ export class DifuntoService {
         }
       }
     }
-
-    return this.http.get<{ results: Difunto[]; count: number }>(this.difuntoUrl, { params });
+  
+    return params;
+  }
+  
+  // Método unificado para obtener difuntos, con o sin paginación y filtros
+  getDifuntos(page?: number, pageSize?: number, filterParams?: any): Observable<{ results: Difunto[]; count: number } | Difunto[]> {
+    const params = this.generateParams(page, pageSize, filterParams);
+    
+    if (page == null || pageSize == null) {
+      // Sin paginación
+      return this.http.get<Difunto[]>(this.difuntoUrl, { params });
+    } else {
+      // Con paginación
+      return this.http.get<{ results: Difunto[]; count: number }>(this.difuntoUrl, { params });
+    }
   }
   // Obtener un artículo por ID
   getDifuntoId(id: number): Observable<Difunto> {

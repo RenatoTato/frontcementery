@@ -77,10 +77,10 @@ export class ServicioFormComponent {
 
   loadDifuntos(): void {
     this.difuntoService.getDifuntos().subscribe(
-      (response: Difunto[]) => {
-        this.difuntos = response;
+      (response) => {
+        // Manejo de la respuesta aquí
       },
-      (error) => {
+      (error: any) => {
         console.error('Error al cargar los difuntos:', error);
       }
     );
