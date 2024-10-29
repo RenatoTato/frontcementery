@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Guia } from '@externo/models/guia/guia.model';
 
@@ -10,11 +10,26 @@ import { Guia } from '@externo/models/guia/guia.model';
 export class GuiaService {
 
   private guiaUrl = 'http://127.0.0.1:8000/api/guia/';
-   constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient) { }
 
-  // ============================
-  // CRUD para Guias
-  // ============================
+  private generateParams(page?: number, pageSize?: number, filterParams?: any): HttpParams {
+    let params = new HttpParams();
+
+    if (page != null && pageSize != null) {
+      params = params.set('page', page.toString()).set('page_size', pageSize.toString());
+    }
+
+    if (filterParams) {
+      for (const key in filterParams) {
+        if (filterParams[key]) {
+          params = params.set(key, filterParams[key]);
+        }
+      }
+    }
+
+    return params;
+  }
+
   private buildFormDataGuia(guiaData: Guia, file: File | null): FormData {
     const formData = new FormData();
 
@@ -33,10 +48,24 @@ export class GuiaService {
 
     return formData;
   }
-  // Obtener todos los artículos
-  getGuia(): Observable<Guia[]>{
-    return this.http.get<Guia[]>(this.guiaUrl)
+  // ============================
+  // CRUD para Guias
+  // ============================
+
+  // Método unificado para obtener Guias, con o sin paginación y filtros
+  getGuias(page?: number, pageSize?: number, filterParams?: any): Observable<{ results: Guia[]; count: number } | Guia[]> {
+    const params = this.generateParams(page, pageSize, filterParams);
+    console.log('GET request con parámetros:', params.toString()); // Verificación
+
+    if (page == null || pageSize == null) {
+      // Sin paginación
+      return this.http.get<Guia[]>(this.guiaUrl, { params });
+    } else {
+      // Con paginación
+      return this.http.get<{ results: Guia[]; count: number }>(this.guiaUrl, { params });
+    }
   }
+  
   // Obtener un artículo por ID
   getGuiaId(id:number): Observable<Guia>{
     return this.http.get<Guia>(`${this.guiaUrl}${id}/`)

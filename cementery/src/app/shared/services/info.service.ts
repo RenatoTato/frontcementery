@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Info } from '@externo/models/info/info.model';
@@ -8,12 +8,25 @@ import { Info } from '@externo/models/info/info.model';
 })
 export class InfoService {
   private infoUrl = 'http://127.0.0.1:8000/api/info/';
-   constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient) { }
+  private generateParams(page?: number, pageSize?: number, filterParams?: any): HttpParams {
+    let params = new HttpParams();
 
-  // ============================
-  // CRUD para Infos
-  // ============================
+    if (page != null && pageSize != null) {
+      params = params.set('page', page.toString()).set('page_size', pageSize.toString());
+    }
 
+    if (filterParams) {
+      for (const key in filterParams) {
+        if (filterParams[key]) {
+          params = params.set(key, filterParams[key]);
+        }
+      }
+    }
+
+    return params;
+  }
+  
   private buildFormData(infoData: Info, file: File | null): FormData {
     const formData = new FormData();
 
@@ -37,10 +50,22 @@ export class InfoService {
 
     return formData;
   }
+  // ============================
+  // CRUD para Infos
+  // ============================
 
-  // Obtener todos los artículos
-  getInfo(): Observable<Info[]>{
-    return this.http.get<Info[]>(this.infoUrl)
+  // Método unificado para obtener Infos, con o sin paginación y filtros
+  getInfos(page?: number, pageSize?: number, filterParams?: any): Observable<{ results: Info[]; count: number } | Info[]> {
+    const params = this.generateParams(page, pageSize, filterParams);
+    console.log('GET request con parámetros:', params.toString()); // Verificación
+
+    if (page == null || pageSize == null) {
+      // Sin paginación
+      return this.http.get<Info[]>(this.infoUrl, { params });
+    } else {
+      // Con paginación
+      return this.http.get<{ results: Info[]; count: number }>(this.infoUrl, { params });
+    }
   }
   // Obtener un artículo por ID
   getInfoId(id:number): Observable<Info>{

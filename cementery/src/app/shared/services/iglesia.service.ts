@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Parroquia } from '@externo/models/iglesia/parroquia.model';
 import { Iglesia } from '@externo/models/iglesia/iglesia.model';
@@ -14,10 +14,25 @@ export class IglesiaService {
   private parroquiaUrl = 'http://127.0.0.1:8000/api/parroquia/';
   private socialUrl = 'http://127.0.0.1:8000/api/social/';
   constructor(private http:HttpClient) { }
+  
+  private generateParams(page?: number, pageSize?: number, filterParams?: any): HttpParams {
+    let params = new HttpParams();
 
-  // ============================
-  // CRUD para Iglesias
-  // ============================
+    if (page != null && pageSize != null) {
+      params = params.set('page', page.toString()).set('page_size', pageSize.toString());
+    }
+
+    if (filterParams) {
+      for (const key in filterParams) {
+        if (filterParams[key]) {
+          params = params.set(key, filterParams[key]);
+        }
+      }
+    }
+
+    return params;
+  }
+
   private buildFormData(iglesiaData: Iglesia, file: File | null): FormData {
     const formData = new FormData();
 
@@ -53,10 +68,24 @@ export class IglesiaService {
 
     return formData;
   }
-  // Obtener todos los artículos
-  getIglesias(): Observable<Iglesia[]>{
-    return this.http.get<Iglesia[]>(this.iglesiaUrl)
+  // ============================
+  // CRUD para Iglesias
+  // ============================
+
+  // Método unificado para obtener Iglesias, con o sin paginación y filtros
+  getIglesias(page?: number, pageSize?: number, filterParams?: any): Observable<{ results: Iglesia[]; count: number } | Iglesia[]> {
+    const params = this.generateParams(page, pageSize, filterParams);
+    console.log('GET request con parámetros:', params.toString()); // Verificación
+
+    if (page == null || pageSize == null) {
+      // Sin paginación
+      return this.http.get<Iglesia[]>(this.iglesiaUrl, { params });
+    } else {
+      // Con paginación
+      return this.http.get<{ results: Iglesia[]; count: number }>(this.iglesiaUrl, { params });
+    }
   }
+
   // Obtener un artículo por ID
   getIglesiaId(id:number): Observable<Iglesia>{
     return this.http.get<Iglesia>(`${this.iglesiaUrl}${id}/`)
@@ -80,8 +109,18 @@ export class IglesiaService {
   // ============================
 
   // Obtener todos los artículos
-  getParroquias(): Observable<Parroquia[]>{
-    return this.http.get<Parroquia[]>(this.parroquiaUrl)
+  // Método unificado para obtener Parroquias, con o sin paginación y filtros
+  getParroquias(page?: number, pageSize?: number, filterParams?: any): Observable<{ results: Parroquia[]; count: number } | Parroquia[]> {
+    const params = this.generateParams(page, pageSize, filterParams);
+    console.log('GET request con parámetros:', params.toString()); // Verificación
+
+    if (page == null || pageSize == null) {
+      // Sin paginación
+      return this.http.get<Parroquia[]>(this.parroquiaUrl, { params });
+    } else {
+      // Con paginación
+      return this.http.get<{ results: Parroquia[]; count: number }>(this.parroquiaUrl, { params });
+    }
   }
   // Obtener un artículo por ID
   getParroquiaId(id:number): Observable<Parroquia>{
@@ -107,8 +146,17 @@ export class IglesiaService {
   // ============================
 
   // Obtener todos los artículos
-  getSocials(): Observable<Social[]>{
-    return this.http.get<Social[]>(this.socialUrl)
+  getSocials(page?: number, pageSize?: number, filterParams?: any): Observable<{ results: Social[]; count: number } | Social[]> {
+    const params = this.generateParams(page, pageSize, filterParams);
+    console.log('GET request con parámetros:', params.toString()); // Verificación
+
+    if (page == null || pageSize == null) {
+      // Sin paginación
+      return this.http.get<Social[]>(this.socialUrl, { params });
+    } else {
+      // Con paginación
+      return this.http.get<{ results: Social[]; count: number }>(this.socialUrl, { params });
+    }
   }
   // Obtener un artículo por ID
   getSocialId(id:number): Observable<Social>{
