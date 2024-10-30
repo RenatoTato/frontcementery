@@ -1,3 +1,63 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    width: 100%;
+}
+
+.left-column, .middle-column, .right-column {
+    padding: 20px;
+}
+
+.left-column {
+    width: 25%; /* Ajusta según lo necesites */
+    background-color: #f8f8f8;
+}
+
+.middle-column {
+    width: 50%; /* Ajusta según lo necesites */
+    background-color: #ffffff;
+}
+
+.right-column {
+    width: 25%; /* Ajusta según lo necesites */
+    background-color: #f8f8f8;
+}
+
+.search-bar {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.svg-container {
+    text-align: center; /* Centrar el SVG */
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px; /* Espacio entre los elementos del grid */
+}
+
+.grid-item {
+    background-color: #e0e0e0;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
 ::ng-deep .cls-1 {
     letter-spacing: 0em;
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DifuntoService } from '@externo/services/difunto.service';
 import { Difunto } from '@externo/models/difunto/difunto.model';
@@ -35,6 +35,7 @@ export class DifuntoEditarComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private difuntoService: DifuntoService,
+    private cdRef: ChangeDetectorRef,
   ) { }
 
   ngOnInit(): void {
@@ -116,15 +117,14 @@ export class DifuntoEditarComponent implements OnInit {
       console.error('El ID del difunto es nulo o indefinido.');
       return;
     }
-
-    console.log('Datos enviados para actualización:', difunto); // Verificación de datos
-
+  
     if (confirm('¿Estás seguro de que deseas actualizar este difunto?')) {
       this.difuntoService.updateDifunto(difunto.id, difunto).subscribe(
         (response) => {
-          difunto.isEditing = false; // Finaliza el modo de edición
+          difunto.isEditing = false;
           console.log('Difunto actualizado correctamente:', response);
           this.loadDifuntos(this.currentPage, this.pageSize); // Recarga la lista
+          this.cdRef.detectChanges(); // Forzar la detección de cambios
         },
         (error) => console.error('Error al actualizar el difunto:', error)
       );
