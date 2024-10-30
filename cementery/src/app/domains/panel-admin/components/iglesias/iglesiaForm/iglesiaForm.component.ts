@@ -62,10 +62,10 @@ export class IglesiaFormComponent {
   }
   loadParroquias(): void {
     this.parroquiaService.getParroquias().subscribe(
-      (response: Parroquia[]) => {
-        this.parroquias = response;
+      (response) => {
+        this.parroquias = response as Parroquia[];
       },
-      (error) => {
+      (error: any) => {
         console.error('Error al cargar las parroquias:', error);
       }
     );

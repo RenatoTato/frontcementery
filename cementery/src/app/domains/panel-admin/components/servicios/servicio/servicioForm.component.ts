@@ -66,10 +66,10 @@ export class ServicioFormComponent {
 
   loadTumbas(): void {
     this.tumbaService.getTumbas().subscribe(
-      (response: Tumba[]) => {
-        this.tumbas = response;
+      (response) => {
+        this.tumbas = response as Tumba[];
       },
-      (error) => {
+      (error: any) => {
         console.error('Error al cargar las tumbas:', error);
       }
     );
@@ -78,7 +78,7 @@ export class ServicioFormComponent {
   loadDifuntos(): void {
     this.difuntoService.getDifuntos().subscribe(
       (response) => {
-        // Manejo de la respuesta aquí
+        this.difuntos = response as Difunto[]; // Asigna el arreglo de difuntos directamente
       },
       (error: any) => {
         console.error('Error al cargar los difuntos:', error);

@@ -55,8 +55,8 @@ export class TumbaFormComponent {
   }
   loadLotes(): void {
     this.tumbaService.getLotes().subscribe(
-      (response: Lote[]) => {
-        this.lotes = response;
+      (response ) => {
+        this.lotes = response as Lote[];
       },
       (error) => {
         console.error('Error al cargar los lotes:', error);

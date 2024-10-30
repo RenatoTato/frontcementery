@@ -74,10 +74,10 @@ export class DifuntoFormComponent {
   
   loadDeudos(): void {
     this.difuntoService.getDeudos().subscribe(
-      (response: Deudo[]) => {
-        this.deudos = response;
+      (response) => {
+        this.deudos = response as Deudo[];
       },
-      (error) => {
+      (error: any) => {
         console.error('Error al cargar los deudos:', error);
       }
     );

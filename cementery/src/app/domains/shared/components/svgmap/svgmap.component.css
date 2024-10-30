@@ -1,0 +1,99 @@
+::ng-deep .cls-1 {
+    letter-spacing: 0em;
+}
+
+::ng-deep .cls-2 {
+    letter-spacing: .01em;
+}
+
+::ng-deep .cls-3 {
+    letter-spacing: 0em;
+}
+
+::ng-deep .cls-4 {
+    letter-spacing: 0em;
+}
+
+::ng-deep .cls-5 {
+    font-family: AcuminVariableConcept, 'Acumin Variable Concept';
+    font-size: 27.31px;
+    font-variation-settings: 'wght' 194, 'wdth' 100, 'slnt' 0;
+}
+
+::ng-deep .cls-5,
+::ng-deep .cls-6,
+::ng-deep .cls-7 {
+    fill: #1d1d1b;
+}
+
+::ng-deep .cls-8 {
+    letter-spacing: 0em;
+}
+
+::ng-deep .cls-6 {
+    font-size: 15.17px;
+}
+
+::ng-deep .cls-6,
+::ng-deep .cls-7 {
+    font-family: MyriadPro-Regular, 'Myriad Pro';
+}
+
+::ng-deep .cls-9 {
+    letter-spacing: 0em;
+}
+
+::ng-deep .cls-10 {
+    fill: #fff;
+}
+
+::ng-deep .cls-10,
+::ng-deep .cls-11 {
+    stroke: #1d1d1b;
+    stroke-miterlimit: 10;
+}
+
+::ng-deep .cls-7 {
+    font-size: 9.1px;
+    opacity: .2;
+}
+
+::ng-deep .cls-12 {
+    letter-spacing: 0em;
+}
+
+::ng-deep .cls-13 {
+    letter-spacing: .01em;
+}
+
+::ng-deep .cls-11 {
+    fill: none;
+}
+/* Estilos de ocupación personalizados */
+.grid-container {
+    display: grid;
+    gap: 5px;
+  }
+  
+  .block-empty {
+    fill: lightgreen;
+  }
+  
+  .block-partial {
+    fill: lightyellow;
+  }
+  
+  .block-full {
+    fill: lightcoral;
+  }
+  
+  .highlighted {
+    border: 2px solid blue;
+  }
+  .available {
+    background-color: lightgreen;;
+  }
+  
+  .unavailable {
+    background-color: gray;
+  }

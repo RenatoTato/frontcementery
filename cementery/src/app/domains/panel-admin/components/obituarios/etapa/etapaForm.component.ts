@@ -62,10 +62,10 @@ export class EtapaFormComponent {
 
   loadObituarios(): void {
     this.etapasObituarioService.getObituarios().subscribe(
-      (response: Obituario[]) => {
-        this.obituarios = response;
+      (response) => {
+        this.obituarios = response as Obituario[];
       },
-      (error) => {
+      (error: any) => {
         console.error('Error al cargar los obituarios:', error);
       }
     );
@@ -73,10 +73,10 @@ export class EtapaFormComponent {
 
   loadServicios(): void {
     this.servicioService.getServicios().subscribe(
-      (response: Servicio[]) => {
-        this.servicios = response;
+      (response) => {
+        this.servicios = response as Servicio[];
       },
-      (error) => {
+      (error: any) => {
         console.error('Error al cargar los servicios:', error);
       }
     );

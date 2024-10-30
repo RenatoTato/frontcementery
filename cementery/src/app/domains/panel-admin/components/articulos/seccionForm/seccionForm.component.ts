@@ -56,8 +56,8 @@ export class SeccionFormComponent {
   }
   loadArticulos(): void {
     this.seccionService.getArticulos().subscribe(
-      (response: Articulo[]) => {
-        this.articulos = response;
+      (response) => {
+        this.articulos = response as Articulo[];
       },
       (error) => {
         console.error('Error al cargar los artículos:', error);
