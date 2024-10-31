@@ -14,46 +14,39 @@ export class TumbaService {
   private tumbaGraficoUrl = "http://127.0.0.1:8000/api/grafitumba/";
   constructor(private http: HttpClient) { }
 
-  // private generateParams(page?: number, pageSize?: number, filterParams?: any): HttpParams {
-  //   let params = new HttpParams();
-
-  //   if (page != null && pageSize != null) {
-  //     params = params.set('page', page.toString()).set('page_size', pageSize.toString());
-  //   }
-
-  //   if (filterParams) {
-  //     for (const key in filterParams) {
-  //       if (filterParams[key]) {
-  //         params = params.set(key, filterParams[key]);
-  //       }
-  //     }
-  //   }
-
-  //   return params;
-  // }
+  private generateParams(filterParams?: any): HttpParams {
+    let params = new HttpParams();
+  
+    if (filterParams) {
+      for (const key in filterParams) {
+        if (filterParams[key]) {
+          params = params.set(key, filterParams[key]);
+        }
+      }
+    }
+  
+    return params;
+  }
 
   // ============================
   // CRUD para Lotes
   // ============================
+  //Metodo get con paginacion
+  getLotes(page?: number, pageSize?: number, filterParams?: any): Observable<{ results: Lote[]; count: number } | Lote[]> {
+    let params = this.generateParams(filterParams);
 
-  // Método unificado para obtener Lotes, con o sin paginación y filtros
-  // getLotes(page?: number, pageSize?: number, filterParams?: any): Observable<{ results: Lote[]; count: number } | Lote[]> {
-  //   const params = this.generateParams(page, pageSize, filterParams);
-  //   console.log('GET request con parámetros:', params.toString()); // Verificación
+    if (page != null && pageSize != null) {
+      params = params.set('page', page.toString()).set('page_size', pageSize.toString());
+    }
 
-  //   if (page == null || pageSize == null) {
-  //     // Sin paginación
-  //     return this.http.get<Lote[]>(this.loteUrl, { params });
-  //   } else {
-  //     // Con paginación
-  //     return this.http.get<{ results: Lote[]; count: number }>(this.loteUrl, { params });
-  //   }
-  // }
-  // Obtener un lote por ID
-
-  getLotes(): Observable<Lote[]> {
-    return this.http.get<Lote[]>(this.loteUrl)
+    return this.http.get<{ results: Lote[]; count: number } | Lote[]>(this.loteUrl, { params });
   }
+  //Metodo get solo con filtros
+  getGrafiLotes(filterParams?: any): Observable<Lote[]> {
+    let params = this.generateParams(filterParams);
+    return this.http.get<Lote[]>(this.loteGraficoUrl, { params });
+  }
+  // Obtener un lote por ID
   getLoteId(id: number): Observable<Lote> {
     return this.http.get<Lote>(`${this.loteUrl}${id}/`)
   }
@@ -72,24 +65,22 @@ export class TumbaService {
   // ============================
   // CRUD para Tumbas
   // ============================
+//Metodo get con paginacion
+  getTumbas(page?: number, pageSize?: number, filterParams?: any): Observable<{ results: Tumba[]; count: number } | Tumba[]> {
+    let params = this.generateParams(filterParams);
 
-  // Método unificado para obtener Tumbas, con o sin paginación y filtros
-  // getGrafiTumbas(page?: number, pageSize?: number, filterParams?: any): Observable<{ results: Tumba[]; count: number } | Tumba[]> {
-  //   const params = this.generateParams(page, pageSize, filterParams);
-  //   console.log('GET request con parámetros:', params.toString()); // Verificación
+    if (page != null && pageSize != null) {
+      params = params.set('page', page.toString()).set('page_size', pageSize.toString());
+    }
 
-  //   if (page == null || pageSize == null) {
-  //     // Sin paginación
-  //     return this.http.get<Tumba[]>(this.tumbaGraficoUrl, { params });
-  //   } else {
-  //     // Con paginación
-  //     return this.http.get<{ results: Tumba[]; count: number }>(this.tumbaGraficoUrl, { params });
-  //   }
-  // }
-  // Obtener un tumba por ID
-  getTumbas(): Observable<Tumba[]> {
-    return this.http.get<Tumba[]>(this.tumbaUrl)
+    return this.http.get<{ results: Tumba[]; count: number } | Tumba[]>(this.tumbaUrl, { params });
   }
+  // Metodo con filtros
+  getGrafiTumbas(filterParams?: any): Observable<Tumba[]> {
+    const params = this.generateParams(filterParams);
+    return this.http.get<Tumba[]>(this.tumbaGraficoUrl, { params });
+  }
+  // Obtener un tumba por ID
   getTumbaId(id: number): Observable<Tumba> {
     return this.http.get<Tumba>(`${this.tumbaUrl}${id}/`)
   }

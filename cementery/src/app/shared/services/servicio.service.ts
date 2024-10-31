@@ -8,14 +8,13 @@ import { Servicio } from '@externo/models/servicio/servicio.model';
 })
 export class ServicioService {
   private servicioUrl = 'http://127.0.0.1:8000/api/servicio/';
+  private servicioReadUrl = 'http://127.0.0.1:8000/api/servicioread/';
+  private servicioHistoryUrl = 'http://127.0.0.1:8000/api/servicio-history/';
+
   constructor(private http: HttpClient) { }
-  private generateParams(page?: number, pageSize?: number, filterParams?: any): HttpParams {
+  private generateParams(filterParams?: any): HttpParams {
     let params = new HttpParams();
-
-    if (page != null && pageSize != null) {
-      params = params.set('page', page.toString()).set('page_size', pageSize.toString());
-    }
-
+  
     if (filterParams) {
       for (const key in filterParams) {
         if (filterParams[key]) {
@@ -23,27 +22,29 @@ export class ServicioService {
         }
       }
     }
-
+  
     return params;
   }
 
   // ============================
   // CRUD para Servicios
   // ============================
-
-  // Método unificado para obtener Servicios, con o sin paginación y filtros
+  //Metodo get con paginacion
   getServicios(page?: number, pageSize?: number, filterParams?: any): Observable<{ results: Servicio[]; count: number } | Servicio[]> {
-    const params = this.generateParams(page, pageSize, filterParams);
-    console.log('GET request con parámetros:', params.toString()); // Verificación
+    let params = this.generateParams(filterParams);
 
-    if (page == null || pageSize == null) {
-      // Sin paginación
-      return this.http.get<Servicio[]>(this.servicioUrl, { params });
-    } else {
-      // Con paginación
-      return this.http.get<{ results: Servicio[]; count: number }>(this.servicioUrl, { params });
+    if (page != null && pageSize != null) {
+      params = params.set('page', page.toString()).set('page_size', pageSize.toString());
     }
+
+    return this.http.get<{ results: Servicio[]; count: number } | Servicio[]>(this.servicioUrl, { params });
   }
+  //Metodo get solo con filtros
+  getReadServicios(filterParams?: any): Observable<Servicio[]> {
+    let params = this.generateParams(filterParams);
+    return this.http.get<Servicio[]>(this.servicioReadUrl, { params });
+  }
+
   // Obtener un artículo por ID
   getServicioId(id: number): Observable<Servicio> {
     return this.http.get<Servicio>(`${this.servicioUrl}${id}/`)
