@@ -65,24 +65,22 @@ export class ServicioFormComponent {
   }
 
   loadTumbas(): void {
-    this.tumbaService.getTumbas().subscribe(
-      (response: Tumba[]) => {
-        this.tumbas = response;
+    this.tumbaService.getReadTumbas().subscribe(
+      (tumbas: Tumba[]) => {
+        this.tumbas = tumbas;
+        console.log('Tumbas:', this.tumbas);
       },
-      (error) => {
-        console.error('Error al cargar las tumbas:', error);
-      }
+      (error) => console.error('Error al obtener las tumbas:', error)
     );
   }
 
   loadDifuntos(): void {
-    this.difuntoService.getDifuntos().subscribe(
-      (response) => {
-        this.difuntos = response as Difunto[];
+    this.difuntoService.getReadDifuntos().subscribe(
+      (difuntos: Difunto[]) => {
+        this.difuntos = difuntos;
+        console.log('Difunto:', this.difuntos);
       },
-      (error: any) => {
-        console.error('Error al cargar los difuntos:', error);
-      }
+      (error) => console.error('Error al obtener las tumbas:', error)
     );
   }
 

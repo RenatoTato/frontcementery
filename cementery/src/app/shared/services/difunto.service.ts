@@ -9,16 +9,14 @@ import { Deudo } from '@externo/models/difunto/deudo.model';
 })
 export class DifuntoService {
   private difuntoUrl = 'http://127.0.0.1:8000/api/difunto/';
+  private difuntoReadUrl = 'http://127.0.0.1:8000/api/difuntoread/';
   private deudoUrl = 'http://127.0.0.1:8000/api/deudo/';
+  private deudoReadUrl = 'http://127.0.0.1:8000/api/deudoread/';
   constructor(private http: HttpClient) { }
 
-  private generateParams(page?: number, pageSize?: number, filterParams?: any): HttpParams {
+  private generateParams(filterParams?: any): HttpParams {
     let params = new HttpParams();
-
-    if (page != null && pageSize != null) {
-      params = params.set('page', page.toString()).set('page_size', pageSize.toString());
-    }
-
+  
     if (filterParams) {
       for (const key in filterParams) {
         if (filterParams[key]) {
@@ -26,25 +24,29 @@ export class DifuntoService {
         }
       }
     }
-
+  
     return params;
   }
+
   // ============================
   // CRUD para Difuntos
   // ============================
 
   // Método unificado para obtener difuntos, con o sin paginación y filtros
+  //Metodo get con paginacion
   getDifuntos(page?: number, pageSize?: number, filterParams?: any): Observable<{ results: Difunto[]; count: number } | Difunto[]> {
-    const params = this.generateParams(page, pageSize, filterParams);
-    console.log('GET request con parámetros:', params.toString()); // Verificación
+    let params = this.generateParams(filterParams);
 
-    if (page == null || pageSize == null) {
-      // Sin paginación
-      return this.http.get<Difunto[]>(this.difuntoUrl, { params });
-    } else {
-      // Con paginación
-      return this.http.get<{ results: Difunto[]; count: number }>(this.difuntoUrl, { params });
+    if (page != null && pageSize != null) {
+      params = params.set('page', page.toString()).set('page_size', pageSize.toString());
     }
+
+    return this.http.get<{ results: Difunto[]; count: number } | Difunto[]>(this.difuntoUrl, { params });
+  }
+  //Metodo get solo con filtros
+  getReadDifuntos(filterParams?: any): Observable<Difunto[]> {
+    let params = this.generateParams(filterParams);
+    return this.http.get<Difunto[]>(this.difuntoReadUrl, { params });
   }
   // Obtener un difunto por ID
   getDifuntoId(id: number): Observable<Difunto> {
@@ -67,17 +69,20 @@ export class DifuntoService {
   // CRUD para Deudos
   // ============================
   // Método unificado para obtener deudos, con o sin paginación y filtros
+  //Metodo get con paginacion
   getDeudos(page?: number, pageSize?: number, filterParams?: any): Observable<{ results: Deudo[]; count: number } | Deudo[]> {
-    const params = this.generateParams(page, pageSize, filterParams);
-    console.log('GET request con parámetros:', params.toString()); // Verificación
+    let params = this.generateParams(filterParams);
 
-    if (page == null || pageSize == null) {
-      // Sin paginación
-      return this.http.get<Deudo[]>(this.deudoUrl, { params });
-    } else {
-      // Con paginación
-      return this.http.get<{ results: Deudo[]; count: number }>(this.deudoUrl, { params });
+    if (page != null && pageSize != null) {
+      params = params.set('page', page.toString()).set('page_size', pageSize.toString());
     }
+
+    return this.http.get<{ results: Deudo[]; count: number } | Deudo[]>(this.deudoUrl, { params });
+  }
+  //Metodo get solo con filtros
+  getReadDeudos(filterParams?: any): Observable<Deudo[]> {
+    let params = this.generateParams(filterParams);
+    return this.http.get<Deudo[]>(this.deudoReadUrl, { params });
   }
   // Obtener un deudo por ID
   getDeudoId(id: number): Observable<Deudo> {

@@ -54,13 +54,12 @@ export class TumbaFormComponent {
     }
   }
   loadLotes(): void {
-    this.tumbaService.getLotes().subscribe(
-      (response: Lote[]) => {
-        this.lotes = response;
+    this.tumbaService.getReadLotes().subscribe(
+      (lotes: Lote[]) => {
+        this.lotes = lotes;
+        console.log('Lotes:', this.lotes);
       },
-      (error) => {
-        console.error('Error al cargar los lotes:', error);
-      }
+      (error) => console.error('Error al obtener los lotes:', error)
     );
   }
   resetForm(): void {

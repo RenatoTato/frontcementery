@@ -73,13 +73,12 @@ export class DifuntoFormComponent {
   // }
   
   loadDeudos(): void {
-    this.difuntoService.getDeudos().subscribe(
-      (response) => {
-        this.deudos = response as Deudo[];
+    this.difuntoService.getReadDeudos().subscribe(
+      (difuntos: Deudo[]) => {
+        this.deudos = difuntos;
+        console.log('Difunto:', this.deudos);
       },
-      (error: any) => {
-        console.error('Error al cargar los deudos:', error);
-      }
+      (error) => console.error('Error al obtener las tumbas:', error)
     );
   }
   resetForm(): void {

@@ -11,17 +11,16 @@ import { Social } from '@externo/models/iglesia/social.model';
 export class IglesiaService {
 
   private iglesiaUrl = 'http://127.0.0.1:8000/api/iglesia/';
+  private iglesiaReadUrl = 'http://127.0.0.1:8000/api/iglesiaread/';
   private parroquiaUrl = 'http://127.0.0.1:8000/api/parroquia/';
+  private parroquiaReadUrl = 'http://127.0.0.1:8000/api/parroquiaread/';
   private socialUrl = 'http://127.0.0.1:8000/api/social/';
+  private socialReadUrl = 'http://127.0.0.1:8000/api/socialread/';
   constructor(private http:HttpClient) { }
   
-  private generateParams(page?: number, pageSize?: number, filterParams?: any): HttpParams {
+  private generateParams(filterParams?: any): HttpParams {
     let params = new HttpParams();
-
-    if (page != null && pageSize != null) {
-      params = params.set('page', page.toString()).set('page_size', pageSize.toString());
-    }
-
+  
     if (filterParams) {
       for (const key in filterParams) {
         if (filterParams[key]) {
@@ -29,10 +28,10 @@ export class IglesiaService {
         }
       }
     }
-
+  
     return params;
   }
-
+  
   private buildFormData(iglesiaData: Iglesia, file: File | null): FormData {
     const formData = new FormData();
 
@@ -73,18 +72,22 @@ export class IglesiaService {
   // ============================
 
   // Método unificado para obtener Iglesias, con o sin paginación y filtros
+  //Metodo get con paginacion
   getIglesias(page?: number, pageSize?: number, filterParams?: any): Observable<{ results: Iglesia[]; count: number } | Iglesia[]> {
-    const params = this.generateParams(page, pageSize, filterParams);
-    console.log('GET request con parámetros:', params.toString()); // Verificación
+    let params = this.generateParams(filterParams);
 
-    if (page == null || pageSize == null) {
-      // Sin paginación
-      return this.http.get<Iglesia[]>(this.iglesiaUrl, { params });
-    } else {
-      // Con paginación
-      return this.http.get<{ results: Iglesia[]; count: number }>(this.iglesiaUrl, { params });
+    if (page != null && pageSize != null) {
+      params = params.set('page', page.toString()).set('page_size', pageSize.toString());
     }
+
+    return this.http.get<{ results: Iglesia[]; count: number } | Iglesia[]>(this.iglesiaUrl, { params });
   }
+  //Metodo get solo con filtros
+  getReadIglesias(filterParams?: any): Observable<Iglesia[]> {
+    let params = this.generateParams(filterParams);
+    return this.http.get<Iglesia[]>(this.iglesiaReadUrl, { params });
+  }
+
 
   // Obtener un artículo por ID
   getIglesiaId(id:number): Observable<Iglesia>{
@@ -110,18 +113,22 @@ export class IglesiaService {
 
   // Obtener todos los artículos
   // Método unificado para obtener Parroquias, con o sin paginación y filtros
+  //Metodo get con paginacion
   getParroquias(page?: number, pageSize?: number, filterParams?: any): Observable<{ results: Parroquia[]; count: number } | Parroquia[]> {
-    const params = this.generateParams(page, pageSize, filterParams);
-    console.log('GET request con parámetros:', params.toString()); // Verificación
+    let params = this.generateParams(filterParams);
 
-    if (page == null || pageSize == null) {
-      // Sin paginación
-      return this.http.get<Parroquia[]>(this.parroquiaUrl, { params });
-    } else {
-      // Con paginación
-      return this.http.get<{ results: Parroquia[]; count: number }>(this.parroquiaUrl, { params });
+    if (page != null && pageSize != null) {
+      params = params.set('page', page.toString()).set('page_size', pageSize.toString());
     }
+
+    return this.http.get<{ results: Parroquia[]; count: number } | Parroquia[]>(this.parroquiaUrl, { params });
   }
+  //Metodo get solo con filtros
+  getReadParroquias(filterParams?: any): Observable<Parroquia[]> {
+    let params = this.generateParams(filterParams);
+    return this.http.get<Parroquia[]>(this.parroquiaReadUrl, { params });
+  }
+
   // Obtener un artículo por ID
   getParroquiaId(id:number): Observable<Parroquia>{
     return this.http.get<Parroquia>(`${this.parroquiaUrl}${id}/`)
@@ -146,18 +153,22 @@ export class IglesiaService {
   // ============================
 
   // Obtener todos los artículos
+  //Metodo get con paginacion
   getSocials(page?: number, pageSize?: number, filterParams?: any): Observable<{ results: Social[]; count: number } | Social[]> {
-    const params = this.generateParams(page, pageSize, filterParams);
-    console.log('GET request con parámetros:', params.toString()); // Verificación
+    let params = this.generateParams(filterParams);
 
-    if (page == null || pageSize == null) {
-      // Sin paginación
-      return this.http.get<Social[]>(this.socialUrl, { params });
-    } else {
-      // Con paginación
-      return this.http.get<{ results: Social[]; count: number }>(this.socialUrl, { params });
+    if (page != null && pageSize != null) {
+      params = params.set('page', page.toString()).set('page_size', pageSize.toString());
     }
+
+    return this.http.get<{ results: Social[]; count: number } | Social[]>(this.socialUrl, { params });
   }
+  //Metodo get solo con filtros
+  getReadSocials(filterParams?: any): Observable<Social[]> {
+    let params = this.generateParams(filterParams);
+    return this.http.get<Social[]>(this.socialReadUrl, { params });
+  }
+
   // Obtener un artículo por ID
   getSocialId(id:number): Observable<Social>{
     return this.http.get<Social>(`${this.socialUrl}${id}/`)

@@ -10,15 +10,12 @@ import { Guia } from '@externo/models/guia/guia.model';
 export class GuiaService {
 
   private guiaUrl = 'http://127.0.0.1:8000/api/guia/';
+  private guiaReadUrl= 'http://127.0.0.1:8000/api/guiaread/';
   constructor(private http:HttpClient) { }
 
-  private generateParams(page?: number, pageSize?: number, filterParams?: any): HttpParams {
+  private generateParams(filterParams?: any): HttpParams {
     let params = new HttpParams();
-
-    if (page != null && pageSize != null) {
-      params = params.set('page', page.toString()).set('page_size', pageSize.toString());
-    }
-
+  
     if (filterParams) {
       for (const key in filterParams) {
         if (filterParams[key]) {
@@ -26,7 +23,7 @@ export class GuiaService {
         }
       }
     }
-
+  
     return params;
   }
 
@@ -53,17 +50,20 @@ export class GuiaService {
   // ============================
 
   // Método unificado para obtener Guias, con o sin paginación y filtros
+  //Metodo get con paginacion
   getGuias(page?: number, pageSize?: number, filterParams?: any): Observable<{ results: Guia[]; count: number } | Guia[]> {
-    const params = this.generateParams(page, pageSize, filterParams);
-    console.log('GET request con parámetros:', params.toString()); // Verificación
+    let params = this.generateParams(filterParams);
 
-    if (page == null || pageSize == null) {
-      // Sin paginación
-      return this.http.get<Guia[]>(this.guiaUrl, { params });
-    } else {
-      // Con paginación
-      return this.http.get<{ results: Guia[]; count: number }>(this.guiaUrl, { params });
+    if (page != null && pageSize != null) {
+      params = params.set('page', page.toString()).set('page_size', pageSize.toString());
     }
+
+    return this.http.get<{ results: Guia[]; count: number } | Guia[]>(this.guiaUrl, { params });
+  }
+  //Metodo get solo con filtros
+  getReadGuias(filterParams?: any): Observable<Guia[]> {
+    let params = this.generateParams(filterParams);
+    return this.http.get<Guia[]>(this.guiaReadUrl, { params });
   }
   
   // Obtener un artículo por ID

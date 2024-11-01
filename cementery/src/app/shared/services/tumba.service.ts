@@ -9,9 +9,9 @@ import { Tumba } from '@externo/models/tumba/tumba.model';
 })
 export class TumbaService {
   private loteUrl = 'http://127.0.0.1:8000/api/lote/';
-  private loteGraficoUrl = "http://127.0.0.1:8000/api/grafilote/";
+  private loteReadUrl = "http://127.0.0.1:8000/api/loteread/";
   private tumbaUrl = 'http://127.0.0.1:8000/api/tumba/';
-  private tumbaGraficoUrl = "http://127.0.0.1:8000/api/grafitumba/";
+  private tumbaReadUrl = "http://127.0.0.1:8000/api/tumbaread/";
   constructor(private http: HttpClient) { }
 
   private generateParams(filterParams?: any): HttpParams {
@@ -42,9 +42,9 @@ export class TumbaService {
     return this.http.get<{ results: Lote[]; count: number } | Lote[]>(this.loteUrl, { params });
   }
   //Metodo get solo con filtros
-  getGrafiLotes(filterParams?: any): Observable<Lote[]> {
+  getReadLotes(filterParams?: any): Observable<Lote[]> {
     let params = this.generateParams(filterParams);
-    return this.http.get<Lote[]>(this.loteGraficoUrl, { params });
+    return this.http.get<Lote[]>(this.loteReadUrl, { params });
   }
   // Obtener un lote por ID
   getLoteId(id: number): Observable<Lote> {
@@ -76,9 +76,9 @@ export class TumbaService {
     return this.http.get<{ results: Tumba[]; count: number } | Tumba[]>(this.tumbaUrl, { params });
   }
   // Metodo con filtros
-  getGrafiTumbas(filterParams?: any): Observable<Tumba[]> {
+  getReadTumbas(filterParams?: any): Observable<Tumba[]> {
     const params = this.generateParams(filterParams);
-    return this.http.get<Tumba[]>(this.tumbaGraficoUrl, { params });
+    return this.http.get<Tumba[]>(this.tumbaReadUrl, { params });
   }
   // Obtener un tumba por ID
   getTumbaId(id: number): Observable<Tumba> {

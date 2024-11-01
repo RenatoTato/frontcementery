@@ -9,7 +9,7 @@ import { Servicio } from '@externo/models/servicio/servicio.model';
 export class ServicioService {
   private servicioUrl = 'http://127.0.0.1:8000/api/servicio/';
   private servicioReadUrl = 'http://127.0.0.1:8000/api/servicioread/';
-  private servicioHistoryUrl = 'http://127.0.0.1:8000/api/servicio-history/';
+
 
   constructor(private http: HttpClient) { }
   private generateParams(filterParams?: any): HttpParams {

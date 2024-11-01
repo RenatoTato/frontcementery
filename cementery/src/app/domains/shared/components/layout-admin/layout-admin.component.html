@@ -1,15 +1,16 @@
 <div class="min-h-screen flex flex-col">
   <!-- Header -->
-  <app-header class="flex-none"></app-header>
+  <app-header class="flex-none"/>
 
   <!-- Contenido Principal con Sidebar a la izquierda -->
-  <div class="flex flex-1">
+  <div class="flex flex-1" >
     <!-- Sidebar a la izquierda -->
-    <app-siderbar class="w-64 bg-gray-800 text-white"></app-siderbar>
-
+    <button (click)="toggleSiderBar()"></button>
+    <app-siderbar class="w-64 bg-gray-800 text-white" [class.active]="showSiderBar"/>
+    <button (click)="toggleSiderBar()"></button>
     <!-- Contenido Principal a la derecha -->
     <main class="flex-1 p-4">
-      <router-outlet></router-outlet>
+      <router-outlet/>
     </main>
   </div>
 </div>

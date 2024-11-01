@@ -12,4 +12,9 @@ import { SiderbarComponent } from "../siderbar/siderbar.component";
   styleUrls: ['./layout-admin.component.css']
 })
 export class LayoutAdminComponent {
+  showSiderBar=false;
+
+  toggleSiderBar(){
+    this.showSiderBar= !this.showSiderBar;
+  }
 }

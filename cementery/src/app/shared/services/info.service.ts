@@ -8,14 +8,12 @@ import { Info } from '@externo/models/info/info.model';
 })
 export class InfoService {
   private infoUrl = 'http://127.0.0.1:8000/api/info/';
+  private infoReadUrl = 'http://127.0.0.1:8000/api/inforead/';
   constructor(private http:HttpClient) { }
-  private generateParams(page?: number, pageSize?: number, filterParams?: any): HttpParams {
+  
+  private generateParams(filterParams?: any): HttpParams {
     let params = new HttpParams();
-
-    if (page != null && pageSize != null) {
-      params = params.set('page', page.toString()).set('page_size', pageSize.toString());
-    }
-
+  
     if (filterParams) {
       for (const key in filterParams) {
         if (filterParams[key]) {
@@ -23,10 +21,10 @@ export class InfoService {
         }
       }
     }
-
+  
     return params;
   }
-  
+
   private buildFormData(infoData: Info, file: File | null): FormData {
     const formData = new FormData();
 
@@ -55,17 +53,20 @@ export class InfoService {
   // ============================
 
   // Método unificado para obtener Infos, con o sin paginación y filtros
+  //Metodo get con paginacion
   getInfos(page?: number, pageSize?: number, filterParams?: any): Observable<{ results: Info[]; count: number } | Info[]> {
-    const params = this.generateParams(page, pageSize, filterParams);
-    console.log('GET request con parámetros:', params.toString()); // Verificación
+    let params = this.generateParams(filterParams);
 
-    if (page == null || pageSize == null) {
-      // Sin paginación
-      return this.http.get<Info[]>(this.infoUrl, { params });
-    } else {
-      // Con paginación
-      return this.http.get<{ results: Info[]; count: number }>(this.infoUrl, { params });
+    if (page != null && pageSize != null) {
+      params = params.set('page', page.toString()).set('page_size', pageSize.toString());
     }
+
+    return this.http.get<{ results: Info[]; count: number } | Info[]>(this.infoUrl, { params });
+  }
+  //Metodo get solo con filtros
+  getReadInfos(filterParams?: any): Observable<Info[]> {
+    let params = this.generateParams(filterParams);
+    return this.http.get<Info[]>(this.infoReadUrl, { params });
   }
   // Obtener un artículo por ID
   getInfoId(id:number): Observable<Info>{

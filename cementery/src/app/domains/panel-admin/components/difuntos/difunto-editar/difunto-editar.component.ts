@@ -22,6 +22,7 @@ export class DifuntoEditarComponent implements OnInit {
   currentPage: number = 1;
   pageSize: number = 17;
   totalItems: number = 0;
+  editingStates: { [id: number]: boolean } = {};
 
   filterFields = [
     { name: 'names', label: 'Nombre' },
@@ -73,7 +74,6 @@ export class DifuntoEditarComponent implements OnInit {
   onSubmit(): void {
     const filterParams = this.difuntoEditarForm.value; // Obtiene los valores de filtro
     console.log('Filtrando con parámetros:', filterParams); // Verificación
-
     this.loadDifuntos(this.currentPage, this.pageSize, filterParams);
   }
 
@@ -107,29 +107,37 @@ export class DifuntoEditarComponent implements OnInit {
     this.loadDifuntos(1, this.pageSize);
   }
 
-  // Editar el estado de edición
-  toggleEdit(difunto: Difunto, isEditing: boolean): void {
-    difunto.isEditing = isEditing;
+  // Cambia el estado de edición de un difunto específico
+toggleEdit(difunto: Difunto, isEditing: boolean): void {
+  this.editingStates[difunto.id] = isEditing; // Usa `editingStates` para controlar el estado de edición
+}
+
+// Guarda los cambios y sale del modo edición
+saveDifunto(difunto: Difunto): void {
+  if (!difunto.id) {
+    console.error('El ID del difunto es nulo o indefinido.');
+    return;
   }
 
-  saveDifunto(difunto: Difunto): void {
-    if (difunto.id == null) {
-      console.error('El ID del difunto es nulo o indefinido.');
-      return;
-    }
-  
-    if (confirm('¿Estás seguro de que deseas actualizar este difunto?')) {
-      this.difuntoService.updateDifunto(difunto.id, difunto).subscribe(
-        (response) => {
-          difunto.isEditing = false;
-          console.log('Difunto actualizado correctamente:', response);
-          this.loadDifuntos(this.currentPage, this.pageSize); // Recarga la lista
-          this.cdRef.detectChanges(); // Forzar la detección de cambios
-        },
-        (error) => console.error('Error al actualizar el difunto:', error)
-      );
-    }
+  if (confirm('¿Estás seguro de que deseas actualizar este difunto?')) {
+    this.difuntoService.updateDifunto(difunto.id, difunto).subscribe(
+      (response) => {
+        this.editingStates[difunto.id] = false; // Desactivar el modo de edición
+        console.log('Difunto actualizado correctamente:', response);
+        
+        // Recarga la lista de difuntos y actualiza la vista
+        this.loadDifuntos(this.currentPage, this.pageSize);
+        this.cdRef.detectChanges(); // Fuerza la detección de cambios
+      },
+      (error) => console.error('Error al actualizar el difunto:', error)
+    );
   }
+}
+
+// Método para verificar si un difunto está en modo de edición
+isEditing(difunto: Difunto): boolean {
+  return this.editingStates[difunto.id] || false;
+}
 
   // Eliminar un difunto
   deleteDifunto(id: number): void {

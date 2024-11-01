@@ -1,3 +1,5 @@
+import { Parroquia } from "./parroquia.model";
+
 export interface Iglesia {
     id?: number;  // Opcional si el backend genera un ID automáticamente
     name: string;  // Nombre de la iglesia
@@ -9,6 +11,6 @@ export interface Iglesia {
     schedule: string;  // Horario (opcional)
     priest: string;  // Sacerdote (opcional)
     sector?: string;  // Sector (opcional)
-    parish: number;  // ID de la Parroquia (relación con parroquia)
+    parish: Parroquia;  // ID de la Parroquia (relación con parroquia)
     image?: string;  // URL de la imagen de la iglesia (opcional)
   }
