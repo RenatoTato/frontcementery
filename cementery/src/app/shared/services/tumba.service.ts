@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Lote } from '@externo/models/tumba/lote.model';
 import { Tumba } from '@externo/models/tumba/tumba.model';
+import { LoteFilter } from '@externo/models/tumba/loteb.model';
+import { TumbaFilter } from '@externo/models/tumba/tumbab.model';
 
 @Injectable({
   providedIn: 'root'
@@ -32,17 +34,15 @@ export class TumbaService {
   // CRUD para Lotes
   // ============================
   //Metodo get con paginacion
-  getLotes(page?: number, pageSize?: number, filterParams?: any): Observable<{ results: Lote[]; count: number } | Lote[]> {
+  getLotes(page?: number, pageSize?: number, filterParams?: LoteFilter): Observable<{ results: Lote[]; count: number } | Lote[]> {
     let params = this.generateParams(filterParams);
-
     if (page != null && pageSize != null) {
       params = params.set('page', page.toString()).set('page_size', pageSize.toString());
     }
-
     return this.http.get<{ results: Lote[]; count: number } | Lote[]>(this.loteUrl, { params });
   }
   //Metodo get solo con filtros
-  getReadLotes(filterParams?: any): Observable<Lote[]> {
+  getReadLotes(filterParams?: LoteFilter): Observable<Lote[]> {
     let params = this.generateParams(filterParams);
     return this.http.get<Lote[]>(this.loteReadUrl, { params });
   }
@@ -66,17 +66,15 @@ export class TumbaService {
   // CRUD para Tumbas
   // ============================
 //Metodo get con paginacion
-  getTumbas(page?: number, pageSize?: number, filterParams?: any): Observable<{ results: Tumba[]; count: number } | Tumba[]> {
+  getTumbas(page?: number, pageSize?: number, filterParams?: TumbaFilter): Observable<{ results: Tumba[]; count: number } | Tumba[]> {
     let params = this.generateParams(filterParams);
-
     if (page != null && pageSize != null) {
       params = params.set('page', page.toString()).set('page_size', pageSize.toString());
     }
-
     return this.http.get<{ results: Tumba[]; count: number } | Tumba[]>(this.tumbaUrl, { params });
   }
   // Metodo con filtros
-  getReadTumbas(filterParams?: any): Observable<Tumba[]> {
+  getReadTumbas(filterParams?: TumbaFilter): Observable<Tumba[]> {
     const params = this.generateParams(filterParams);
     return this.http.get<Tumba[]>(this.tumbaReadUrl, { params });
   }

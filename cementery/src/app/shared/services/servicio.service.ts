@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Servicio } from '@externo/models/servicio/servicio.model';
+import { ServicioFilter } from '@externo/models/servicio/serviciob.model';
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +31,7 @@ export class ServicioService {
   // CRUD para Servicios
   // ============================
   //Metodo get con paginacion
-  getServicios(page?: number, pageSize?: number, filterParams?: any): Observable<{ results: Servicio[]; count: number } | Servicio[]> {
+  getServicios(page?: number, pageSize?: number, filterParams?: ServicioFilter): Observable<{ results: Servicio[]; count: number } | Servicio[]> {
     let params = this.generateParams(filterParams);
 
     if (page != null && pageSize != null) {
@@ -40,7 +41,7 @@ export class ServicioService {
     return this.http.get<{ results: Servicio[]; count: number } | Servicio[]>(this.servicioUrl, { params });
   }
   //Metodo get solo con filtros
-  getReadServicios(filterParams?: any): Observable<Servicio[]> {
+  getReadServicios(filterParams?: ServicioFilter): Observable<Servicio[]> {
     let params = this.generateParams(filterParams);
     return this.http.get<Servicio[]>(this.servicioReadUrl, { params });
   }

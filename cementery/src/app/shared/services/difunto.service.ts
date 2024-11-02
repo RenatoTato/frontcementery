@@ -3,6 +3,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Difunto } from '@externo/models/difunto/difunto.model';
 import { Deudo } from '@externo/models/difunto/deudo.model';
+import { DifuntoFilter } from '@externo/models/difunto/difuntob.model';
+import { DeudoFilter } from '@externo/models/difunto/deudob.model';
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +36,7 @@ export class DifuntoService {
 
   // Método unificado para obtener difuntos, con o sin paginación y filtros
   //Metodo get con paginacion
-  getDifuntos(page?: number, pageSize?: number, filterParams?: any): Observable<{ results: Difunto[]; count: number } | Difunto[]> {
+  getDifuntos(page?: number, pageSize?: number, filterParams?: DifuntoFilter): Observable<{ results: Difunto[]; count: number } | Difunto[]> {
     let params = this.generateParams(filterParams);
 
     if (page != null && pageSize != null) {
@@ -44,7 +46,7 @@ export class DifuntoService {
     return this.http.get<{ results: Difunto[]; count: number } | Difunto[]>(this.difuntoUrl, { params });
   }
   //Metodo get solo con filtros
-  getReadDifuntos(filterParams?: any): Observable<Difunto[]> {
+  getReadDifuntos(filterParams?: DifuntoFilter): Observable<Difunto[]> {
     let params = this.generateParams(filterParams);
     return this.http.get<Difunto[]>(this.difuntoReadUrl, { params });
   }
@@ -70,7 +72,7 @@ export class DifuntoService {
   // ============================
   // Método unificado para obtener deudos, con o sin paginación y filtros
   //Metodo get con paginacion
-  getDeudos(page?: number, pageSize?: number, filterParams?: any): Observable<{ results: Deudo[]; count: number } | Deudo[]> {
+  getDeudos(page?: number, pageSize?: number, filterParams?: DeudoFilter): Observable<{ results: Deudo[]; count: number } | Deudo[]> {
     let params = this.generateParams(filterParams);
 
     if (page != null && pageSize != null) {
@@ -80,7 +82,7 @@ export class DifuntoService {
     return this.http.get<{ results: Deudo[]; count: number } | Deudo[]>(this.deudoUrl, { params });
   }
   //Metodo get solo con filtros
-  getReadDeudos(filterParams?: any): Observable<Deudo[]> {
+  getReadDeudos(filterParams?: DeudoFilter): Observable<Deudo[]> {
     let params = this.generateParams(filterParams);
     return this.http.get<Deudo[]>(this.deudoReadUrl, { params });
   }

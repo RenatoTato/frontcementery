@@ -4,6 +4,7 @@ import { DifuntoService } from '@externo/services/difunto.service';
 import { Difunto } from '@externo/models/difunto/difunto.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { DifuntoFilter } from '@externo/models/difunto/difuntob.model';
 
 
 @Component({
@@ -55,7 +56,7 @@ export class DifuntoEditarComponent implements OnInit {
   }
 
   // Carga los datos de los difuntos con la paginación y filtros
-  loadDifuntos(page: number, pageSize: number, filterParams?: any): void {
+  loadDifuntos(page: number, pageSize: number, filterParams?: DifuntoFilter): void {
     this.difuntoService.getDifuntos(page, pageSize, filterParams).subscribe(
       (response) => {
         if ('results' in response) {
