@@ -4,6 +4,9 @@ import { Observable } from 'rxjs';
 import { Parroquia } from '@externo/models/iglesia/parroquia.model';
 import { Iglesia } from '@externo/models/iglesia/iglesia.model';
 import { Social } from '@externo/models/iglesia/social.model';
+import { IglesiaFilter } from '@externo/models/iglesia/iglesiab.model';
+import { ParroquiaFilter } from '@externo/models/iglesia/parroquiab.model';
+import { SocialFilter } from '@externo/models/iglesia/socialb.model';
 
 @Injectable({
   providedIn: 'root'
@@ -73,7 +76,7 @@ export class IglesiaService {
 
   // Método unificado para obtener Iglesias, con o sin paginación y filtros
   //Metodo get con paginacion
-  getIglesias(page?: number, pageSize?: number, filterParams?: any): Observable<{ results: Iglesia[]; count: number } | Iglesia[]> {
+  getIglesias(page?: number, pageSize?: number, filterParams?: IglesiaFilter): Observable<{ results: Iglesia[]; count: number } | Iglesia[]> {
     let params = this.generateParams(filterParams);
 
     if (page != null && pageSize != null) {
@@ -83,27 +86,25 @@ export class IglesiaService {
     return this.http.get<{ results: Iglesia[]; count: number } | Iglesia[]>(this.iglesiaUrl, { params });
   }
   //Metodo get solo con filtros
-  getReadIglesias(filterParams?: any): Observable<Iglesia[]> {
+  getReadIglesias(filterParams?: IglesiaFilter): Observable<Iglesia[]> {
     let params = this.generateParams(filterParams);
     return this.http.get<Iglesia[]>(this.iglesiaReadUrl, { params });
   }
-
-
-  // Obtener un artículo por ID
+  // Obtener un iglesia por ID
   getIglesiaId(id:number): Observable<Iglesia>{
     return this.http.get<Iglesia>(`${this.iglesiaUrl}${id}/`)
   }
-  // Crear un nuevo artículo
+  // Crear un nuevo iglesia
   createIglesia(iglesiaData: Iglesia, file: File | null): Observable<Iglesia> {
     const formData = this.buildFormData(iglesiaData, file);
     return this.http.post<Iglesia>(this.iglesiaUrl, formData)
   }
-  // Actualizar un artículo existente
+  // Actualizar un iglesia existente
   updateIglesia(id: number, iglesiaData: Iglesia, file: File | null): Observable<Iglesia> {
     const formData = this.buildFormData(iglesiaData, file);
     return this.http.put<Iglesia>(`${this.iglesiaUrl}${id}/`, formData)
   }
-  // Eliminar un artículo
+  // Eliminar un iglesia
   deleteIglesia(id:number): Observable<void>{
     return this.http.delete<void>(`${this.iglesiaUrl}${id}/`)
   }
@@ -111,10 +112,10 @@ export class IglesiaService {
   // CRUD para Parroquias
   // ============================
 
-  // Obtener todos los artículos
+  // Obtener todos los parroquias
   // Método unificado para obtener Parroquias, con o sin paginación y filtros
   //Metodo get con paginacion
-  getParroquias(page?: number, pageSize?: number, filterParams?: any): Observable<{ results: Parroquia[]; count: number } | Parroquia[]> {
+  getParroquias(page?: number, pageSize?: number, filterParams?: ParroquiaFilter): Observable<{ results: Parroquia[]; count: number } | Parroquia[]> {
     let params = this.generateParams(filterParams);
 
     if (page != null && pageSize != null) {
@@ -124,26 +125,26 @@ export class IglesiaService {
     return this.http.get<{ results: Parroquia[]; count: number } | Parroquia[]>(this.parroquiaUrl, { params });
   }
   //Metodo get solo con filtros
-  getReadParroquias(filterParams?: any): Observable<Parroquia[]> {
+  getReadParroquias(filterParams?: ParroquiaFilter): Observable<Parroquia[]> {
     let params = this.generateParams(filterParams);
     return this.http.get<Parroquia[]>(this.parroquiaReadUrl, { params });
   }
 
-  // Obtener un artículo por ID
+  // Obtener un parroquia por ID
   getParroquiaId(id:number): Observable<Parroquia>{
     return this.http.get<Parroquia>(`${this.parroquiaUrl}${id}/`)
   }
-  // Crear un nuevo artículo
+  // Crear un nuevo parroquia
   createParroquia(parroquiaData: Parroquia, file: File | null): Observable<Parroquia> {
     const formData = this.buildFormDataParroquia(parroquiaData, file);
     return this.http.post<Parroquia>(this.parroquiaUrl, formData)
   }
-  // Actualizar un artículo existente
+  // Actualizar un parroquia existente
   updateParroquia(id: number, parroquiaData: Parroquia, file: File | null): Observable<Parroquia> {
     const formData = this.buildFormDataParroquia(parroquiaData, file);
     return this.http.put<Parroquia>(`${this.parroquiaUrl}${id}/`, formData)
   }
-  // Eliminar un artículo
+  // Eliminar un parroquia
   deleteParroquia(id:number): Observable<void>{
     return this.http.delete<void>(`${this.parroquiaUrl}${id}/`)
   }
@@ -152,9 +153,9 @@ export class IglesiaService {
   // CRUD para Socials
   // ============================
 
-  // Obtener todos los artículos
+  // Obtener todos los socials
   //Metodo get con paginacion
-  getSocials(page?: number, pageSize?: number, filterParams?: any): Observable<{ results: Social[]; count: number } | Social[]> {
+  getSocials(page?: number, pageSize?: number, filterParams?: SocialFilter): Observable<{ results: Social[]; count: number } | Social[]> {
     let params = this.generateParams(filterParams);
 
     if (page != null && pageSize != null) {
@@ -164,24 +165,24 @@ export class IglesiaService {
     return this.http.get<{ results: Social[]; count: number } | Social[]>(this.socialUrl, { params });
   }
   //Metodo get solo con filtros
-  getReadSocials(filterParams?: any): Observable<Social[]> {
+  getReadSocials(filterParams?: SocialFilter): Observable<Social[]> {
     let params = this.generateParams(filterParams);
     return this.http.get<Social[]>(this.socialReadUrl, { params });
   }
 
-  // Obtener un artículo por ID
+  // Obtener un social por ID
   getSocialId(id:number): Observable<Social>{
     return this.http.get<Social>(`${this.socialUrl}${id}/`)
   }
-  // Crear un nuevo artículo
+  // Crear un nuevo social
   createSocial(data:Social): Observable<Social>{
     return this.http.post<Social>(this.socialUrl, data)
   }
-  // Actualizar un artículo existente
+  // Actualizar un social existente
   updateSocial(id:number, data:Social): Observable<Social>{
     return this.http.put<Social>(`${this.socialUrl}${id}/`, data)
   }
-  // Eliminar un artículo
+  // Eliminar un social
   deleteSocial(id:number): Observable<void>{
     return this.http.delete<void>(`${this.socialUrl}${id}/`)
   }

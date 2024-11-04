@@ -4,6 +4,9 @@ import { Observable } from 'rxjs';
 import { Obituario } from '@externo/models/obituario/obituario.model';
 import { EtapasObituario } from '@externo/models/obituario/etapas.model';
 import { Memoria } from '@externo/models/obituario/memoria.model';
+import { ObituarioFilter } from '@externo/models/obituario/obituariob.mode';
+import { MemoriaFilter } from '@externo/models/obituario/memoriab.model';
+import { EtapaFilter } from '@externo/models/obituario/etapasb.model';
 
 @Injectable({
   providedIn: 'root'
@@ -51,7 +54,7 @@ export class ObituarioService {
   // ============================
   // Método unificado para obtener Obituarios, con o sin paginación y filtros
   //Metodo get con paginacion
-  getObituarios(page?: number, pageSize?: number, filterParams?: any): Observable<{ results: Obituario[]; count: number } | Obituario[]> {
+  getObituarios(page?: number, pageSize?: number, filterParams?: ObituarioFilter): Observable<{ results: Obituario[]; count: number } | Obituario[]> {
     let params = this.generateParams(filterParams);
 
     if (page != null && pageSize != null) {
@@ -61,7 +64,7 @@ export class ObituarioService {
     return this.http.get<{ results: Obituario[]; count: number } | Obituario[]>(this.obituarioUrl, { params });
   }
   //Metodo get solo con filtros
-  getReadObituarios(filterParams?: any): Observable<Obituario[]> {
+  getReadObituarios(filterParams?: ObituarioFilter): Observable<Obituario[]> {
     let params = this.generateParams(filterParams);
     return this.http.get<Obituario[]>(this.obituarioReadUrl, { params });
   }
@@ -86,7 +89,7 @@ export class ObituarioService {
   // ============================
   // Método unificado para obtener Memorias, con o sin paginación y filtros
   //Metodo get con paginacion
-  getMemorias(page?: number, pageSize?: number, filterParams?: any): Observable<{ results: Memoria[]; count: number } | Memoria[]> {
+  getMemorias(page?: number, pageSize?: number, filterParams?: MemoriaFilter): Observable<{ results: Memoria[]; count: number } | Memoria[]> {
     let params = this.generateParams(filterParams);
 
     if (page != null && pageSize != null) {
@@ -96,7 +99,7 @@ export class ObituarioService {
     return this.http.get<{ results: Memoria[]; count: number } | Memoria[]>(this.memoriaUrl, { params });
   }
   //Metodo get solo con filtros
-  getReadMemorias(filterParams?: any): Observable<Memoria[]> {
+  getReadMemorias(filterParams?: MemoriaFilter): Observable<Memoria[]> {
     let params = this.generateParams(filterParams);
     return this.http.get<Memoria[]>(this.memoriaReadUrl, { params });
   }
@@ -123,7 +126,7 @@ export class ObituarioService {
   // ============================
   // Método unificado para obtener Memorias, con o sin paginación y filtros
   //Metodo get con paginacion
-  getEtapas(page?: number, pageSize?: number, filterParams?: any): Observable<{ results: EtapasObituario[]; count: number } | EtapasObituario[]> {
+  getEtapas(page?: number, pageSize?: number, filterParams?: EtapaFilter): Observable<{ results: EtapasObituario[]; count: number } | EtapasObituario[]> {
     let params = this.generateParams(filterParams);
 
     if (page != null && pageSize != null) {
@@ -133,7 +136,7 @@ export class ObituarioService {
     return this.http.get<{ results: EtapasObituario[]; count: number } | EtapasObituario[]>(this.etapaUrl, { params });
   }
   //Metodo get solo con filtros
-  getReadEtapas(filterParams?: any): Observable<EtapasObituario[]> {
+  getReadEtapas(filterParams?: EtapaFilter): Observable<EtapasObituario[]> {
     let params = this.generateParams(filterParams);
     return this.http.get<EtapasObituario[]>(this.etapaReadUrl, { params });
   }

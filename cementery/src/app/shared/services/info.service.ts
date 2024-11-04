@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Info } from '@externo/models/info/info.model';
+import { InfoFilter } from '@externo/models/info/infob.model';
 
 @Injectable({
   providedIn: 'root'
@@ -54,7 +55,7 @@ export class InfoService {
 
   // Método unificado para obtener Infos, con o sin paginación y filtros
   //Metodo get con paginacion
-  getInfos(page?: number, pageSize?: number, filterParams?: any): Observable<{ results: Info[]; count: number } | Info[]> {
+  getInfos(page?: number, pageSize?: number, filterParams?: InfoFilter): Observable<{ results: Info[]; count: number } | Info[]> {
     let params = this.generateParams(filterParams);
 
     if (page != null && pageSize != null) {
@@ -64,7 +65,7 @@ export class InfoService {
     return this.http.get<{ results: Info[]; count: number } | Info[]>(this.infoUrl, { params });
   }
   //Metodo get solo con filtros
-  getReadInfos(filterParams?: any): Observable<Info[]> {
+  getReadInfos(filterParams?: InfoFilter): Observable<Info[]> {
     let params = this.generateParams(filterParams);
     return this.http.get<Info[]>(this.infoReadUrl, { params });
   }

@@ -3,21 +3,21 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Articulo } from '@externo/models/articulo/articulo.model';
 import { Seccion } from '@externo/models/articulo/seccion.model';
+import { ArticuloFilter } from '@externo/models/articulo/articulob.model';
+import { SeccionFilter } from '@externo/models/articulo/seccionb.model';
 @Injectable({
   providedIn: 'root'
 })
 export class ArticuloService {
   private articuloUrl = 'http://127.0.0.1:8000/api/articulo/';
   private seccionUrl = 'http://127.0.0.1:8000/api/seccion/';
+  private articuloReadUrl = 'http://127.0.0.1:8000/api/articuloread/';
+  private seccionReadUrl = 'http://127.0.0.1:8000/api/seccionread/';
   constructor(private http:HttpClient) { }
 
-  private generateParams(page?: number, pageSize?: number, filterParams?: any): HttpParams {
+  private generateParams(filterParams?: any): HttpParams {
     let params = new HttpParams();
-
-    if (page != null && pageSize != null) {
-      params = params.set('page', page.toString()).set('page_size', pageSize.toString());
-    }
-
+  
     if (filterParams) {
       for (const key in filterParams) {
         if (filterParams[key]) {
@@ -25,7 +25,7 @@ export class ArticuloService {
         }
       }
     }
-
+  
     return params;
   }
   
@@ -53,21 +53,20 @@ export class ArticuloService {
   // ============================
 
   // Método unificado para obtener Articulos, con o sin paginación y filtros
-  getArticulos(page?: number, pageSize?: number, filterParams?: any): Observable<{ results: Articulo[]; count: number } | Articulo[]> {
-    const params = this.generateParams(page, pageSize, filterParams);
-    console.log('GET request con parámetros:', params.toString()); // Verificación
+  //Metodo get con paginacion
+  getArticulos(page?: number, pageSize?: number, filterParams?: ArticuloFilter): Observable<{ results: Articulo[]; count: number } | Articulo[]> {
+    let params = this.generateParams(filterParams);
 
-    if (page == null || pageSize == null) {
-      // Sin paginación
-      return this.http.get<Articulo[]>(this.articuloUrl, { params });
-    } else {
-      // Con paginación
-      return this.http.get<{ results: Articulo[]; count: number }>(this.articuloUrl, { params });
+    if (page != null && pageSize != null) {
+      params = params.set('page', page.toString()).set('page_size', pageSize.toString());
     }
+
+    return this.http.get<{ results: Articulo[]; count: number } | Articulo[]>(this.articuloUrl, { params });
   }
-  // Obtener un artículo por ID
-  getArticuloId(id:number): Observable<Articulo>{
-    return this.http.get<Articulo>(`${this.articuloUrl}${id}/`)
+  //Metodo get solo con filtros
+  getReadArticulos(filterParams?: ArticuloFilter): Observable<Articulo[]> {
+    let params = this.generateParams(filterParams);
+    return this.http.get<Articulo[]>(this.articuloReadUrl, { params });
   }
   // Crear un nuevo artículo
   createArticulo(articuloData: Articulo, file: File | null): Observable<Articulo> {
@@ -87,22 +86,20 @@ export class ArticuloService {
   // CRUD para Artículos
   // ============================
 
-  // Método unificado para obtener seccions, con o sin paginación y filtros
-  getSeccions(page?: number, pageSize?: number, filterParams?: any): Observable<{ results: Seccion[]; count: number } | Seccion[]> {
-    const params = this.generateParams(page, pageSize, filterParams);
-    console.log('GET request con parámetros:', params.toString()); // Verificación
+   //Metodo get con paginacion
+   getSeccions(page?: number, pageSize?: number, filterParams?: SeccionFilter): Observable<{ results: Seccion[]; count: number } | Seccion[]> {
+    let params = this.generateParams(filterParams);
 
-    if (page == null || pageSize == null) {
-      // Sin paginación
-      return this.http.get<Seccion[]>(this.seccionUrl, { params });
-    } else {
-      // Con paginación
-      return this.http.get<{ results: Seccion[]; count: number }>(this.seccionUrl, { params });
+    if (page != null && pageSize != null) {
+      params = params.set('page', page.toString()).set('page_size', pageSize.toString());
     }
+
+    return this.http.get<{ results: Seccion[]; count: number } | Seccion[]>(this.seccionUrl, { params });
   }
-  // Obtener un artículo por ID
-  getSeccionId(id:number): Observable<Seccion>{
-    return this.http.get<Seccion>(`${this.seccionUrl}${id}/`)
+  //Metodo get solo con filtros
+  getReadSeccions(filterParams?: SeccionFilter): Observable<Seccion[]> {
+    let params = this.generateParams(filterParams);
+    return this.http.get<Seccion[]>(this.seccionReadUrl, { params });
   }
   // Crear un nuevo artículo
   createSeccion(data:Seccion): Observable<Seccion>{

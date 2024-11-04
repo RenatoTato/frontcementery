@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Guia } from '@externo/models/guia/guia.model';
+import { GuiaFilter } from '@externo/models/guia/guiab.model';
 
 
 @Injectable({
@@ -51,7 +52,7 @@ export class GuiaService {
 
   // Método unificado para obtener Guias, con o sin paginación y filtros
   //Metodo get con paginacion
-  getGuias(page?: number, pageSize?: number, filterParams?: any): Observable<{ results: Guia[]; count: number } | Guia[]> {
+  getGuias(page?: number, pageSize?: number, filterParams?: GuiaFilter): Observable<{ results: Guia[]; count: number } | Guia[]> {
     let params = this.generateParams(filterParams);
 
     if (page != null && pageSize != null) {
@@ -61,7 +62,7 @@ export class GuiaService {
     return this.http.get<{ results: Guia[]; count: number } | Guia[]>(this.guiaUrl, { params });
   }
   //Metodo get solo con filtros
-  getReadGuias(filterParams?: any): Observable<Guia[]> {
+  getReadGuias(filterParams?: GuiaFilter): Observable<Guia[]> {
     let params = this.generateParams(filterParams);
     return this.http.get<Guia[]>(this.guiaReadUrl, { params });
   }
