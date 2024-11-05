@@ -18,6 +18,8 @@ export class LoteReporteComponent implements OnInit{
   public chartOptions: Partial<ChartOptions> | any;
   public lotesOcupacion: LoteOcupacion[] = [];
   searchForm: FormGroup;
+  chartType: 'pie' | 'bar' = 'pie'; // Controla el tipo de gráfico
+
   filterFields = [
     { name: 'blockName', label: 'Numero Lote' },
     { name: 'typeblock', label: 'Tipo Bloque' },
@@ -30,54 +32,67 @@ export class LoteReporteComponent implements OnInit{
   ) {
     // Define el formulario de búsqueda con campos para cada filtro
     this.searchForm = this.fb.group({
-      blockName: ['',Validators.required],
-      typeblock: ['',Validators.required],
-      numbersblock: ['',Validators.required]
+      blockName: ['', Validators.required],
+      typeblock: ['', Validators.required],
+      numbersblock: ['', Validators.required]
     });
   }
 
   ngOnInit(): void {
-    this.loadOcupacionLotes(); // Cargar datos sin filtro al inicio
+    this.loadOcupacionLotes();
     this.loadDarkModePreference();
-    this.loadOcupacionLotes()
   }
 
-  // Cargar los datos de ocupación de lote con filtros
   loadOcupacionLotes(filterParams?: LoteFilter): void {
     this.ocupacionLoteService.getOcupacionLote(filterParams).subscribe((data: LoteOcupacion[]) => {
       this.lotesOcupacion = data;
-      this.loadChartData();
+      this.updateChartOptions(); // Llamar al actualizar la ocupación
     });
   }
 
-  // Ejecuta la búsqueda cuando el usuario envía el formulario
   onSearch(): void {
     const filterParams = this.searchForm.value;
     this.loadOcupacionLotes(filterParams);
   }
+
   resetFilters(): void {
     this.searchForm.reset();
     this.loadOcupacionLotes();
   }
 
-  loadChartData(): void {
+  updateChartOptions(): void {
     const labels = this.lotesOcupacion.map(lote => `${lote.blockName} (Tipo: ${lote.typeblock}, Número: ${lote.numbersblock})`);
-    const series = this.lotesOcupacion.map(lote => (lote.ocupadas / lote.limite) * 100);
-
+    const seriesData = this.lotesOcupacion.map(lote => (lote.ocupadas / lote.limite) * 100);
+  
+    // Estructura del series para gráficos de barras y de pie
     this.chartOptions = {
-      series,
+      series: this.chartType === 'bar' ? [{ name: 'Ocupación (%)', data: seriesData }] : seriesData,
       chart: {
-        type: 'pie',
-        width: '100%',
+        type: this.chartType,
         height: 350
       },
-      labels,
+      labels: this.chartType === 'pie' ? labels : undefined, // Solo para gráfico de pie
+      xaxis: this.chartType === 'bar' ? {
+        categories: labels, // Categorías para el gráfico de barras
+        title: {
+          text: 'Porcentaje de ocupacion de lotes'
+        }
+      } : undefined,
+      plotOptions: this.chartType === 'bar' ? {
+        bar: {
+          horizontal: true
+        }
+      } : undefined,
+      dataLabels: {
+        enabled: true,
+        formatter: (val: number) => `${val.toFixed(2)}%`
+      },
       responsive: [
         {
           breakpoint: 480,
           options: {
             chart: {
-              width: '100%',
+              width: '100%'
             },
             legend: {
               position: 'bottom'
@@ -86,6 +101,11 @@ export class LoteReporteComponent implements OnInit{
         }
       ]
     };
+  }
+
+  toggleChartType(): void {
+    this.chartType = this.chartType === 'pie' ? 'bar' : 'pie';
+    this.updateChartOptions(); // Actualizar las opciones del gráfico
   }
 
   toggleDarkMode(): void {

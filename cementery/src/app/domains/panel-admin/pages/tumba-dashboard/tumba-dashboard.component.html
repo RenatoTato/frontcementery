@@ -5,12 +5,18 @@
       Formulario
     </button>
   
-    <!-- Botón para mostrar la edición -->
-    <button (click)="mostrarReporte()"
+    <!-- Botón para mostrar la reporte -->
+    <button (click)="mostrarReporteLote()"
       class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600">
       Reporte Lote
     </button>
-  </div>
+
+    <!-- Botón para mostrar la edición -->
+    <button (click)="mostrarReporteTumba()"
+      class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600">
+      Reporte Tumba
+    </button>
+</div>
   
   <!-- Contenido del formulario -->
   <div *ngIf="mostrarFormularioDiv">
@@ -19,6 +25,11 @@
   </div>
   
   <!-- Contenido de edición -->
-  <div *ngIf="mostrarReporteDiv">
+  <div *ngIf="mostrarReporteLoteDiv">
     <app-lote-reporte/>
+  </div>
+
+  <!-- Contenido de edición -->
+  <div *ngIf="mostrarReporteTumbaDiv">
+    <app-tumba-reporte/>
   </div>
