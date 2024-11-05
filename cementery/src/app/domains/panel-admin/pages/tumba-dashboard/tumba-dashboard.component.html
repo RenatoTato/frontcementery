@@ -1,1 +1,24 @@
-<app-tumbaForm/>
+<div class="flex space-x-4">
+    <!-- Botón para mostrar el formulario -->
+    <button (click)="mostrarFormulario()"
+      class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700">
+      Formulario
+    </button>
+  
+    <!-- Botón para mostrar la edición -->
+    <button (click)="mostrarReporte()"
+      class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600">
+      Reporte Lote
+    </button>
+  </div>
+  
+  <!-- Contenido del formulario -->
+  <div *ngIf="mostrarFormularioDiv">
+    <app-tumbaForm/>
+    <hr>
+  </div>
+  
+  <!-- Contenido de edición -->
+  <div *ngIf="mostrarReporteDiv">
+    <app-lote-reporte/>
+  </div>

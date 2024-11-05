@@ -5,6 +5,7 @@ import { Lote } from '@externo/models/tumba/lote.model';
 import { Tumba } from '@externo/models/tumba/tumba.model';
 import { LoteFilter } from '@externo/models/tumba/loteb.model';
 import { TumbaFilter } from '@externo/models/tumba/tumbab.model';
+import {LoteOcupacion} from '@admin/models/reportes/tumba/loteocupacion.model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,7 @@ export class TumbaService {
   private loteReadUrl = "http://127.0.0.1:8000/api/loteread/";
   private tumbaUrl = 'http://127.0.0.1:8000/api/tumba/';
   private tumbaReadUrl = "http://127.0.0.1:8000/api/tumbaread/";
+  private ocupacionUrl = 'http://127.0.0.1:8000/api/ocupacion-lote/';
   constructor(private http: HttpClient) { }
 
   private generateParams(filterParams?: any): HttpParams {
@@ -46,6 +48,14 @@ export class TumbaService {
     let params = this.generateParams(filterParams);
     return this.http.get<Lote[]>(this.loteReadUrl, { params });
   }
+  getOcupacionLote(filterParams?: LoteFilter): Observable<LoteOcupacion[]> { 
+    const params = this.generateParams(filterParams);
+    return this.http.get<LoteOcupacion[]>(this.ocupacionUrl, { params });
+  }
+  // Obtener un lote por ID
+  getOcupacionLoteId(id: number): Observable<Lote> {
+    return this.http.get<Lote>(`${this.ocupacionUrl}${id}/`)
+  }
   // Obtener un lote por ID
   getLoteId(id: number): Observable<Lote> {
     return this.http.get<Lote>(`${this.loteUrl}${id}/`)
@@ -62,6 +72,8 @@ export class TumbaService {
   deleteLote(id: number): Observable<void> {
     return this.http.delete<void>(`${this.loteUrl}${id}/`)
   }
+
+  
   // ============================
   // CRUD para Tumbas
   // ============================
