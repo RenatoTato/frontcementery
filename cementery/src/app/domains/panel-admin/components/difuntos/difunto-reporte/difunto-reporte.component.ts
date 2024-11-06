@@ -54,12 +54,12 @@ export class DifuntoReporteComponent implements OnInit {
         xaxis: {
           categories: labels,
           title: {
-            text: 'Tipo de Servicio'
+            text: 'Número de Difuntos'
           }
         },
         yaxis: {
           title: {
-            text: 'Número de Difuntos'
+            text: 'Tipo de Servicio'
           }
         }
       };

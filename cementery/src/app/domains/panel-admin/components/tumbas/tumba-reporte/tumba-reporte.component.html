@@ -6,12 +6,14 @@
         <form [formGroup]="searchForm" (ngSubmit)="onSearch()" class="space-y-4">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                    <label for="nameLote" class="block text-sm font-medium mb-2 dark:text-gray-200">Número de Lote</label>
-                    <input id="nameLote" formControlName="nameLote" type="text" placeholder="Número de Lote"
+                    <label for="nameLote" class="block text-sm font-medium mb-2 dark:text-gray-200">Número de
+                        Bloque</label>
+                    <input id="nameLote" formControlName="nameLote" type="text" placeholder="Número de Bloque"
                         class="w-full px-4 py-2 border rounded dark:bg-gray-700 dark:text-gray-100" />
                 </div>
                 <div>
-                    <label for="nicheType" class="block text-sm font-medium mb-2 dark:text-gray-200">Tipo de Tumba</label>
+                    <label for="nicheType" class="block text-sm font-medium mb-2 dark:text-gray-200">Tipo de
+                        Tumba</label>
                     <select id="nicheType" formControlName="nicheType"
                         class="w-full px-4 py-2 border rounded dark:bg-gray-700 dark:text-gray-100">
                         <option value="">Todos</option>
@@ -20,7 +22,8 @@
                     </select>
                 </div>
                 <div>
-                    <label for="available" class="block text-sm font-medium mb-2 dark:text-gray-200">Disponibilidad</label>
+                    <label for="available"
+                        class="block text-sm font-medium mb-2 dark:text-gray-200">Disponibilidad</label>
                     <select id="available" formControlName="available"
                         class="w-full px-4 py-2 border rounded dark:bg-gray-700 dark:text-gray-100">
                         <option value="">Todos</option>
@@ -41,7 +44,13 @@
             </div>
         </form>
     </div>
-
+    <!-- Gráfico de Estado de Tumbas -->
+    <div class="container mx-auto p-4 bg-white dark:bg-gray-800 rounded shadow-lg mb-6">
+        <apx-chart *ngIf="chartOptions" [series]="chartOptions.series" [chart]="chartOptions.chart"
+            [xaxis]="chartOptions.xaxis" [yaxis]="chartOptions.yaxis" [dataLabels]="chartOptions.dataLabels"
+            [plotOptions]="chartOptions.plotOptions">
+        </apx-chart>
+    </div>
     <!-- Tabla de datos de ocupación -->
     <div class="overflow-x-auto w-full max-w-4xl mb-6 bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
         <table class="min-w-full bg-white dark:bg-gray-800 rounded-lg shadow-md">
@@ -49,26 +58,33 @@
                 <tr>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
                         Número de Tumba</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">Tipo de Tumba</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">Tipo
+                        de Tumba</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
                         Disponibilidad</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
                         Difunto</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
-                        Servicio</th>
+                        Ceremonia</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
+                        Fecha</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let tumba of tumbaEstadoList" class="border-b border-gray-200 dark:border-gray-700">
                     <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ tumba.nicheNumber }}</td>
                     <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ tumba.nicheType }}</td>
-                    <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ tumba.available ? 'Disponible' : 'Ocupado' }}</td>
-                    <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ tumba.difunto ? (tumba.difunto.names + ' ' + tumba.difunto.last_names) : 'N/A' }}</td>
+                    <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ tumba.available ? 'Disponible' :
+                        'Ocupado' }}</td>
+                    <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ tumba.difunto ?
+                        (tumba.difunto.names + ' ' + tumba.difunto.last_names) : 'N/A' }}</td>
                     <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">
                         <span *ngFor="let servicio of tumba.servicio">
-                            {{ servicio.ceremony }} ({{ servicio.startDate | date: 'short' }} - {{ servicio.endDate | date: 'short' }})
-                        </span>
+                            {{ servicio.ceremony }}</span>
                     </td>
+                    <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100"><span
+                            *ngFor="let servicio of tumba.servicio">
+                            {{ servicio.startDate | date: 'short' }}</span></td>
                 </tr>
             </tbody>
         </table>

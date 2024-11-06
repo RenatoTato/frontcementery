@@ -4,13 +4,14 @@ import { Observable } from 'rxjs';
 import { Servicio } from '@externo/models/servicio/servicio.model';
 import { ServicioFilter } from '@externo/models/servicio/serviciob.model';
 import { ServicioDifunto } from '@admin/models/reportes/difunto/serviciod.mode';
-
+import { ServicioReporte } from '@admin/models/reportes/servicio/servicioreporte.model';
 @Injectable({
   providedIn: 'root'
 })
 export class ServicioService {
   private servicioUrl = 'http://127.0.0.1:8000/api/servicio/';
   private servicioReadUrl = 'http://127.0.0.1:8000/api/servicioread/';
+  private reporteUrl = 'http://127.0.0.1:8000/api/servicio-reporte/';
 
 
   constructor(private http: HttpClient) { }
@@ -48,6 +49,9 @@ export class ServicioService {
   }
   getServicioDifunto(): Observable<ServicioDifunto[]> {
     return this.http.get<ServicioDifunto[]>(`${this.servicioUrl}difuntos-por-tipo-servicio/`);
+  }
+  getServicioReporte(): Observable<ServicioReporte[]> {
+    return this.http.get<ServicioReporte[]>(this.reporteUrl);
   }
 
   // Obtener un artículo por ID

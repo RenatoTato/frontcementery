@@ -5,6 +5,7 @@ import { TumbaService } from '@externo/services/tumba.service';
 import { TumbaEstado, TumbaEstadoResponse } from '@admin/models/reportes/tumba/tumbaestado.model'; 
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { TumbaFilter } from '@externo/models/tumba/tumbab.model';
+import { ChartOptions } from '@admin/models/reportes/tumba/chart-options.model'; 
 
 @Component({
   selector: 'app-tumba-reporte',
@@ -22,7 +23,7 @@ export class TumbaReporteComponent  implements OnInit {
   isPaginated: boolean = true;
   searchForm: FormGroup;
   darkMode: boolean = false;
-
+  public chartOptions: Partial<ChartOptions> | any;
 
   constructor(
     private tumbaService: TumbaService,
@@ -37,6 +38,7 @@ export class TumbaReporteComponent  implements OnInit {
 
   ngOnInit(): void {
     this.loadTumbaEstado();
+    this.loadDarkModePreference();
   }
 
   // Cargar datos de tumbas con paginación y filtros
@@ -51,6 +53,7 @@ export class TumbaReporteComponent  implements OnInit {
         this.tumbaEstadoList = response.results;
         this.totalItems = response.count;
         this.totalPages = this.isPaginated ? Math.ceil(this.totalItems / this.pageSize) : 1;
+        this.loadChartData();
       }
     );
   }
@@ -72,6 +75,40 @@ export class TumbaReporteComponent  implements OnInit {
     this.searchForm.reset();
     this.currentPage = 1;
     this.loadTumbaEstado();
+  }
+  loadChartData(): void {
+    const availableCount = this.tumbaEstadoList.filter(t => t.available).length;
+    const occupiedCount = this.tumbaEstadoList.length - availableCount;
+
+    this.chartOptions = {
+      series: [
+        { name: 'Tumbas Disponibles', data: [availableCount] },
+        { name: 'Tumbas Ocupadas', data: [occupiedCount] }
+      ],
+      chart: {
+        type: 'bar',
+        height: 350
+      },
+      plotOptions: {
+        bar: {
+          horizontal: false
+        }
+      },
+      xaxis: {
+        categories: ['Estado de Tumbas'],
+        title: {
+          text: 'Estado'
+        }
+      },
+      yaxis: {
+        title: {
+          text: 'Cantidad'
+        }
+      },
+      dataLabels: {
+        enabled: true
+      }
+    };
   }
   // Alternar entre modo oscuro y claro
   toggleDarkMode(): void {
