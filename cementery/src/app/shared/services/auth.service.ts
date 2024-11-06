@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { User } from '@externo/models/auth/user.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -26,10 +27,10 @@ export class AuthService {
   }
 
   // Método opcional para obtener el perfil del usuario (si tienes este endpoint en el backend)
-  getProfile(): Observable<any> {
+  getProfile(): Observable<User> {
     const token = localStorage.getItem('token');
     if (token) {
-      return this.http.get('http://127.0.0.1:8000/api/profile', {
+      return this.http.get<User>('http://127.0.0.1:8000/api/profile', {
         headers: { Authorization: `Bearer ${token}` } // Incluye el token de acceso en el encabezado de la solicitud
       });
     }

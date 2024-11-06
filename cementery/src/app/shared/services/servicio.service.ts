@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Servicio } from '@externo/models/servicio/servicio.model';
 import { ServicioFilter } from '@externo/models/servicio/serviciob.model';
+import { ServicioDifunto } from '@admin/models/reportes/difunto/serviciod.mode';
 
 @Injectable({
   providedIn: 'root'
@@ -44,6 +45,9 @@ export class ServicioService {
   getReadServicios(filterParams?: ServicioFilter): Observable<Servicio[]> {
     let params = this.generateParams(filterParams);
     return this.http.get<Servicio[]>(this.servicioReadUrl, { params });
+  }
+  getServicioDifunto(): Observable<ServicioDifunto[]> {
+    return this.http.get<ServicioDifunto[]>(`${this.servicioUrl}difuntos-por-tipo-servicio/`);
   }
 
   // Obtener un artículo por ID

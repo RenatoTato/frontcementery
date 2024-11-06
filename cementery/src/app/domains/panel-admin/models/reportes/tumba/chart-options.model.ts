@@ -1,7 +1,7 @@
-import { ApexChart, ApexNonAxisChartSeries, ApexResponsive, ApexLegend, ApexXAxis, ApexYAxis, ApexDataLabels, ApexPlotOptions } from 'ng-apexcharts';
+import { ApexChart, ApexNonAxisChartSeries, ApexResponsive, ApexLegend, ApexXAxis, ApexYAxis, ApexDataLabels, ApexPlotOptions, ApexAxisChartSeries } from 'ng-apexcharts';
 
 export type ChartOptions = {
-  series: ApexNonAxisChartSeries;
+  series: ApexNonAxisChartSeries | ApexAxisChartSeries; // Permite gráficos con y sin ejes
   chart: ApexChart;
   labels?: string[]; // Opcional para gráficos con ejes
   responsive: ApexResponsive[];

@@ -12,9 +12,12 @@ import { SiderbarComponent } from "../siderbar/siderbar.component";
   styleUrls: ['./layout-admin.component.css']
 })
 export class LayoutAdminComponent {
-  showSiderBar=false;
 
-  toggleSiderBar(){
-    this.showSiderBar= !this.showSiderBar;
+  sidebarVisible = false; // Propiedad que controla la visibilidad del sidebar
+
+  // Método para alternar la visibilidad del sidebar
+  toggleSidebar(): void {
+    this.sidebarVisible = !this.sidebarVisible;
   }
+
 }

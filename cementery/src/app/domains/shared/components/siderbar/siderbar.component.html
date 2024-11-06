@@ -6,21 +6,28 @@
           <a routerLink="/admin/disponibilidad" class="block hover:bg-gray-700 p-2">Consulta de Tumba</a>
         </li>
         <li class="mb-2">
-          <a routerLink="/admin/dashboard" class="block hover:bg-gray-700 p-2">Estadísticas y Reportes</a>
+          <a routerLink="/admin/dashboard" class="block hover:bg-gray-700 p-2">dashboard</a>
         </li>
         <li class="mb-2">
-          <a routerLink="/cementerio" class="block hover:bg-gray-700 p-2">Cementerio</a>
+          <!-- Enlace que alterna la visibilidad de las subcategorías -->
+          <button (click)="toggleCementerio()" class="block hover:bg-gray-700 p-2 text-left w-full">
+            Cementerio
+          </button>
+        
           <!-- Subcategorías de Cementerio -->
-          <ul class="ml-4">
+          <ul *ngIf="isCementerioOpen" class="ml-4">
             <li><a routerLink="/admin/servicio" class="block p-1 hover:underline">Servicio</a></li>
             <li><a routerLink="/admin/difunto" class="block p-1 hover:underline">Difunto</a></li>
             <li><a routerLink="/admin/tumba" class="block p-1 hover:underline">Tumba</a></li>
           </ul>
         </li>
         <li class="mb-2">
-          <a routerLink="/admin/informativo" class="block hover:bg-gray-700 p-2">Informativo</a>
+          <!-- Enlace que alterna la visibilidad de las subcategorías -->
+          <button (click)="toggleInformativo()" class="block hover:bg-gray-700 p-2 text-left w-full">
+            Informativo
+          </button>
           <!-- Subcategorías de Informativo -->
-          <ul class="ml-4">
+          <ul *ngIf="isInformativoOpen" class="ml-4">
             <li><a routerLink="/admin/obituario" class="block p-1 hover:underline">Obituario</a></li>
             <li></li>
             <li><a routerLink="/admin/articulo" class="block p-1 hover:underline">Artículo</a></li>

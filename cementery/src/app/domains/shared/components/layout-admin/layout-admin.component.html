@@ -1,13 +1,13 @@
 <div class="min-h-screen flex flex-col">
   <!-- Header -->
-  <app-header class="flex-none"/>
+  <app-header class="flex-none" (toggleSidebar)="toggleSidebar()"/>
 
   <!-- Contenido Principal con Sidebar a la izquierda -->
   <div class="flex flex-1" >
     <!-- Sidebar a la izquierda -->
-    <button (click)="toggleSiderBar()"></button>
-    <app-siderbar class="w-64 bg-gray-800 text-white" [class.active]="showSiderBar"/>
-    <button (click)="toggleSiderBar()"></button>
+
+    <app-siderbar class="w-64 bg-gray-800 text-white" app-sidebar *ngIf="sidebarVisible"/>
+
     <!-- Contenido Principal a la derecha -->
     <main class="flex-1 p-4">
       <router-outlet/>

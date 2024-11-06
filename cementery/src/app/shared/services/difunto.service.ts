@@ -6,6 +6,7 @@ import { Deudo } from '@externo/models/difunto/deudo.model';
 import { DifuntoFilter } from '@externo/models/difunto/difuntob.model';
 import { DeudoFilter } from '@externo/models/difunto/deudob.model';
 
+
 @Injectable({
   providedIn: 'root'
 })
