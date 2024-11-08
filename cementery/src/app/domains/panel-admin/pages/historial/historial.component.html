@@ -1,0 +1,48 @@
+<div class="flex space-x-4">
+    <!-- Botón para mostrar el historial DEUDO -->
+    <button (click)=" mostrarHistorialDeudo()"
+        class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600">
+        Historial Deudo
+    </button>
+    <!-- Botón para mostrar el historial DEUDO -->
+    <button (click)=" mostrarHistorialDifunto()"
+        class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700">
+        Historial Difunto
+    </button>
+    <!-- Botón para mostrar el historial DEUDO -->
+    <button (click)=" mostrarHistorialTumba()"
+        class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600">
+        Historial Tumba
+    </button>
+    <!-- Botón para mostrar el historial DEUDO -->
+    <button (click)=" mostrarHistorialLote()"
+        class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700">
+        Historial Lote
+    </button>
+    <!-- Botón para mostrar el historial DEUDO -->
+    <button (click)=" mostrarHistorialServicio()"
+        class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600">
+        Historial Servicio
+    </button>
+</div>
+
+<!-- Contenido del Historial deudo-->
+<div *ngIf="mostrarHistorialDeudoDiv">
+    <app-deudo-historial />
+</div>
+<!-- Contenido del Historial deudo-->
+<div *ngIf="mostrarHistorialDifuntoDiv">
+    <app-difunto-historial />
+</div>
+<!-- Contenido del Historial deudo-->
+<div *ngIf="mostrarHistorialTumbaDiv">
+    <app-tumba-historial />
+</div>
+<!-- Contenido del Historial deudo-->
+<div *ngIf="mostrarHistorialLoteDiv">
+    <app-lote-historial />
+</div>
+<!-- Contenido del Historial deudo-->
+<div *ngIf="mostrarHistorialSevicioDiv">
+    <app-servicio-historial />
+</div>

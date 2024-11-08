@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { VersionCambio } from '@admin/models/cambios/comparar.model';
+import { HistorialCambios } from '@admin/models/cambios/comparar.model';
 import { ResponseRestaurar } from '@admin/models/cambios/restaurar.model';
 import { ServicioHistory } from '@admin/models/servicio/servicioh.model';
 import { ServicioHistoryFilter } from '@admin/models/servicio/serviciof.model';
@@ -15,9 +15,9 @@ export class ServicioHistoryService {
 
   constructor(private http: HttpClient) { }
 
-  private buildHttpParams(objectId: number, limit: number, attribute?: string): HttpParams {
+  private buildHttpParams(object_id: number, limit: number, attribute?: string): HttpParams {
     let params = new HttpParams()
-      .set('object_id', objectId.toString())
+      .set('object_id', object_id.toString())
       .set('limit', limit.toString());
 
     if (attribute) {
@@ -39,27 +39,31 @@ export class ServicioHistoryService {
     return params;
   }
   // ============================
-  // Historial para Lotes
+  // Historial para Sercicios
   // ============================
-  getLoteHistorials(filters: ServicioHistoryFilter): Observable<ServicioHistory[]> {
-    const params = this.buildFilterParams(filters);
-    return this.http.get<ServicioHistory[]>(`${this.servicioHistorialUrl}`, { params });
+  getServicioHistorials(page: number = 1, pageSize: number = 10, filters: ServicioHistoryFilter = {}): Observable<{ results: ServicioHistory[]; count: number; next?: string; previous?: string }> {
+    let params = this.buildFilterParams(filters);
+    params = params.set('page', page.toString()).set('page_size', pageSize.toString());
+    return this.http.get<{ results: ServicioHistory[]; count: number; next?: string; previous?: string }>(`${this.servicioHistorialUrl}`, { params });
   }
 
   // Obtener historial con filtros
-  getLoteHistorial(objectId: number, limit: number = 5): Observable<ServicioHistory[]> {
+  getServicioHistorial(objectId: number, limit: number = 5): Observable<ServicioHistory[]> {
     const params = this.buildHttpParams(objectId, limit);
     return this.http.get<ServicioHistory[]>(`${this.servicioHistorialUrl}historial/`, { params });
   }
 
   // Comparar varias versiones consecutivas de un objeto
-  compareLoteVersions(objectId: number, attribute: string = 'all', limit: number = 5): Observable<VersionCambio[]> {
-    const params = this.buildHttpParams(objectId, limit, attribute);
-    return this.http.get<VersionCambio[]>(`${this.servicioHistorialUrl}comparar/`, { params });
+  compareServicioVersions(objectId: number, attribute: string = 'all', limit: number = 5): Observable<HistorialCambios> {
+    const params = new HttpParams()
+      .set('object_id', objectId.toString())
+      .set('limit', limit.toString())
+      .set('attribute', attribute);
+    return this.http.get<HistorialCambios>(`${this.servicioHistorialUrl}comparar/`, { params });
   }
 
   // Restaurar una versión anterior
-  restoreLoteVersion(versionId: number): Observable<ResponseRestaurar> {
+  restoreServicioVersion(versionId: number): Observable<ResponseRestaurar> {
     return this.http.post<ResponseRestaurar>(`${this.servicioHistorialUrl}restaurar/`, { version_id: versionId });
   }
 }

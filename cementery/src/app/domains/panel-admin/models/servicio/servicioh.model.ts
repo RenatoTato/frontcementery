@@ -1,10 +1,10 @@
 export interface ServicioHistory {
     history_id: number;         // ID de la versión específica del historial
-    history_user?: number | null; // Usuario que realizó el cambio
+    history_user?: number | 1 | 2 | 3 | 4 | 5 ; // Usuario que realizó el cambio
     id: number;                 // ID del servicio
     startDate: string;          // Fecha de inicio
     endDate: string;            // Fecha de fin
-    ceremony: string;           // Tipo de ceremonia
+    ceremony: 'Cremacion' | 'Inhumacion' | 'Exhumacion' | 'Conmemoracion' | 'Mantenimiento';  // Tipo de ceremonia
     is_paid: boolean;           // Estado de pago
     amount_paid: string;        // Monto pagado
     payment_date: string;       // Fecha de pago

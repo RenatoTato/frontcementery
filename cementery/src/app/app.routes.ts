@@ -73,6 +73,10 @@ export const routes: Routes = [
             {
                 path:'tumba',
                 loadComponent: ()=>import('@admin/pages/tumba-dashboard/tumba-dashboard.component').then(m=>m.TumbaDashboardComponent)
+            },
+            {
+                path:'historial',
+                loadComponent: ()=>import('@admin/pages/historial/historial.component').then(m=>m.HistorialComponent)
             }
         ]
     },
