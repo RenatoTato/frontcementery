@@ -1,6 +1,8 @@
+import { Difunto } from "@externo/models/difunto/difunto.model";
+
 export interface ServicioHistory {
     history_id: number;         // ID de la versión específica del historial
-    history_user?: number | 1 | 2 | 3 | 4 | 5 ; // Usuario que realizó el cambio
+    history_user?: string; // Usuario que realizó el cambio
     id: number;                 // ID del servicio
     startDate: string;          // Fecha de inicio
     endDate: string;            // Fecha de fin
@@ -15,5 +17,6 @@ export interface ServicioHistory {
     history_change_reason?: string | null; // Razón del cambio
     history_type: '+' | '~' | '-'; // Tipo de cambio: creado, actualizado, eliminado
     numberTomb?: number | null; // Número de tumba asociada
-    deceased: number;           // ID del difunto asociado
+    deceased: Difunto;           // ID del difunto asociado
+    deceasedName?: string; // Campo temporal
 }

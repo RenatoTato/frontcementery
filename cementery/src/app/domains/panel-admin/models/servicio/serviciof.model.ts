@@ -3,7 +3,7 @@ export interface ServicioHistoryFilter {
     end_date?: string;         // Fecha de fin del rango de historial (ISO)
     entity_id?: number;        // ID de la entidad original (por ejemplo, el `id` de `Servicio`)
     history_type?: '+' | '~' | '-';    // Tipo de acción en el historial: "+" (creado), "~" (actualizado), "-" (eliminado)
-    user?: number | 1 | 2 | 3 | 4 | 5 ; // Usuario que realizó el cambio
+    user?: number;// Usuario que realizó el cambio
     startDate?: string;        // Fecha de inicio del servicio (ISO)
     endDate?: string;          // Fecha de fin del servicio (ISO)
     ceremony?: 'Cremacion' | 'Inhumacion' | 'Exhumacion' | 'Conmemoracion' | 'Mantenimiento';  // Tipo de ceremonia

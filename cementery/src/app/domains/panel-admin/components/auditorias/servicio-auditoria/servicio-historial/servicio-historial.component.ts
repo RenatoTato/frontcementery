@@ -1,11 +1,10 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ServicioHistoryService } from '@admin/service/servicio-history/servicio-history.service';
 import { ServicioHistory } from '@admin/models/servicio/servicioh.model';
-import { ServicioHistoryFilter } from '@admin/models/servicio/serviciof.model';
 import { VersionCambio } from '@admin/models/cambios/comparar.model';
-import { ResponseRestaurar } from '@admin/models/cambios/restaurar.model';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { DifuntoService } from '@externo/services/difunto.service';
 
 @Component({
   selector: 'app-servicio-historial',
@@ -24,10 +23,62 @@ export class ServicioHistorialComponent implements OnInit {
   filterForm: FormGroup;
   limite: number = 5; // Declaramos `limite` aquí
   defaultObjectId: number = 1;
+  difuntoNamesCache: { [key: number]: string } = {}; // Mapa de caché para nombres de difuntos
+  // Campos de filtros y encabezados
+  filterFields = [
+    { name: 'startDate', label: 'Fecha del contrato' },
+    { name: 'endDate', label: 'Fecha de vencimiento' },
+    { name: 'entity_id', label: 'ID de Servicio' },
+    { name: 'numberTomb', label: 'Numero de tumba' },
+    { name: 'deceased', label: 'Difunto' },
+    { name: 'ceremony', label: 'Ceremonia' },
+    { name: 'history_type', label: 'Acciones' },
+    { name: 'user', label: 'Usuario' },
+  ];
+  filterOptions = {
+    ceremony: [
+      { value: '', label: 'Todas las Ceremonias' }, // Opción inicial vacía
+      { value: 'Cremacion', label: 'Cremación' },
+      { value: 'Inhumacion', label: 'Inhumación' },
+      { value: 'Exhumacion', label: 'Exhumación' },
+      { value: 'Conmemoracion', label: 'Conmemoración' },
+      { value: 'Mantenimiento', label: 'Mantenimiento' }
+    ],
+    history_type: [
+      { value: '', label: 'Todas las Acciones' }, // Opción inicial vacía
+      { value: '+', label: 'Creación' },
+      { value: '~', label: 'Actualización' },
+      { value: '-', label: 'Eliminación' }
+    ],
+    user: [
+      { value: '', label: 'Todos los Usuarios' }, // Opción inicial vacía
+      { value: 1, label: 'Renato Carvajal' },
+      { value: 2, label: 'Priscila Rodríguez' },
+      { value: 3, label: 'Fernando Abdón' },
+      { value: 4, label: 'Livingston Olivares' },
+      { value: 5, label: 'Tato Admin' }
+    ]
+  };
 
+
+  tableHeaders = [
+    'Usuario',
+    'ID Servicio',
+    'Fecha Inicio',
+    'Fecha Fin',
+    'Ceremonia',
+    'Estado de Pago',
+    'Monto Pagado',
+    'Fecha Creación',
+    'Fecha Modificación',
+    'Tipo de Cambio',
+    'Número de Tumba',
+    'Difunto',
+  ];
   constructor(
     private fb: FormBuilder,
     private servicioHistoryService: ServicioHistoryService,
+    private difuntoService: DifuntoService,
     private cdRef: ChangeDetectorRef // Inyectamos ChangeDetectorRef
   ) {
     // Filtros
@@ -44,7 +95,31 @@ export class ServicioHistorialComponent implements OnInit {
       deceased: [''],
       id: ['']
     });
+  }
+  obtenerNombreDifunto(id: number | string | true): string {
+    // Asegúrate de que id es un número antes de continuar
+    if (typeof id !== 'number') {
+      return 'N/A'; // O el valor predeterminado en caso de un tipo no válido
+    }
 
+    // Si ya tenemos el nombre en la caché, lo retornamos directamente
+    if (this.difuntoNamesCache[id]) {
+      return this.difuntoNamesCache[id];
+    }
+
+    // De lo contrario, llamamos al servicio para obtener el nombre del difunto
+    this.difuntoService.getDifuntoId(id).subscribe(
+      difunto => {
+        this.difuntoNamesCache[id] = `${difunto.names} ${difunto.last_names}`;
+      },
+      error => {
+        console.error(`Error al cargar el nombre del difunto con ID ${id}:`, error);
+        this.difuntoNamesCache[id] = 'N/A'; // Valor predeterminado si falla la carga
+      }
+    );
+
+    // Retorna un valor temporal mientras se carga el nombre del difunto
+    return this.difuntoNamesCache[id] || 'Cargando...';
   }
 
   ngOnInit(): void {
@@ -53,16 +128,31 @@ export class ServicioHistorialComponent implements OnInit {
 
   // Método para cargar historial con los filtros aplicados
   loadHistorial(page: number = 1, pageSize: number = 10): void {
-    const filterParams = this.filterForm.value; // Utiliza los valores de filtro del formulario
+    const filterParams = this.filterForm.value;
+
     this.servicioHistoryService.getServicioHistorials(page, pageSize, filterParams).subscribe(response => {
       this.historialItems = response.results;
       this.totalItems = response.count;
-      // Cargar comparación cada vez que se recargue el historial
+
+      this.historialItems.forEach(item => {
+        if (item.deceased && typeof item.deceased === 'number') {
+          this.difuntoService.getDifuntoId(item.deceased).subscribe(
+            difunto => {
+              item.deceasedName = `${difunto.names} ${difunto.last_names}`;
+            },
+            error => {
+              console.error(`Error al cargar el difunto para el historial con ID ${item.id}:`, error);
+            }
+          );
+        }
+      });
+
       this.compararVersiones(this.defaultObjectId);
     }, error => {
       console.error('Error al cargar el historial:', error);
     });
   }
+
 
   // Mapear valores para history_type
   mapHistoryType(type: string): string {
@@ -73,8 +163,22 @@ export class ServicioHistorialComponent implements OnInit {
     };
     return typeMap[type] || type;
   }
+  campoLabels: { [key: string]: string } = {
+    startDate: 'Fecha del contrato',
+    endDate: 'Fecha de vencimiento',
+    entity_id: 'ID Servicio',
+    numberTomb: 'Número de tumba',
+    deceased: 'Difunto',
+    ceremony: 'Ceremonia',
+    history_type: 'Acciones',
+    user: 'Usuario',
+    payment_date: 'Fecha de pago',
+    is_paid: 'Cancelado',
+    amount_paid: 'Moto a pagar',
+    description: 'Descripción'
+    // Añade otros campos necesarios aquí
+  };
 
-  // Mapear valores para ceremony
   mapCeremony(ceremony: string): string {
     const ceremonyMap: { [key: string]: string } = {
       'Cremacion': 'Cremación',
@@ -87,15 +191,15 @@ export class ServicioHistorialComponent implements OnInit {
   }
 
   // Mapear valores para user
-  mapUser(userId: number | undefined): string {
-    const userMap: { [key: number]: string } = {
-      1: 'Renato Carvajal',
-      2: 'Priscila Rodríguez',
-      3: 'Fernando Abdón',
-      4: 'Livingston Olivares',
-      5: 'Tato Admin'
+  mapUser(userId: string | undefined): string {
+    const userMap: { [key: string]: string } = {
+      'renato': 'Renato',
+      'pricila': 'Priscila Rodríguez',
+      'deudo': 'Fernando Abdón',
+      'liviston': 'Livingston Olivares',
+      'tato': 'Tato Dany'
     };
-    return userId !== undefined ? userMap[userId] || 'Desconocido' : 'Desconocido';
+    return userId ? userMap[userId] || userId : 'Desconocido';
   }
 
   // Comparar versiones
