@@ -4,7 +4,7 @@
     <div class="w-full max-w-4xl bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
         <h1 class="text-2xl font-bold mb-4 dark:text-white">Busqueda de Ocupacion actual por lote</h1>
         <form [formGroup]="searchForm" (ngSubmit)="onSearch()" class="space-y-4">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <!-- Campo de entrada para cada atributo con validación -->
                 <div *ngFor="let field of filterFields">
                     <label [for]="field" class="block text-sm font-medium mb-2 dark:text-gray-200">{{ field.label

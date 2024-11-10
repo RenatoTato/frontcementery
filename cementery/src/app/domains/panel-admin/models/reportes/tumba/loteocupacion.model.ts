@@ -1,4 +1,5 @@
 export interface LoteOcupacion {
+    id:number;
     blockName: number;
     typeblock: string;
     numbersblock:number;
@@ -7,4 +8,4 @@ export interface LoteOcupacion {
     limite: number;
     filas: number;
     columnas: number;
-  }
+}

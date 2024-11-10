@@ -1,48 +1,77 @@
-import { Component, OnInit} from '@angular/core';
-import { FormBuilder,FormGroup } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
 import { TumbaService } from '@externo/services/tumba.service';
-import { DifuntoService } from '@externo/services/difunto.service';
-import { Tumba } from '@externo/models/tumba/tumba.model';
-import { Difunto } from '@externo/models/difunto/difunto.model';
-import { BehaviorSubject } from 'rxjs';
-import { debounceTime } from 'rxjs';
+import { LoteOcupacion } from '@admin/models/reportes/tumba/loteocupacion.model';
+import { CommonModule } from '@angular/common';
+
 @Component({
   selector: 'app-svgmap',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './svgmap.component.html',
   styleUrl: './svgmap.component.css'
 })
-export class SvgmapComponent {
-//   tumbas: Tumba[][] = []; // El grid de tumbas
-
-//   constructor(private tumbaService: TumbaService) {}
-
-//   ngOnInit(): void {}
-
-//   // Método llamado al hacer clic en un bloque
-//   onBlockClick(loteId: number): void {
-//     console.log(`Lote seleccionado: ${loteId}`);
-
-//     // Usa el método existente `getGrafiTumbas` con el filtro `nameLote`
-//     const filterParams = { nameLote: loteId.toString() };
-
-//     this.tumbaService.getGrafiTumbas(undefined, undefined, filterParams).subscribe((response) => {
-//       const tumbas = 'results' in response ? response.results : response;
-//       this.tumbas = this.createGrid(tumbas); // Crear el grid de tumbas
-//     });
-//   }
-
-//   // Crear un grid de tumbas basado en las filas y columnas del lote
-//   createGrid(tumbas: Tumba[]): Tumba[][] {
-//     const rows: Tumba[][] = []; // Define el tipo explícito de `rows` como `Tumba[][]`
-    
-//     // Lógica para dividir las tumbas en filas y columnas
-//     const numColumns = 5; // Ejemplo: ajusta el número de columnas según sea necesario
-//     for (let i = 0; i < tumbas.length; i += numColumns) {
-//       rows.push(tumbas.slice(i, i + numColumns));
-//     }
+export class SvgmapComponent implements OnInit {
+  ocupacionLote: LoteOcupacion[] = [];
+  selectedBlockId: number | null = null;
+  estadosBloques: { [key: number]: number } = {}; // Guarda el estado de cada bloque
+  selectedBlockData: any = null;         // Datos del bloque seleccionado para el grid de detalles
+  // Definición de la constante en la clase
   
-//     return rows;
-//   }
+  constructor(private tumbaService: TumbaService) { }
+
+  ngOnInit(): void {
+    this.loadOcupacionLote();
+  }
+
+  loadOcupacionLote(): void {
+    this.tumbaService.getOcupacionLote().subscribe(
+      (data) => {
+        this.ocupacionLote = data;
+        this.calcularEstadosBloques(); // Calcula el estado de cada bloque después de cargar datos
+      },
+      (error) => {
+        console.error('Error al cargar la ocupación de lotes:', error);
+      }
+    );
+  }
+
+  static readonly COLOR_MAP: Record<number, string> = {
+    1: 'fill-red-500',
+    2: 'fill-yellow-400',
+    3: 'fill-green-500',
+  };
+
+  getFillColor(bloqueId: number): string {
+    return SvgmapComponent.COLOR_MAP[this.estadosBloques[bloqueId]] || '';
+  }
+  // Método para calcular el estado de ocupación de cada bloque
+  calcularEstadosBloques(): void {
+    this.ocupacionLote.forEach((bloque) => {
+      this.estadosBloques[bloque.id] = (bloque.ocupadas === bloque.limite)
+        ? 1
+        : (bloque.disponibles === bloque.limite)
+          ? 3
+          : 2;
+    });
+  }
+
+  verDetallesBloque(bloqueId: number): void {
+    this.selectedBlockId = bloqueId;
+    this.loadTumbaEstado(bloqueId);
+  }
+
+  loadTumbaEstado(blockId: number): void {
+    this.tumbaService.getTumbasEstado(undefined, undefined, { nameLote: blockId }).subscribe(
+      (data) => {
+        // Maneja el estado o datos obtenidos para el bloque
+      },
+      (error) => {
+        console.error('Error al cargar el estado de tumbas:', error);
+      }
+    );
+  }
+  cerrarDetalles(): void {
+    this.selectedBlockData = null;
+    this.selectedBlockId = null;
+  }
 }
