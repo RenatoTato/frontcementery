@@ -63,4 +63,80 @@
     letter-spacing: .01em;
 }
 
+::ng-deep .cls-occupied {
+    fill: #ff0000; /* rojo para ocupado */
+    stroke: #1d1d1b;
+    stroke-miterlimit: 10;
+  }
+  
+  ::ng-deep .cls-available {
+    fill: #00ff00; /* verde para disponible */
+    stroke: #1d1d1b;
+    stroke-miterlimit: 10;
+  }
+/* Estilos para el Modal */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
 
+.modal-content {
+    position: relative;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 80%;
+    max-height: 80%;
+    overflow-y: auto;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    background: transparent;
+    border: none;
+    color: #333;
+    cursor: pointer;
+}
+
+.grid {
+    display: grid;
+    gap: 10px;
+    margin-top: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Tamaño uniforme */
+}
+
+.nicho {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #f8f8f8;
+    border: 1px solid #ccc;
+    padding: 20px;
+    text-align: center;
+    min-width: 100px;
+    min-height: 100px;
+    box-sizing: border-box;
+}
+
+/* Colores de ocupación aplicados a toda la celda */
+.ocupado {
+    background-color: #ffcccc; /* Rojo para ocupado */
+}
+
+.disponible {
+    background-color: #ccffcc; /* Verde para disponible */
+}

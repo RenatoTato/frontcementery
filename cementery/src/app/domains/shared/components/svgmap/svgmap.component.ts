@@ -15,7 +15,9 @@ export class SvgmapComponent implements OnInit {
   selectedBlockId: number | null = null;
   estadosBloques: { [key: number]: number } = {}; // Guarda el estado de cada bloque
   selectedBlockData: any = null;         // Datos del bloque seleccionado para el grid de detalles
-  // Definición de la constante en la clase
+  tumbasEstado: any[] = [];  // Agrega esta propiedad para almacenar los datos de tumbas
+  filas: number = 0;
+  columnas: number = 0;
   
   constructor(private tumbaService: TumbaService) { }
 
@@ -27,7 +29,7 @@ export class SvgmapComponent implements OnInit {
     this.tumbaService.getOcupacionLote().subscribe(
       (data) => {
         this.ocupacionLote = data;
-        this.calcularEstadosBloques(); // Calcula el estado de cada bloque después de cargar datos
+         // Calcula el estado de cada bloque después de cargar datos
       },
       (error) => {
         console.error('Error al cargar la ocupación de lotes:', error);
@@ -35,43 +37,52 @@ export class SvgmapComponent implements OnInit {
     );
   }
 
-  static readonly COLOR_MAP: Record<number, string> = {
-    1: 'fill-red-500',
-    2: 'fill-yellow-400',
-    3: 'fill-green-500',
-  };
+  
 
-  getFillColor(bloqueId: number): string {
-    return SvgmapComponent.COLOR_MAP[this.estadosBloques[bloqueId]] || '';
+  getFillColor(loteId: number): string {
+    const lote = this.ocupacionLote.find(l => l.id === loteId);
+    if (lote) {
+      if (lote.ocupadas === lote.limite) {
+        return 'cls-occupied'; // Clase para el lote lleno
+      } else {
+        return 'cls-available'; // Clase para el lote disponible
+      }
+    }
+    return 'cls-10'; // Clase predeterminada si no se encuentra el lote
   }
   // Método para calcular el estado de ocupación de cada bloque
-  calcularEstadosBloques(): void {
-    this.ocupacionLote.forEach((bloque) => {
-      this.estadosBloques[bloque.id] = (bloque.ocupadas === bloque.limite)
-        ? 1
-        : (bloque.disponibles === bloque.limite)
-          ? 3
-          : 2;
-    });
-  }
+  
 
   verDetallesBloque(bloqueId: number): void {
-    this.selectedBlockId = bloqueId;
-    this.loadTumbaEstado(bloqueId);
+    const lote = this.ocupacionLote.find(l => l.id === bloqueId);
+    if (lote) {
+      this.selectedBlockId = bloqueId;
+      this.filas = lote.filas;
+      this.columnas = lote.columnas;
+      this.loadTumbaEstado(bloqueId);
+    }
   }
 
   loadTumbaEstado(blockId: number): void {
     this.tumbaService.getTumbasEstado(undefined, undefined, { nameLote: blockId }).subscribe(
       (data) => {
-        // Maneja el estado o datos obtenidos para el bloque
+        this.tumbasEstado = data.results;
       },
       (error) => {
         console.error('Error al cargar el estado de tumbas:', error);
       }
     );
   }
+
   cerrarDetalles(): void {
-    this.selectedBlockData = null;
     this.selectedBlockId = null;
+    this.tumbasEstado = [];
+  }
+  getNichoDisplayText(nicho: any): string {
+    return `${nicho.nicheNumber}${nicho.nicheType}`;
+  }
+
+  getShortDate(dateString: string): string {
+    return new Date(dateString).toLocaleDateString();
   }
 }
