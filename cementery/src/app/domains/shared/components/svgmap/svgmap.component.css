@@ -64,16 +64,26 @@
 }
 
 ::ng-deep .cls-occupied {
-    fill: #ff0000; /* rojo para ocupado */
+    fill: #ee4d4de1;
+    /* rojo para ocupado */
     stroke: #1d1d1b;
     stroke-miterlimit: 10;
-  }
-  
-  ::ng-deep .cls-available {
-    fill: #00ff00; /* verde para disponible */
+}
+
+::ng-deep .cls-available {
+    fill: #34fd88e7;
+    /* verde para disponible */
     stroke: #1d1d1b;
     stroke-miterlimit: 10;
-  }
+}
+
+::ng-deep .cls-intermediate {
+    fill: #fffd8fea;
+    /* amarillo para el estado intermedio */
+    stroke: #1d1d1b;
+    stroke-miterlimit: 10;
+}
+
 /* Estilos para el Modal */
 .modal {
     position: fixed;
@@ -81,7 +91,8 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro */
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Fondo oscuro */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -115,7 +126,8 @@
     display: grid;
     gap: 10px;
     margin-top: 20px;
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Tamaño uniforme */
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    /* Tamaño uniforme */
 }
 
 .nicho {
@@ -134,9 +146,24 @@
 
 /* Colores de ocupación aplicados a toda la celda */
 .ocupado {
-    background-color: #ffcccc; /* Rojo para ocupado */
+    background-color: #ffcccc;
+    /* Rojo para ocupado */
 }
 
 .disponible {
-    background-color: #ccffcc; /* Verde para disponible */
+    background-color: #ccffcc;
+    /* Verde para disponible */
+}
+
+.Lleno {
+    background-color: #ee8c8c;
+}
+
+.vacio {
+    background-color: #a9f7a9;
+}
+
+.intermedio {
+    background-color: #fcfc9b;
+    /* Color para el estado intermedio */
 }

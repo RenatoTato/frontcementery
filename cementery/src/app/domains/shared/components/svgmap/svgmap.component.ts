@@ -44,14 +44,14 @@ export class SvgmapComponent implements OnInit {
     if (lote) {
       if (lote.ocupadas === lote.limite) {
         return 'cls-occupied'; // Clase para el lote lleno
+      } else if (lote.ocupadas === 0) {
+        return 'cls-available'; // Clase para el lote vacío
       } else {
-        return 'cls-available'; // Clase para el lote disponible
+        return 'cls-intermediate'; // Clase para el lote en estado intermedio
       }
     }
     return 'cls-10'; // Clase predeterminada si no se encuentra el lote
   }
-  // Método para calcular el estado de ocupación de cada bloque
-  
 
   verDetallesBloque(bloqueId: number): void {
     const lote = this.ocupacionLote.find(l => l.id === bloqueId);
