@@ -179,19 +179,21 @@
                             {{ campoLabels[cambio.campo] || cambio.campo }}
                           </td>
                           <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">
-                            <ng-container *ngIf="cambio.campo === 'deceased'; else defaultContent">
+                            <ng-container *ngIf="cambio.campo === 'deceased'; else otherContent">
                                 {{ cambio.antes ? obtenerNombreDifunto(cambio.antes) : 'N/A' }}
                             </ng-container>
-                            <ng-template #defaultContent>
-                                {{ cambio.campo }}
+                            <ng-template #otherContent>
+                                {{ cambio.antes !== null && cambio.antes !== undefined && cambio.antes !== '' ?
+                                cambio.antes : 'N/A' }}
                             </ng-template>
                         </td>
-                          <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">
-                            <ng-container *ngIf="cambio.campo === 'deceased'; else defaultContent">
+                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">
+                            <ng-container *ngIf="cambio.campo === 'deceased'; else otherContentAfter">
                                 {{ cambio.despues ? obtenerNombreDifunto(cambio.despues) : 'N/A' }}
                             </ng-container>
-                            <ng-template #defaultContent>
-                                {{ cambio.campo }}
+                            <ng-template #otherContentAfter>
+                                {{ cambio.despues !== null && cambio.despues !== undefined && cambio.despues !== '' ?
+                                cambio.despues : 'N/A' }}
                             </ng-template>
                         </td>
                         <td class="px-6 py-4 text-center">
