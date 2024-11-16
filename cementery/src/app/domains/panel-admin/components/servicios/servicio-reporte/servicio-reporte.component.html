@@ -3,10 +3,15 @@
 
     <!-- Gráfico de Estado de Servicios -->
     <div class="container mx-auto p-4 bg-white dark:bg-gray-800 rounded shadow-lg mb-6">
-        <apx-chart *ngIf="chartOptions" [series]="chartOptions.series" [chart]="chartOptions.chart"
-                   [xaxis]="chartOptions.xaxis" [yaxis]="chartOptions.yaxis"
-                   [dataLabels]="chartOptions.dataLabels" [plotOptions]="chartOptions.plotOptions">
+        <apx-chart #chart *ngIf="chartOptions" [series]="chartOptions.series" [chart]="chartOptions.chart"
+            [xaxis]="chartOptions.xaxis" [yaxis]="chartOptions.yaxis" [dataLabels]="chartOptions.dataLabels"
+            [plotOptions]="chartOptions.plotOptions">
         </apx-chart>
+        <div>
+            <button (click)="downloadChart('png')">Descargar PNG</button>
+            <button (click)="downloadChart('svg')">Descargar SVG</button>
+            <button (click)="downloadChartData()">Descargar Datos CSV</button>
+        </div>
     </div>
 
     <!-- Tabla de Estado de Servicios -->
@@ -14,10 +19,14 @@
         <table class="min-w-full bg-white dark:bg-gray-800 rounded-lg shadow-md">
             <thead>
                 <tr>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">Tipo de Ceremonia</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">Activos</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">Completados</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">Pendiente de Pago</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">Tipo
+                        de Ceremonia</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
+                        Activos</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
+                        Completados</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
+                        Pendiente de Pago</th>
                 </tr>
             </thead>
             <tbody>

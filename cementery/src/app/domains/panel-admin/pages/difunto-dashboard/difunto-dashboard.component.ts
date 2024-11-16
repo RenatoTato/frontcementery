@@ -4,48 +4,42 @@ import { DifuntoFormComponent } from "@admin/components/difuntos/difuntoForm/dif
 import { DeudoFormComponent } from "@admin/components/difuntos/deudoForm/deudoForm.component";
 import { DifuntoEditarComponent } from "../../components/difuntos/difunto-editar/difunto-editar.component";
 import { DifuntoReporteComponent } from "../../components/difuntos/difunto-reporte/difunto-reporte.component";
+import { DeudoEditarComponent } from "../../components/difuntos/deudo-editar/deudo-editar.component";
 @Component({
   selector: 'app-difunto-dashboard',
   standalone: true,
-  imports: [CommonModule, DifuntoFormComponent, DeudoFormComponent, DifuntoEditarComponent, DifuntoReporteComponent],
+  imports: [CommonModule, DifuntoFormComponent, DeudoFormComponent, DifuntoEditarComponent, DifuntoReporteComponent, DeudoEditarComponent],
   templateUrl: './difunto-dashboard.component.html',
   styleUrl: './difunto-dashboard.component.css'
 })
 export class DifuntoDashboardComponent {
-  mostrarFormularioDeudoDiv: boolean = true;
-  mostrarFormularioDifuntoDiv: boolean = false;
-  mostrarEdicionDiv: boolean = false;
-  mostrarReporteDiv: boolean = false;
+  // Estado actual del componente
+  estadoActual: 'formularioDeudo' | 'formularioDifunto' | 'edicionDifunto' | 'edicionDeudo' | 'reporte' = 'formularioDeudo';
 
-  // Muestra el formulario y oculta la edición
-  mostrarFormularioDifunto(): void {
-  this.mostrarFormularioDeudoDiv = false;
-  this.mostrarFormularioDifuntoDiv = true;
-  this.mostrarEdicionDiv = false;
-  this.mostrarReporteDiv= false;
+  // Método genérico para cambiar el estado
+  cambiarEstado(nuevoEstado: 'formularioDeudo' | 'formularioDifunto' | 'edicionDifunto' | 'edicionDeudo' | 'reporte'): void {
+    this.estadoActual = nuevoEstado;
   }
-  // Muestra el formulario y oculta la edición
+
+  // Métodos de conveniencia
   mostrarFormularioDeudo(): void {
-  this.mostrarFormularioDeudoDiv = true;
-  this.mostrarFormularioDifuntoDiv = false;
-  this.mostrarEdicionDiv = false;
-  this.mostrarReporteDiv= false;
+    this.cambiarEstado('formularioDeudo');
   }
 
-  // Muestra la edición y oculta el formulario
+  mostrarFormularioDifunto(): void {
+    this.cambiarEstado('formularioDifunto');
+  }
+
+  mostrarEdicionDifunto(): void {
+    this.cambiarEstado('edicionDifunto');
+  }
+
+  mostrarEdicionDeudo(): void {
+    this.cambiarEstado('edicionDeudo');
+  }
+
   mostrarReporte(): void {
-    this.mostrarFormularioDeudoDiv = false;
-    this.mostrarFormularioDifuntoDiv = false;
-    this.mostrarEdicionDiv = false;
-    this.mostrarReporteDiv= true;
+    this.cambiarEstado('reporte');
   }
-
-  // Muestra la edición y oculta el formulario
-  mostrarEdicion(): void {
-    this.mostrarFormularioDeudoDiv = false;
-    this.mostrarFormularioDifuntoDiv = false;
-    this.mostrarEdicionDiv = true;
-    this.mostrarReporteDiv= false;
-  }
-
+  
 }

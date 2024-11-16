@@ -1,10 +1,7 @@
 <div
   class="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex flex-col justify-center items-center p-4">
 
-  <button (click)="toggleDarkMode()"
-    class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm mb-6 hover:bg-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600">
-    Cambiar Modo Oscuro
-  </button>
+  <h1 class="text-3xl font-bold mb-6 dark:text-white">Actualizar Difunto</h1>
 
   <!-- Formulario de Filtros -->
   <div class="w-full max-w-4xl bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
@@ -20,21 +17,12 @@
       </div>
       <div class="flex justify-end space-x-4">
         <button type="button" (click)="resetFilters()"
-          class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-            class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-back">
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path d="M9 11l-4 4l4 4m-4 -4h11a4 4 0 0 0 0 -8h-1" />
-          </svg>
+          class="bg-gray-500 text-white px-5 py-2 rounded-lg shadow-sm hover:bg-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600">
+          <img src="assets\image\icono\refresh-ccw.svg" alt="Icono editar" class="w-6 h-6 " />
         </button>
         <button type="submit"
-          class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-            stroke="currentColor" class="size-6">
-            <path stroke-linecap="round" stroke-linejoin="round"
-              d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-          </svg>
+          class="bg-blue-600 text-white px-5 py-2 rounded-lg shadow-sm hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600">
+          <img src="assets\image\icono\search(2).svg" alt="Icono editar" class="w-6 h-6 " />
         </button>
       </div>
     </form>
@@ -42,6 +30,7 @@
 
   <!-- Tabla de Resultados -->
   <div class="w-full max-w-4xl mt-6 overflow-x-auto">
+    <h2 class="text-2xl font-bold mb-4 dark:text-white text-center py-4">Resgistro Deudo</h2>
     <table class="min-w-full bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
       <thead class="bg-gray-200 dark:bg-gray-700">
         <tr>
@@ -56,14 +45,14 @@
         <tr *ngFor="let difunto of paginatedDifuntos" class="border-b border-gray-200 dark:border-gray-700">
           <td *ngFor="let field of editableFields" class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">
             <span *ngIf="!isEditing(difunto)">{{ difunto[field] }}</span>
-            <input *ngIf="isEditing(difunto)" [(ngModel)]="difunto[field]" 
+            <input *ngIf="isEditing(difunto)" [(ngModel)]="difunto[field]"
               class="w-full bg-gray-100 dark:bg-gray-700 rounded-md" />
           </td>
           <td class="px-6 py-4 text-center">
             <button (click)="saveDifunto(difunto)" *ngIf="isEditing(difunto)"
               class="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-500">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round"
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                 class="icon icon-tabler icons-tabler-outline icon-tabler-device-floppy">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                 <path d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2" />
@@ -91,28 +80,39 @@
         </tr>
       </tbody>
     </table>
+    <!-- Paginación -->
+    <div class="flex justify-evenly mt-4">
+      <button (click)="goToFirstPage()" [disabled]="currentPage === 1"
+        class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm" [title]="'Primera página'">
+        <img src="assets\image\icono\skip-forward.svg" alt="Icono comparar" class="w-4 h-4 rotate-180" />
+      </button>
+  
+      <button (click)="previousPage(5)" [disabled]="currentPage <= 5"
+        class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm" [title]="'Retroceder 5'">
+        <img src="assets\image\icono\fast-forward.svg" alt="Icono comparar" class="w-4 h-4 rotate-180" />
+      </button>
+  
+      <button (click)="previousPage(1)" [disabled]="currentPage === 1"
+        class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm" [title]="'Página anterior'">
+        <img src="assets\image\icono\play.svg" alt="Icono comparar" class="w-4 h-4 rotate-180" />
+      </button>
+  
+      <span class="text-gray-700 dark:text-gray-200">Página {{ currentPage }} de {{ totalPages }}</span>
+  
+      <button (click)="nextPage(1)" [disabled]="currentPage === totalPages"
+        class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm" [title]="'Página siguiente'">
+        <img src="assets\image\icono\play.svg" alt="Icono comparar" class="w-4 h-4" />
+      </button>
+  
+      <button (click)="nextPage(5)" [disabled]="currentPage + 5 > totalPages"
+        class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm" [title]="'Avanzar 5'">
+        <img src="assets\image\icono\fast-forward.svg" alt="Icono comparar" class="w-4 h-4" />
+      </button>
+  
+      <button (click)="goToLastPage()" [disabled]="currentPage === totalPages"
+        class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm" [title]="'Ultima página'">
+        <img src="assets\image\icono\skip-forward.svg" alt="Icono comparar" class="w-4 h-4" />
+      </button>
+    </div>
   </div>
-  <!-- Paginación -->
-  <div class="flex justify-between mt-6">
-    <!-- Botón para ir al principio -->
-    <button (click)="goToFirstPage()" [disabled]="currentPage === 1" class="bg-gray-500 text-white px-4 py-2 rounded-lg">
-      <svg width="24px" height="24px" viewBox="0 0 24 24" stroke-width="1.5" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><path d="M11 6L5 12L11 18" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M19 6L13 12L19 18" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>    
-    </button>
-  
-    <!-- Botón para ir a la página anterior -->
-    <button (click)="previousPage()" [disabled]="currentPage === 1" class="bg-gray-500 text-white px-4 py-2 rounded-lg">
-      <svg width="24px" height="24px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><path d="M15 6L9 12L15 18" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-    </button>
-  
-    <span>Página {{ currentPage }} de {{ totalPages }}</span>
-  
-    <!-- Botón para ir a la página siguiente -->
-    <button (click)="nextPage()" [disabled]="currentPage * pageSize >= totalItems" class="bg-blue-600 text-white px-4 py-2 rounded-lg">
-      <svg width="24px" height="24px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><path d="M9 6L15 12L9 18" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-    </button>
-  
-    <!-- Botón para ir a la última página -->
-    <button (click)="goToLastPage()" [disabled]="currentPage === totalPages" class="bg-blue-600 text-white px-4 py-2 rounded-lg">
-      <svg width="24px" height="24px" viewBox="0 0 24 24" stroke-width="1.5" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><path d="M13 6L19 12L13 18" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M5 6L11 12L5 18" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>     
-    </button>
-  </div>
+</div>

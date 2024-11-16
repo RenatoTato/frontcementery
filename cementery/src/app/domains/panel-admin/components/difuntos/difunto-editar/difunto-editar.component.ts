@@ -1,9 +1,9 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DifuntoService } from '@externo/services/difunto.service';
 import { Difunto } from '@externo/models/difunto/difunto.model';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { DifuntoFilter } from '@externo/models/difunto/difuntob.model';
 
 
@@ -78,28 +78,34 @@ export class DifuntoEditarComponent implements OnInit {
     this.loadDifuntos(this.currentPage, this.pageSize, filterParams);
   }
 
-  nextPage(): void {
-    if (this.currentPage < this.totalPages) {
-      this.currentPage++;
+  nextPage(step: number): void {
+    const newPage = this.currentPage + step;
+    if (newPage <= this.totalPages) {
+      this.currentPage = newPage;
       this.loadDifuntos(this.currentPage, this.pageSize);
     }
   }
 
-  // Ir a la página anterior
-  previousPage(): void {
-    if (this.currentPage > 1) {
-      this.currentPage--;
+  previousPage(step: number): void {
+    const newPage = this.currentPage - step;
+    if (newPage >= 1) {
+      this.currentPage = newPage;
       this.loadDifuntos(this.currentPage, this.pageSize);
     }
   }
-  goToFirstPage() {
+
+  goToFirstPage(): void {
     this.currentPage = 1;
-    this.loadDifuntos(this.currentPage, this.pageSize);;
+    this.loadDifuntos(this.currentPage, this.pageSize);
   }
-  
-  goToLastPage() {
+
+  goToLastPage(): void {
     this.currentPage = this.totalPages;
     this.loadDifuntos(this.currentPage, this.pageSize);
+  }
+
+  get totalPages(): number {
+    return Math.ceil(this.totalItems / this.pageSize);
   }
 
   // Resetear filtros
@@ -160,7 +166,5 @@ isEditing(difunto: Difunto): boolean {
     this.isDarkMode = localStorage.getItem('darkMode') === 'true';
     document.documentElement.classList.toggle('dark', this.isDarkMode);
   }
-  get totalPages(): number {
-    return Math.ceil(this.totalItems / this.pageSize);
-  }
+  
 }

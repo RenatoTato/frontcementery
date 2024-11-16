@@ -1,208 +1,238 @@
-<div class="container mx-auto p-4">
+<div
+    class="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex flex-col justify-center items-center p-8">
+    <h1 class="text-2xl font-bold mb-4 dark:text-white text-center">Auditoria de Servicios</h1>
+    <div class="container mx-auto p-4">
 
-    <!-- Formulario de Filtros -->
-    <div class="w-full max-w-4xxl bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-        <h1 class="text-2xl font-bold mb-4 dark:text-white">Filtrar Historial de Servicios</h1>
-        <form [formGroup]="filterForm" (ngSubmit)="loadHistorial()" class="space-y-4">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <!-- Campo de entrada para cada atributo con validación -->
-                <div *ngFor="let field of filterFields">
-                    <label [for]="field.name" class="block text-sm font-medium mb-2 dark:text-gray-200">
-                        {{ field.label }}
-                    </label>
-    
-                    <!-- Desplegable para campos específicos -->
-                    <ng-container [ngSwitch]="field.name">
-                        <!-- Select para ceremonia -->
-                        <select *ngSwitchCase="'ceremony'" [id]="field.name" [formControlName]="field.name"
+        <!-- Formulario de Filtros -->
+        <div class="w-full max-w-4xxl bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+            <h1 class="text-2xl font-bold mb-4 dark:text-white">Filtrar Historial de Servicios</h1>
+            <form [formGroup]="filterForm" (ngSubmit)="loadHistorial()" class="space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <!-- Campo de entrada para cada atributo con validación -->
+                    <div *ngFor="let field of filterFields">
+                        <label [for]="field.name" class="block text-sm font-medium mb-2 dark:text-gray-200">
+                            {{ field.label }}
+                        </label>
+
+                        <!-- Desplegable para campos específicos -->
+                        <ng-container [ngSwitch]="field.name">
+                            <!-- Select para ceremonia -->
+                            <select *ngSwitchCase="'ceremony'" [id]="field.name" [formControlName]="field.name"
                                 class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
-                            <option *ngFor="let option of filterOptions.ceremony" [value]="option.value">
-                                {{ option.label }}
-                            </option>
-                        </select>
-    
-                        <!-- Select para tipo de acción -->
-                        <select *ngSwitchCase="'history_type'" [id]="field.name" [formControlName]="field.name"
+                                <option *ngFor="let option of filterOptions.ceremony" [value]="option.value">
+                                    {{ option.label }}
+                                </option>
+                            </select>
+
+                            <!-- Select para tipo de acción -->
+                            <select *ngSwitchCase="'history_type'" [id]="field.name" [formControlName]="field.name"
                                 class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
-                            <option *ngFor="let option of filterOptions.history_type" [value]="option.value">
-                                {{ option.label }}
-                            </option>
-                        </select>
-    
-                        <!-- Select para usuario -->
-                        <select *ngSwitchCase="'user'" [id]="field.name" [formControlName]="field.name"
+                                <option *ngFor="let option of filterOptions.history_type" [value]="option.value">
+                                    {{ option.label }}
+                                </option>
+                            </select>
+
+                            <!-- Select para usuario -->
+                            <select *ngSwitchCase="'user'" [id]="field.name" [formControlName]="field.name"
                                 class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
-                            <option *ngFor="let option of filterOptions.user" [value]="option.value">
-                                {{ option.label }}
-                            </option>
-                        </select>
-    
-                        <!-- Input para otros campos -->
-                        <input *ngSwitchDefault [id]="field.name" [formControlName]="field.name" type="text" [placeholder]="field.label"
-                               class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100" />
-                    </ng-container>
+                                <option *ngFor="let option of filterOptions.user" [value]="option.value">
+                                    {{ option.label }}
+                                </option>
+                            </select>
+
+                            <!-- Input para otros campos -->
+                            <input *ngSwitchDefault [id]="field.name" [formControlName]="field.name" type="text"
+                                [placeholder]="field.label"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100" />
+                        </ng-container>
+                    </div>
                 </div>
-            </div>
-            <div class="flex justify-end space-x-4">
-                <button type="button" (click)="resetFilters()"
-                    class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600" [title]="'Refrescar'">
-                    <img src="assets\image\icono\refresh-ccw.svg" alt="Icono comparar" class="w-4 h-4 " />
-                </button>
-                <button type="submit"
-                    class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600" [title]="'Buscar'">
-                    <img src="assets\image\icono\search.svg" alt="Icono comparar" class="w-4 h-4 " />
-                </button>
-            </div>
-        </form>
-    </div>
-    <!-- Tabla de Historial -->
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-x-auto mb-6">
-        <h2 class="text-2xl font-bold mb-4 dark:text-white">Historial de Servicios</h2>
-        <table class="min-w-full bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-            <thead class="bg-gray-200 dark:bg-gray-700">
-                <tr>
-                    <th *ngFor="let header of tableHeaders"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
-                        {{ header }}
-                    </th>
-                    <th class="px-6 py-3 text-center text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
-                        Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let item of historialItems" class="border-b border-gray-200 dark:border-gray-700">
-                    <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{mapUser(item.history_user) }}</td>
-                    <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ item.id }}</td>
-                    <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ item.startDate?(item.startDate |
-                        date:'shortDate'): 'N/A'}}</td>
-                    <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ item.endDate ? (item.endDate |
-                        date:'shortDate'):'N/A' }}</td>
-                    <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ mapCeremony(item.ceremony) }}</td>
-                    <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ item.is_paid ? 'Pagado' :
-                        'NoPagado' }}</td>
-                    <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ item.amount_paid || 'N/A' }}</td>
-                    <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ item.loadDate? (item.loadDate
-                        |date:'shortDate'):'N/A' }}</td>
-                    <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ item.history_date ?
-                        (item.history_date | date:'shortDate') : 'N/A' }}
-                    </td>
-                    <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ mapHistoryType(item.history_type)}}</td>
-                    <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ item.numberTomb || 'N/A' }}</td>
-                    <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ item.deceasedName || 'N/A' }}
-                      </td>
-                    <td class="px-4 py-2 text-center">
-                        <button (click)="restaurarVersion(item.history_id)"
-                            class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600" [title]="'Restaurar'"><img src="assets\image\icono\database-restore.svg" alt="Icono comparar" class="w-4 h-4" /></button>
-                        <button (click)="compararVersiones(item.id)"
-                            class="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600" [title]="'Comparar'"><img src="assets/image/icono/git-compare.svg" alt="Icono comparar" class="w-4 h-4" /></button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <!-- Paginación -->
-    <div class="flex justify-evenly mt-4">
-        <button (click)="goToFirstPage()" [disabled]="currentPage === 1"
-            class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm" [title]="'Primera página'">
-            <img src="assets\image\icono\skip-forward.svg" alt="Icono comparar" class="w-4 h-4 rotate-180" />
-        </button>
-
-        <button (click)="previousPage(5)" [disabled]="currentPage <= 5"
-            class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm" [title]="'Retroceder 5'">
-            <img src="assets\image\icono\fast-forward.svg" alt="Icono comparar" class="w-4 h-4 rotate-180" />
-        </button>
-
-        <button (click)="previousPage(1)" [disabled]="currentPage === 1"
-            class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm" [title]="'Página anterior'">
-            <img src="assets\image\icono\play.svg" alt="Icono comparar" class="w-4 h-4 rotate-180" />
-        </button>
-
-        <span class="text-gray-700 dark:text-gray-200">Página {{ currentPage }} de {{ totalPages }}</span>
-
-        <button (click)="nextPage(1)" [disabled]="currentPage === totalPages"
-            class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm" [title]="'Página siguiente'">
-            <img src="assets\image\icono\play.svg" alt="Icono comparar" class="w-4 h-4" />
-        </button>
-
-        <button (click)="nextPage(5)" [disabled]="currentPage + 5 > totalPages"
-            class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm" [title]="'Avanzar 5'">
-            <img src="assets\image\icono\fast-forward.svg" alt="Icono comparar" class="w-4 h-4" />
-        </button>
-
-        <button (click)="goToLastPage()" [disabled]="currentPage === totalPages"
-            class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm" [title]="'Ultima página'">
-            <img src="assets\image\icono\skip-forward.svg" alt="Icono comparar" class="w-4 h-4" />
-        </button>
-    </div>
-    <!-- <div class="w-full max-w-4xl mt-6">
-        <h3 class="text-xl font-bold my-4 dark:text-white">Comparación de Versiones</h3>
-        <ul class="bg-gray-100 dark:bg-gray-800 rounded-lg p-4 space-y-4">
-
-            <li *ngFor="let version of comparacion" class="text-gray-700 dark:text-gray-200">
-                <strong>Versión ID:</strong> {{ version.version_id }} - <strong>Fecha:</strong> {{ version.fecha }}
-                <ul class="ml-4 mt-2">
-
-                    <li *ngFor="let cambio of version.cambios">
-                        <strong>{{ cambio.campo }}:</strong> {{ cambio.antes || 'N/A' }} &rarr; {{ cambio.despues ||
-                        'N/A' }}
-                    </li>
-                </ul>
-            </li>
-        </ul>
-    </div> -->
-    <div  class="max-w-6xxl mt-6 bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-        <h2 class="text-2xl font-bold mb-4 dark:text-white">Comparación de Versiones</h2>
-        <table class="min-w-full bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-            <thead>
-                <tr class="bg-gray-200 dark:bg-gray-700">
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">Versión ID</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">Fecha</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">Campo</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">Valor Anterior</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">Valor Nuevo</th>
-                    <th class="px-6 py-3 text-center text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <ng-container *ngFor="let version of comparacion">
-                    <!-- Fila para cada cambio individual -->
-                    <tr *ngFor="let cambio of version.cambios" class="border-b border-gray-200 dark:border-gray-700">
-                        <!-- Muestra el ID de la versión y la fecha solo en la primera fila de cada grupo de cambios -->
-                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100 font-semibold">
-                            {{ version.cambios[0] === cambio ? version.version_id : '' }}
+                <div class="flex justify-end space-x-4">
+                    <button type="button" (click)="resetFilters()"
+                        class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600"
+                        [title]="'Refrescar'">
+                        <img src="assets\image\icono\refresh-ccw.svg" alt="Icono comparar" class="w-4 h-4 " />
+                    </button>
+                    <button type="submit"
+                        class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
+                        [title]="'Buscar'">
+                        <img src="assets\image\icono\search.svg" alt="Icono comparar" class="w-4 h-4 " />
+                    </button>
+                </div>
+            </form>
+        </div>
+        <!-- Tabla de Historial -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-x-auto mb-6">
+            <h2 class="text-2xl font-bold mb-4 dark:text-white text-center">Historial de Servicios</h2>
+            <table class="min-w-full bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden text-center">
+                <thead class="bg-gray-200 dark:bg-gray-700">
+                    <tr>
+                        <th *ngFor="let header of tableHeaders"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
+                            {{ header }}
+                        </th>
+                        <th
+                            class="px-6 py-3 text-center text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
+                            Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of historialItems" class="border-b border-gray-200 dark:border-gray-700">
+                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{mapUser(item.history_user) }}
                         </td>
-                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100 font-semibold">
-                            {{ version.cambios[0] === cambio ? version.fecha : '' }}
+                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ item.id }}</td>
+                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ item.startDate?(item.startDate
+                            |
+                            date:'shortDate'): 'N/A'}}</td>
+                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ item.endDate ? (item.endDate |
+                            date:'shortDate'):'N/A' }}</td>
+                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ mapCeremony(item.ceremony) }}
                         </td>
-                        <!-- Campos del cambio específico -->
-                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">
-                            {{ campoLabels[cambio.campo] || cambio.campo }}
-                          </td>
-                          <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">
-                            <ng-container *ngIf="cambio.campo === 'deceased'; else otherContent">
-                                {{ cambio.antes ? obtenerNombreDifunto(cambio.antes) : 'N/A' }}
-                            </ng-container>
-                            <ng-template #otherContent>
-                                {{ cambio.antes !== null && cambio.antes !== undefined && cambio.antes !== '' ?
-                                cambio.antes : 'N/A' }}
-                            </ng-template>
+                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ item.is_paid ? 'Pagado' :
+                            'NoPagado' }}</td>
+                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ item.amount_paid || 'N/A' }}
                         </td>
-                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">
-                            <ng-container *ngIf="cambio.campo === 'deceased'; else otherContentAfter">
-                                {{ cambio.despues ? obtenerNombreDifunto(cambio.despues) : 'N/A' }}
-                            </ng-container>
-                            <ng-template #otherContentAfter>
-                                {{ cambio.despues !== null && cambio.despues !== undefined && cambio.despues !== '' ?
-                                cambio.despues : 'N/A' }}
-                            </ng-template>
+                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ item.loadDate? (item.loadDate
+                            |date:'shortDate'):'N/A' }}</td>
+                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ item.history_date ?
+                            (item.history_date | date:'shortDate') : 'N/A' }}
                         </td>
-                        <td class="px-6 py-4 text-center">
-                            <button *ngIf="version.cambios[0] === cambio" (click)="restaurarVersion(version.version_id)"
-                                class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600" [title]="'Restaurar'"><img src="assets\image\icono\database-restore.svg" alt="Icono Restaurar" class="w-4 h-4" /></button>
+                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{
+                            mapHistoryType(item.history_type)}}</td>
+                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ item.numberTomb || 'N/A' }}
+                        </td>
+                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ item.deceasedName || 'N/A' }}
+                        </td>
+                        <td class="px-4 py-2 text-center">
+                            <button (click)="restaurarVersion(item.history_id)"
+                                class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+                                [title]="'Restaurar'"><img src="assets\image\icono\database-restore.svg"
+                                    alt="Icono comparar" class="w-4 h-4" /></button>
+                            <button (click)="compararVersiones(item.id)"
+                                class="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600"
+                                [title]="'Comparar'"><img src="assets/image/icono/git-compare.svg" alt="Icono comparar"
+                                    class="w-4 h-4" /></button>
                         </td>
                     </tr>
-                </ng-container>
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
+        <!-- Paginación -->
+        <div class="flex justify-evenly mt-4">
+            <button (click)="goToFirstPage()" [disabled]="currentPage === 1"
+                class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm" [title]="'Primera página'">
+                <img src="assets\image\icono\skip-forward.svg" alt="Icono comparar" class="w-4 h-4 rotate-180" />
+            </button>
+
+            <button (click)="previousPage(5)" [disabled]="currentPage <= 5"
+                class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm" [title]="'Retroceder 5'">
+                <img src="assets\image\icono\fast-forward.svg" alt="Icono comparar" class="w-4 h-4 rotate-180" />
+            </button>
+
+            <button (click)="previousPage(1)" [disabled]="currentPage === 1"
+                class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm" [title]="'Página anterior'">
+                <img src="assets\image\icono\play.svg" alt="Icono comparar" class="w-4 h-4 rotate-180" />
+            </button>
+
+            <span class="text-gray-700 dark:text-gray-200">Página {{ currentPage }} de {{ totalPages }}</span>
+
+            <button (click)="nextPage(1)" [disabled]="currentPage === totalPages"
+                class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm" [title]="'Página siguiente'">
+                <img src="assets\image\icono\play.svg" alt="Icono comparar" class="w-4 h-4" />
+            </button>
+
+            <button (click)="nextPage(5)" [disabled]="currentPage + 5 > totalPages"
+                class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm" [title]="'Avanzar 5'">
+                <img src="assets\image\icono\fast-forward.svg" alt="Icono comparar" class="w-4 h-4" />
+            </button>
+
+            <button (click)="goToLastPage()" [disabled]="currentPage === totalPages"
+                class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm" [title]="'Ultima página'">
+                <img src="assets\image\icono\skip-forward.svg" alt="Icono comparar" class="w-4 h-4" />
+            </button>
+        </div>
+        <!-- <div class="w-full max-w-4xl mt-6">
+            <h3 class="text-xl font-bold my-4 dark:text-white">Comparación de Versiones</h3>
+            <ul class="bg-gray-100 dark:bg-gray-800 rounded-lg p-4 space-y-4">
+    
+                <li *ngFor="let version of comparacion" class="text-gray-700 dark:text-gray-200">
+                    <strong>Versión ID:</strong> {{ version.version_id }} - <strong>Fecha:</strong> {{ version.fecha }}
+                    <ul class="ml-4 mt-2">
+    
+                        <li *ngFor="let cambio of version.cambios">
+                            <strong>{{ cambio.campo }}:</strong> {{ cambio.antes || 'N/A' }} &rarr; {{ cambio.despues ||
+                            'N/A' }}
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div> -->
+        <div class="max-w-6xxl mt-6 bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+            <h2 class="text-2xl font-bold mb-4 dark:text-white">Comparación de Versiones</h2>
+            <table class="min-w-full bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+                <thead>
+                    <tr class="bg-gray-200 dark:bg-gray-700">
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
+                            Versión ID</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
+                            Fecha</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
+                            Campo</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
+                            Valor Anterior</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
+                            Valor Nuevo</th>
+                        <th
+                            class="px-6 py-3 text-center text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
+                            Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let version of comparacion">
+                        <!-- Fila para cada cambio individual -->
+                        <tr *ngFor="let cambio of version.cambios"
+                            class="border-b border-gray-200 dark:border-gray-700">
+                            <!-- Muestra el ID de la versión y la fecha solo en la primera fila de cada grupo de cambios -->
+                            <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100 font-semibold">
+                                {{ version.cambios[0] === cambio ? version.version_id : '' }}
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100 font-semibold">
+                                {{ version.cambios[0] === cambio ? version.fecha : '' }}
+                            </td>
+                            <!-- Campos del cambio específico -->
+                            <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">
+                                {{ campoLabels[cambio.campo] || cambio.campo }}
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">
+                                <ng-container *ngIf="cambio.campo === 'deceased'; else otherContent">
+                                    {{ cambio.antes ? obtenerNombreDifunto(cambio.antes) : 'N/A' }}
+                                </ng-container>
+                                <ng-template #otherContent>
+                                    {{ cambio.antes !== null && cambio.antes !== undefined && cambio.antes !== '' ?
+                                    cambio.antes : 'N/A' }}
+                                </ng-template>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">
+                                <ng-container *ngIf="cambio.campo === 'deceased'; else otherContentAfter">
+                                    {{ cambio.despues ? obtenerNombreDifunto(cambio.despues) : 'N/A' }}
+                                </ng-container>
+                                <ng-template #otherContentAfter>
+                                    {{ cambio.despues !== null && cambio.despues !== undefined && cambio.despues !== ''
+                                    ?
+                                    cambio.despues : 'N/A' }}
+                                </ng-template>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <button *ngIf="version.cambios[0] === cambio"
+                                    (click)="restaurarVersion(version.version_id)"
+                                    class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+                                    [title]="'Restaurar'"><img src="assets\image\icono\database-restore.svg"
+                                        alt="Icono Restaurar" class="w-4 h-4" /></button>
+                            </td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
