@@ -1,10 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef  } from '@angular/core';
 import { NgApexchartsModule, ChartComponent } from 'ng-apexcharts';
 import { ServicioService } from '@externo/services/servicio.service';
 import { ChartOptions } from '@admin/models/reportes/tumba/chart-options.model'; 
 import { ServicioReporte } from '@admin/models/reportes/servicio/servicioreporte.model';
 import { CommonModule } from '@angular/common';
-import ApexCharts from 'apexcharts';
 import {jsPDF} from 'jspdf';
 import html2canvas from 'html2canvas';
 
@@ -16,14 +15,12 @@ import html2canvas from 'html2canvas';
   styleUrl: './servicio-reporte.component.css'
 })
 export class ServicioReporteComponent implements OnInit {
-  @ViewChild('chart') chart!: ChartComponent;
+  @ViewChild('reportContent', { static: false }) reportContent!: ElementRef; // Agregar aquí
   public chartOptions: Partial<ChartOptions>={};
   public servicioEstadoData: ServicioReporte[] = [];
   private observer: MutationObserver = new MutationObserver(() => {});
   darkMode: boolean = false;
   chartType: 'bar' | 'pie' = 'bar'; // Cambia entre gráfico de barras y circular
-  ApexCharts = require('apexcharts');
-
   constructor(private servicioService: ServicioService) {}
 
   
@@ -137,41 +134,43 @@ export class ServicioReporteComponent implements OnInit {
     this.darkMode = localStorage.getItem('darkMode') === 'true';
     document.documentElement.classList.toggle('dark', this.darkMode);
   }
-  downloadChart(format: 'png' | 'svg'): void {
-    const chartElement = document.querySelector('#chart') as HTMLElement;
-    if (chartElement) {
-      const chartInstance = new ApexCharts(chartElement, this.chartOptions);
-      (chartInstance as any).exportChart({
-        type: format,
-        filename: 'reporte-servicios'
+  downloadFullPDF(): void {
+    const content = this.reportContent.nativeElement;
+
+    html2canvas(content, { scale: 2 }).then((canvas) => {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4',
       });
-    } else {
-      console.error('No se encontró el elemento del gráfico.');
-    }
-  }
-  
-  downloadChartData(): void {
-    const csvData = this.servicioEstadoData.map((row) => 
-      `${row.ceremony},${row.activos},${row.completados},${row.pendiente_pago}`
-    ).join('\n');
-  
-    const blob = new Blob([csvData], { type: 'text/csv' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = 'reporte-servicios.csv';
-    link.click();
-  }
-  downloadAsPDF(): void {
-    const chartElement = document.querySelector('.apexcharts-canvas') as HTMLElement;
-    if (chartElement) {
-      html2canvas(chartElement).then((canvas) => {
-        const imgData = canvas.toDataURL('image/png');
-        const pdf = new jsPDF();
-        pdf.addImage(imgData, 'PNG', 10, 10, 190, 90);
-        pdf.save('reporte-servicios.pdf');
-      }).catch((error) => console.error('Error al generar el PDF:', error));
-    } else {
-      console.error('No se encontró el gráfico.');
-    }
+
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+      const imgWidth = pageWidth - 20; // Margen de 10mm a los lados
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      if (imgHeight <= pageHeight - 20) {
+        // Si el contenido cabe en una página
+        pdf.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
+      } else {
+        // Si el contenido requiere múltiples páginas
+        let yPosition = 10;
+        let remainingHeight = imgHeight;
+
+        while (remainingHeight > 0) {
+          pdf.addImage(imgData, 'PNG', 10, yPosition, imgWidth, imgHeight);
+          remainingHeight -= pageHeight - 20;
+          yPosition = 10;
+          if (remainingHeight > 0) {
+            pdf.addPage();
+          }
+        }
+      }
+
+      pdf.save('reporte-completo.pdf');
+    }).catch((error) => {
+      console.error('Error al generar el PDF:', error);
+    });
   }
 }
