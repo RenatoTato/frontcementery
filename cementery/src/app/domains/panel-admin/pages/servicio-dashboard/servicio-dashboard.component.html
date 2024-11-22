@@ -18,15 +18,15 @@
   </div>
   
   <!-- Contenido del formulario -->
-  <div *ngIf="mostrarFormularioDiv">
+  <div *ngIf="estadoActual === 'formulario'">
     <app-servicioForm/>
   </div>
   <!-- Contenido de edición -->
-  <div *ngIf="mostrarEdicionDiv">
-    <h1>edicion</h1>
+  <div *ngIf="estadoActual === 'edicion'">
+    <app-servicio-editar/>
   </div>
 
   <!-- Contenido de edición -->
-  <div *ngIf="mostrarReporteDiv">
+  <div *ngIf="estadoActual === 'reporte'">
     <app-servicio-reporte/>
   </div>

@@ -1,5 +1,43 @@
-<div>
-    <app-obituarioForm />
-    <hr>
+<div class="flex space-x-4">
+    <!-- Botón para mostrar el formulario -->
+    <button (click)="mostrarFormularioObituario()"
+      class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700">
+      Formulario Obituario
+    </button>
+    <!-- Botón para mostrar el formulario -->
+    <button (click)="mostrarFormularioEtapa()"
+      class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700">
+      Formulario Etapa
+    </button>
+  
+    <!-- Botón para mostrar la edición -->
+    <button (click)="mostrarEdicionObituario()"
+      class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600">
+      Modificar Obituario
+    </button>
+    <!-- Botón para mostrar la edición -->
+    <button (click)="mostrarEdicionEtapa()"
+      class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600">
+      Modificar Etapa
+    </button>
+    <!-- Botón para mostrar la edición -->
+    <button (click)="mostrarEdicionMemoria()" class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600">
+      Reporte Memoria
+    </button>
+  </div>
+  
+  <div *ngIf="estadoActual === 'formularioEtapa'">
     <app-etapaForm />
-</div>
+  </div>
+  <div *ngIf="estadoActual === 'formularioObituario'">
+    <app-obituarioForm />
+  </div>
+  <div *ngIf="estadoActual === 'edicionObituario'">
+    <app-obituario-editar />
+  </div>
+  <div *ngIf="estadoActual === 'edicionEtapa'">
+    <app-etapa-editar />
+  </div>
+  <div *ngIf="estadoActual === 'memoria'">
+    <app-memoria-editar />
+  </div>

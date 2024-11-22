@@ -1,3 +1,19 @@
-<div>
-    <app-infoForm/>
-</div>
+<div class="flex space-x-4">
+    <!-- Botón para mostrar la edición -->
+    <button (click)="mostrarFormularioInfo()"
+    class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700">
+      Formulario Info
+    </button>
+    <!-- Botón para mostrar la edición -->
+    <button (click)="mostrarEdicionInfo()"
+      class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600">
+      Modificar Info
+    </button>
+  </div>
+
+  <div *ngIf="estadoActual === 'formularioInfo'">
+    <app-infoForm />
+  </div>
+  <div *ngIf="estadoActual === 'edicionInfo'">
+    <app-info-editar />
+  </div>

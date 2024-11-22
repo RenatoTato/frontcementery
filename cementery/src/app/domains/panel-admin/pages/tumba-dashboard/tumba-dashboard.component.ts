@@ -3,37 +3,50 @@ import { TumbaFormComponent } from "../../components/tumbas/tumba/tumbaForm.comp
 import { LoteReporteComponent } from "../../components/tumbas/lote-reporte/lote-reporte.component";
 import { CommonModule } from '@angular/common';
 import { TumbaReporteComponent } from "../../components/tumbas/tumba-reporte/tumba-reporte.component";
+import { TumbaEditarComponent } from "../../components/tumbas/tumba-editar/tumba-editar.component";
+import { LoteFormComponent } from "../../components/tumbas/lote/loteForm.component";
+import { LoteEditarComponent } from "../../components/tumbas/lote-editar/lote-editar.component";
 
 @Component({
   selector: 'app-tumba-dashboard',
   standalone: true,
-  imports: [TumbaFormComponent, LoteReporteComponent, CommonModule, TumbaReporteComponent],
+  imports: [TumbaFormComponent, LoteReporteComponent, CommonModule, TumbaReporteComponent, TumbaEditarComponent, LoteFormComponent, LoteEditarComponent],
   templateUrl: './tumba-dashboard.component.html',
   styleUrl: './tumba-dashboard.component.css'
 })
 export class TumbaDashboardComponent {
-  mostrarFormularioDiv: boolean = true;
-  mostrarReporteLoteDiv: boolean = false;
-  mostrarReporteTumbaDiv: boolean = false;
 
-  // Muestra el formulario y oculta la edición
-  mostrarFormulario(): void {
-    this.mostrarFormularioDiv = true;
-    this.mostrarReporteLoteDiv = false;
-    this.mostrarReporteTumbaDiv= false;
+  // Estado actual del componente
+  estadoActual: 'formularioTumba' | 'formularioLote' | 'edicionLote' | 'edicionTumba' | 'reporteTumba'| 'reporteLote' = 'formularioTumba';
+
+  // Método genérico para cambiar el estado
+  cambiarEstado(nuevoEstado: 'formularioTumba' | 'formularioLote' | 'edicionLote' | 'edicionTumba' | 'reporteTumba'| 'reporteLote'): void {
+    this.estadoActual = nuevoEstado;
   }
 
-  // Muestra la edición y oculta el formulario
-  mostrarReporteLote(): void {
-    this.mostrarFormularioDiv = false;
-    this.mostrarReporteLoteDiv = true;
-    this.mostrarReporteTumbaDiv= false;
+  // Métodos de conveniencia
+  mostrarFormularioTumba(): void {
+    this.cambiarEstado('formularioTumba');
   }
 
-  // Muestra la edición y oculta el formulario
+  mostrarFormularioLote(): void {
+    this.cambiarEstado('formularioLote');
+  }
+
+  mostrarEdicionLote(): void {
+    this.cambiarEstado('edicionLote');
+  }
+
+  mostrarEdicionTumba(): void {
+    this.cambiarEstado('edicionTumba');
+  }
+
   mostrarReporteTumba(): void {
-    this.mostrarFormularioDiv = false;
-    this.mostrarReporteLoteDiv = false;
-    this.mostrarReporteTumbaDiv= true;
+    this.cambiarEstado('reporteTumba');
   }
+  mostrarReporteLote(): void {
+    this.cambiarEstado('reporteLote');
+  }
+
+
 }

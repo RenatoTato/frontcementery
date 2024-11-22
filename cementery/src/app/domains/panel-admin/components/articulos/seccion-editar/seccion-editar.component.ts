@@ -54,7 +54,7 @@ export class SeccionEditarComponent {
     }
   }
   loadArticulos(): void {
-    this.seccionService.getArticulos().subscribe(
+    this.seccionService.getReadArticulos().subscribe(
       (response: Articulo[]) => {
         this.articulos = response;
       },

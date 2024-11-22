@@ -15,53 +15,35 @@ import { CommonModule } from '@angular/common';
 })
 export class HistorialComponent {
 
-  mostrarHistorialDeudoDiv: boolean = true;
-  mostrarHistorialDifuntoDiv: boolean = false;
-  mostrarHistorialTumbaDiv: boolean = false;
-  mostrarHistorialLoteDiv: boolean = false;
-  mostrarHistorialSevicioDiv: boolean = false;
+  // Estado actual del componente
+  estadoActual: 'HistorialDeudo' | 'HistorialDifunto' | 'HistorialTumba' | 'HistorialLote' | 'HistorialSevicio' = 'HistorialDeudo';
 
+  // Método genérico para cambiar el estado
+  cambiarEstado(nuevoEstado: 'HistorialDeudo' | 'HistorialDifunto' | 'HistorialTumba' | 'HistorialLote' | 'HistorialSevicio'): void {
+    this.estadoActual = nuevoEstado;
+  }
 
-  // Muestra el historia deudo
+  // Métodos de conveniencia
   mostrarHistorialDeudo(): void {
-    this.mostrarHistorialDeudoDiv = true;
-    this.mostrarHistorialDifuntoDiv = false;
-    this.mostrarHistorialTumbaDiv = false;
-    this.mostrarHistorialLoteDiv = false;
-    this.mostrarHistorialSevicioDiv = false;
+    this.cambiarEstado('HistorialDeudo');
   }
-  // Muestra el historia deudo
+
   mostrarHistorialDifunto(): void {
-    this.mostrarHistorialDeudoDiv = false;
-    this.mostrarHistorialDifuntoDiv = true;
-    this.mostrarHistorialTumbaDiv = false;
-    this.mostrarHistorialLoteDiv = false;
-    this.mostrarHistorialSevicioDiv = false;
+    this.cambiarEstado('HistorialDifunto');
   }
-  // Muestra el historia deudo
+
   mostrarHistorialTumba(): void {
-    this.mostrarHistorialDeudoDiv = false;
-    this.mostrarHistorialDifuntoDiv = false;
-    this.mostrarHistorialTumbaDiv = true;
-    this.mostrarHistorialLoteDiv = false;
-    this.mostrarHistorialSevicioDiv = false;
+    this.cambiarEstado('HistorialTumba');
   }
-  // Muestra el historia deudo
+
   mostrarHistorialLote(): void {
-    this.mostrarHistorialDeudoDiv = false;
-    this.mostrarHistorialDifuntoDiv = false;
-    this.mostrarHistorialTumbaDiv = false;
-    this.mostrarHistorialLoteDiv = true;
-    this.mostrarHistorialSevicioDiv = false;
+    this.cambiarEstado('HistorialLote');
   }
-  // Muestra el historia deudo
+
   mostrarHistorialServicio(): void {
-    this.mostrarHistorialDeudoDiv = false;
-    this.mostrarHistorialDifuntoDiv = false;
-    this.mostrarHistorialTumbaDiv = false;
-    this.mostrarHistorialLoteDiv = false;
-    this.mostrarHistorialSevicioDiv = true;
+    this.cambiarEstado('HistorialSevicio');
   }
+
 
 }
 

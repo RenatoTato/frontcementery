@@ -1,3 +1,23 @@
-<div>
-    <app-guiaForm/>
-</div>
+
+<div class="flex space-x-4">
+    <!-- Botón para mostrar el formulario -->
+    <button (click)="mostrarFormularioGuia()"
+      class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700">
+      Formulario Guia
+    </button>
+
+    <!-- Botón para mostrar la edición -->
+    <button (click)="mostrarEdicionGuia()"
+      class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600">
+      Modificar Guia
+    </button>
+
+  </div>
+  
+
+  <div *ngIf="estadoActual === 'formularioGuia'">
+    <app-guiaForm />
+  </div>
+  <div *ngIf="estadoActual === 'edicionGuia'">
+    <app-guia-editar />
+  </div>

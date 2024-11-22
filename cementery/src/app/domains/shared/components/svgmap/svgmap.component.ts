@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TumbaService } from '@externo/services/tumba.service';
 import { LoteOcupacion } from '@admin/models/reportes/tumba/loteocupacion.model';
 import { CommonModule } from '@angular/common';
+import { TumbaEstado } from '@admin/models/reportes/tumba/tumbaestado.model';
 
 @Component({
   selector: 'app-svgmap',

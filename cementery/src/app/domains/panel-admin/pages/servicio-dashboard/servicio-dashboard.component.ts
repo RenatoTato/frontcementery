@@ -2,39 +2,35 @@ import { Component } from '@angular/core';
 import { ServicioFormComponent } from "@admin/components/servicios/servicio/servicioForm.component";
 import { ServicioReporteComponent } from "../../components/servicios/servicio-reporte/servicio-reporte.component";
 import { CommonModule } from '@angular/common';
+import { ServicioEditarComponent } from "../../components/servicios/servicio-editar/servicio-editar.component";
 
 @Component({
   selector: 'app-servicio-dashboard',
   standalone: true,
-  imports: [ServicioFormComponent, ServicioReporteComponent, CommonModule],
+  imports: [ServicioFormComponent, ServicioReporteComponent, CommonModule, ServicioEditarComponent],
   templateUrl: './servicio-dashboard.component.html',
   styleUrl: './servicio-dashboard.component.css'
 })
 export class ServicioDashboardComponent {
 
-  mostrarFormularioDiv: boolean = true;
-  mostrarEdicionDiv: boolean = false;
-  mostrarReporteDiv: boolean = false;
+  // Estado actual del componente
+  estadoActual: 'reporte' | 'formulario' | 'edicion' = 'reporte';
 
-  // Muestra el formulario y oculta la edición
-  mostrarFormulario(): void {
-    this.mostrarFormularioDiv = true;
-    this.mostrarEdicionDiv = false;
-    this.mostrarReporteDiv = false;
+  // Método genérico para cambiar el estado
+  cambiarEstado(nuevoEstado: 'reporte' | 'formulario' | 'edicion'): void {
+    this.estadoActual = nuevoEstado;
   }
 
-  // Muestra la edición y oculta el formulario
+  // Métodos de conveniencia
   mostrarReporte(): void {
-    this.mostrarFormularioDiv = false;
-    this.mostrarEdicionDiv = false;
-    this.mostrarReporteDiv = true;
+    this.cambiarEstado('reporte');
   }
 
-  // Muestra la edición y oculta el formulario
+  mostrarFormulario(): void {
+    this.cambiarEstado('formulario');
+  }
+
   mostrarEdicion(): void {
-    this.mostrarFormularioDiv = false;
-    this.mostrarEdicionDiv = true;
-    this.mostrarReporteDiv = false;
+    this.cambiarEstado('edicion');
   }
-
 }

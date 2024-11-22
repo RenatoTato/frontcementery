@@ -27,22 +27,22 @@
 </div>
 
 <!-- Contenido del Historial deudo-->
-<div *ngIf="mostrarHistorialDeudoDiv">
+<div *ngIf="estadoActual === 'HistorialDeudo'">
     <app-deudo-historial />
 </div>
 <!-- Contenido del Historial deudo-->
-<div *ngIf="mostrarHistorialDifuntoDiv">
+<div *ngIf="estadoActual === 'HistorialDifunto'">
     <app-difunto-historial />
 </div>
 <!-- Contenido del Historial deudo-->
-<div *ngIf="mostrarHistorialTumbaDiv">
+<div *ngIf="estadoActual === 'HistorialTumba'">
     <app-tumba-historial />
 </div>
 <!-- Contenido del Historial deudo-->
-<div *ngIf="mostrarHistorialLoteDiv">
+<div *ngIf="estadoActual === 'HistorialLote'">
     <app-lote-historial />
 </div>
 <!-- Contenido del Historial deudo-->
-<div *ngIf="mostrarHistorialSevicioDiv">
+<div *ngIf="estadoActual === 'HistorialSevicio'">
     <app-servicio-historial />
 </div>

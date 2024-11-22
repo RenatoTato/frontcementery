@@ -1,5 +1,37 @@
-<div>
-    <app-articuloForm/>
-    <hr>
-    <app-seccionForm/>
+<div class="flex space-x-4">
+    <!-- Botón para mostrar el formulario -->
+    <button (click)="mostrarFormularioArticulo()"
+        class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700">
+        Formulario Articulo
+    </button>
+    <!-- Botón para mostrar el formulario -->
+    <button (click)="mostrarFormularioSeccion()"
+        class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700">
+        Formulario Seccion
+    </button>
+
+    <!-- Botón para mostrar la edición -->
+    <button (click)="mostrarEdicionArticulo()"
+        class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600">
+        Modificar Articulo
+    </button>
+    <!-- Botón para mostrar la edición -->
+    <button (click)="mostrarEdicionSeccion()"
+        class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600">
+        Modificar Seccion
+    </button>
+
+</div>
+
+<div *ngIf="estadoActual === 'formularioArticulo'">
+    <app-articuloForm />
+</div>
+<div *ngIf="estadoActual === 'formularioSeccion'">
+    <app-seccionForm />
+</div>
+<div *ngIf="estadoActual === 'edicionSeccion'">
+    <app-seccion-editar />
+</div>
+<div *ngIf="estadoActual === 'edicionArticulo'">
+    <app-articulo-editar/>
 </div>

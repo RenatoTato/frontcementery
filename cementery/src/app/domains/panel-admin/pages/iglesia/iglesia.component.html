@@ -1,5 +1,52 @@
-<div>
-    <app-parroquiaForm/>
-    <hr>
-    <app-iglesiaForm/>   
+<div class="flex space-x-4">
+  <!-- Botón para mostrar el formulario -->
+  <button (click)="mostrarFormularioParroquia()"
+    class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700">
+    Formulario Parroquia
+  </button>
+  <!-- Botón para mostrar el formulario -->
+  <button (click)="mostrarFormularioIglesia()"
+    class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700">
+    Formulario Iglesia
+  </button>
+  <!-- Botón para mostrar la Formulario -->
+  <button (click)="mostrarFormularioRedes()"
+    class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700">
+    Formulario Redes
+  </button>
+  <!-- Botón para mostrar la edición -->
+  <button (click)="mostrarEdicionParroquia()"
+    class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600">
+    Modificar Parroquia
+  </button>
+  <!-- Botón para mostrar la edición -->
+  <button (click)="mostrarEdicionIglesia()"
+    class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600">
+    Modificar Iglesia
+  </button>
+
+  <!-- Botón para mostrar la edición -->
+  <button (click)="mostrarEdicionRedes()"
+    class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600">
+    Modificar Redes
+  </button>
+</div>
+
+<div *ngIf="estadoActual === 'formularioIglesia'">
+  <app-iglesiaForm />
+</div>
+<div *ngIf="estadoActual === 'formularioParroquia'">
+  <app-parroquiaForm />
+</div>
+<div *ngIf="estadoActual === 'edicionParroquia'">
+  <app-parroquia-editar />
+</div>
+<div *ngIf="estadoActual === 'edicionIglesia'">
+  <app-iglesia-editar />
+</div>
+<div *ngIf="estadoActual === 'formularioRedes'">
+  <app-socialForm />
+</div>
+<div *ngIf="estadoActual === 'edicionRedes'">
+  <app-social-editar />
 </div>

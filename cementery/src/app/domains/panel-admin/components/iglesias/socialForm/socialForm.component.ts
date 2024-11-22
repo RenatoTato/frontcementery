@@ -57,7 +57,7 @@ export class SocialFormComponent {
     }
   }
   loadIglesias(): void {
-    this.socialService.getIglesias().subscribe(
+    this.socialService.getReadIglesias().subscribe(
       (response: Iglesia[]) => {
         this.iglesias = response;
       },

@@ -1,44 +1,43 @@
 <div class="flex space-x-4">
-    <!-- Botón para mostrar el formulario -->
-    <button (click)="mostrarFormularioDifunto()"
-      class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700">
-      Formulario Difunto
-    </button>
-    <!-- Botón para mostrar el formulario -->
-    <button (click)="mostrarFormularioDeudo()"
-      class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700">
-      Formulario Deudo
-    </button>
-  
-    <!-- Botón para mostrar la edición -->
-    <button (click)="mostrarEdicionDifunto()"
-      class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600">
-      Modificar Difunto
-    </button>
-    <!-- Botón para mostrar la edición -->
-    <button (click)="mostrarEdicionDeudo()"
-      class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600">
-      Modificar Deudo
-    </button>
-     <!-- Botón para mostrar la edición -->
-     <button (click)="mostrarReporte()"
-     class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600">
-     Reporte Difunto
-   </button>
-  </div>
-  
-  <div *ngIf="estadoActual === 'formularioDeudo'">
-    <app-deudoForm/>
-  </div>
-  <div *ngIf="estadoActual === 'formularioDifunto'">
-    <app-difuntoForm/>
-  </div>
-  <div *ngIf="estadoActual === 'edicionDifunto'">
-    <app-difunto-editar/>
-  </div>
-  <div *ngIf="estadoActual === 'edicionDeudo'">
-    <app-deudo-editar/>
-  </div>
-  <div *ngIf="estadoActual === 'reporte'">
-    <app-difunto-reporte/>
-  </div>
+  <!-- Botón para mostrar el formulario -->
+  <button (click)="mostrarFormularioDifunto()"
+    class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700">
+    Formulario Difunto
+  </button>
+  <!-- Botón para mostrar el formulario -->
+  <button (click)="mostrarFormularioDeudo()"
+    class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700">
+    Formulario Deudo
+  </button>
+
+  <!-- Botón para mostrar la edición -->
+  <button (click)="mostrarEdicionDifunto()"
+    class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600">
+    Modificar Difunto
+  </button>
+  <!-- Botón para mostrar la edición -->
+  <button (click)="mostrarEdicionDeudo()"
+    class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600">
+    Modificar Deudo
+  </button>
+  <!-- Botón para mostrar la edición -->
+  <button (click)="mostrarReporte()" class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600">
+    Reporte Difunto
+  </button>
+</div>
+
+<div *ngIf="estadoActual === 'formularioDeudo'">
+  <app-deudoForm />
+</div>
+<div *ngIf="estadoActual === 'formularioDifunto'">
+  <app-difuntoForm />
+</div>
+<div *ngIf="estadoActual === 'edicionDifunto'">
+  <app-difunto-editar />
+</div>
+<div *ngIf="estadoActual === 'edicionDeudo'">
+  <app-deudo-editar />
+</div>
+<div *ngIf="estadoActual === 'reporte'">
+  <app-difunto-reporte />
+</div>
