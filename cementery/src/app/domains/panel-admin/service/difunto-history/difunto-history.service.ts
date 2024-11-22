@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { VersionCambio } from '@admin/models/cambios/comparar.model';
+import { HistorialCambios } from '@admin/models/cambios/comparar.model';
 import { ResponseRestaurar } from '@admin/models/cambios/restaurar.model';
 import { DifuntoHistoryFilter } from '@admin/models/difunto/difuntof.model';
 import { DifuntoHistory } from '@admin/models/difunto/difuntoh.model';
 import { DeudoHistory } from '@admin/models/difunto/deudoh.model';
 import { DeudoHistoryFilter } from '@admin/models/difunto/deudof.model';
+
 
 @Injectable({
   providedIn: 'root'
@@ -43,9 +44,10 @@ export class DifuntoHistoryService {
   // ============================
   // Historial para Difuntos
   // ============================
-  getDifuntoHistorials(filters: DifuntoHistoryFilter): Observable<DifuntoHistory[]> {
-    const params = this.buildFilterParams(filters);
-    return this.http.get<DifuntoHistory[]>(`${this.difuntoHistorialUrl}`, { params });
+  getDifuntoHistorials(page: number = 1, pageSize: number = 10, filters: DifuntoHistoryFilter = {}): Observable<{ results: DifuntoHistory[]; count: number; next?: string; previous?: string }> {
+    let params = this.buildFilterParams(filters);
+    params = params.set('page', page.toString()).set('page_size', pageSize.toString());
+    return this.http.get<{ results: DifuntoHistory[]; count: number; next?: string; previous?: string }>(`${this.difuntoHistorialUrl}`, { params });
   }
 
   // Obtener historial con filtros
@@ -55,9 +57,12 @@ export class DifuntoHistoryService {
   }
 
   // Comparar varias versiones consecutivas de un objeto
-  compareDifuntoVersions(objectId: number, attribute: string = 'all', limit: number = 5): Observable<VersionCambio[]> {
-    const params = this.buildHttpParams(objectId, limit, attribute);
-    return this.http.get<VersionCambio[]>(`${this.difuntoHistorialUrl}comparar/`, { params });
+  compareDifuntoVersions(objectId: number, attribute: string = 'all', limit: number = 5): Observable<HistorialCambios> {
+    const params = new HttpParams()
+      .set('object_id', objectId.toString())
+      .set('limit', limit.toString())
+      .set('attribute', attribute);
+    return this.http.get<HistorialCambios>(`${this.difuntoHistorialUrl}comparar/`, { params });
   }
 
   // Restaurar una versión anterior
@@ -68,9 +73,10 @@ export class DifuntoHistoryService {
   // ============================
   // Historial para Deudos
   // ============================
-  getDeudoHistorials(filters: DeudoHistoryFilter): Observable<DeudoHistory[]> {
-    const params = this.buildFilterParams(filters);
-    return this.http.get<DeudoHistory[]>(`${this.deudoHistorialUrl}`, { params });
+  getDeudoHistorials(page: number = 1, pageSize: number = 10, filters: DeudoHistoryFilter = {}): Observable<{ results: DeudoHistory[]; count: number; next?: string; previous?: string }> {
+    let params = this.buildFilterParams(filters);
+    params = params.set('page', page.toString()).set('page_size', pageSize.toString());
+    return this.http.get<{ results: DeudoHistory[]; count: number; next?: string; previous?: string }>(`${this.deudoHistorialUrl}`, { params });
   }
 
   // Obtener historial con filtros
@@ -80,9 +86,12 @@ export class DifuntoHistoryService {
   }
 
   // Comparar varias versiones consecutivas de un objeto
-  compareDeudoVersions(objectId: number, attribute: string = 'all', limit: number = 5): Observable<VersionCambio[]> {
-    const params = this.buildHttpParams(objectId, limit, attribute);
-    return this.http.get<VersionCambio[]>(`${this.deudoHistorialUrl}comparar/`, { params });
+  compareDeudoVersions(objectId: number, attribute: string = 'all', limit: number = 5): Observable<HistorialCambios> {
+    const params = new HttpParams()
+      .set('object_id', objectId.toString())
+      .set('limit', limit.toString())
+      .set('attribute', attribute);
+    return this.http.get<HistorialCambios>(`${this.deudoHistorialUrl}comparar/`, { params });
   }
 
   // Restaurar una versión anterior

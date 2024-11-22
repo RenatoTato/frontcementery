@@ -1,6 +1,6 @@
 export interface DeudoHistory {
     history_id: number;               // ID único del historial de cambios
-    history_user?: number | null;     // ID del usuario que realizó el cambio (null si es desconocido)
+    history_user?: string;   // ID del usuario que realizó el cambio (null si es desconocido)
     id: number;                       // ID de la entidad original (en este caso, la entidad principal del historial)
     names: string;                    // Nombre del individuo o entidad en la versión histórica
     last_names: string;               // Apellidos del individuo o entidad en la versión histórica

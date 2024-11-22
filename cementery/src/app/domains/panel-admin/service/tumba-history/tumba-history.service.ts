@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { VersionCambio } from '@admin/models/cambios/comparar.model';
+import { HistorialCambios } from '@admin/models/cambios/comparar.model';
 import { ResponseRestaurar } from '@admin/models/cambios/restaurar.model';
 import { TumbaHistory } from '@admin/models/tumba/tumbah.model';
 import { LoteHistory } from '@admin/models/tumba/loteh.model';
@@ -17,9 +18,9 @@ export class TumbaHistoryService {
 
   constructor(private http: HttpClient) { }
 
-  private buildHttpParams(objectId: number, limit: number, attribute?: string): HttpParams {
+  private buildHttpParams(object_id: number, limit: number, attribute?: string): HttpParams {
     let params = new HttpParams()
-      .set('object_id', objectId.toString())
+      .set('object_id', object_id.toString())
       .set('limit', limit.toString());
 
     if (attribute) {
@@ -43,9 +44,10 @@ export class TumbaHistoryService {
   // ============================
   // Historial para Lotes
   // ============================
-  getLoteHistorials(filters: LoteHistoryFilter): Observable<LoteHistory[]> {
-    const params = this.buildFilterParams(filters);
-    return this.http.get<LoteHistory[]>(`${this.loteHistorialUrl}`, { params });
+  getLoteHistorials(page: number = 1, pageSize: number = 10, filters: LoteHistoryFilter = {}): Observable<{ results: LoteHistory[]; count: number; next?: string; previous?: string }> {
+    let params = this.buildFilterParams(filters);
+    params = params.set('page', page.toString()).set('page_size', pageSize.toString());
+    return this.http.get<{ results: LoteHistory[]; count: number; next?: string; previous?: string }>(`${this.loteHistorialUrl}`, { params });
   }
 
   // Obtener historial con filtros
@@ -55,9 +57,12 @@ export class TumbaHistoryService {
   }
 
   // Comparar varias versiones consecutivas de un objeto
-  compareLoteVersions(objectId: number, attribute: string = 'all', limit: number = 5): Observable<VersionCambio[]> {
-    const params = this.buildHttpParams(objectId, limit, attribute);
-    return this.http.get<VersionCambio[]>(`${this.loteHistorialUrl}comparar/`, { params });
+  compareLoteVersions(objectId: number, attribute: string = 'all', limit: number = 5): Observable<HistorialCambios> {
+    const params = new HttpParams()
+      .set('object_id', objectId.toString())
+      .set('limit', limit.toString())
+      .set('attribute', attribute);
+    return this.http.get<HistorialCambios>(`${this.loteHistorialUrl}comparar/`, { params });
   }
 
   // Restaurar una versión anterior
@@ -68,9 +73,10 @@ export class TumbaHistoryService {
   // ============================
   // Historial para Tumbas
   // ============================
-  getTumbaHistorials(filters: TumbaHistoryFilter): Observable<TumbaHistory[]> {
-    const params = this.buildFilterParams(filters);
-    return this.http.get<TumbaHistory[]>(`${this.tumbaHistorialUrl}`, { params });
+  getTumbaHistorials(page: number = 1, pageSize: number = 10, filters: TumbaHistoryFilter = {}): Observable<{ results: TumbaHistory[]; count: number; next?: string; previous?: string }> {
+    let params = this.buildFilterParams(filters);
+    params = params.set('page', page.toString()).set('page_size', pageSize.toString());
+    return this.http.get<{ results: TumbaHistory[]; count: number; next?: string; previous?: string }>(`${this.tumbaHistorialUrl}`, { params });
   }
 
   // Obtener historial con filtros
@@ -80,9 +86,12 @@ export class TumbaHistoryService {
   }
 
   // Comparar varias versiones consecutivas de un objeto
-  compareTumbaVersions(objectId: number, attribute: string = 'all', limit: number = 5): Observable<VersionCambio[]> {
-    const params = this.buildHttpParams(objectId, limit, attribute);
-    return this.http.get<VersionCambio[]>(`${this.tumbaHistorialUrl}comparar/`, { params });
+  compareTumbaVersions(objectId: number, attribute: string = 'all', limit: number = 5): Observable<HistorialCambios> {
+    const params = new HttpParams()
+      .set('object_id', objectId.toString())
+      .set('limit', limit.toString())
+      .set('attribute', attribute);
+    return this.http.get<HistorialCambios>(`${this.tumbaHistorialUrl}comparar/`, { params });
   }
 
   // Restaurar una versión anterior

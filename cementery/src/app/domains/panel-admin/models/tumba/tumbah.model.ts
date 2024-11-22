@@ -1,6 +1,6 @@
 export interface TumbaHistory {
     history_id: number;         // ID de la versión específica del historial
-    history_user?: number | null; // Usuario que realizó el cambio
+    history_user?: string; // Usuario que realizó el cambio
     id: number;                 // ID de la tumba
     loadDate: string;           // Fecha de creación
     updateDate: string;         // Fecha de última actualización

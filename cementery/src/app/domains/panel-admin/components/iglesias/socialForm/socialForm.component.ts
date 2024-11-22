@@ -58,14 +58,15 @@ export class SocialFormComponent {
   }
   loadIglesias(): void {
     this.socialService.getReadIglesias().subscribe(
-      (response: Iglesia[]) => {
-        this.iglesias = response;
+      (iglesias: Iglesia[]) => {
+        this.iglesias = iglesias;
       },
       (error) => {
         console.error('Error al cargar las iglesias:', error);
       }
     );
   }
+
   resetForm(): void {
     this.RedSocialForm.reset()
   }

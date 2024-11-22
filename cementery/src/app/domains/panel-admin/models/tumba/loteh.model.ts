@@ -1,6 +1,6 @@
 export interface LoteHistory {
     history_id: number;         // ID de la versión en el historial
-    history_user?: number | null; // Usuario que realizó el cambio
+    history_user?: string; // Usuario que realizó el cambio
     id: number;                 // ID del lote
     loadDate: string;           // Fecha de creación
     updateDate: string;         // Fecha de última actualización

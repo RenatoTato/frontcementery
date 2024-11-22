@@ -60,13 +60,12 @@ export class ObituarioFormComponent {
     }
   }
   loadDifuntos(): void {
-    this.difuntoService.getDifuntos().subscribe(
-      (response) => {
-        // Manejo de la respuesta aquí
+    this.difuntoService.getReadDifuntos().subscribe(
+      (difuntos: Difunto[]) => {
+        this.difuntos = difuntos;
+        console.log('Difunto:', this.difuntos);
       },
-      (error: any) => {
-        console.error('Error al cargar los difuntos:', error);
-      }
+      (error) => console.error('Error al obtener las tumbas:', error)
     );
   }
   updateNameOnDeceasedChange(): void {

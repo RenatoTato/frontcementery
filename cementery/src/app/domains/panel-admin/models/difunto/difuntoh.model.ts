@@ -1,6 +1,6 @@
 export interface DifuntoHistory {
     history_id: number;                    // ID único del historial
-    history_user?: number | null;          // ID del usuario que realizó el cambio (null si desconocido)
+    history_user?: string;       // ID del usuario que realizó el cambio (null si desconocido)
     id: number;                            // ID del difunto en el historial
     names: string;                         // Nombres del difunto en la versión histórica
     last_names: string;                    // Apellidos del difunto en la versión histórica

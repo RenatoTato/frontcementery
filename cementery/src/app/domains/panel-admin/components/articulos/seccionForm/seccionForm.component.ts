@@ -55,7 +55,7 @@ export class SeccionFormComponent {
     }
   }
   loadArticulos(): void {
-    this.seccionService.getArticulos().subscribe(
+    this.seccionService.getReadArticulos().subscribe(
       (response) => {
         this.articulos = response as Articulo[];
       },

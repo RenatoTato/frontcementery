@@ -18,10 +18,18 @@ export class TumbaFormComponent {
   isDarkMode: boolean = false;
 
   constructor(private fb: FormBuilder, private tumbaService: TumbaService) { }
+  filterFields = [
+    { name: 'entity_id', label: 'ID de Tumba' },
+    { name: 'nicheNumber', label: 'Número de Nicho' },
+    { name: 'nicheType', label: 'Tipo de Nicho' },
+    { name: 'available', label: 'Disponibilidad' },
+    { name: 'nameLote', label: 'Lote' },
+  ];
 
   ngOnInit() {
     this.initForm();
     this.loadDarkModePreference();
+    this.loadLotes();
   }
 
   initForm(): void {

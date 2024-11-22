@@ -30,7 +30,6 @@ export class EtapaFormComponent {
   ngOnInit() {
     this.initForm();
     this.loadObituarios();  // Cargar los obituarios disponibles
-    this.loadServicios();  // Cargar los servicios disponibles
     this.loadDarkModePreference();
   }
 
@@ -59,28 +58,17 @@ export class EtapaFormComponent {
       );
     }
   }
-
   loadObituarios(): void {
-    this.etapasObituarioService.getObituarios().subscribe(
-      (response) => {
-        this.obituarios = response as Obituario[];
+    this.etapasObituarioService.getReadObituarios().subscribe(
+      (obituarios: Obituario[]) => {
+        this.obituarios = obituarios;
+        console.log('Difunto:', this.obituarios);
       },
-      (error: any) => {
-        console.error('Error al cargar los obituarios:', error);
-      }
+      (error) => console.error('Error al obtener las tumbas:', error)
     );
   }
 
-  loadServicios(): void {
-    this.servicioService.getServicios().subscribe(
-      (response) => {
-        this.servicios = response as Servicio[];
-      },
-      (error: any) => {
-        console.error('Error al cargar los servicios:', error);
-      }
-    );
-  }
+ 
 
   resetForm(): void {
     this.etapasObituarioForm.reset();

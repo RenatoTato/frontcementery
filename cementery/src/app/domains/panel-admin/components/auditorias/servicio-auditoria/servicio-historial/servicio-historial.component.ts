@@ -1,10 +1,11 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ServicioHistoryService } from '@admin/service/servicio-history/servicio-history.service';
 import { ServicioHistory } from '@admin/models/servicio/servicioh.model';
 import { VersionCambio } from '@admin/models/cambios/comparar.model';
-import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DifuntoService } from '@externo/services/difunto.service';
+import { Difunto } from '@externo/models/difunto/difunto.model';
 
 @Component({
   selector: 'app-servicio-historial',
@@ -18,16 +19,16 @@ export class ServicioHistorialComponent implements OnInit {
   totalItems: number = 0;
   currentPage: number = 1;
   pageSize: number = 17;
+  difuntos: Difunto[] = [];
   comparacion: VersionCambio[] = [];
   selectedObjectId: number | null = null;
   filterForm: FormGroup;
-  limite: number = 5; // Declaramos `limite` aquí
   defaultObjectId: number = 1;
   difuntoNamesCache: { [key: number]: string } = {}; // Mapa de caché para nombres de difuntos
   // Campos de filtros y encabezados
   filterFields = [
-    { name: 'startDate', label: 'Fecha del contrato' },
-    { name: 'endDate', label: 'Fecha de vencimiento' },
+    { name: 'start_Date', label: 'Fecha del contrato' },
+    { name: 'end_Date', label: 'Fecha de vencimiento' },
     { name: 'entity_id', label: 'ID de Servicio' },
     { name: 'numberTomb', label: 'Numero de tumba' },
     { name: 'deceased', label: 'Difunto' },
@@ -83,13 +84,11 @@ export class ServicioHistorialComponent implements OnInit {
   ) {
     // Filtros
     this.filterForm = this.fb.group({
-      start_date: [''],
-      end_date: [''],
       entity_id: [''],
       history_type: [''],
       user: [''],
-      startDate: [''],
-      endDate: [''],
+      start_Date: [''],
+      end_Date: [''],
       ceremony: [''],
       numberTomb: [''],
       deceased: [''],
@@ -124,6 +123,16 @@ export class ServicioHistorialComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadHistorial(this.currentPage, this.pageSize); // Cargar todo el historial al inicio  
+    this.loadDifuntos();
+  }
+  loadDifuntos(): void {
+    this.difuntoService.getReadDifuntos().subscribe(
+      (difuntos: Difunto[]) => {
+        this.difuntos = difuntos;
+        console.log('Difunto:', this.difuntos);
+      },
+      (error) => console.error('Error al obtener las tumbas:', error)
+    );
   }
 
   // Método para cargar historial con los filtros aplicados
@@ -154,15 +163,7 @@ export class ServicioHistorialComponent implements OnInit {
   }
 
 
-  // Mapear valores para history_type
-  mapHistoryType(type: string): string {
-    const typeMap: { [key: string]: string } = {
-      '+': 'Creación',
-      '~': 'Actualización',
-      '-': 'Eliminación'
-    };
-    return typeMap[type] || type;
-  }
+ 
   campoLabels: { [key: string]: string } = {
     startDate: 'Fecha del contrato',
     endDate: 'Fecha de vencimiento',
@@ -178,7 +179,15 @@ export class ServicioHistorialComponent implements OnInit {
     description: 'Descripción'
     // Añade otros campos necesarios aquí
   };
-
+   // Mapear valores para history_type
+   mapHistoryType(type: string): string {
+    const typeMap: { [key: string]: string } = {
+      '+': 'Creación',
+      '~': 'Actualización',
+      '-': 'Eliminación'
+    };
+    return typeMap[type] || type;
+  }
   mapCeremony(ceremony: string): string {
     const ceremonyMap: { [key: string]: string } = {
       'Cremacion': 'Cremación',
@@ -228,6 +237,7 @@ export class ServicioHistorialComponent implements OnInit {
       (error) => console.error('Error al restaurar la versión:', error)
     );
   }
+
 
   // Paginación
   get totalPages(): number {
