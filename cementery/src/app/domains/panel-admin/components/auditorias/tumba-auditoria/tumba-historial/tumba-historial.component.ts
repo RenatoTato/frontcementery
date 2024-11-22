@@ -6,6 +6,7 @@ import { TumbaHistory, } from '@admin/models/tumba/tumbah.model';
 import { VersionCambio } from '@admin/models/cambios/comparar.model';
 import { TumbaService } from '@externo/services/tumba.service';
 import { Lote } from '@externo/models/tumba/lote.model';
+import { FilterOption } from '@admin/models/tumba/tumbaop.model';
 
 @Component({
   selector: 'app-tumba-historial',
@@ -15,6 +16,7 @@ import { Lote } from '@externo/models/tumba/lote.model';
   styleUrl: './tumba-historial.component.css'
 })
 export class TumbaHistorialComponent implements OnInit {
+
   historialItems: TumbaHistory[] = [];
   totalItems: number = 0;
   currentPage: number = 1;
@@ -37,33 +39,39 @@ export class TumbaHistorialComponent implements OnInit {
     { name: 'history_type', label: 'Acciones' },
     { name: 'user', label: 'Usuario' }
   ];
-
-  filterOptions = {
-    history_type: [
-      { value: '', label: 'Todas las Acciones' },
-      { value: '+', label: 'Creación' },
-      { value: '~', label: 'Actualización' },
-      { value: '-', label: 'Eliminación' }
-    ],
-    nicheType: [
-      { value: '', label: 'Todos' },
-      { value: 'T', label: 'Tierra' },
-      { value: 'E', label: 'Estructura' }
-    ],
-    available: [
-      { value: '', label: 'Todos' },
-      { value: 'true', label: 'Disponible' },
-      { value: 'false', label: 'Ocupado' }
-    ],
-    user: [
-      { value: '', label: 'Todos los Usuarios' },
-      { value: 1, label: 'Renato Carvajal' },
-      { value: 2, label: 'Priscila Rodríguez' },
-      { value: 3, label: 'Fernando Abdón' },
-      { value: 4, label: 'Livingston Olivares' },
-      { value: 5, label: 'Tato Admin' },
-    ],
-  };
+  filterOptions: {
+    history_type: FilterOption[];
+    nicheType: FilterOption[];
+    available: FilterOption[];
+    user: FilterOption[];
+    nicheNumber: FilterOption[];
+  } = {
+      history_type: [
+        { value: '', label: 'Todas las Acciones' },
+        { value: '+', label: 'Creación' },
+        { value: '~', label: 'Actualización' },
+        { value: '-', label: 'Eliminación' }
+      ],
+      nicheType: [
+        { value: '', label: 'Todos' },
+        { value: 'T', label: 'Tierra' },
+        { value: 'E', label: 'Estructura' }
+      ],
+      available: [
+        { value: '', label: 'Todos' },
+        { value: 'true', label: 'Disponible' },
+        { value: 'false', label: 'Ocupado' }
+      ],
+      user: [
+        { value: '', label: 'Todos los Usuarios' },
+        { value: 1, label: 'Renato Carvajal' },
+        { value: 2, label: 'Priscila Rodríguez' },
+        { value: 3, label: 'Fernando Abdón' },
+        { value: 4, label: 'Livingston Olivares' },
+        { value: 5, label: 'Tato Admin' }
+      ],
+      nicheNumber: [], // Inicialización vacía
+    };
 
   tableHeaders = [
     'Usuario',
@@ -124,6 +132,13 @@ export class TumbaHistorialComponent implements OnInit {
   ngOnInit(): void {
     this.loadHistorial(this.currentPage, this.pageSize); // Cargar todo el historial al inicio  
     this.loadlotes();
+    this.initializeNicheNumbers();
+  }
+  initializeNicheNumbers(): void {
+    this.filterOptions.nicheNumber = Array.from({ length: 105 }, (_, i) => ({
+      value: i + 1,
+      label: `${i + 1}`
+    }));
   }
   loadlotes(): void {
     this.tumbaService.getReadLotes().subscribe(
@@ -161,7 +176,7 @@ export class TumbaHistorialComponent implements OnInit {
       console.error('Error al cargar el historial:', error);
     });
   }
-  
+
   campoLabels: { [key: string]: string } = {
     history_id: 'ID de Historial',
     history_user: 'Usuario',
@@ -186,7 +201,7 @@ export class TumbaHistorialComponent implements OnInit {
     };
     return typeMap[type] || type;
   }
-  
+
   mapUser(userId: string | undefined): string {
     const userMap: { [key: string]: string } = {
       'renato': 'Renato',
