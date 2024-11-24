@@ -12,4 +12,5 @@ export interface TumbaHistory {
     history_change_reason?: string | null; // Razón del cambio
     history_type: '+' | '~' | '-'; // Tipo de cambio: creado, actualizado, eliminado
     nameLote: number;           // Nombre o ID del lote asociado
+    loteDetail:string;
 }

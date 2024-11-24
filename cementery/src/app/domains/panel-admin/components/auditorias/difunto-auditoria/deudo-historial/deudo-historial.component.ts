@@ -4,6 +4,9 @@ import { CommonModule } from '@angular/common';
 import { DifuntoHistoryService } from '@admin/service/difunto-history/difunto-history.service';
 import { DeudoHistory } from '@admin/models/difunto/deudoh.model';
 import { VersionCambio } from '@admin/models/cambios/comparar.model';
+import { Deudo } from '@externo/models/difunto/deudo.model';
+import { DifuntoService } from '@externo/services/difunto.service';
+
 
 @Component({
   selector: 'app-deudo-historial',
@@ -13,6 +16,7 @@ import { VersionCambio } from '@admin/models/cambios/comparar.model';
   styleUrl: './deudo-historial.component.css'
 })
 export class DeudoHistorialComponent implements OnInit {
+  deudos: Deudo[] = [];
   historialItems: DeudoHistory[] = [];
   totalItems: number = 0;
   currentPage: number = 1;
@@ -76,6 +80,7 @@ export class DeudoHistorialComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private deudoHistoryService: DifuntoHistoryService,
+    private difuntoService:DifuntoService,
     private cdRef: ChangeDetectorRef
   ) {
     this.filterForm = this.fb.group({
@@ -95,9 +100,17 @@ export class DeudoHistorialComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadHistorial(this.currentPage, this.pageSize); // Cargar todo el historial al inicio  
-
+    this.loadDeudos();
   }
-
+  loadDeudos(): void {
+    this.difuntoService.getReadDeudos().subscribe(
+      (deudos: Deudo[]) => {
+        this.deudos = deudos;
+        console.log('deudo:', this.deudos);
+      },
+      (error) => console.error('Error al obtener las difuntos:', error)
+    );
+  }
   loadHistorial(page: number = 1, pageSize: number = 10): void {
     const filterParams = this.filterForm.value;
 
@@ -174,7 +187,10 @@ export class DeudoHistorialComponent implements OnInit {
       (error) => console.error('Error al restaurar la versión:', error)
     );
   }
-
+  formatIdNumber(requestNumber: number): string {
+    const formattedNumber = requestNumber.toString().padStart(10, '0');
+    return `${formattedNumber}`;
+  }
 
   // Paginación
   get totalPages(): number {

@@ -14,4 +14,5 @@ export interface DifuntoHistory {
     history_type: '+' | '~' | '-';         // Tipo de cambio: "+" (creado), "~" (actualizado), "-" (eliminado)
     tumba: number;                         // ID de la tumba asociada al difunto
     deudo: number;                         // ID del deudo asociado al difunto
+    deudoDetails?: string; 
 }

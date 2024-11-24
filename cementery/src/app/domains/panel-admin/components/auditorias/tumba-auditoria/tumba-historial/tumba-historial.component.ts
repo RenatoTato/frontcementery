@@ -22,7 +22,6 @@ export class TumbaHistorialComponent implements OnInit {
   currentPage: number = 1;
   pageSize: number = 17;
   lotes: Lote[] = [];
-  loteDetails?: string;
   comparacion: VersionCambio[] = [];
   filterForm: FormGroup;
   defaultObjectId: number = 1;
@@ -117,7 +116,7 @@ export class TumbaHistorialComponent implements OnInit {
     // De lo contrario, llamamos al servicio para obtener el nombre del lote
     this.tumbaService.getLoteId(id).subscribe(
       lote => {
-        this.loteNamesCache[id] = `${lote.blockName} ${lote.typeblock} ${lote.numbersblock}`;
+        this.loteNamesCache[id] = `Lote${lote.blockName} Bloque${lote.typeblock}-${lote.numbersblock}`;
       },
       error => {
         console.error(`Error al cargar el nombre del lote con ID ${id}:`, error);
@@ -161,11 +160,11 @@ export class TumbaHistorialComponent implements OnInit {
         if (item.nameLote && typeof item.nameLote === 'number') {
           this.tumbaService.getLoteId(item.nameLote).subscribe(
             (lote: Lote) => {
-              this.loteDetails = `${lote.blockName} - ${lote.typeblock} (${lote.numbersblock})`;
+              item.loteDetail = `L=${lote.blockName} B=${lote.typeblock}-${lote.numbersblock}`;
             },
             (error) => {
               console.error(`Error al cargar el lote para la tumba con ID ${item.id}:`, error);
-              this.loteDetails = 'Información no disponible';
+              item.loteDetail = 'Información no disponible';
             }
           );
         }

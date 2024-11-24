@@ -23,11 +23,22 @@ export class DeudoEditarComponent implements OnInit {
   editingStates: { [id: number]: boolean } = {};
 
   filterFields = [
-    { name: 'names', label: 'Nombre' },
+    { name: 'names', label: 'Nombres' },
     { name: 'last_names', label: 'Apellidos' },
     { name: 'idNumber', label: 'Cédula' },
     { name: 'phoneNumber', label: 'Teléfono' },
+    { name: 'address', label: 'Dirección' },
+    { name: 'tipo', label: 'Relación' },
   ];
+  filterOptions = {
+    tipo: [
+      { value: '', label: 'Todos' },
+      { value: 'Allegado', label: 'Allegado' },
+      { value: 'Familiar', label: 'Familiar' },
+      { value: 'Conocido', label: 'Conocido' }
+    ],
+  };
+
 
   tableHeaders = ['Nombre', 'Apellido', 'Cédula', 'Teléfono','Email', 'Dirección', 'Relación'];
   editableFields: (keyof Deudo)[] = ['names', 'last_names', 'idNumber', 'phoneNumber', 'email', 'address', 'tipo'];
@@ -41,6 +52,7 @@ export class DeudoEditarComponent implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.loadDeudos(this.currentPage, this.pageSize);
+    this.loadReadDeudos();
     this.setupFilterListener();
   }
 
@@ -60,7 +72,15 @@ export class DeudoEditarComponent implements OnInit {
       this.loadDeudos(1, this.pageSize, filterParams);
     });
   }
-
+  loadReadDeudos(): void {
+    this.difuntoService.getReadDeudos().subscribe(
+      (deudos: Deudo[]) => {
+        this.deudos = deudos;
+        console.log('deudo:', this.deudos);
+      },
+      (error) => console.error('Error al obtener las difuntos:', error)
+    );
+  }
   loadDeudos(page: number, pageSize: number, filterParams?: DeudoFilter): void {
     this.difuntoService.getDeudos(page, pageSize, filterParams).subscribe(
       (response) => {
@@ -82,6 +102,10 @@ export class DeudoEditarComponent implements OnInit {
     this.loadDeudos(this.currentPage, this.pageSize, filterParams);
   }
 
+  formatIdNumber(requestNumber: number): string {
+    const formattedNumber = requestNumber.toString().padStart(10, '0');
+    return `${formattedNumber}`;
+  }
   nextPage(step: number): void {
     const newPage = this.currentPage + step;
     if (newPage <= this.totalPages) {

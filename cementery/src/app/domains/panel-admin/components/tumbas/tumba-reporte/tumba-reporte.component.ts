@@ -2,10 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TumbaService } from '@externo/services/tumba.service';
-import { TumbaEstado, TumbaEstadoResponse } from '@admin/models/reportes/tumba/tumbaestado.model'; 
+import { TumbaEstado, TumbaEstadoResponse } from '@admin/models/reportes/tumba/tumbaestado.model';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { TumbaFilter } from '@externo/models/tumba/tumbab.model';
-import { ChartOptions } from '@admin/models/reportes/tumba/chart-options.model'; 
+import { ChartOptions } from '@admin/models/reportes/tumba/chart-options.model';
+import { FilterOption } from '@admin/models/tumba/tumbaop.model';
+import { Lote } from '@externo/models/tumba/lote.model';
 
 @Component({
   selector: 'app-tumba-reporte',
@@ -14,7 +16,8 @@ import { ChartOptions } from '@admin/models/reportes/tumba/chart-options.model';
   templateUrl: './tumba-reporte.component.html',
   styleUrl: './tumba-reporte.component.css'
 })
-export class TumbaReporteComponent  implements OnInit {
+export class TumbaReporteComponent implements OnInit {
+  lotes:Lote[] = [];
   tumbaEstadoList: TumbaEstado[] = [];
   currentPage: number = 1;
   pageSize: number = 17;
@@ -35,11 +38,52 @@ export class TumbaReporteComponent  implements OnInit {
       available: ['']
     });
   }
+  filterFields = [
+    { name: 'nicheType', label: 'Tipo de Nicho' },
+    { name: 'available', label: 'Disponibilidad' },
+    { name: 'nameLote', label: 'Lote' },
+  ];
+  filterOptions: {
+    nicheType: FilterOption[];
+    available: FilterOption[];
+    user: FilterOption[];
+
+  } = {
+      nicheType: [
+        { value: '', label: 'Todos' },
+        { value: 'T', label: 'Tierra' },
+        { value: 'E', label: 'Estructura' }
+      ],
+      available: [
+        { value: '', label: 'Todos' },
+        { value: 'true', label: 'Disponible' },
+        { value: 'false', label: 'Ocupado' }
+      ],
+      user: [
+        { value: '', label: 'Todos los Usuarios' },
+        { value: 1, label: 'Renato Carvajal' },
+        { value: 2, label: 'Priscila Rodríguez' },
+        { value: 3, label: 'Fernando Abdón' },
+        { value: 4, label: 'Livingston Olivares' },
+        { value: 5, label: 'Tato Admin' }
+      ],
+    };
 
   ngOnInit(): void {
     this.loadTumbaEstado();
+    this.loadlotes();
     this.loadDarkModePreference();
   }
+  loadlotes(): void {
+    this.tumbaService.getReadLotes().subscribe(
+      (lotes: Lote[]) => {
+        this.lotes = lotes;
+        console.log('lote:', this.lotes);
+      },
+      (error) => console.error('Error al obtener las tumbas:', error)
+    );
+  }
+
 
   // Cargar datos de tumbas con paginación y filtros
   loadTumbaEstado(): void {

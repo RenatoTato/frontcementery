@@ -19,4 +19,6 @@ export interface ServicioHistory {
     numberTomb?: number | null; // Número de tumba asociada
     deceased: Difunto;           // ID del difunto asociado
     deceasedName?: string; // Campo temporal
+    numberTombDescription?: string; // Propiedad opcional para almacenar la descripción de la tumba
+
 }

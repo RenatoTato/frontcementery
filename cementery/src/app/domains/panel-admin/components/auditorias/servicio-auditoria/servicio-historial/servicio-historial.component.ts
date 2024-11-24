@@ -6,6 +6,8 @@ import { ServicioHistory } from '@admin/models/servicio/servicioh.model';
 import { VersionCambio } from '@admin/models/cambios/comparar.model';
 import { DifuntoService } from '@externo/services/difunto.service';
 import { Difunto } from '@externo/models/difunto/difunto.model';
+import { Tumba } from '@externo/models/tumba/tumba.model';
+import { TumbaService } from '@externo/services/tumba.service';
 
 @Component({
   selector: 'app-servicio-historial',
@@ -19,12 +21,15 @@ export class ServicioHistorialComponent implements OnInit {
   totalItems: number = 0;
   currentPage: number = 1;
   pageSize: number = 17;
+  tumbas: Tumba[] = [];
   difuntos: Difunto[] = [];
   comparacion: VersionCambio[] = [];
   selectedObjectId: number | null = null;
   filterForm: FormGroup;
+  numberTombDescription?: string;
   defaultObjectId: number = 1;
   difuntoNamesCache: { [key: number]: string } = {}; // Mapa de caché para nombres de difuntos
+  loteNamesCache: { [key: number]: string } = {}; // Mapa de caché para nombres de lotes
   // Campos de filtros y encabezados
   filterFields = [
     { name: 'start_Date', label: 'Fecha del contrato' },
@@ -79,6 +84,7 @@ export class ServicioHistorialComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private servicioHistoryService: ServicioHistoryService,
+    private tumbaService: TumbaService,
     private difuntoService: DifuntoService,
     private cdRef: ChangeDetectorRef // Inyectamos ChangeDetectorRef
   ) {
@@ -120,16 +126,51 @@ export class ServicioHistorialComponent implements OnInit {
     // Retorna un valor temporal mientras se carga el nombre del difunto
     return this.difuntoNamesCache[id] || 'Cargando...';
   }
+  obtenerNombreTumba(id: number | string | true): string {
+    // Asegúrate de que id es un número antes de continuar
+    if (typeof id !== 'number') {
+      return 'N/A'; // O el valor predeterminado en caso de un tipo no válido
+    }
+
+    // Si ya tenemos el nombre en la caché, lo retornamos directamente
+    if (this.loteNamesCache[id]) {
+      return this.loteNamesCache[id];
+    }
+
+    // De lo contrario, llamamos al servicio para obtener el nombre del lote
+    this.tumbaService.getTumbaId(id).subscribe(
+      tumba => {
+        this.loteNamesCache[id] = `${tumba.description}`;
+      },
+      error => {
+        console.error(`Error al cargar el nombre del lote con ID ${id}:`, error);
+        this.loteNamesCache[id] = 'N/A'; // Valor predeterminado si falla la carga
+      }
+    );
+
+    // Retorna un valor temporal mientras se carga el nombre del lote
+    return this.loteNamesCache[id] || 'Cargando...';
+  }
 
   ngOnInit(): void {
     this.loadHistorial(this.currentPage, this.pageSize); // Cargar todo el historial al inicio  
     this.loadDifuntos();
+    this.loadTumbas();
   }
   loadDifuntos(): void {
     this.difuntoService.getReadDifuntos().subscribe(
       (difuntos: Difunto[]) => {
         this.difuntos = difuntos;
         console.log('Difunto:', this.difuntos);
+      },
+      (error) => console.error('Error al obtener las tumbas:', error)
+    );
+  }
+  loadTumbas(): void {
+    this.tumbaService.getReadTumbas().subscribe(
+      (tumbas: Tumba[]) => {
+        this.tumbas = tumbas;
+        console.log('tumba:', this.tumbas);
       },
       (error) => console.error('Error al obtener las tumbas:', error)
     );
@@ -154,16 +195,23 @@ export class ServicioHistorialComponent implements OnInit {
             }
           );
         }
+        if (item.numberTomb && typeof item.numberTomb === 'number') {
+          this.tumbaService.getTumbaId(item.numberTomb).subscribe(
+            tumba => {
+              item.numberTombDescription = `${tumba.description}`; // Asigna la descripción al elemento
+            },
+            error => {
+              console.error(`Error al cargar el tumba para el historial con ID ${item.id}:`, error);
+            }
+          );
+        }
       });
-
       this.compararVersiones(this.defaultObjectId);
     }, error => {
       console.error('Error al cargar el historial:', error);
     });
   }
 
-
- 
   campoLabels: { [key: string]: string } = {
     startDate: 'Fecha del contrato',
     endDate: 'Fecha de vencimiento',
@@ -179,8 +227,8 @@ export class ServicioHistorialComponent implements OnInit {
     description: 'Descripción'
     // Añade otros campos necesarios aquí
   };
-   // Mapear valores para history_type
-   mapHistoryType(type: string): string {
+  // Mapear valores para history_type
+  mapHistoryType(type: string): string {
     const typeMap: { [key: string]: string } = {
       '+': 'Creación',
       '~': 'Actualización',

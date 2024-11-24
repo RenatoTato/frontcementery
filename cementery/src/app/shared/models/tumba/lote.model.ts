@@ -6,4 +6,5 @@ export interface Lote {
     filas: number;  // Número de filas
     columnas: number;  // Número de columnas
     limite: number;  // Límite de espacio
+    description: string;  // Tipo de bloque
   }

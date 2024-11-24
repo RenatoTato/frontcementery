@@ -85,6 +85,39 @@ export class LoteHistorialComponent implements OnInit {
         { value: 8, label: '8' },
         { value: 9, label: '9' }
       ],
+      filas: [
+        { value: '', label: 'Todos' },
+        { value: 1, label: '1' },
+        { value: 2, label: '2' },
+        { value: 3, label: '3' },
+        { value: 4, label: '4' },
+        { value: 5, label: '5' }
+      ],
+      columnas: [
+        { value: '', label: 'Todos' },
+        { value: 4, label: '4' },
+        { value: 7, label: '7' },
+        { value: 9, label: '9' },
+        { value: 11, label: '11' },
+        { value: 13, label: '13' },
+        { value: 14, label: '14' },
+        { value: 17, label: '17' },
+        { value: 20, label: '20' },
+        { value: 21, label: '21' }
+      ],
+      limite: [
+        { value: '', label: 'Todos' },
+        { value: 13, label: '13' },
+        { value: 16, label: '16' },
+        { value: 17, label: '17' },
+        { value: 20, label: '20' },
+        { value: 28, label: '28' },
+        { value: 36, label: '36' },
+        { value: 44, label: '44' },
+        { value: 56, label: '56' },
+        { value: 70, label: '70' },
+        { value: 105, label: '105' },
+      ],
       user: [
         { value: '', label: 'Todos los Usuarios' },
         { value: 1, label: 'Renato Carvajal' },

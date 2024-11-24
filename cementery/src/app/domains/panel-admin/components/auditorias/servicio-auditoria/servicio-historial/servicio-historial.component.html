@@ -37,6 +37,13 @@
                                     {{ option.label }}
                                 </option>
                             </select>
+
+                            <!-- Select para tumba -->
+                            <select *ngSwitchCase="'numberTomb'" [id]="field.name" [formControlName]="field.name"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                                <option *ngFor="let tumba of tumbas" [value]="tumba.id">{{ tumba.description }}</option>
+                            </select>
+                            <!-- Select para Difunto -->
                             <select *ngSwitchCase="'deceased'" [id]="field.name" [formControlName]="field.name"
                                 class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
                                 <option *ngFor="let difunto of difuntos" [value]="difunto.id">{{ difunto.names }} {{
@@ -97,7 +104,7 @@
                             date:'shortDate'): 'N/A'}}</td>
                         <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ item.endDate ? (item.endDate |
                             date:'shortDate'):'N/A' }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ mapCeremony(item.ceremony) }}
+                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ mapCeremony(item.ceremony)|| 'N/A'  }}
                         </td>
                         <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ item.is_paid ? 'Pagado' :
                             'NoPagado' }}</td>
@@ -110,7 +117,7 @@
                         </td>
                         <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{
                             mapHistoryType(item.history_type)}}</td>
-                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ item.numberTomb || 'N/A' }}
+                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ item.numberTombDescription || 'N/A' }}
                         </td>
                         <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ item.deceasedName || 'N/A' }}
                         </td>
@@ -199,22 +206,31 @@
                                 {{ campoLabels[cambio.campo] || cambio.campo }}
                             </td>
                             <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">
-                                <ng-container *ngIf="cambio.campo === 'deceased'; else otherContent">
+                                <ng-container *ngIf="cambio.campo === 'deceased'; else checkNumberTombBefore">
                                     {{ cambio.antes ? obtenerNombreDifunto(cambio.antes) : 'N/A' }}
                                 </ng-container>
-                                <ng-template #otherContent>
-                                    {{ cambio.antes !== null && cambio.antes !== undefined && cambio.antes !== '' ?
-                                    cambio.antes : 'N/A' }}
+                                <ng-template #checkNumberTombBefore>
+                                    <ng-container *ngIf="cambio.campo === 'numberTomb'; else otherContentBefore">
+                                        {{ cambio.antes ? obtenerNombreTumba(cambio.antes) : 'N/A' }}
+                                    </ng-container>
+                                </ng-template>
+                                <ng-template #otherContentBefore>
+                                    {{ cambio.antes || 'N/A' }}
                                 </ng-template>
                             </td>
                             <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">
-                                <ng-container *ngIf="cambio.campo === 'deceased'; else otherContentAfter">
+                                <ng-container *ngIf="cambio.campo === 'deceased'; else checkNumberTomb">
                                     {{ cambio.despues ? obtenerNombreDifunto(cambio.despues) : 'N/A' }}
                                 </ng-container>
+                                <ng-template #checkNumberTomb>
+                                    <ng-container *ngIf="cambio.campo === 'numberTomb'; else otherContentAfter">
+                                        {{ cambio.despues ? obtenerNombreTumba(cambio.despues) : 'N/A' }}
+                                    </ng-container>
+                                </ng-template>
                                 <ng-template #otherContentAfter>
                                     {{ cambio.despues !== null && cambio.despues !== undefined && cambio.despues !== ''
-                                    ?
-                                    cambio.despues : 'N/A' }}
+                                    ? cambio.despues
+                                    : 'N/A' }}
                                 </ng-template>
                             </td>
                             <td class="px-6 py-4 text-center">

@@ -39,16 +39,41 @@
                                 </option>
                             </select>
 
-                            <!-- Select para Disponibilidad -->
+                            <!-- Select para Lote -->
                             <select *ngSwitchCase="'blockName'" [id]="field.name" [formControlName]="field.name"
                                 class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
                                 <option *ngFor="let option of filterOptions.blockName" [value]="option.value">
                                     {{ option.label }}
                                 </option>
                             </select>
+                            <!-- Select para numero bloque -->
                             <select *ngSwitchCase="'numbersblock'" [id]="field.name" [formControlName]="field.name"
                                 class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
                                 <option *ngFor="let option of filterOptions.numbersblock" [value]="option.value">
+                                    {{ option.label }}
+                                </option>
+                            </select>
+
+                            <!-- Select para numero bloque -->
+                            <select *ngSwitchCase="'filas'" [id]="field.name" [formControlName]="field.name"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                                <option *ngFor="let option of filterOptions.filas" [value]="option.value">
+                                    {{ option.label }}
+                                </option>
+                            </select>
+
+                            <!-- Select para numero bloque -->
+                            <select *ngSwitchCase="'columnas'" [id]="field.name" [formControlName]="field.name"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                                <option *ngFor="let option of filterOptions.columnas" [value]="option.value">
+                                    {{ option.label }}
+                                </option>
+                            </select>
+
+                            <!-- Select para numero bloque -->
+                            <select *ngSwitchCase="'limite'" [id]="field.name" [formControlName]="field.name"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                                <option *ngFor="let option of filterOptions.limite" [value]="option.value">
                                     {{ option.label }}
                                 </option>
                             </select>

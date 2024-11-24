@@ -6,5 +6,5 @@ export interface Tumba {
     nicheType: 'T' | 'E';  // Tipo de nicho (Tumba de tierra o Tumba extramuros)
     available: boolean;  // Disponibilidad de la tumba
     nameLote: Lote;  // ID del lote relacionado
-    descripcion: string;
+    description: string;
   }

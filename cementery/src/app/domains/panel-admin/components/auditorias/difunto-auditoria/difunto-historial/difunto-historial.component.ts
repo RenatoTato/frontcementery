@@ -6,6 +6,7 @@ import { DifuntoHistory } from '@admin/models/difunto/difuntoh.model';
 import { VersionCambio } from '@admin/models/cambios/comparar.model';
 import { DifuntoService } from '@externo/services/difunto.service';
 import { Deudo } from '@externo/models/difunto/deudo.model';
+import { Difunto } from '@externo/models/difunto/difunto.model';
 
 @Component({
   selector: 'app-difunto-historial',
@@ -15,8 +16,9 @@ import { Deudo } from '@externo/models/difunto/deudo.model';
   styleUrl: './difunto-historial.component.css'
 })
 export class DifuntoHistorialComponent implements OnInit {
-  deudoDetails?: string;
+
   historialItems: DifuntoHistory[] = [];
+  difuntos:Difunto[] = [];
   totalItems: number = 0;
   currentPage: number = 1;
   pageSize: number = 17;
@@ -125,12 +127,22 @@ export class DifuntoHistorialComponent implements OnInit {
   ngOnInit(): void {
     this.loadHistorial(this.currentPage, this.pageSize); // Cargar todo el historial al inicio  
     this.loadDeudos();
+    this.loadDifuntos();
   }
   loadDeudos(): void {
     this.difuntoService.getReadDeudos().subscribe(
       (deudos: Deudo[]) => {
         this.deudos = deudos;
         console.log('deudo:', this.deudos);
+      },
+      (error) => console.error('Error al obtener las difuntos:', error)
+    );
+  }
+  loadDifuntos(): void {
+    this.difuntoService.getReadDifuntos().subscribe(
+      (difuntos: Difunto[]) => {
+        this.difuntos = difuntos;
+        console.log('difunto:', this.difuntos);
       },
       (error) => console.error('Error al obtener las difuntos:', error)
     );
@@ -147,11 +159,11 @@ export class DifuntoHistorialComponent implements OnInit {
         if (item.deudo && typeof item.deudo === 'number') {
           this.difuntoService.getDeudoId(item.deudo).subscribe(
             (deudo: Deudo) => {
-              this.deudoDetails = `${deudo.names} ${deudo.last_names} `;
+              item.deudoDetails = `${deudo.names}${deudo.last_names}`;
             },
             (error) => {
               console.error(`Error al cargar el deudo para la difunto con ID ${item.id}:`, error);
-              this.deudoDetails = 'Información no disponible';
+              item.deudoDetails = 'Información no disponible';
             }
           );
         }
@@ -201,6 +213,11 @@ export class DifuntoHistorialComponent implements OnInit {
   formatRequestNumber(requestNumber: number): string {
     const formattedNumber = requestNumber.toString().padStart(8, '0');
     return `S${formattedNumber}`;
+  }
+  // Comparar versiones
+  formatIdNumber(requestNumber: number): string {
+    const formattedNumber = requestNumber.toString().padStart(10, '0');
+    return `${formattedNumber}`;
   }
   // Comparar versiones
 

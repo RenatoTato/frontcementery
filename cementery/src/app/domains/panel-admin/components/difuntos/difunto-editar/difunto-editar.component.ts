@@ -5,6 +5,9 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { DifuntoService } from '@externo/services/difunto.service';
 import { Difunto } from '@externo/models/difunto/difunto.model';
 import { DifuntoFilter } from '@externo/models/difunto/difuntob.model';
+import { Tumba } from '@externo/models/tumba/tumba.model';
+import { Deudo } from '@externo/models/difunto/deudo.model';
+import { TumbaService } from '@externo/services/tumba.service';
 
 
 @Component({
@@ -15,7 +18,8 @@ import { DifuntoFilter } from '@externo/models/difunto/difuntob.model';
   styleUrls: ['./difunto-editar.component.css']
 })
 export class DifuntoEditarComponent implements OnInit {
-
+  tumbas: Tumba[] = [];
+  deudos: Deudo[] = [];
   difuntos: Difunto[] = [];
   paginatedDifuntos: Difunto[] = [];
   difuntoEditarForm!: FormGroup;
@@ -29,7 +33,7 @@ export class DifuntoEditarComponent implements OnInit {
     { name: 'names', label: 'Nombre' },
     { name: 'last_names', label: 'Apellidos' },
     { name: 'idNumber', label: 'Cédula' },
-    { name: 'requestNumber', label: 'Número de Solicitud' }
+    { name: 'requestNumber', label: 'Número de Solicitud' },
   ];
 
   tableHeaders = ['Nombre', 'Apellido', 'Cédula', 'Solicitud', 'Tumba', 'Deudo'];
@@ -37,15 +41,36 @@ export class DifuntoEditarComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private difuntoService: DifuntoService,
+    private tumbaService: TumbaService,
     private cdRef: ChangeDetectorRef,
   ) { }
 
   ngOnInit(): void {
     this.initForm();
     this.loadDifuntos(this.currentPage, this.pageSize);
+    this.loadReadDifuntos();
+    this.loadDeudos();
+    this.loadTumbas();
     this.loadDarkModePreference();
   }
-
+  loadDeudos(): void {
+    this.difuntoService.getReadDeudos().subscribe(
+      (deudos: Deudo[]) => {
+        this.deudos = deudos;
+        console.log('deudo:', this.deudos);
+      },
+      (error) => console.error('Error al obtener las difuntos:', error)
+    );
+  }
+  loadTumbas(): void {
+    this.tumbaService.getReadTumbas().subscribe(
+      (tumbas: Tumba[]) => {
+        this.tumbas = tumbas;
+        console.log();
+      },
+      (error) => console.error('Error al obtener las tumbas:', error)
+    );
+  }
   initForm(): void {
     this.difuntoEditarForm = this.fb.group({
       names: ['', Validators.required],
@@ -54,7 +79,15 @@ export class DifuntoEditarComponent implements OnInit {
       requestNumber: ['', Validators.required]
     });
   }
-
+  loadReadDifuntos(): void {
+    this.difuntoService.getReadDifuntos().subscribe(
+      (difuntos: Difunto[]) => {
+        this.difuntos = difuntos;
+        console.log('difunto:', this.difuntos);
+      },
+      (error) => console.error('Error al obtener las difuntos:', error)
+    );
+  }
   // Carga los datos de los difuntos con la paginación y filtros
   loadDifuntos(page: number, pageSize: number, filterParams?: DifuntoFilter): void {
     this.difuntoService.getDifuntos(page, pageSize, filterParams).subscribe(
@@ -67,6 +100,24 @@ export class DifuntoEditarComponent implements OnInit {
           this.totalItems = this.difuntos.length;
         }
         this.paginatedDifuntos = this.difuntos;
+        this.paginatedDifuntos.forEach((item) => {
+          console.log('Deudo antes de procesar:', item.deudo);
+          if (item.deudo && typeof item.deudo === 'number') {
+            const deudo = this.deudos.find((d) => d.id === item.deudo);
+            item.deudo_ob = deudo || null; // Asigna el objeto Deudo o null si no se encuentra
+          }
+          if (item.tumba && typeof item.tumba === 'number') {
+            this.tumbaService.getTumbaId(item.tumba).subscribe(
+              (tumba: Tumba) => {
+                item.tumbaDetails = tumba.description;
+              },
+              (error) => {
+                console.error(`Error al cargar la tumba con ID ${item.tumba}:`, error);
+                item.tumbaDetails = 'Información no disponible';
+              }
+            );
+          }
+        });
       },
       (error) => console.error('Error al cargar los difuntos:', error)
     );
@@ -76,6 +127,15 @@ export class DifuntoEditarComponent implements OnInit {
     const filterParams = this.difuntoEditarForm.value; // Obtiene los valores de filtro
     console.log('Filtrando con parámetros:', filterParams); // Verificación
     this.loadDifuntos(this.currentPage, this.pageSize, filterParams);
+  }
+  formatRequestNumber(requestNumber: number): string {
+    const formattedNumber = requestNumber.toString().padStart(8, '0');
+    return `S${formattedNumber}`;
+  }
+  // Comparar versiones
+  formatIdNumber(requestNumber: number): string {
+    const formattedNumber = requestNumber.toString().padStart(10, '0');
+    return `${formattedNumber}`;
   }
 
   nextPage(step: number): void {
@@ -115,36 +175,36 @@ export class DifuntoEditarComponent implements OnInit {
   }
 
   // Cambia el estado de edición de un difunto específico
-toggleEdit(difunto: Difunto, isEditing: boolean): void {
-  this.editingStates[difunto.id] = isEditing; // Usa `editingStates` para controlar el estado de edición
-}
-
-// Guarda los cambios y sale del modo edición
-saveDifunto(difunto: Difunto): void {
-  if (!difunto.id) {
-    console.error('El ID del difunto es nulo o indefinido.');
-    return;
+  toggleEdit(difunto: Difunto, isEditing: boolean): void {
+    this.editingStates[difunto.id] = isEditing; // Usa `editingStates` para controlar el estado de edición
   }
 
-  if (confirm('¿Estás seguro de que deseas actualizar este difunto?')) {
-    this.difuntoService.updateDifunto(difunto.id, difunto).subscribe(
-      (response) => {
-        this.editingStates[difunto.id] = false; // Desactivar el modo de edición
-        console.log('Difunto actualizado correctamente:', response);
-        
-        // Recarga la lista de difuntos y actualiza la vista
-        this.loadDifuntos(this.currentPage, this.pageSize);
-        this.cdRef.detectChanges(); // Fuerza la detección de cambios
-      },
-      (error) => console.error('Error al actualizar el difunto:', error)
-    );
-  }
-}
+  // Guarda los cambios y sale del modo edición
+  saveDifunto(difunto: Difunto): void {
+    if (!difunto.id) {
+      console.error('El ID del difunto es nulo o indefinido.');
+      return;
+    }
 
-// Método para verificar si un difunto está en modo de edición
-isEditing(difunto: Difunto): boolean {
-  return this.editingStates[difunto.id] || false;
-}
+    if (confirm('¿Estás seguro de que deseas actualizar este difunto?')) {
+      this.difuntoService.updateDifunto(difunto.id, difunto).subscribe(
+        (response) => {
+          this.editingStates[difunto.id] = false; // Desactivar el modo de edición
+          console.log('Difunto actualizado correctamente:', response);
+
+          // Recarga la lista de difuntos y actualiza la vista
+          this.loadDifuntos(this.currentPage, this.pageSize);
+          this.cdRef.detectChanges(); // Fuerza la detección de cambios
+        },
+        (error) => console.error('Error al actualizar el difunto:', error)
+      );
+    }
+  }
+
+  // Método para verificar si un difunto está en modo de edición
+  isEditing(difunto: Difunto): boolean {
+    return this.editingStates[difunto.id] || false;
+  }
 
   // Eliminar un difunto
   deleteDifunto(id: number): void {
@@ -166,5 +226,5 @@ isEditing(difunto: Difunto): boolean {
     this.isDarkMode = localStorage.getItem('darkMode') === 'true';
     document.documentElement.classList.toggle('dark', this.isDarkMode);
   }
-  
+
 }
