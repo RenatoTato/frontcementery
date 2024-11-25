@@ -1,5 +1,3 @@
-import { Difunto } from "../difunto/difunto.model";
-import { Tumba } from "../tumba/tumba.model";
 
 export interface Servicio {
     id?: number;  // ID opcional, si es generado automáticamente por el backend
@@ -9,6 +7,8 @@ export interface Servicio {
     is_paid: boolean;  // Estado de pago
     amount_paid?: number;  // Monto pagado opcional
     payment_date?: Date;  // Fecha de pago opcional
-    numberTomb?: Tumba;  // ID de la tumba (opcional)
-    deceased: Difunto;  // ID del difunto
+    numberTomb?: number;  // ID de la tumba (opcional)
+    deceased: number;  // ID del difunto
+    difuntoDetails:string;
+    tumbaDetails:string;
   }

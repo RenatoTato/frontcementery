@@ -1,1 +1,186 @@
-<p>servicio-editar works!</p>
+<div
+    class="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex flex-col justify-center items-center p-4">
+
+    <h1 class="text-3xl font-bold mb-6 dark:text-white">Actualizar Servicios</h1>
+
+    <!-- Formulario de Filtros -->
+    <div class="w-full max-w-4xl bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+        <h2 class="text-2xl font-bold mb-4 dark:text-white">Filtrar Servicios</h2>
+        <form [formGroup]="servicioEditarForm" (ngSubmit)="onSubmit()" class="space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <!-- Campo de entrada para cada atributo con validación -->
+                <div *ngFor="let field of filterFields">
+                    <label [for]="field.name" class="block text-sm font-medium mb-2 dark:text-gray-200">
+                        {{ field.label }}
+                    </label>
+                    <!-- Desplegable para campos específicos -->
+                    <ng-container [ngSwitch]="field.name">
+                        <!-- Select para Tipo de Ceremonia -->
+                        <select *ngSwitchCase="'ceremony'" [id]="field.name" [formControlName]="field.name"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                            <option value="">Todas las ceremonias</option>
+                            <option value="Cremacion">Cremación</option>
+                            <option value="Inhumacion">Inhumación</option>
+                            <option value="Exhumacion">Exhumación</option>
+                            <option value="Conmemoracion">Conmemoración</option>
+                            <option value="Mantenimiento">Mantenimiento</option>
+                        </select>
+
+                        <!-- Input de Fecha de Inicio y Fin -->
+                        <input *ngSwitchCase="'startDate'" [id]="field.name" [formControlName]="field.name" type="date"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100" />
+                        <input *ngSwitchCase="'endDate'" [id]="field.name" [formControlName]="field.name" type="date"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100" />
+
+                        <!-- Select para Difuntos -->
+                        <select *ngSwitchCase="'deceased'" [id]="field.name" [formControlName]="field.name"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                            <option *ngFor="let difunto of difuntos" [value]="difunto.id">{{ difunto.names }} {{
+                                difunto.last_names }}
+                            </option>
+                        </select>
+
+                        <!-- Select para Tumbas -->
+                        <select *ngSwitchCase="'numberTomb'" [id]="field.name" [formControlName]="field.name"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                            <option *ngFor="let tumba of tumbas" [value]="tumba.id">{{ tumba.description }}</option>
+                        </select>
+                    </ng-container>
+                </div>
+            </div>
+            <div class="flex justify-end space-x-4">
+                <button type="button" (click)="resetFilters()"
+                    class="bg-gray-500 text-white px-5 py-2 rounded-lg shadow-sm hover:bg-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600"
+                    [title]="'Refrescar'">
+                    <img src="assets/image/icono/refresh-ccw.svg" alt="Icono refrescar" class="w-4 h-4 " />
+                </button>
+                <button type="submit"
+                    class="bg-blue-600 text-white px-5 py-2 rounded-lg shadow-sm hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
+                    [title]="'Buscar'">
+                    <img src="assets/image/icono/search.svg" alt="Icono buscar" class="w-4 h-4 " />
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Tabla de Resultados -->
+    <div class="w-full max-w-4xl mt-6 overflow-x-auto">
+        <h2 class="text-2xl font-bold mb-4 dark:text-white text-center">Servicios Registrados</h2>
+        <table class="min-w-full bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+            <thead class="bg-gray-200 dark:bg-gray-700">
+                <tr>
+                    <th *ngFor="let field of tableHeaders"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
+                        {{ field }}
+                    </th>
+                    <th class="px-6 py-3 text-center text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
+                        Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let servicio of paginatedServicios" class="border-b border-gray-200 dark:border-gray-700">
+                    <!-- Campos genéricos -->
+                    <td *ngFor="let field of editableFields" class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">
+                        <span *ngIf="!isEditing(servicio)">
+                            <!-- Detalles de difunto -->
+                            <span *ngIf="field === 'deceased' && servicio.deceased">
+                                {{ servicio.difuntoDetails }}</span>
+                            <!-- Detalles de tumba -->
+                            <span *ngIf="field === 'numberTomb' && servicio.numberTomb">
+                                {{ servicio.tumbaDetails }}
+                            </span>
+                            <!-- Otros campos -->
+                            <span *ngIf="field !== 'deceased' && field !== 'numberTomb'">
+                                {{ servicio[field] }}
+                            </span>
+                        </span>
+                        <!-- Campos editables -->
+                        <ng-container *ngIf="isEditing(servicio)">
+                            <!-- Campo de difunto -->
+                            <select *ngIf="field === 'deceased'" [(ngModel)]="servicio.deceased"
+                                class="w-full bg-gray-100 dark:bg-gray-700 rounded-md">
+                                <option *ngFor="let difunto of difuntos" [value]="difunto.id">
+                                    {{ difunto.names }} {{ difunto.last_names }}
+                                </option>
+                            </select>
+                            <!-- Campo de tumba -->
+                            <select *ngIf="field === 'numberTomb'" [(ngModel)]="servicio.numberTomb"
+                                class="w-full bg-gray-100 dark:bg-gray-700 rounded-md">
+                                <option *ngFor="let tumba of tumbas" [value]="tumba.id">
+                                    {{ tumba.description }}
+                                </option>
+                            </select>
+                            <!-- Otros campos -->
+                            <input *ngIf="field !== 'deceased' && field !== 'numberTomb'" [(ngModel)]="servicio[field]"
+                                class="w-full bg-gray-100 dark:bg-gray-700 rounded-md" />
+                        </ng-container>
+                    </td>
+                    <td class="px-6 py-4 text-center">
+                        <button (click)="saveServicio(servicio)" *ngIf="isEditing(servicio)"
+                            class="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="icon icon-tabler icons-tabler-outline icon-tabler-device-floppy">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2" />
+                                <path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                                <path d="M14 4l0 4l-6 0l0 -4" />
+                            </svg>
+                        </button>
+                        <button (click)="toggleEdit(servicio, true)" *ngIf="!isEditing(servicio)"
+                            class="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="w-6 h-6">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M16.862 4.487l1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931ZM16.862 4.487L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                            </svg>
+                        </button>
+                        <button (click)="deleteServicio(servicio.id)"
+                            class="text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                            </svg>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- Paginación -->
+        <div class="flex justify-evenly mt-4">
+            <button (click)="goToFirstPage()" [disabled]="currentPage === 1"
+                class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm" [title]="'Primera página'">
+                <img src="assets\image\icono\skip-forward.svg" alt="Icono comparar" class="w-4 h-4 rotate-180" />
+            </button>
+
+            <button (click)="previousPage(5)" [disabled]="currentPage <= 5"
+                class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm" [title]="'Retroceder 5'">
+                <img src="assets\image\icono\fast-forward.svg" alt="Icono comparar" class="w-4 h-4 rotate-180" />
+            </button>
+
+            <button (click)="previousPage(1)" [disabled]="currentPage === 1"
+                class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm" [title]="'Página anterior'">
+                <img src="assets\image\icono\play.svg" alt="Icono comparar" class="w-4 h-4 rotate-180" />
+            </button>
+
+            <span class="text-gray-700 dark:text-gray-200">Página {{ currentPage }} de {{ totalPages }}</span>
+
+            <button (click)="nextPage(1)" [disabled]="currentPage === totalPages"
+                class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm" [title]="'Página siguiente'">
+                <img src="assets\image\icono\play.svg" alt="Icono comparar" class="w-4 h-4" />
+            </button>
+
+            <button (click)="nextPage(5)" [disabled]="currentPage + 5 > totalPages"
+                class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm" [title]="'Avanzar 5'">
+                <img src="assets\image\icono\fast-forward.svg" alt="Icono comparar" class="w-4 h-4" />
+            </button>
+
+            <button (click)="goToLastPage()" [disabled]="currentPage === totalPages"
+                class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm" [title]="'Ultima página'">
+                <img src="assets\image\icono\skip-forward.svg" alt="Icono comparar" class="w-4 h-4" />
+            </button>
+        </div>
+    </div>
+</div>
