@@ -18,3 +18,11 @@ export interface User {
     groups: UserRole[]; // Array de roles usando el enum
     user_permissions: number[];
 }
+export interface loginModel{
+    username: string;
+    password: string;
+}
+export interface RefreshModel{
+    refresh:string;
+    access:string;
+}
