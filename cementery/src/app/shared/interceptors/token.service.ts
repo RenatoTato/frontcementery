@@ -22,7 +22,7 @@ export class TokenInterceptor implements HttpInterceptor {
 
     return next.handle(authReq).pipe(
       catchError(error => {
-        if (error.status === 401) {
+        if (error.status === 401&& error.error.code === 'token_not_valid') {
           // Si el token ha expirado, intentamos renovarlo
           return this.authService.refreshToken().pipe(
             switchMap((response: any) => {
