@@ -8,5 +8,6 @@ export interface EtapasObituario {
     date?: Date;  // Fecha y hora de la ceremonia (opcional)
     obituary: Obituario;  // ID del obituario relacionado
     ceremony: Servicio;  // ID del servicio relacionado
+    obituaryDetails?: string;
   }
   

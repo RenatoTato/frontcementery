@@ -68,6 +68,9 @@ export class ArticuloService {
     let params = this.generateParams(filterParams);
     return this.http.get<Articulo[]>(this.articuloReadUrl, { params });
   }
+  getArticuloId(id: number): Observable<Articulo> {
+    return this.http.get<Articulo>(`${this.articuloUrl}${id}/`)
+  }
   // Crear un nuevo artículo
   createArticulo(articuloData: Articulo, file: File | null): Observable<Articulo> {
     const formData = this.buildFormDataArticulo(articuloData, file);
@@ -100,6 +103,9 @@ export class ArticuloService {
   getReadSeccions(filterParams?: SeccionFilter): Observable<Seccion[]> {
     let params = this.generateParams(filterParams);
     return this.http.get<Seccion[]>(this.seccionReadUrl, { params });
+  }
+  getSeccionId(id: number): Observable<Seccion> {
+    return this.http.get<Seccion>(`${this.seccionUrl}${id}/`)
   }
   // Crear un nuevo artículo
   createSeccion(data:Seccion): Observable<Seccion>{

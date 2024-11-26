@@ -7,4 +7,5 @@ export interface Memoria {
     text: string;  // Texto del recuerdo
     image?: string;  // URL de la imagen opcional (puede ser nulo)
     obituary: Obituario;  // ID del obituario relacionado
+    obituarioDetails:string;
   }

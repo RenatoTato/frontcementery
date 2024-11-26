@@ -8,4 +8,5 @@ export interface Obituario {
     date?: Date;  // Fecha y hora de la ceremonia opcional
     name?: string;
     deceased: Difunto;  // ID del difunto (relación uno a uno)
+    difuntoDetails?: string;
   }

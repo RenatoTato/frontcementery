@@ -5,4 +5,5 @@ export interface Seccion {
     subtitle: string;
     content: string;
     article: Articulo;  // Relación con el artículo
+    articuloDetails?: string;
   }

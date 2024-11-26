@@ -11,4 +11,5 @@ export interface Social {
     stage_type: SocialPlatform;  // Plataforma (Twitter, Facebook, Instagram, Youtube)
     url?: string;  // URL de la red social (opcional)
     iglesia?: Iglesia;  // ID de la iglesia relacionada
+    iglesiaDetails?:string;
   }

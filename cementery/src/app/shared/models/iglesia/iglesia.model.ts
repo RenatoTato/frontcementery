@@ -13,4 +13,5 @@ export interface Iglesia {
     sector?: string;  // Sector (opcional)
     parish: Parroquia;  // ID de la Parroquia (relación con parroquia)
     image?: string;  // URL de la imagen de la iglesia (opcional)
+    parroquiaDetails?:string;
   }
