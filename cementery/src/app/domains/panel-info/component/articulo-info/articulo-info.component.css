@@ -1,0 +1,21 @@
+/* General card styling */
+.card {
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Hover effect */
+  .card:hover {
+    transform: translateY(-2px);
+    transition: transform 0.2s;
+  }
+  
+  /* Featured tag */
+  .featured {
+    background-color: #34d399; /* TailwindCSS green-400 */
+    color: white;
+    padding: 4px 8px;
+    border-radius: 16px;
+    font-size: 0.75rem;
+    text-align: center;
+  }
