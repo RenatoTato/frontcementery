@@ -1,1 +1,89 @@
-<p>dashboard works!</p>
+<div class="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 p-4">
+    <h1 class="text-2xl font-bold mb-6 text-center dark:text-white">Dashboard</h1>
+
+    <div class="flex justify-end mb-4">
+        <button (click)="toggleDarkMode()" class="px-4 py-2 bg-blue-600 text-white rounded-lg">
+            {{ darkMode ? 'Modo Claro' : 'Modo Oscuro' }}
+        </button>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <!-- Gráfico de Estado de Servicios -->
+        <div class="bg-white dark:bg-gray-800 p-4 rounded shadow-lg col-span-1 md:col-span-2">
+            <h2 class="text-xl font-bold mb-4 dark:text-white">Estado de Servicios</h2>
+            <apx-chart *ngIf="servicioChartOptions" [series]="servicioChartOptions.series"
+                [chart]="servicioChartOptions.chart" [xaxis]="servicioChartOptions.xaxis"
+                [yaxis]="servicioChartOptions.yaxis" [plotOptions]="servicioChartOptions.plotOptions">
+            </apx-chart>
+        </div>
+
+        <!-- Gráfico de Difuntos -->
+        <div class="bg-white dark:bg-gray-800 p-4 rounded shadow-lg col-span-1">
+            <h2 class="text-xl font-bold mb-4 dark:text-white">Difuntos por Servicio</h2>
+            <apx-chart *ngIf="difuntoChartOptions" [series]="difuntoChartOptions.series"
+                [chart]="difuntoChartOptions.chart" [labels]="difuntoChartOptions.labels">
+            </apx-chart>
+        </div>
+
+
+        <!-- Gráfico de Estado de Tumbas -->
+        <div class="bg-white dark:bg-gray-800 p-4 rounded shadow-lg col-span-1">
+            <h2 class="text-xl font-bold mb-4 dark:text-white">Estado de Tumbas</h2>
+            <apx-chart *ngIf="tumbaChartOptions" [series]="tumbaChartOptions.series" [chart]="tumbaChartOptions.chart"
+                [labels]="tumbaChartOptions.labels">
+            </apx-chart>
+        </div>
+        <!-- Gráfico de Ocupación de Lotes -->
+        <div class="bg-white dark:bg-gray-800 p-4 rounded shadow-lg col-span-1 md:col-span-2">
+            <h2 class="text-xl font-bold mb-4 dark:text-white">Ocupación por Lotes</h2>
+            <!-- Botón para mostrar/ocultar filtros -->
+            <div class="mb-4">
+                <button (click)="toggleFilters()"
+                    class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600">
+                    {{ showFilters ? 'Ocultar Filtros' : 'Mostrar Filtros' }}
+                </button>
+            </div>
+            <!-- Filtros -->
+            <div *ngIf="showFilters" class="bg-gray-200 dark:bg-gray-700 p-4 rounded-lg mb-4">
+                <form [formGroup]="filterForm" (ngSubmit)="applyFilters()" class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label for="blockName" class="block text-sm font-medium mb-2 dark:text-gray-200">Número de
+                                Lote</label>
+                            <input id="blockName" formControlName="blockName" type="text" placeholder="Número de Lote"
+                                class="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                        </div>
+                        <div>
+                            <label for="typeblock" class="block text-sm font-medium mb-2 dark:text-gray-200">Tipo de
+                                Bloque</label>
+                            <input id="typeblock" formControlName="typeblock" type="text" placeholder="Tipo de Bloque"
+                                class="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                        </div>
+                        <div>
+                            <label for="numbersblock" class="block text-sm font-medium mb-2 dark:text-gray-200">Número
+                                de Bloque</label>
+                            <input id="numbersblock" formControlName="numbersblock" type="text"
+                                placeholder="Número de Bloque"
+                                class="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                        </div>
+                    </div>
+                    <div class="flex justify-end space-x-4 mt-4">
+                        <button type="button" (click)="resetFilters()"
+                            class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600">
+                            Reset
+                        </button>
+                        <button type="submit"
+                            class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600">
+                            Aplicar
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <!-- Gráfico -->
+            <apx-chart *ngIf="loteChartOptions" [series]="loteChartOptions.series" [chart]="loteChartOptions.chart"
+                [xaxis]="loteChartOptions.xaxis" [yaxis]="loteChartOptions.yaxis"
+                [plotOptions]="loteChartOptions.plotOptions">
+            </apx-chart>
+        </div>
+    </div>
+</div>

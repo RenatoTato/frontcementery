@@ -1,0 +1,32 @@
+<div class="relative w-full h-full flex items-center justify-center bg-blue-100">
+    <!-- Contenedor de la guía activa -->
+    <div class="w-full h-full relative">
+        <!-- Imagen de fondo -->
+        <img *ngIf="currentGuia?.image" [src]="currentGuia?.image || 'assets/default-image.jpg'"
+            alt="{{ currentGuia?.title }}" class="w-full h-full object-cover" />
+
+        <!-- Contenido superpuesto -->
+        <div *ngIf="currentGuia"
+            class="absolute inset-0 bg-black bg-opacity-50 text-white flex flex-col justify-center items-center px-6">
+            <h2 class="text-4xl font-bold mb-2">{{ currentGuia.category }}</h2>
+            <h3 class="text-3xl mb-2">{{ currentGuia.title }}</h3>
+            <h4 class="text-xl text-yellow-400 mb-4">{{ currentGuia.steps }}</h4>
+            <p class="text-center text-lg max-w-2xl">{{ currentGuia.description_short }}</p>
+        </div>
+    </div>
+
+    <!-- Botones de navegación -->
+    <!-- Botón Anterior -->
+    <button
+        class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-gray-800 bg-opacity-50 text-white p-2 rounded-full flex items-center justify-center"
+        (click)="prev()">
+        <img src="assets/image/icono/chevron-right.svg" alt="Icono siguiente" class="w-4 h-4 rotate-180" />
+    </button>
+
+    <!-- Botón Siguiente -->
+    <button
+        class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-gray-800 bg-opacity-50 text-white p-2 rounded-full flex items-center justify-center"
+        (click)="next()">
+        <img src="assets/image/icono/chevron-right.svg" alt="Icono siguiente" class="w-4 h-4" />
+    </button>
+</div>

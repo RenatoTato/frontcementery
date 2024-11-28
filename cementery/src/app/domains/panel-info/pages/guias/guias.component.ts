@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
+import { GuiasInfoComponent } from "../../component/guias-info/guias-info.component";
 
 @Component({
   selector: 'app-guias',
   standalone: true,
-  imports: [],
+  imports: [GuiasInfoComponent],
   templateUrl: './guias.component.html',
   styleUrl: './guias.component.css'
 })
