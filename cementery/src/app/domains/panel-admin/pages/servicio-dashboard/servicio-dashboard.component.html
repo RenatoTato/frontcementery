@@ -1,32 +1,21 @@
 <div class="flex space-x-4">
-    <!-- Botón para mostrar el formulario -->
-    <button (click)="mostrarFormulario()"
-      class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700">
-      Formulario 
-    </button>
+  <!-- Botón para mostrar el formulario -->
+  <button (click)="mostrarFormulario()" class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700">
+    Formulario
+  </button>
 
-    <!-- Botón para mostrar la edición -->
-    <button (click)="mostrarEdicion()"
-      class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600">
-      Modificar 
-    </button>
-     <!-- Botón para mostrar la edición -->
-     <button (click)="mostrarReporte()"
-     class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600">
-     Reporte 
-   </button>
-  </div>
-  
-  <!-- Contenido del formulario -->
-  <div *ngIf="estadoActual === 'formulario'">
-    <app-servicioForm/>
-  </div>
-  <!-- Contenido de edición -->
-  <div *ngIf="estadoActual === 'edicion'">
-    <app-servicio-editar/>
-  </div>
+  <!-- Botón para mostrar la edición -->
+  <button (click)="mostrarEdicion()" class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600">
+    Modificar
+  </button>
 
-  <!-- Contenido de edición -->
-  <div *ngIf="estadoActual === 'reporte'">
-    <app-servicio-reporte/>
-  </div>
+</div>
+
+<!-- Contenido del formulario -->
+<div *ngIf="estadoActual === 'formulario'">
+  <app-servicioForm />
+</div>
+<!-- Contenido de edición -->
+<div *ngIf="estadoActual === 'edicion'">
+  <app-servicio-editar />
+</div>

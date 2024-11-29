@@ -25,6 +25,7 @@ export class TumbaHistorialComponent implements OnInit {
   comparacion: VersionCambio[] = [];
   filterForm: FormGroup;
   defaultObjectId: number = 1;
+  showFilters:boolean=false;
   loteNamesCache: { [key: number]: string } = {}; // Mapa de caché para nombres de lotes
   // Campos de filtros y encabezados
   filterFields = [
@@ -239,6 +240,9 @@ export class TumbaHistorialComponent implements OnInit {
     );
   }
 
+  toggleFilters(): void {
+    this.showFilters = !this.showFilters;
+  }
 
   // Paginación
   get totalPages(): number {

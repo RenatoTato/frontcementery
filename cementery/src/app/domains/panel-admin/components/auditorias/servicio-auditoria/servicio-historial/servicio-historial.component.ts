@@ -30,6 +30,7 @@ export class ServicioHistorialComponent implements OnInit {
   defaultObjectId: number = 1;
   difuntoNamesCache: { [key: number]: string } = {}; // Mapa de caché para nombres de difuntos
   loteNamesCache: { [key: number]: string } = {}; // Mapa de caché para nombres de lotes
+  showFilters:boolean=false;
   // Campos de filtros y encabezados
   filterFields = [
     { name: 'start_Date', label: 'Fecha del contrato' },
@@ -261,7 +262,9 @@ export class ServicioHistorialComponent implements OnInit {
 
   // Comparar versiones
 
-
+  toggleFilters(): void {
+    this.showFilters = !this.showFilters;
+  }
   // Comparar versiones para un objeto específico desde la acción en la tabla
   compararVersiones(objectId: number): void {
     this.servicioHistoryService.compareServicioVersions(objectId).subscribe(

@@ -26,6 +26,7 @@ export class TumbaReporteComponent implements OnInit {
   isPaginated: boolean = true;
   searchForm: FormGroup;
   darkMode: boolean = false;
+  showFilters:boolean=false;
   public chartOptions: Partial<ChartOptions> | any;
 
   constructor(
@@ -83,7 +84,9 @@ export class TumbaReporteComponent implements OnInit {
       (error) => console.error('Error al obtener las tumbas:', error)
     );
   }
-
+  toggleFilters(): void {
+    this.showFilters = !this.showFilters;
+  }
 
   // Cargar datos de tumbas con paginación y filtros
   loadTumbaEstado(): void {

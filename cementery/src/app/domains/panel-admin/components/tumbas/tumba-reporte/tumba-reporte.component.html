@@ -1,122 +1,140 @@
-<div class="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex flex-col items-center p-4">
-    <h1 class="text-2xl font-bold mb-6 dark:text-white">Reporte de Estado de Tumbas</h1>
+<div
+    class="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex flex-col justify-center items-center p-8">
 
-    <!-- Formulario de Filtros -->
-    <div class="w-full max-w-4xl bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
-        <form [formGroup]="searchForm" (ngSubmit)="onSearch()" class="space-y-4">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <!-- Campo de entrada para cada atributo con validación -->
-                <div *ngFor="let field of filterFields">
-                    <label [for]="field.name" class="block text-sm font-medium mb-2 dark:text-gray-200">
-                        {{ field.label }}
-                    </label>
-                    <!-- Desplegable para campos específicos -->
-                    <ng-container [ngSwitch]="field.name">
-                        <!-- Select para Tipo de Nicho -->
-                        <select *ngSwitchCase="'nicheType'" [id]="field.name" [formControlName]="field.name"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
-                            <option *ngFor="let option of filterOptions.nicheType" [value]="option.value">
-                                {{ option.label }}
-                            </option>
-                        </select>
-                        <!-- Select para Disponibilidad -->
-                        <select *ngSwitchCase="'available'" [id]="field.name" [formControlName]="field.name"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
-                            <option *ngFor="let option of filterOptions.available" [value]="option.value">
-                                {{ option.label }}
-                            </option>
-                        </select>
+    <h1 class="text-2xl font-bold mb-4 dark:text-white text-center">Reporte de Estado de Tumbas</h1>
+    <div class="container mx-auto p-4">
 
-                        <!-- Select para Lote -->
-                        <select *ngSwitchCase="'nameLote'" [id]="field.name" [formControlName]="field.name"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
-                            <option *ngFor="let lote of lotes" [value]="lote.id">{{ lote.description}}</option>
-                        </select>
+        <!-- Formulario de Filtros -->
+        <div class="w-full flex justify-end mb-4">
+            <button (click)="toggleFilters()"
+                class="flex items-end gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600">
+                <img src="assets/image/icono/filter.svg" alt="Icono comparar" class="w-4 h-4" />
+            </button>
+        </div>
+        <!-- Filtros -->
+        <div *ngIf="showFilters" class="w-full max-w-4xxl bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+            <form [formGroup]="searchForm" (ngSubmit)="onSearch()" class="space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <!-- Campo de entrada para cada atributo con validación -->
+                    <div *ngFor="let field of filterFields">
+                        <label [for]="field.name" class="block text-sm font-medium mb-2 dark:text-gray-200">
+                            {{ field.label }}
+                        </label>
+                        <!-- Desplegable para campos específicos -->
+                        <ng-container [ngSwitch]="field.name">
+                            <!-- Select para Tipo de Nicho -->
+                            <select *ngSwitchCase="'nicheType'" [id]="field.name" [formControlName]="field.name"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                                <option *ngFor="let option of filterOptions.nicheType" [value]="option.value">
+                                    {{ option.label }}
+                                </option>
+                            </select>
+                            <!-- Select para Disponibilidad -->
+                            <select *ngSwitchCase="'available'" [id]="field.name" [formControlName]="field.name"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                                <option *ngFor="let option of filterOptions.available" [value]="option.value">
+                                    {{ option.label }}
+                                </option>
+                            </select>
 
-                        <!-- Input para otros campos -->
-                        <input *ngSwitchDefault [id]="field.name" [formControlName]="field.name" type="text"
-                            [placeholder]="field.label"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100" />
-                    </ng-container>
+                            <!-- Select para Lote -->
+                            <select *ngSwitchCase="'nameLote'" [id]="field.name" [formControlName]="field.name"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                                <option *ngFor="let lote of lotes" [value]="lote.id">{{ lote.description}}</option>
+                            </select>
+
+                            <!-- Input para otros campos -->
+                            <input *ngSwitchDefault [id]="field.name" [formControlName]="field.name" type="text"
+                                [placeholder]="field.label"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100" />
+                        </ng-container>
+                    </div>
                 </div>
-            </div>
-            <div class="flex justify-end space-x-4">
-                <button type="button" (click)="resetFilters()"
-                    class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600">
-                    Reset
-                </button>
-                <button type="submit"
-                    class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600">
-                    Buscar
-                </button>
-            </div>
-        </form>
-    </div>
-    <!-- Gráfico de Estado de Tumbas -->
-    <div class="container mx-auto p-4 bg-white dark:bg-gray-800 rounded shadow-lg mb-6">
-        <apx-chart *ngIf="chartOptions" [series]="chartOptions.series" [chart]="chartOptions.chart"
-            [xaxis]="chartOptions.xaxis" [yaxis]="chartOptions.yaxis" [dataLabels]="chartOptions.dataLabels"
-            [plotOptions]="chartOptions.plotOptions">
-        </apx-chart>
-    </div>
-    <!-- Tabla de datos de ocupación -->
-    <div class="overflow-x-auto w-full max-w-4xl mb-6 bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-        <table class="min-w-full bg-white dark:bg-gray-800 rounded-lg shadow-md">
-            <thead>
-                <tr>
-                    <th class="px-6 py-3 text-center text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
-                        Número de Tumba</th>
-                    <th class="px-6 py-3 text-center text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
-                        Tipo
-                        de Tumba</th>
-                    <th class="px-6 py-3 text-center text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
-                        Disponibilidad</th>
-                    <th class="px-6 py-3 text-center text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
-                        Difunto</th>
-                    <th class="px-6 py-3 text-center text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
-                        Ceremonia</th>
-                    <th class="px-6 py-3 text-center text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
-                        Fecha</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let tumba of tumbaEstadoList"
-                    class="border-b border-gray-200 dark:border-gray-700 text-center">
-                    <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ tumba.nicheNumber }}</td>
-                    <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ tumba.nicheType }}</td>
-                    <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ tumba.available ? 'Disponible' :
-                        'Ocupado' }}</td>
-                    <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ tumba.difunto ?
-                        (tumba.difunto.names + ' ' + tumba.difunto.last_names) : 'N/A' }}</td>
-                    <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">
-                        <span *ngIf="tumba.servicio && tumba.servicio.length > 0; else noServicio">
-                            <span *ngFor="let servicio of tumba.servicio">
-                                {{ servicio.ceremony }}
+                <div class="flex justify-end space-x-4">
+                    <button type="button" (click)="resetFilters()"
+                        class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600">
+                        Reset
+                    </button>
+                    <button type="submit"
+                        class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600">
+                        Buscar
+                    </button>
+                </div>
+            </form>
+        </div>
+        <!-- Gráfico de Estado de Tumbas -->
+        <div class="container max-w-4xxl p-4 bg-white dark:bg-gray-800 rounded shadow-lg mb-6">
+            <apx-chart *ngIf="chartOptions" [series]="chartOptions.series" [chart]="chartOptions.chart"
+                [xaxis]="chartOptions.xaxis" [yaxis]="chartOptions.yaxis" [dataLabels]="chartOptions.dataLabels"
+                [plotOptions]="chartOptions.plotOptions">
+            </apx-chart>
+        </div>
+        <!-- Tabla de datos de ocupación -->
+        <div class="overflow-x-auto w-full max-w-4xxl mb-6 bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+            <table class="min-w-full bg-white dark:bg-gray-800 rounded-lg shadow-md">
+                <thead>
+                    <tr>
+                        <th
+                            class="px-6 py-3 text-center text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
+                            Número de Tumba</th>
+                        <th
+                            class="px-6 py-3 text-center text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
+                            Tipo
+                            de Tumba</th>
+                        <th
+                            class="px-6 py-3 text-center text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
+                            Disponibilidad</th>
+                        <th
+                            class="px-6 py-3 text-center text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
+                            Difunto</th>
+                        <th
+                            class="px-6 py-3 text-center text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
+                            Ceremonia</th>
+                        <th
+                            class="px-6 py-3 text-center text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
+                            Fecha</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let tumba of tumbaEstadoList"
+                        class="border-b border-gray-200 dark:border-gray-700 text-center">
+                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ tumba.nicheNumber }}</td>
+                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ tumba.nicheType }}</td>
+                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ tumba.available ? 'Disponible'
+                            :
+                            'Ocupado' }}</td>
+                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ tumba.difunto ?
+                            (tumba.difunto.names + ' ' + tumba.difunto.last_names) : 'N/A' }}</td>
+                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">
+                            <span *ngIf="tumba.servicio && tumba.servicio.length > 0; else noServicio">
+                                <span *ngFor="let servicio of tumba.servicio">
+                                    {{ servicio.ceremony }}
+                                </span>
                             </span>
-                        </span>
-                    </td>
-                    <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">
-                        <span *ngIf="tumba.servicio && tumba.servicio.length > 0; else noServicio">
-                            <span *ngFor="let servicio of tumba.servicio">
-                                {{ servicio.startDate | date: 'short' }}
+                        </td>
+                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">
+                            <span *ngIf="tumba.servicio && tumba.servicio.length > 0; else noServicio">
+                                <span *ngFor="let servicio of tumba.servicio">
+                                    {{ servicio.startDate | date: 'short' }}
+                                </span>
                             </span>
-                        </span>
-                    </td>
+                        </td>
 
-                    <ng-template #noServicio>
-                        NA
-                    </ng-template>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+                        <ng-template #noServicio>
+                            NA
+                        </ng-template>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-    <!-- Paginación Condicional -->
-    <div *ngIf="isPaginated" class="flex justify-center mt-4 space-x-2">
-        <button (click)="onPageChange(currentPage - 1)" [disabled]="currentPage === 1"
-            class="px-4 py-2 bg-blue-500 text-white rounded">Anterior</button>
-        <span class="text-gray-700 dark:text-gray-300">Página {{ currentPage }} de {{ totalPages }}</span>
-        <button (click)="onPageChange(currentPage + 1)" [disabled]="currentPage === totalPages"
-            class="px-4 py-2 bg-blue-500 text-white rounded">Siguiente</button>
+        <!-- Paginación Condicional -->
+        <div *ngIf="isPaginated" class="flex justify-center mt-4 space-x-2">
+            <button (click)="onPageChange(currentPage - 1)" [disabled]="currentPage === 1"
+                class="px-4 py-2 bg-blue-500 text-white rounded">Anterior</button>
+            <span class="text-gray-700 dark:text-gray-300">Página {{ currentPage }} de {{ totalPages }}</span>
+            <button (click)="onPageChange(currentPage + 1)" [disabled]="currentPage === totalPages"
+                class="px-4 py-2 bg-blue-500 text-white rounded">Siguiente</button>
+        </div>
     </div>
 </div>

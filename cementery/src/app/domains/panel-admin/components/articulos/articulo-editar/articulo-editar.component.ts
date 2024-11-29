@@ -21,6 +21,7 @@ export class ArticuloEditarComponent  implements OnInit {
   totalItems: number = 0;
   editingStates: { [id: number]: boolean } = {};
   selectedFile: File | null = null;
+  showFilters: boolean = false;
 
   filterFields = [
     { name: 'title', label: 'Título' },
@@ -95,7 +96,9 @@ export class ArticuloEditarComponent  implements OnInit {
     this.articuloEditarForm.reset();
     this.loadArticulos(1, this.pageSize);
   }
-
+  toggleFilters(): void {
+    this.showFilters = !this.showFilters;
+  }
   saveArticulo(articulo: Articulo): void {
     if (!articulo.id) {
       console.error('El ID del artículo es nulo o indefinido.');

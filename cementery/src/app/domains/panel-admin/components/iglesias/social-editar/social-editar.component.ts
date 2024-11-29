@@ -22,6 +22,7 @@ export class SocialEditarComponent  implements OnInit {
   currentPage: number = 1;
   pageSize: number = 10;
   totalItems: number = 0;
+  showFilters:boolean=false;
   editingStates: { [id: number]: boolean } = {};
 
   filterFields = [
@@ -106,6 +107,10 @@ export class SocialEditarComponent  implements OnInit {
 
   toggleEdit(social: Social, isEditing: boolean): void {
     this.editingStates[social.id!] = isEditing;
+  }
+
+  toggleFilters(): void {
+    this.showFilters = !this.showFilters;
   }
 
   isEditing(social: Social): boolean {

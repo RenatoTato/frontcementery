@@ -27,6 +27,7 @@ export class DifuntoHistorialComponent implements OnInit {
   filterForm: FormGroup;
   defaultObjectId: number = 1;
   deudoNamesCache: { [key: number]: string } = {}; // Mapa de caché para nombres de deudos
+  showFilters:boolean=false;
 
   // Campos de filtros y encabezados
   filterFields = [
@@ -174,7 +175,9 @@ export class DifuntoHistorialComponent implements OnInit {
       console.error('Error al cargar el historial:', error);
     });
   }
-
+  toggleFilters(): void {
+    this.showFilters = !this.showFilters;
+  }
   campoLabels: { [key: string]: string } = {
     history_id: 'ID de Historial',
     history_user: 'Usuario',

@@ -1,50 +1,40 @@
 import { Component } from '@angular/core';
-import { IglesiaFormComponent } from "@admin/components/iglesias/iglesiaForm/iglesiaForm.component";
-import { ParroquiaFormComponent } from "@admin/components/iglesias/parroquiaForm/parroquiaForm.component";
-import { SocialFormComponent } from '@admin/components/iglesias/socialForm/socialForm.component';
-import { SocialEditarComponent } from "../../components/iglesias/social-editar/social-editar.component";
-import { ParroquiaEditarComponent } from "../../components/iglesias/parroquia-editar/parroquia-editar.component";
-import { IglesiaEditarComponent } from "../../components/iglesias/iglesia-editar/iglesia-editar.component";
 import { CommonModule } from '@angular/common';
+import { ServicioReporteComponent } from '@admin/components/servicios/servicio-reporte/servicio-reporte.component';
+import { TumbaReporteComponent } from "@admin/components/tumbas/tumba-reporte/tumba-reporte.component";
+import { DifuntoReporteComponent } from "@admin/components/difuntos/difunto-reporte/difunto-reporte.component";
+import { LoteReporteComponent } from "@admin/components/tumbas/lote-reporte/lote-reporte.component";
 
 @Component({
   selector: 'app-iglesia',
   standalone: true,
-  imports: [IglesiaFormComponent, ParroquiaFormComponent, SocialEditarComponent, ParroquiaEditarComponent, IglesiaEditarComponent, CommonModule, SocialFormComponent],
+  imports: [CommonModule, ServicioReporteComponent, TumbaReporteComponent, DifuntoReporteComponent, LoteReporteComponent],
   templateUrl: './iglesia.component.html',
   styleUrl: './iglesia.component.css'
 })
 export class IglesiaComponent {
   // Estado actual del componente
-  estadoActual: 'formularioIglesia' | 'formularioParroquia' | 'edicionParroquia' | 'edicionIglesia' | 'formularioRedes'| 'edicionRedes'= 'formularioIglesia';
+  estadoActual: 'reporteServicio' | 'reporteLote' | 'reporteTumba'| 'reporteDifunto'= 'reporteServicio';
 
   // Método genérico para cambiar el estado
-  cambiarEstado(nuevoEstado: 'formularioIglesia' | 'formularioParroquia' | 'edicionParroquia' | 'edicionIglesia' | 'formularioRedes'|'edicionRedes'): void {
+  cambiarEstado(nuevoEstado: 'reporteServicio' | 'reporteLote' | 'reporteTumba'|'reporteDifunto'): void {
     this.estadoActual = nuevoEstado;
   }
 
   // Métodos de conveniencia
-  mostrarFormularioIglesia(): void {
-    this.cambiarEstado('formularioIglesia');
+  mostrarReporteServicio(): void {
+    this.cambiarEstado('reporteServicio');
   }
-
-  mostrarFormularioParroquia(): void {
-    this.cambiarEstado('formularioParroquia');
+  // Métodos de conveniencia
+  mostrarReporteDifunto(): void {
+    this.cambiarEstado('reporteDifunto');
   }
-
-  mostrarEdicionParroquia(): void {
-    this.cambiarEstado('edicionParroquia');
+  // Métodos de conveniencia
+  mostrarReporteTumba(): void {
+    this.cambiarEstado('reporteTumba');
   }
-
-  mostrarEdicionIglesia(): void {
-    this.cambiarEstado('edicionIglesia');
-  }
-
-  mostrarFormularioRedes(): void {
-    this.cambiarEstado('formularioRedes');
-  }
-
-  mostrarEdicionRedes(): void {
-    this.cambiarEstado('edicionRedes');
+  // Métodos de conveniencia
+  mostrarReporteLote(): void {
+    this.cambiarEstado('reporteLote');
   }
 }

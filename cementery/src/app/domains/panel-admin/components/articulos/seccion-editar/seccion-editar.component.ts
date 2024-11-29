@@ -22,6 +22,7 @@ export class SeccionEditarComponent implements OnInit {
   pageSize: number = 10;
   totalItems: number = 0;
   editingStates: { [id: number]: boolean } = {};
+  showFilters:boolean=false;
 
   filterFields = [
     { name: 'subtitle', label: 'Subtítulo' },
@@ -110,7 +111,9 @@ export class SeccionEditarComponent implements OnInit {
   isEditing(seccion: Seccion): boolean {
     return this.editingStates[seccion.id] || false;
   }
-
+  toggleFilters(): void {
+    this.showFilters = !this.showFilters;
+  }
   saveSeccion(seccion: Seccion): void {
     if (!seccion.id) {
       console.error('El ID de la sección es nulo o indefinido.');

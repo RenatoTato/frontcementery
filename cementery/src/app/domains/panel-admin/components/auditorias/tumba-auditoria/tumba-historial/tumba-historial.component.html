@@ -1,9 +1,16 @@
 <div
     class="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex flex-col justify-center items-center p-8">
-    <h1 class="text-2xl font-bold mb-4 dark:text-white text-center">Auditoria de Tumbas</h1>
+    <h1 class="text-2xl font-bold mb-4 dark:text-white text-center">Auditoria del Historial de las Tumbas</h1>
     <div class="container mx-auto p-4">
         <!-- Formulario de Filtros -->
-        <div class="w-full max-w-4xxl bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+        <div class="flex justify-end mb-4">
+            <button (click)="toggleFilters()"
+                class="flex items-end gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600">
+                <img src="assets/image/icono/filter.svg" alt="Icono comparar" class="w-4 h-4" />
+            </button>
+        </div>
+        <!-- Filtros -->
+        <div *ngIf="showFilters" class="w-full max-w-4xxl bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
             <h1 class="text-2xl font-bold mb-4 dark:text-white">Filtrar Historial de Tumbas</h1>
             <form [formGroup]="filterForm" (ngSubmit)="loadHistorial()" class="space-y-4">
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -90,7 +97,6 @@
         </div>
         <!-- Tabla de Historial -->
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-x-auto mb-6">
-            <h2 class="text-2xl font-bold mb-4 dark:text-white text-center">Historial de Tumbas</h2>
             <table class="min-w-full bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden text-center">
                 <thead class="bg-gray-200 dark:bg-gray-700">
                     <tr>

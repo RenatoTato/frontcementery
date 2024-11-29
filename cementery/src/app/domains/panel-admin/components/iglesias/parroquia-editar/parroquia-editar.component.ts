@@ -19,6 +19,7 @@ export class ParroquiaEditarComponent implements OnInit {
   currentPage: number = 1;
   pageSize: number = 17;
   totalItems: number = 0;
+  showFilters:boolean=false;
   editingStates: { [id: number]: boolean } = {};
 
   filterFields = [
@@ -96,6 +97,10 @@ export class ParroquiaEditarComponent implements OnInit {
 
   toggleEdit(parroquia: Parroquia, isEditing: boolean): void {
     this.editingStates[parroquia.id!] = isEditing;
+  }
+
+  toggleFilters(): void {
+    this.showFilters = !this.showFilters;
   }
 
   isEditing(parroquia: Parroquia): boolean {

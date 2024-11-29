@@ -22,7 +22,7 @@ export class TumbaEditarComponent implements OnInit {
   pageSize: number = 17;
   totalItems: number = 0;
   editingStates: { [id: number]: boolean } = {};
-  
+  showFilters:boolean=false;
 
   filterFields = [
     { name: 'nicheNumber', label: 'Número de Nicho' },
@@ -113,6 +113,10 @@ export class TumbaEditarComponent implements OnInit {
   onSubmit(): void {
     const filterParams = this.tumbaEditarForm.value;
     this.loadTumbas(this.currentPage, this.pageSize, filterParams);
+  }
+
+  toggleFilters(): void {
+    this.showFilters = !this.showFilters;
   }
 
   toggleEdit(tumba: Tumba, isEditing: boolean): void {

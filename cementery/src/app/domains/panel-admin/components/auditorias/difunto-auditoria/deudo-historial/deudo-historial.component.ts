@@ -24,6 +24,7 @@ export class DeudoHistorialComponent implements OnInit {
   comparacion: VersionCambio[] = [];
   filterForm: FormGroup;
   defaultObjectId: number = 1;
+  showFilters:boolean=false;
   // Campos de filtros y encabezados
   filterFields = [
     { name: 'start_date', label: 'Fecha de Inicio' },
@@ -160,7 +161,9 @@ export class DeudoHistorialComponent implements OnInit {
     };
     return userId ? userMap[userId] || userId : 'Desconocido';
   }
-
+  toggleFilters(): void {
+    this.showFilters = !this.showFilters;
+  }
   // Comparar versiones
 
 

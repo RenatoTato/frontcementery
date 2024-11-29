@@ -7,23 +7,18 @@ import { ServicioEditarComponent } from "../../components/servicios/servicio-edi
 @Component({
   selector: 'app-servicio-dashboard',
   standalone: true,
-  imports: [ServicioFormComponent, ServicioReporteComponent, CommonModule, ServicioEditarComponent],
+  imports: [ServicioFormComponent,  CommonModule, ServicioEditarComponent],
   templateUrl: './servicio-dashboard.component.html',
   styleUrl: './servicio-dashboard.component.css'
 })
 export class ServicioDashboardComponent {
 
   // Estado actual del componente
-  estadoActual: 'reporte' | 'formulario' | 'edicion' = 'reporte';
+  estadoActual:  'formulario' | 'edicion' = 'formulario';
 
   // Método genérico para cambiar el estado
-  cambiarEstado(nuevoEstado: 'reporte' | 'formulario' | 'edicion'): void {
+  cambiarEstado(nuevoEstado:  'formulario' | 'edicion'): void {
     this.estadoActual = nuevoEstado;
-  }
-
-  // Métodos de conveniencia
-  mostrarReporte(): void {
-    this.cambiarEstado('reporte');
   }
 
   mostrarFormulario(): void {

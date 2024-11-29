@@ -27,6 +27,7 @@ export class DifuntoEditarComponent implements OnInit {
   currentPage: number = 1;
   pageSize: number = 17;
   totalItems: number = 0;
+  showFilters:boolean=false;
   editingStates: { [id: number]: boolean } = {};
 
   filterFields = [
@@ -177,6 +178,10 @@ export class DifuntoEditarComponent implements OnInit {
   // Cambia el estado de edición de un difunto específico
   toggleEdit(difunto: Difunto, isEditing: boolean): void {
     this.editingStates[difunto.id] = isEditing; // Usa `editingStates` para controlar el estado de edición
+  }
+
+  toggleFilters(): void {
+    this.showFilters = !this.showFilters;
   }
 
   // Guarda los cambios y sale del modo edición

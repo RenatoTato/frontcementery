@@ -27,6 +27,7 @@ export class ServicioEditarComponent implements OnInit {
   pageSize: number = 17;
   totalItems: number = 0;
   editingStates: { [id: number]: boolean } = {};
+  showFilters:boolean=false;
 
 
   filterFields = [
@@ -137,6 +138,10 @@ export class ServicioEditarComponent implements OnInit {
   onSubmit(): void {
     const filterParams = this.servicioEditarForm.value;
     this.loadServicios(this.currentPage, this.pageSize, filterParams);
+  }
+
+  toggleFilters(): void {
+    this.showFilters = !this.showFilters;
   }
 
   toggleEdit(servicio: Servicio, isEditing: boolean): void {

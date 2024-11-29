@@ -23,6 +23,7 @@ export class ObituarioEditarComponent  implements OnInit {
   pageSize: number = 10;
   totalItems: number = 0;
   editingStates: { [id: number]: boolean } = {};
+  showFilters:Boolean=false;
 
   filterFields = [
     { name: 'place', label: 'Lugar' },
@@ -161,6 +162,10 @@ export class ObituarioEditarComponent  implements OnInit {
       this.currentPage = newPage;
       this.loadObituarios(this.currentPage, this.pageSize);
     }
+  }
+
+  toggleFilters(): void {
+    this.showFilters = !this.showFilters;
   }
 
   previousPage(step: number): void {

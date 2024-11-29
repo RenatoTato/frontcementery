@@ -1,0 +1,71 @@
+<section class="flex flex-col items-center p-8 bg-gradient-to-t from-[rgba(96,93,255,0.1)] to-transparent">
+    <!-- Título de la sección -->
+    <h1 class="text-4xl font-bold text-[#303651] mb-4">Planes y Precios</h1>
+    <p class="text-center max-w-xl mb-8">
+        Servicios pensados para honrar y recordar a tus seres queridos.
+    </p>
+
+    <!-- Contenedor del carrusel -->
+    <div class="relative w-full max-w-7xl overflow-hidden">
+        <div
+            class="flex gap-12 snap-x snap-mandatory overflow-x-scroll scrollbar-hide scroll-smooth px-8 py-4">
+            <!-- Tarjeta de precio -->
+            <div *ngFor="let info of infos"
+                class="flex flex-col p-8 bg-[#f7faff] border border-[#5da8ff] rounded-lg text-center shadow-lg w-[400px] flex-shrink-0">
+                <!-- Ícono del plan -->
+                <img *ngIf="info.image" [src]="info.image" [alt]="info.title" class="w-16 h-16 mx-auto mb-4">
+
+                <!-- Título del plan -->
+                <h3 class="text-xl font-bold mb-4">{{ info.title }}</h3>
+
+                <!-- Precio -->
+                <div class="flex items-center justify-center bg-[#e5f1ff] p-4 rounded-lg mb-4">
+                    <img src="assets/image/icono/price.svg" alt="Price Icon" class="w-4 h-4 mr-2">
+                    <span class="text-lg font-bold text-[#303651]">${{ info.price || 0 }}</span>
+                </div>
+
+                <!-- Separador -->
+                <div class="border-t border-gray-300 mb-4"></div>
+
+                <!-- Características -->
+                <ul>
+                    <h4 class="text-lg font-semibold mb-2">Características del Paquete:</h4>
+                    <li *ngFor="let feature of formatFeaturesOrExclusions(info.features)" class="flex items-center gap-2">
+                        <img src="assets/image/icono/benefit.svg" alt="Benefit Icon" class="w-4 h-4">
+                        <span class="text-sm text-[#303651]">{{ feature }}</span>
+                    </li>
+                </ul>
+
+                <!-- Exclusiones -->
+                <ul *ngIf="info.exclusions" class="mt-4">
+                    <h4 class="text-lg font-semibold mb-2">No incluye:</h4>
+                    <li *ngFor="let exclusion of formatFeaturesOrExclusions(info.exclusions)" class="flex items-center gap-2">
+                        <img src="assets/image/icono/coin-slash.svg" alt="Exclusion Icon" class="w-4 h-4">
+                        <span class="text-sm text-[#303651]">{{ exclusion }}</span>
+                    </li>
+                </ul>
+
+                <!-- Botón de acción -->
+                <div class="mt-8"> <!-- Añade suficiente margen superior -->
+                    <a href="#"
+                        class="bg-gradient-to-r from-[#605dff] to-[#ad63f6] text-white py-3 px-6 rounded-lg font-bold hover:from-[#ad63f6] hover:to-[#605dff]">
+                        Solicitar Ahora
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controles -->
+        <div class="absolute top-1/2 -translate-y-1/2 left-4 z-10">
+            <button class="bg-[#605dff] text-white rounded-full p-2" (click)="scrollCarousel(-1)">
+                &#9664;
+            </button>
+        </div>
+        <div class="absolute top-1/2 -translate-y-1/2 right-4 z-10">
+            <button class="bg-[#605dff] text-white rounded-full p-2" (click)="scrollCarousel(1)">
+                &#9654;
+            </button>
+        </div>
+    </div>
+</section>
+

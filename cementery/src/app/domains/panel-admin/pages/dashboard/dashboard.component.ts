@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms'; 
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ChartOptions } from '@admin/models/reportes/tumba/chart-options.model';
 import { ServicioService } from '@externo/services/servicio.service';
 import { TumbaService } from '@externo/services/tumba.service';
@@ -33,20 +33,21 @@ export class DashboardComponent implements OnInit {
     private tumbaService: TumbaService,
     private fb: FormBuilder,
   ) {
-  this.filterForm = this.fb.group({
-    blockName: [''],
-    typeblock: [''],
-    numbersblock: ['']
-  });
-}
+    this.filterForm = this.fb.group({
+      blockName: [''],
+      typeblock: [''],
+      numbersblock: ['']
+    });
+  }
 
 
 
   ngOnInit(): void {
+    this.filterForm.patchValue({ blockName: 1 }); 
     this.loadServicioData();
     this.loadDifuntoData();
-    this.loadLoteOcupacionData();
     this.loadTumbaEstadoData();
+    this.applyFilters();
     this.loadDarkModePreference();
   }
 
@@ -88,7 +89,7 @@ export class DashboardComponent implements OnInit {
       };
     });
   }
-  
+
 
   // Cargar datos de Estado de Tumbas
   loadTumbaEstadoData(): void {
@@ -112,23 +113,31 @@ export class DashboardComponent implements OnInit {
   toggleFilters(): void {
     this.showFilters = !this.showFilters;
   }
-  
+
   applyFilters(): void {
     const filterParams: LoteFilter = this.filterForm.value;
     this.loadLoteOcupacionData(filterParams);
   }
-  
+
   resetFilters(): void {
     this.filterForm.reset();
     this.loadLoteOcupacionData();
   }
-  
-  loadLoteOcupacionData(filterParams ?: LoteFilter): void {
+
+  // Método para cargar datos de ocupación de lotes
+  loadLoteOcupacionData(filterParams?: LoteFilter): void {
     this.tumbaService.getOcupacionLote(filterParams).subscribe((data: LoteOcupacion[]) => {
-      const labels = data.map(l => `Lote ${l.blockName}`);
-      const ocupados = data.map(l => l.ocupadas);
-      const disponibles = data.map(l => l.disponibles);
-  
+      // Ordenar datos para que el lote con blockName === 1 siempre esté primero
+      const sortedData = data.sort((a, b) => {
+        if (a.blockName === 1) return -1; // Lote 1 al inicio
+        if (b.blockName === 1) return 1;
+        return a.blockName - b.blockName; // Orden numérico ascendente
+      });
+
+      const labels = sortedData.map(l => `Lote ${l.blockName}`);
+      const ocupados = sortedData.map(l => l.ocupadas);
+      const disponibles = sortedData.map(l => l.disponibles);
+
       this.loteChartOptions = {
         series: [
           { name: 'Ocupados', data: ocupados },

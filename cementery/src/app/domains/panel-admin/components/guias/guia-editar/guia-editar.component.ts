@@ -19,13 +19,13 @@ export class GuiaEditarComponent  implements OnInit {
   currentPage: number = 1;
   pageSize: number = 10;
   totalItems: number = 0;
+  showFilters:boolean=false;
   editingStates: { [id: number]: boolean } = {};
   selectedFile: File | null = null;
 
   filterFields = [
     { name: 'title', label: 'Título' },
     { name: 'category', label: 'Categoría' },
-    { name: 'description_short', label: 'Descripción corta' },
   ];
 
   tableHeaders = ['Título', 'Categoría', 'Descripción corta', 'Imagen'];
@@ -112,6 +112,10 @@ export class GuiaEditarComponent  implements OnInit {
 
   toggleEdit(guia: Guia, isEditing: boolean): void {
     this.editingStates[guia.id!] = isEditing;
+  }
+
+  toggleFilters(): void {
+    this.showFilters = !this.showFilters;
   }
 
   isEditing(guia: Guia): boolean {

@@ -20,6 +20,7 @@ export class LoteEditarComponent  implements OnInit {
   pageSize: number = 10;
   totalItems: number = 0;
   editingStates: { [id: number]: boolean } = {};
+  showFilters:boolean=false;
 
   filterFields = [
     { name: 'blockName', label: 'Nombre del Bloque' },
@@ -156,6 +157,10 @@ export class LoteEditarComponent  implements OnInit {
   resetFilters(): void {
     this.loteEditarForm.reset();
     this.loadLotes(1, this.pageSize);
+  }
+
+  toggleFilters(): void {
+    this.showFilters = !this.showFilters;
   }
 
   saveLote(lote: Lote): void {

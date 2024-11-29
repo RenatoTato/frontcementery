@@ -18,6 +18,7 @@ export class LoteReporteComponent implements OnInit{
   public chartOptions: Partial<ChartOptions> | any;
   public lotesOcupacion: LoteOcupacion[] = [];
   searchForm: FormGroup;
+  showFilters:boolean=false;
   chartType: 'pie' | 'bar' = 'pie'; // Controla el tipo de gráfico
 
   filterFields = [
@@ -58,6 +59,10 @@ export class LoteReporteComponent implements OnInit{
   resetFilters(): void {
     this.searchForm.reset();
     this.loadOcupacionLotes();
+  }
+
+  toggleFilters(): void {
+    this.showFilters = !this.showFilters;
   }
 
   updateChartOptions(): void {

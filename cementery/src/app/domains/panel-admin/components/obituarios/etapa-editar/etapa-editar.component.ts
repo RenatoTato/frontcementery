@@ -25,13 +25,13 @@ export class EtapaEditarComponent implements OnInit {
   currentPage: number = 1;
   pageSize: number = 10;
   totalItems: number = 0;
+  showFilters:boolean=false;
   editingStates: { [id: number]: boolean } = {};
 
   filterFields = [
     { name: 'stage_ceremony', label: 'Etapa de Ceremonia' },
     { name: 'place', label: 'Lugar' },
     { name: 'obituary', label: 'Obituario' },
-    { name: 'ceremony', label: 'Ceremonia' },
   ];
 
   stageOptions = [
@@ -123,6 +123,10 @@ export class EtapaEditarComponent implements OnInit {
 
   toggleEdit(etapa: EtapasObituario, isEditing: boolean): void {
     this.editingStates[etapa.id!] = isEditing;
+  }
+
+  toggleFilters(): void {
+    this.showFilters = !this.showFilters;
   }
 
   isEditing(etapa: EtapasObituario): boolean {

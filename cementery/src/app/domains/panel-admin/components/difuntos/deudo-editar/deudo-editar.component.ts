@@ -20,6 +20,7 @@ export class DeudoEditarComponent implements OnInit {
   currentPage: number = 1;
   pageSize: number = 17;
   totalItems: number = 0;
+  showFilters:boolean=false;
   editingStates: { [id: number]: boolean } = {};
 
   filterFields = [
@@ -139,6 +140,11 @@ export class DeudoEditarComponent implements OnInit {
   toggleEdit(deudo: Deudo, isEditing: boolean): void {
     this.editingStates[deudo.id] = isEditing;
   }
+
+  toggleFilters(): void {
+    this.showFilters = !this.showFilters;
+  }
+
   isEditing(deudo: Deudo): boolean {
     return this.editingStates[deudo.id] || false;
   }

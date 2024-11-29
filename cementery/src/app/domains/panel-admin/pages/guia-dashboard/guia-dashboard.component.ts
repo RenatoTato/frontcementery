@@ -1,33 +1,31 @@
 import { Component } from '@angular/core';
-import { GuiaFormComponent } from "../../components/guias/guiaForm/guiaForm.component";
-import { GuiaEditarComponent } from "../../components/guias/guia-editar/guia-editar.component";
 import { CommonModule } from '@angular/common';
+import { InfoFormComponent } from '@admin/components/infos/infoForm/infoForm.component'; 
+import { InfoEditarComponent } from '@admin/components/infos/info-editar/info-editar.component'; 
 
 @Component({
   selector: 'app-guia-dashboard',
   standalone: true,
-  imports: [GuiaFormComponent, GuiaEditarComponent, CommonModule],
+  imports: [CommonModule, InfoFormComponent, InfoEditarComponent],
   templateUrl: './guia-dashboard.component.html',
   styleUrl: './guia-dashboard.component.css'
 })
 export class GuiaDashboardComponent {
 
-// Estado actual del componente
-estadoActual:  'formularioGuia' | 'edicionGuia'  = 'formularioGuia' ;
+  // Estado actual del componente
+  estadoActual: 'formularioInfo' | 'edicionInfo' = 'formularioInfo';
 
-// Método genérico para cambiar el estado
-cambiarEstado(nuevoEstado:  'formularioGuia' | 'edicionGuia' ): void {
-  this.estadoActual = nuevoEstado;
-}
+  // Método genérico para cambiar el estado
+  cambiarEstado(nuevoEstado: 'formularioInfo' | 'edicionInfo'): void {
+    this.estadoActual = nuevoEstado;
+  }
 
-// Métodos de conveniencia
 
-mostrarFormularioGuia(): void {
-  this.cambiarEstado('formularioGuia');
-}
+  mostrarFormularioInfo(): void {
+    this.cambiarEstado('formularioInfo');
+  }
 
-mostrarEdicionGuia(): void {
-  this.cambiarEstado('edicionGuia');
-}
-
+  mostrarEdicionInfo(): void {
+    this.cambiarEstado('edicionInfo');
+  }
 }

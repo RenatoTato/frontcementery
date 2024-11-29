@@ -21,6 +21,7 @@ export class IglesiaEditarComponent  implements OnInit {
   currentPage: number = 1;
   pageSize: number = 10;
   totalItems: number = 0;
+  showFilters:boolean=false;
   editingStates: { [id: number]: boolean } = {};
 
   filterFields = [
@@ -115,6 +116,10 @@ export class IglesiaEditarComponent  implements OnInit {
 
   toggleEdit(iglesia: Iglesia, isEditing: boolean): void {
     this.editingStates[iglesia.id!] = isEditing;
+  }
+
+  toggleFilters(): void {
+    this.showFilters = !this.showFilters;
   }
 
   isEditing(iglesia: Iglesia): boolean {

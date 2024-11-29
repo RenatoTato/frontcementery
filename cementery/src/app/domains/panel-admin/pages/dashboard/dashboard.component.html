@@ -1,12 +1,5 @@
 <div class="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 p-4">
     <h1 class="text-2xl font-bold mb-6 text-center dark:text-white">Dashboard</h1>
-
-    <div class="flex justify-end mb-4">
-        <button (click)="toggleDarkMode()" class="px-4 py-2 bg-blue-600 text-white rounded-lg">
-            {{ darkMode ? 'Modo Claro' : 'Modo Oscuro' }}
-        </button>
-    </div>
-
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <!-- Gráfico de Estado de Servicios -->
         <div class="bg-white dark:bg-gray-800 p-4 rounded shadow-lg col-span-1 md:col-span-2">
@@ -39,8 +32,9 @@
             <!-- Botón para mostrar/ocultar filtros -->
             <div class="mb-4">
                 <button (click)="toggleFilters()"
-                    class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600">
-                    {{ showFilters ? 'Ocultar Filtros' : 'Mostrar Filtros' }}
+                    class="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600">
+                    <img src="assets/image/icono/filter.svg" alt="Icono comparar" class="w-4 h-4" />
+                    <!-- {{ showFilters ? 'Ocultar ' : 'Mostrar ' }} -->
                 </button>
             </div>
             <!-- Filtros -->
@@ -69,12 +63,12 @@
                     </div>
                     <div class="flex justify-end space-x-4 mt-4">
                         <button type="button" (click)="resetFilters()"
-                            class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600">
-                            Reset
+                            class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600" [title]="'Refrescar'">
+                            <img src="assets\image\icono\refresh-ccw.svg" alt="Icono comparar" class="w-4 h-4 " />
                         </button>
                         <button type="submit"
-                            class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600">
-                            Aplicar
+                            class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600" [title]="'Buscar'">
+                            <img src="assets\image\icono\search.svg" alt="Icono comparar" class="w-4 h-4 " />
                         </button>
                     </div>
                 </form>

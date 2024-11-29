@@ -23,6 +23,7 @@ export class MemoriaEditarComponent  implements OnInit {
   pageSize: number = 10;
   totalItems: number = 0;
   editingStates: { [id: number]: boolean } = {};
+  showFilters:boolean=false;
 
   filterFields = [
     { name: 'names', label: 'Nombre del Autor' },
@@ -114,6 +115,10 @@ export class MemoriaEditarComponent  implements OnInit {
 
   toggleEdit(memoria: Memoria, isEditing: boolean): void {
     this.editingStates[memoria.id!] = isEditing;
+  }
+
+  toggleFilters(): void {
+    this.showFilters = !this.showFilters;
   }
 
   isEditing(memoria: Memoria): boolean {

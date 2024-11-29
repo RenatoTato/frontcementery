@@ -1,52 +1,33 @@
 <div class="flex space-x-4">
   <!-- Botón para mostrar el formulario -->
-  <button (click)="mostrarFormularioParroquia()"
+  <button (click)="mostrarReporteServicio()"
     class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700">
-    Formulario Parroquia
+    Reporte Servicio
   </button>
-  <!-- Botón para mostrar el formulario -->
-  <button (click)="mostrarFormularioIglesia()"
+  <button (click)="mostrarReporteTumba()"
     class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700">
-    Formulario Iglesia
+    Reporte Tumba
   </button>
-  <!-- Botón para mostrar la Formulario -->
-  <button (click)="mostrarFormularioRedes()"
+  <button (click)="mostrarReporteDifunto()"
     class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700">
-    Formulario Redes
+    Reporte Difunto
   </button>
-  <!-- Botón para mostrar la edición -->
-  <button (click)="mostrarEdicionParroquia()"
-    class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600">
-    Modificar Parroquia
+  <button (click)="mostrarReporteLote()"
+    class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700">
+    Reporte Servicio
   </button>
-  <!-- Botón para mostrar la edición -->
-  <button (click)="mostrarEdicionIglesia()"
-    class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600">
-    Modificar Iglesia
-  </button>
-
-  <!-- Botón para mostrar la edición -->
-  <button (click)="mostrarEdicionRedes()"
-    class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600">
-    Modificar Redes
-  </button>
+  
 </div>
 
-<div *ngIf="estadoActual === 'formularioIglesia'">
-  <app-iglesiaForm />
+<div *ngIf="estadoActual === 'reporteServicio'">
+  <app-servicio-reporte />
 </div>
-<div *ngIf="estadoActual === 'formularioParroquia'">
-  <app-parroquiaForm />
+<div *ngIf="estadoActual === 'reporteTumba'">
+  <app-tumba-reporte />
 </div>
-<div *ngIf="estadoActual === 'edicionParroquia'">
-  <app-parroquia-editar />
+<div *ngIf="estadoActual === 'reporteDifunto'">
+  <app-difunto-reporte />
 </div>
-<div *ngIf="estadoActual === 'edicionIglesia'">
-  <app-iglesia-editar />
-</div>
-<div *ngIf="estadoActual === 'formularioRedes'">
-  <app-socialForm />
-</div>
-<div *ngIf="estadoActual === 'edicionRedes'">
-  <app-social-editar />
+<div *ngIf="estadoActual === 'reporteLote'">
+  <app-lote-reporte />
 </div>

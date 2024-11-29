@@ -20,6 +20,7 @@ export class LoteHistorialComponent implements OnInit {
     comparacion: VersionCambio[] = [];
     filterForm: FormGroup;
     defaultObjectId: number = 1;
+    showFilters:boolean=false;
     // Campos de filtros y encabezados
     filterFields = [
       { name: 'start_date', label: 'Fecha de Inicio' },
@@ -245,7 +246,9 @@ export class LoteHistorialComponent implements OnInit {
       );
     }
   
-  
+    toggleFilters(): void {
+      this.showFilters = !this.showFilters;
+    }
     // Paginación
     get totalPages(): number {
       return Math.ceil(this.totalItems / this.pageSize);

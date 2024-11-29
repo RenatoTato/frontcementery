@@ -1,100 +1,117 @@
-<div class="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex flex-col items-center p-4">
-    <h1 class="text-2xl font-bold mb-6 dark:text-white">Reporte de Ocupación Actual por Lote</h1>
-    <!-- Formulario de Filtros -->
-    <div class="w-full max-w-4xl bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
-        <h1 class="text-2xl font-bold mb-4 dark:text-white">Busqueda de Ocupacion actual por lote</h1>
-        <form [formGroup]="searchForm" (ngSubmit)="onSearch()" class="space-y-4">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <!-- Campo de entrada para cada atributo con validación -->
-                <div *ngFor="let field of filterFields">
-                    <label [for]="field" class="block text-sm font-medium mb-2 dark:text-gray-200">{{ field.label
-                        }}</label>
-                    <input [id]="field.name" [formControlName]="field.name" type="text" [placeholder]="field.label"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100" />
-                </div>
-            </div>
-            <div class="flex justify-end space-x-4">
-                <button type="button" (click)="resetFilters()"
-                    class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-back">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M9 11l-4 4l4 4m-4 -4h11a4 4 0 0 0 0 -8h-1" />
-                    </svg>
-                </button>
-                <button type="submit"
-                    class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="size-6">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-                    </svg>
-                </button>
-            </div>
-        </form>
-    </div>
-    <div class="container mx-auto p-4 bg-white dark:bg-gray-800 rounded shadow-lg mb-6">
-        <!-- Botón para alternar el tipo de gráfico -->
+<div
+    class="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex flex-col justify-center items-center p-8">
 
-        <h2 class="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-100">Grafico Ocupación Actual por Lote</h2>
-        <div class="flex justify-end mb-4">
-            <button (click)="toggleChartType()" class="p-2 bg-blue-500 text-white rounded">
-                Cambiar a {{ chartType === 'pie' ? 'Gráfico de Barras' : 'Gráfico Circular' }}
+    <h1 class="text-2xl font-bold mb-4 dark:text-white text-center">Reporte de Ocupacion por Lotes</h1>
+    <div class="container mx-auto p-4">
+        <!-- Formulario de Filtros -->
+        <div class="w-full flex justify-end mb-4">
+            <button (click)="toggleFilters()"
+                class="flex items-end gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600">
+                <img src="assets/image/icono/filter.svg" alt="Icono comparar" class="w-4 h-4" />
             </button>
         </div>
-        <!-- Gráfico de ocupación -->
-        <apx-chart *ngIf="chartOptions" [series]="chartOptions.series" [chart]="chartOptions.chart"
-            [labels]="chartOptions.labels" [xaxis]="chartOptions.xaxis" [dataLabels]="chartOptions.dataLabels"
-            [plotOptions]="chartOptions.plotOptions">
-        </apx-chart>
-        <!-- Tabla de datos de ocupación -->
-        <div class="w-full max-w-6xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-            <h2 class="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-100 text-center">Tabla de Ocupación Actual
-                por Lote</h2>
-            <div class="overflow-x-auto">
-                <table class="min-w-full bg-white dark:bg-gray-800 rounded-lg shadow-md text-center">
-                    <thead>
-                        <tr>
-                            <th
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
-                                Numero lote</th>
-                            <th
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
-                                Tipo
-                                Bloque</th>
-                            <th
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
-                                Numero Bloque</th>
-                            <th
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
-                                Ocupadas</th>
-                            <th
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
-                                Disponibles</th>
-                            <th
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
-                                Total
-                            </th>
-                            <th
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
-                                Ocupación (%)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let item of lotesOcupacion" class="border-b border-gray-200 dark:border-gray-700">
-                            <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ item.blockName }}</td>
-                            <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ item.typeblock}}</td>
-                            <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ item.numbersblock }}</td>
-                            <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ item.ocupadas }}</td>
-                            <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ item.disponibles }}</td>
-                            <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ item.limite }}</td>
-                            <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">
-                                {{ ((item.ocupadas / item.limite) * 100).toFixed(2) }}%
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+        <!-- Filtros -->
+        <div *ngIf="showFilters" class="w-full bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+            <h1 class="text-2xl font-bold mb-4 dark:text-white">Busqueda de Ocupacion actual por lote</h1>
+            <form [formGroup]="searchForm" (ngSubmit)="onSearch()" class="space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <!-- Campo de entrada para cada atributo con validación -->
+                    <div *ngFor="let field of filterFields">
+                        <label [for]="field" class="block text-sm font-medium mb-2 dark:text-gray-200">{{ field.label
+                            }}</label>
+                        <input [id]="field.name" [formControlName]="field.name" type="text" [placeholder]="field.label"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100" />
+                    </div>
+                </div>
+                <div class="flex justify-end space-x-4">
+                    <button type="button" (click)="resetFilters()"
+                        class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-back">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M9 11l-4 4l4 4m-4 -4h11a4 4 0 0 0 0 -8h-1" />
+                        </svg>
+                    </button>
+                    <button type="submit"
+                        class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                        </svg>
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div class="container mx-auto p-4 rounded mb-6">
+            <!-- Botón para alternar el tipo de gráfico -->
+            <div class="container mx-auto p-4 bg-white dark:bg-gray-800 rounded shadow-lg mb-6">
+                <h2 class="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-100">Grafico Ocupación Actual por Lote
+                </h2>
+                <div class="flex justify-end mb-4">
+                    <button (click)="toggleChartType()" class="p-2 bg-blue-500 text-white rounded">
+                        Cambiar a {{ chartType === 'pie' ? 'Gráfico de Barras' : 'Gráfico Circular' }}
+                    </button>
+                </div>
+                <!-- Gráfico de ocupación -->
+                <apx-chart *ngIf="chartOptions" [series]="chartOptions.series" [chart]="chartOptions.chart"
+                    [labels]="chartOptions.labels" [xaxis]="chartOptions.xaxis" [dataLabels]="chartOptions.dataLabels"
+                    [plotOptions]="chartOptions.plotOptions">
+                </apx-chart>
+            </div>
+            <!-- Tabla de datos de ocupación -->
+            <div class="w-full max-w-6xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-100 text-center">Tabla de Ocupación
+                    Actual
+                    por Lote</h2>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-white dark:bg-gray-800 rounded-lg shadow-md text-center">
+                        <thead>
+                            <tr>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
+                                    Numero lote</th>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
+                                    Tipo
+                                    Bloque</th>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
+                                    Numero Bloque</th>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
+                                    Ocupadas</th>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
+                                    Disponibles</th>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
+                                    Total
+                                </th>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
+                                    Ocupación (%)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of lotesOcupacion"
+                                class="border-b border-gray-200 dark:border-gray-700">
+                                <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ item.blockName }}</td>
+                                <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ item.typeblock}}</td>
+                                <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ item.numbersblock }}
+                                </td>
+                                <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ item.ocupadas }}</td>
+                                <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ item.disponibles }}
+                                </td>
+                                <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ item.limite }}</td>
+                                <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">
+                                    {{ ((item.ocupadas / item.limite) * 100).toFixed(2) }}%
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

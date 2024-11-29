@@ -19,14 +19,13 @@ export class InfoEditarComponent  implements OnInit {
   currentPage: number = 1;
   pageSize: number = 10;
   totalItems: number = 0;
+  showFilters:boolean=false;
   editingStates: { [id: number]: boolean } = {};
   selectedFile: File | null = null;
 
   filterFields = [
     { name: 'title', label: 'Título' },
     { name: 'category', label: 'Categoría' },
-    { name: 'features', label: 'Características' },
-    { name: 'exclusions', label: 'Exclusiones' },
   ];
 
   tableHeaders = ['Título', 'Categoría', 'Características', 'Exclusiones', 'Imagen', 'Precio'];
@@ -114,6 +113,10 @@ export class InfoEditarComponent  implements OnInit {
 
   toggleEdit(info: Info, isEditing: boolean): void {
     this.editingStates[info.id!] = isEditing;
+  }
+
+  toggleFilters(): void {
+    this.showFilters = !this.showFilters;
   }
 
   isEditing(info: Info): boolean {
