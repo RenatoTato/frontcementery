@@ -1,43 +1,43 @@
 <div class="flex space-x-4">
     <!-- Botón para mostrar el formulario -->
     <button (click)="mostrarFormularioObituario()"
-      class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700">
+      class=" text-left bg-[#ffffff] text-[#99775c] border border-[#50a2a7] px-4 py-2 rounded-lg hover:bg-[#50a2a7] hover:text-[#ffffff] transition">
       Formulario Obituario
     </button>
     <!-- Botón para mostrar el formulario -->
     <button (click)="mostrarFormularioEtapa()"
-      class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700">
+      class=" text-left bg-[#ffffff] text-[#99775c] border border-[#50a2a7] px-4 py-2 rounded-lg hover:bg-[#50a2a7] hover:text-[#ffffff] transition">
       Formulario Etapa
     </button>
   
     <!-- Botón para mostrar la edición -->
     <button (click)="mostrarEdicionObituario()"
-      class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600">
+      class=" text-left bg-[#ffffff] text-[#99775c] border border-[#50a2a7] px-4 py-2 rounded-lg hover:bg-[#50a2a7] hover:text-[#ffffff] transition">
       Modificar Obituario
     </button>
     <!-- Botón para mostrar la edición -->
     <button (click)="mostrarEdicionEtapa()"
-      class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600">
+      class=" text-left bg-[#ffffff] text-[#99775c] border border-[#50a2a7] px-4 py-2 rounded-lg hover:bg-[#50a2a7] hover:text-[#ffffff] transition">
       Modificar Etapa
     </button>
     <!-- Botón para mostrar la edición -->
-    <button (click)="mostrarEdicionMemoria()" class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600">
+    <button (click)="mostrarEdicionMemoria()" class=" text-left bg-[#ffffff] text-[#99775c] border border-[#50a2a7] px-4 py-2 rounded-lg hover:bg-[#50a2a7] hover:text-[#ffffff] transition">
       Modificar Memoria
     </button>
   </div>
   
-  <div *ngIf="estadoActual === 'formularioEtapa'">
+  <div *ngIf="estadoActual === 'formularioEtapa'" class=" dark:bg-2a2b2a rounded-lg p-4 shadow-md">
     <app-etapaForm />
   </div>
-  <div *ngIf="estadoActual === 'formularioObituario'">
+  <div *ngIf="estadoActual === 'formularioObituario'" class=" dark:bg-2a2b2a rounded-lg p-4 shadow-md">
     <app-obituarioForm />
   </div>
-  <div *ngIf="estadoActual === 'edicionObituario'">
+  <div *ngIf="estadoActual === 'edicionObituario'" class=" dark:bg-2a2b2a rounded-lg p-4 shadow-md">
     <app-obituario-editar />
   </div>
-  <div *ngIf="estadoActual === 'edicionEtapa'">
+  <div *ngIf="estadoActual === 'edicionEtapa'" class=" dark:bg-2a2b2a rounded-lg p-4 shadow-md">
     <app-etapa-editar />
   </div>
-  <div *ngIf="estadoActual === 'memoria'">
+  <div *ngIf="estadoActual === 'memoria'" class=" dark:bg-2a2b2a rounded-lg p-4 shadow-md">
     <app-memoria-editar />
   </div>

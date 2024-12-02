@@ -1,33 +1,33 @@
 <div class="flex space-x-4">
   <!-- Botón para mostrar el formulario -->
   <button (click)="mostrarReporteServicio()"
-    class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700">
+    class=" text-left bg-[#ffffff] text-[#99775c] border border-[#50a2a7] px-4 py-2 rounded-lg hover:bg-[#50a2a7] hover:text-[#ffffff] transition">
     Reporte Servicio
   </button>
   <button (click)="mostrarReporteTumba()"
-    class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700">
+    class=" text-left bg-[#ffffff] text-[#99775c] border border-[#50a2a7] px-4 py-2 rounded-lg hover:bg-[#50a2a7] hover:text-[#ffffff] transition">
     Reporte Tumba
   </button>
   <button (click)="mostrarReporteDifunto()"
-    class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700">
+  class=" text-left bg-[#ffffff] text-[#99775c] border border-[#50a2a7] px-4 py-2 rounded-lg hover:bg-[#50a2a7] hover:text-[#ffffff] transition">
     Reporte Difunto
   </button>
   <button (click)="mostrarReporteLote()"
-    class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700">
-    Reporte Servicio
+  class=" text-left bg-[#ffffff] text-[#99775c] border border-[#50a2a7] px-4 py-2 rounded-lg hover:bg-[#50a2a7] hover:text-[#ffffff] transition">
+    Reporte Lote
   </button>
   
 </div>
 
-<div *ngIf="estadoActual === 'reporteServicio'">
+<div *ngIf="estadoActual === 'reporteServicio'" class=" dark:bg-2a2b2a rounded-lg p-4 shadow-md">
   <app-servicio-reporte />
 </div>
-<div *ngIf="estadoActual === 'reporteTumba'">
+<div *ngIf="estadoActual === 'reporteTumba'" class=" dark:bg-2a2b2a rounded-lg p-4 shadow-md">
   <app-tumba-reporte />
 </div>
-<div *ngIf="estadoActual === 'reporteDifunto'">
+<div *ngIf="estadoActual === 'reporteDifunto'" class=" dark:bg-2a2b2a rounded-lg p-4 shadow-md">
   <app-difunto-reporte />
 </div>
-<div *ngIf="estadoActual === 'reporteLote'">
+<div *ngIf="estadoActual === 'reporteLote'" class=" dark:bg-2a2b2a rounded-lg p-4 shadow-md">
   <app-lote-reporte />
 </div>

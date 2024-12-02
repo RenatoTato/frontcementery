@@ -1,22 +1,22 @@
 <div
-    class="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex flex-col justify-center items-center p-8">
+    class="min-h-screen  dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex flex-col justify-center items-center p-8">
     <h1 class="text-2xl font-bold mb-4 dark:text-white text-center">Auditoria del Historial de los Deudos</h1>
     <div class="container mx-auto p-4">
         <!-- Formulario de Filtros -->
         <div class="flex justify-end mb-4">
             <button (click)="toggleFilters()"
-                class="flex items-end gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600">
+                class="flex items-end gap-2 bg-[#50a2a7] text-white px-4 py-2 rounded-lg shadow-sm hover:bg-[#99775c] dark:bg-[#50a2a7] dark:hover:bg-[#99775c]">
                 <img src="assets/image/icono/filter.svg" alt="Icono comparar" class="w-4 h-4" />
             </button>
         </div>
         <!-- Filtros -->
-        <div *ngIf="showFilters" class="w-full max-w-4xxl bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-            <h1 class="text-2xl font-bold mb-4 dark:text-white">Filtrar Historial de Deudos</h1>
+        <div *ngIf="showFilters" class="w-full max-w-4xxl bg-[#ffffff] dark:bg-[#2a2b2a] rounded-lg shadow-md p-6">
+            <h1 class="text-2xl font-bold mb-4 text-[#99775c] dark:text-[#ffffff]">Filtrar Historial de Deudos</h1>
             <form [formGroup]="filterForm" (ngSubmit)="loadHistorial()" class="space-y-4">
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <!-- Campo de entrada para cada atributo con validación -->
                     <div *ngFor="let field of filterFields">
-                        <label [for]="field.name" class="block text-sm font-medium mb-2 dark:text-gray-200">
+                        <label [for]="field.name" class="block text-sm font-medium mb-2 text-[#99775c] dark:text-[#eae7dd]">
                             {{ field.label }}
                         </label>
                         <!-- Desplegable para campos específicos -->
@@ -24,23 +24,23 @@
                             <!-- Selección de Fecha de Inicio -->
                             <input *ngSwitchCase="'start_date'" [id]="field.name" [formControlName]="field.name"
                                 type="date"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100" />
+                                class="w-full px-4 py-2 border border-[#99775c] rounded-lg shadow-sm focus:ring focus:ring-[#50a2a7] focus:border-[#50a2a7] dark:bg-[#2a2b2a] dark:border-[#99775c] text-[#99775c] dark:text-[#eae7dd]" />
 
                             <!-- Selección de Fecha de Fin -->
                             <input *ngSwitchCase="'end_date'" [id]="field.name" [formControlName]="field.name"
                                 type="date"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100" />
+                                class="w-full px-4 py-2 border border-[#99775c] rounded-lg shadow-sm focus:ring focus:ring-[#50a2a7] focus:border-[#50a2a7] dark:bg-[#2a2b2a] dark:border-[#99775c] text-[#99775c] dark:text-[#eae7dd]" />
 
                             <!-- Select para Tipo de Acción -->
                             <select *ngSwitchCase="'history_type'" [id]="field.name" [formControlName]="field.name"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                                class="w-full px-4 py-2 border border-[#99775c] rounded-lg shadow-sm focus:ring focus:ring-[#50a2a7] focus:border-[#50a2a7] dark:bg-[#2a2b2a] dark:border-[#99775c] text-[#99775c] dark:text-[#eae7dd]">
                                 <option *ngFor="let option of filterOptions.history_type" [value]="option.value">
                                     {{ option.label }}
                                 </option>
                             </select>
                             <!-- Select para tipo -->
                             <select *ngSwitchCase="'tipo'" [id]="field.name" [formControlName]="field.name"
-                                class="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring focus:border-blue-500 dark:bg-gray-700">
+                            class="w-full px-4 py-2 border border-[#99775c] rounded-lg shadow-sm focus:ring focus:ring-[#50a2a7] focus:border-[#50a2a7] dark:bg-[#2a2b2a] dark:border-[#99775c] text-[#99775c] dark:text-[#eae7dd]">
                                 <option *ngFor="let option of filterOptions.tipo" [value]="option.value">
                                     {{ option.label }}
                                 </option>
@@ -48,52 +48,52 @@
 
                             <!-- Select para Usuarios -->
                             <select *ngSwitchCase="'user'" [id]="field.name" [formControlName]="field.name"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                                class="w-full px-4 py-2 border border-[#99775c] rounded-lg shadow-sm focus:ring focus:ring-[#50a2a7] focus:border-[#50a2a7] dark:bg-[#2a2b2a] dark:border-[#99775c] text-[#99775c] dark:text-[#eae7dd]">
                                 <option *ngFor="let option of filterOptions.user" [value]="option.value">
                                     {{ option.label }}
                                 </option>
                             </select>
                             <!-- Select para Nombre -->
                             <select *ngSwitchCase="'names'" [id]="field.name" [formControlName]="field.name"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                                class="w-full px-4 py-2 border border-[#99775c] rounded-lg shadow-sm focus:ring focus:ring-[#50a2a7] focus:border-[#50a2a7] dark:bg-[#2a2b2a] dark:border-[#99775c] text-[#99775c] dark:text-[#eae7dd]">
                                 <option *ngFor="let deudo of deudos" [value]="deudo.names">{{ deudo.names }}</option>
                             </select>
                             <!-- Select para Apellido -->
                             <select *ngSwitchCase="'last_names'" [id]="field.name" [formControlName]="field.name"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                                class="w-full px-4 py-2 border border-[#99775c] rounded-lg shadow-sm focus:ring focus:ring-[#50a2a7] focus:border-[#50a2a7] dark:bg-[#2a2b2a] dark:border-[#99775c] text-[#99775c] dark:text-[#eae7dd]">
                                 <option *ngFor="let deudo of deudos" [value]="deudo.last_names">{{ deudo.last_names }}</option>
                             </select>
                             <!-- Select para Numero de solicitud -->
                             <select *ngSwitchCase="'phoneNumber'" [id]="field.name" [formControlName]="field.name"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                                class="w-full px-4 py-2 border border-[#99775c] rounded-lg shadow-sm focus:ring focus:ring-[#50a2a7] focus:border-[#50a2a7] dark:bg-[#2a2b2a] dark:border-[#99775c] text-[#99775c] dark:text-[#eae7dd]">
                                 <option *ngFor="let deudo of deudos" [value]="deudo.phoneNumber">0{{ deudo.phoneNumber }}</option>
                             </select>
                             <!-- Select para Numero de cedula -->
                             <select *ngSwitchCase="'idNumber'" [id]="field.name" [formControlName]="field.name"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                                class="w-full px-4 py-2 border border-[#99775c] rounded-lg shadow-sm focus:ring focus:ring-[#50a2a7] focus:border-[#50a2a7] dark:bg-[#2a2b2a] dark:border-[#99775c] text-[#99775c] dark:text-[#eae7dd]">
                                 <option *ngFor="let deudo of deudos" [value]="deudo.idNumber">{{ formatIdNumber(+deudo.idNumber) }}</option>
                             </select>
                             <!-- Select para Direccion -->
                             <select *ngSwitchCase="'address'" [id]="field.name" [formControlName]="field.name"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                                class="w-full px-4 py-2 border border-[#99775c] rounded-lg shadow-sm focus:ring focus:ring-[#50a2a7] focus:border-[#50a2a7] dark:bg-[#2a2b2a] dark:border-[#99775c] text-[#99775c] dark:text-[#eae7dd]">
                                 <option *ngFor="let deudo of deudos" [value]="deudo.address">{{ deudo.address }}</option>
                             </select>
                             <!-- Input para otros campos -->
                             <input *ngSwitchDefault [id]="field.name" [formControlName]="field.name" type="text"
                                 [placeholder]="field.label"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100" />
+                                class="w-full px-4 py-2 border border-[#99775c] rounded-lg shadow-sm focus:ring focus:ring-[#50a2a7] focus:border-[#50a2a7] dark:bg-[#2a2b2a] dark:border-[#99775c] text-[#99775c] dark:text-[#eae7dd]" />
                         </ng-container>
 
                     </div>
                 </div>
                 <div class="flex justify-end space-x-4">
                     <button type="button" (click)="resetFilters()"
-                        class="bg-gray-500 text-white px-5 py-2 rounded-lg shadow-sm hover:bg-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600"
+                    class="bg-[#99775c] text-white px-5 py-2 rounded-lg shadow-sm hover:bg-[#50a2a7] dark:bg-[#99775c] dark:hover:bg-[#50a2a7]"
                         [title]="'Refrescar'">
                         <img src="assets\image\icono\refresh-ccw.svg" alt="Icono comparar" class="w-4 h-4 " />
                     </button>
                     <button type="submit"
-                        class="bg-blue-600 text-white px-5 py-2 rounded-lg shadow-sm hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
+                    class="bg-[#50a2a7] text-white px-5 py-2 rounded-lg shadow-sm hover:bg-[#99775c] dark:bg-[#50a2a7] dark:hover:bg-[#99775c]"
                         [title]="'Buscar'">
                         <img src="assets\image\icono\search.svg" alt="Icono comparar" class="w-4 h-4 " />
                     </button>
@@ -101,45 +101,45 @@
             </form>
         </div>
         <!-- Tabla de Historial -->
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-x-auto mb-6">
-            <table class="min-w-full bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden text-center">
-                <thead class="bg-gray-200 dark:bg-gray-700">
+        <div class="bg-[#ffffff] dark:bg-[#2a2b2a] rounded-lg shadow-md overflow-x-auto mb-6">
+            <table class="min-w-full bg-[#ffffff] dark:bg-[#2a2b2a] rounded-lg shadow-md overflow-hidden text-center">
+                <thead class="bg-[#eae7dd] dark:bg-[#99775c]">
                     <tr>
                         <th *ngFor="let header of tableHeaders"
-                            class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
+                        class="px-6 py-3 text-xs font-medium text-[#99775c] dark:text-[#eae7dd] uppercase">
                             {{ header }}
                         </th>
                         <th
-                            class="px-6 py-3 text-center text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
+                        class="px-6 py-3 text-xs font-medium text-[#99775c] dark:text-[#eae7dd] uppercase">
                             Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let item of historialItems" class="border-b border-gray-200 dark:border-gray-700">
-                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ mapUser(item.history_user) }}
+                        <td class="px-6 py-4 text-sm text-[#2a2b2a] dark:text-[#eae7dd]">{{ mapUser(item.history_user) }}
                         </td>
-                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ item.id }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ item.names }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ item.last_names }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ formatIdNumber(+item.idNumber) }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">0{{ item.phoneNumber }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ item.address }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ item.tipo }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ item.loadDate | date:
+                        <td class="px-6 py-4 text-sm text-[#2a2b2a] dark:text-[#eae7dd]">{{ item.id }}</td>
+                        <td class="px-6 py-4 text-sm text-[#2a2b2a] dark:text-[#eae7dd]">{{ item.names }}</td>
+                        <td class="px-6 py-4 text-sm text-[#2a2b2a] dark:text-[#eae7dd]">{{ item.last_names }}</td>
+                        <td class="px-6 py-4 text-sm text-[#2a2b2a] dark:text-[#eae7dd]">{{ formatIdNumber(+item.idNumber) }}</td>
+                        <td class="px-6 py-4 text-sm text-[#2a2b2a] dark:text-[#eae7dd]">0{{ item.phoneNumber }}</td>
+                        <td class="px-6 py-4 text-sm text-[#2a2b2a] dark:text-[#eae7dd]">{{ item.address }}</td>
+                        <td class="px-6 py-4 text-sm text-[#2a2b2a] dark:text-[#eae7dd]">{{ item.tipo }}</td>
+                        <td class="px-6 py-4 text-sm text-[#2a2b2a] dark:text-[#eae7dd]">{{ item.loadDate | date:
                             'shortDate' }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ item.updateDate | date:
+                        <td class="px-6 py-4 text-sm text-[#2a2b2a] dark:text-[#eae7dd]">{{ item.updateDate | date:
                             'shortDate' }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{
+                        <td class="px-6 py-4 text-sm text-[#2a2b2a] dark:text-[#eae7dd]">{{
                             mapHistoryType(item.history_type) }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ item.history_date | date:
+                        <td class="px-6 py-4 text-sm text-[#2a2b2a] dark:text-[#eae7dd]">{{ item.history_date | date:
                             'shortDate' }}</td>
                         <td class="px-4 py-2 text-center">
                             <button (click)="restaurarVersion(item.history_id)"
-                                class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+                            class="bg-[#a83232] text-white px-2 py-1 rounded-lg hover:bg-[#8c2929] dark:bg-[#a83232] dark:hover:bg-[#8c2929]"
                                 [title]="'Restaurar'"><img src="assets\image\icono\database-restore.svg"
                                     alt="Icono comparar" class="w-4 h-4" /></button>
                             <button (click)="compararVersiones(item.id)"
-                                class="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600"
+                            class="bg-[#50a2a7] text-white px-2 py-1 rounded-lg hover:bg-[#99775c] dark:bg-[#50a2a7] dark:hover:bg-[#99775c]"
                                 [title]="'Comparar'"><img src="assets/image/icono/git-compare.svg" alt="Icono comparar"
                                     class="w-4 h-4" /></button>
                         </td>
@@ -150,54 +150,55 @@
         <!-- Paginación -->
         <div class="flex justify-evenly mt-4">
             <button (click)="goToFirstPage()" [disabled]="currentPage === 1"
-                class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm" [title]="'Primera página'">
+                class="px-4 py-2 rounded-lg shadow-sm bg-[#50a2a7] text-[#eae7dd] hover:bg-[#99775c] dark:bg-[#50a2a7] dark:hover:bg-[#99775c]" [title]="'Primera página'">
                 <img src="assets\image\icono\skip-forward.svg" alt="Icono comparar" class="w-4 h-4 rotate-180" />
             </button>
 
             <button (click)="previousPage(5)" [disabled]="currentPage <= 5"
-                class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm" [title]="'Retroceder 5'">
+                class="px-4 py-2 rounded-lg shadow-sm bg-[#50a2a7] text-[#eae7dd] hover:bg-[#99775c] dark:bg-[#50a2a7] dark:hover:bg-[#99775c]" [title]="'Retroceder 5'">
                 <img src="assets\image\icono\fast-forward.svg" alt="Icono comparar" class="w-4 h-4 rotate-180" />
             </button>
 
             <button (click)="previousPage(1)" [disabled]="currentPage === 1"
-                class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm" [title]="'Página anterior'">
+                class="px-4 py-2 rounded-lg shadow-sm bg-[#50a2a7] text-[#eae7dd] hover:bg-[#99775c] dark:bg-[#50a2a7] dark:hover:bg-[#99775c]" [title]="'Página anterior'">
                 <img src="assets\image\icono\play.svg" alt="Icono comparar" class="w-4 h-4 rotate-180" />
             </button>
 
-            <span class="text-gray-700 dark:text-gray-200">Página {{ currentPage }} de {{ totalPages }}</span>
+            <span class="px-4 py-2 text-[#99775c] dark:text-[#eae7dd]">Página {{ currentPage }} de {{ totalPages }}</span>
 
             <button (click)="nextPage(1)" [disabled]="currentPage === totalPages"
-                class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm" [title]="'Página siguiente'">
+            class="px-4 py-2 rounded-lg shadow-sm bg-[#50a2a7] text-[#eae7dd] hover:bg-[#99775c] dark:bg-[#50a2a7] dark:hover:bg-[#99775c]" [title]="'Página siguiente'">
                 <img src="assets\image\icono\play.svg" alt="Icono comparar" class="w-4 h-4" />
             </button>
 
             <button (click)="nextPage(5)" [disabled]="currentPage + 5 > totalPages"
-                class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm" [title]="'Avanzar 5'">
+                class="px-4 py-2 rounded-lg shadow-sm bg-[#50a2a7] text-[#eae7dd] hover:bg-[#99775c] dark:bg-[#50a2a7] dark:hover:bg-[#99775c]" [title]="'Avanzar 5'">
                 <img src="assets\image\icono\fast-forward.svg" alt="Icono comparar" class="w-4 h-4" />
             </button>
 
             <button (click)="goToLastPage()" [disabled]="currentPage === totalPages"
-                class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm" [title]="'Ultima página'">
+            class="px-4 py-2 rounded-lg shadow-sm bg-[#50a2a7] text-[#eae7dd] hover:bg-[#99775c] dark:bg-[#50a2a7] dark:hover:bg-[#99775c]" [title]="'Ultima página'">
                 <img src="assets\image\icono\skip-forward.svg" alt="Icono comparar" class="w-4 h-4" />
             </button>
         </div>
-        <div class="max-w-6xxl mt-6 bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-            <h2 class="text-2xl font-bold mb-4 dark:text-white">Comparación de Versiones</h2>
-            <table class="min-w-full bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-                <thead>
-                    <tr class="bg-gray-200 dark:bg-gray-700">
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
+        <h2 class="text-2xl font-bold mb-4 text-[#99775c] dark:text-[#ffffff]">Comparación de Versiones</h2>
+        <div class="bg-[#ffffff] dark:bg-[#2a2b2a] rounded-lg shadow-md overflow-x-auto mb-6">
+            
+            <table class="min-w-full bg-[#ffffff] dark:bg-[#2a2b2a] rounded-lg shadow-md overflow-hidden text-center">
+                <thead class="bg-[#eae7dd] dark:bg-[#99775c]">
+                    <tr >
+                        <th  class="px-6 py-3 text-xs font-medium text-[#99775c] dark:text-[#eae7dd] uppercase">
                             Versión ID</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
+                        <th  class="px-6 py-3 text-xs font-medium text-[#99775c] dark:text-[#eae7dd] uppercase">
                             Fecha</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
+                        <th  class="px-6 py-3 text-xs font-medium text-[#99775c] dark:text-[#eae7dd] uppercase">
                             Campo</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
+                        <th  class="px-6 py-3 text-xs font-medium text-[#99775c] dark:text-[#eae7dd] uppercase">
                             Valor Anterior</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
+                        <th  class="px-6 py-3 text-xs font-medium text-[#99775c] dark:text-[#eae7dd] uppercase">
                             Valor Actual</th>
                         <th
-                            class="px-6 py-3 text-center text-xs font-medium text-gray-700 dark:text-gray-200 uppercase">
+                            class="px-6 py-3 text-xs font-medium text-[#99775c] dark:text-[#eae7dd] uppercase">
                             Acciones</th>
                     </tr>
                 </thead>
@@ -214,14 +215,14 @@
                                 {{ version.cambios[0] === cambio ? version.fecha : '' }}
                             </td>
                             <!-- Campos del cambio específico -->
-                            <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">
+                            <td class="px-6 py-4 text-sm text-[#2a2b2a] dark:text-[#eae7dd]">
                                 {{ campoLabels[cambio.campo] || cambio.campo }}
                             </td>
-                            <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">
+                            <td class="px-6 py-4 text-sm text-[#2a2b2a] dark:text-[#eae7dd]">
                                 {{ cambio.antes !== null && cambio.antes !== undefined && cambio.antes !== '' ?
                                 cambio.antes : 'N/A' }}
                             </td>
-                            <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">
+                            <td class="px-6 py-4 text-sm text-[#2a2b2a] dark:text-[#eae7dd]">
                                 {{ cambio.despues !== null && cambio.despues !== undefined && cambio.despues !== ''
                                 ?
                                 cambio.despues : 'N/A' }}
@@ -229,7 +230,7 @@
                             <td class="px-6 py-4 text-center">
                                 <button *ngIf="version.cambios[0] === cambio"
                                     (click)="restaurarVersion(version.version_id)"
-                                    class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+                                    class="bg-[#a83232] text-white px-2 py-1 rounded-lg hover:bg-[#8c2929] dark:bg-[#a83232] dark:hover:bg-[#8c2929]"
                                     [title]="'Restaurar'"><img src="assets\image\icono\database-restore.svg"
                                         alt="Icono Restaurar" class="w-4 h-4" /></button>
                             </td>

@@ -1,45 +1,45 @@
 <div class="flex space-x-4">
     <!-- Botón para mostrar el historial DEUDO -->
     <button (click)=" mostrarHistorialDeudo()"
-        class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600">
+        class=" text-left bg-[#ffffff] text-[#99775c] border border-[#50a2a7] px-4 py-2 rounded-lg hover:bg-[#50a2a7] hover:text-[#ffffff] transition">
         Historial Deudo
     </button>
     <!-- Botón para mostrar el historial DEUDO -->
     <button (click)=" mostrarHistorialDifunto()"
-        class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700">
+        class=" text-left bg-[#ffffff] text-[#99775c] border border-[#50a2a7] px-4 py-2 rounded-lg hover:bg-[#50a2a7] hover:text-[#ffffff] transition">
         Historial Difunto
     </button>
     <!-- Botón para mostrar el historial DEUDO -->
     <button (click)=" mostrarHistorialTumba()"
-        class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600">
+        class=" text-left bg-[#ffffff] text-[#99775c] border border-[#50a2a7] px-4 py-2 rounded-lg hover:bg-[#50a2a7] hover:text-[#ffffff] transition">
         Historial Tumba
     </button>
     <!-- Botón para mostrar el historial DEUDO -->
     <button (click)=" mostrarHistorialLote()"
-        class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700">
+        class=" text-left bg-[#ffffff] text-[#99775c] border border-[#50a2a7] px-4 py-2 rounded-lg hover:bg-[#50a2a7] hover:text-[#ffffff] transition">
         Historial Lote
     </button>
     <!-- Botón para mostrar el historial DEUDO -->
     <button (click)=" mostrarHistorialServicio()"
-        class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600">
+        class=" text-left bg-[#ffffff] text-[#99775c] border border-[#50a2a7] px-4 py-2 rounded-lg hover:bg-[#50a2a7] hover:text-[#ffffff] transition">
         Historial Servicio
     </button>
 </div>
 
 <!-- Contenido del Historial deudo-->
-<div *ngIf="estadoActual === 'HistorialDeudo'">
+<div *ngIf="estadoActual === 'HistorialDeudo'" class=" dark:bg-2a2b2a rounded-lg p-4 shadow-md">
     <app-deudo-historial />
 </div>
 <!-- Contenido del Historial deudo-->
-<div *ngIf="estadoActual === 'HistorialDifunto'">
+<div *ngIf="estadoActual === 'HistorialDifunto'"class=" dark:bg-2a2b2a rounded-lg p-4 shadow-md">
     <app-difunto-historial />
 </div>
 <!-- Contenido del Historial deudo-->
-<div *ngIf="estadoActual === 'HistorialTumba'">
+<div *ngIf="estadoActual === 'HistorialTumba'" class=" dark:bg-2a2b2a rounded-lg p-4 shadow-md">
     <app-tumba-historial />
 </div>
 <!-- Contenido del Historial deudo-->
-<div *ngIf="estadoActual === 'HistorialLote'">
+<div *ngIf="estadoActual === 'HistorialLote'" class=" dark:bg-2a2b2a rounded-lg p-4 shadow-md">
     <app-lote-historial />
 </div>
 <!-- Contenido del Historial deudo-->

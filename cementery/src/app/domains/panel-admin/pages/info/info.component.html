@@ -1,52 +1,52 @@
 <div class="flex space-x-4">
   <!-- Botón para mostrar el formulario -->
   <button (click)="mostrarFormularioParroquia()"
-    class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700">
+    class=" text-left bg-[#ffffff] text-[#99775c] border border-[#50a2a7] px-4 py-2 rounded-lg hover:bg-[#50a2a7] hover:text-[#ffffff] transition">
     Formulario Parroquia
   </button>
   <!-- Botón para mostrar el formulario -->
   <button (click)="mostrarFormularioIglesia()"
-    class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700">
+    class=" text-left bg-[#ffffff] text-[#99775c] border border-[#50a2a7] px-4 py-2 rounded-lg hover:bg-[#50a2a7] hover:text-[#ffffff] transition">
     Formulario Iglesia
   </button>
   <!-- Botón para mostrar la Formulario -->
   <button (click)="mostrarFormularioRedes()"
-    class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700">
+    class=" text-left bg-[#ffffff] text-[#99775c] border border-[#50a2a7] px-4 py-2 rounded-lg hover:bg-[#50a2a7] hover:text-[#ffffff] transition">
     Formulario Redes
   </button>
   <!-- Botón para mostrar la edición -->
   <button (click)="mostrarEdicionParroquia()"
-    class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600">
+    class=" text-left bg-[#ffffff] text-[#99775c] border border-[#50a2a7] px-4 py-2 rounded-lg hover:bg-[#50a2a7] hover:text-[#ffffff] transition">
     Modificar Parroquia
   </button>
   <!-- Botón para mostrar la edición -->
   <button (click)="mostrarEdicionIglesia()"
-    class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600">
+    class=" text-left bg-[#ffffff] text-[#99775c] border border-[#50a2a7] px-4 py-2 rounded-lg hover:bg-[#50a2a7] hover:text-[#ffffff] transition">
     Modificar Iglesia
   </button>
 
   <!-- Botón para mostrar la edición -->
   <button (click)="mostrarEdicionRedes()"
-    class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600">
+    class=" text-left bg-[#ffffff] text-[#99775c] border border-[#50a2a7] px-4 py-2 rounded-lg hover:bg-[#50a2a7] hover:text-[#ffffff] transition">
     Modificar Redes
   </button>
 </div>
 
-<div *ngIf="estadoActual === 'formularioIglesia'">
+<div *ngIf="estadoActual === 'formularioIglesia'"class=" dark:bg-2a2b2a rounded-lg p-4 shadow-md">
   <app-iglesiaForm />
 </div>
-<div *ngIf="estadoActual === 'formularioParroquia'">
+<div *ngIf="estadoActual === 'formularioParroquia'"class=" dark:bg-2a2b2a rounded-lg p-4 shadow-md">
   <app-parroquiaForm />
 </div>
-<div *ngIf="estadoActual === 'edicionParroquia'">
+<div *ngIf="estadoActual === 'edicionParroquia'"class=" dark:bg-2a2b2a rounded-lg p-4 shadow-md">
   <app-parroquia-editar />
 </div>
-<div *ngIf="estadoActual === 'edicionIglesia'">
+<div *ngIf="estadoActual === 'edicionIglesia'"class=" dark:bg-2a2b2a rounded-lg p-4 shadow-md">
   <app-iglesia-editar />
 </div>
-<div *ngIf="estadoActual === 'formularioRedes'">
+<div *ngIf="estadoActual === 'formularioRedes'"class=" dark:bg-2a2b2a rounded-lg p-4 shadow-md">
   <app-socialForm />
 </div>
-<div *ngIf="estadoActual === 'edicionRedes'">
+<div *ngIf="estadoActual === 'edicionRedes'"class=" dark:bg-2a2b2a rounded-lg p-4 shadow-md">
   <app-social-editar />
 </div>

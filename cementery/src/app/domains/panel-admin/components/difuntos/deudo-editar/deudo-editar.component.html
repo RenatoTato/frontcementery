@@ -1,5 +1,5 @@
 <div
-    class="min-h-screen bg-eae7dd dark:bg-[#2a2b2a] text-[#2a2b2a] dark:text-eae7dd flex flex-col justify-center items-center p-8">
+    class="min-h-screen  dark:bg-[#2a2b2a] text-[#2a2b2a] dark:text-[#eae7dd] flex flex-col justify-center items-center p-8">
 
     <h1 class="text-2xl font-bold mb-4 dark:text-[#ffffff] text-center">Actualizar Registro de los Deudos</h1>
     <div class="container mx-auto p-4">
@@ -16,7 +16,7 @@
             <form [formGroup]="deudoEditarForm" (ngSubmit)="onSubmit()" class="space-y-6">
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     <div *ngFor="let field of filterFields">
-                        <label [for]="field.name" class="block text-sm font-medium mb-2 text-[#99775c] dark:text-eae7dd">
+                        <label [for]="field.name" class="block text-sm font-medium mb-2 text-[#99775c] dark:text-[#eae7dd]">
                             {{ field.label }}
                         </label>
                         <ng-container [ngSwitch]="field.name">
@@ -27,37 +27,37 @@
                                 </option>
                             </select>
                             <select *ngSwitchCase="'names'" [id]="field.name" [formControlName]="field.name"
-                                class="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring focus:ring-[#50a2a7] focus:border-[#50a2a7] dark:bg-[#2a2b2a] dark:border-[#99775c] text-[#99775c] dark:text-eae7dd">
+                                class="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring focus:ring-[#50a2a7] focus:border-[#50a2a7] dark:bg-[#2a2b2a] dark:border-[#99775c] text-[#99775c] dark:text-[#eae7dd]">
                                 <option *ngFor="let deudo of deudos" [value]="deudo.names">{{ deudo.names }}</option>
                             </select>
                             <!-- Select para Apellido -->
                             <select *ngSwitchCase="'last_names'" [id]="field.name" [formControlName]="field.name"
-                                class="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring focus:ring-[#50a2a7] focus:border-[#50a2a7] dark:bg-[#2a2b2a] dark:border-[#99775c] text-[#99775c] dark:text-eae7dd">
+                                class="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring focus:ring-[#50a2a7] focus:border-[#50a2a7] dark:bg-[#2a2b2a] dark:border-[#99775c] text-[#99775c] dark:text-[#eae7dd]">
                                 <option *ngFor="let deudo of deudos" [value]="deudo.last_names">{{ deudo.last_names }}
                                 </option>
                             </select>
                             <!-- Select para Numero de solicitud -->
                             <select *ngSwitchCase="'phoneNumber'" [id]="field.name" [formControlName]="field.name"
-                                class="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring focus:ring-[#50a2a7] focus:border-[#50a2a7] dark:bg-[#2a2b2a] dark:border-[#99775c] text-[#99775c] dark:text-eae7dd">
+                                class="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring focus:ring-[#50a2a7] focus:border-[#50a2a7] dark:bg-[#2a2b2a] dark:border-[#99775c] text-[#99775c] dark:text-[#eae7dd]">
                                 <option *ngFor="let deudo of deudos" [value]="deudo.phoneNumber">0{{ deudo.phoneNumber
                                     }}</option>
                             </select>
                             <!-- Select para Numero de cedula -->
                             <select *ngSwitchCase="'idNumber'" [id]="field.name" [formControlName]="field.name"
-                                class="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring focus:ring-[#50a2a7] focus:border-[#50a2a7] dark:bg-[#2a2b2a] dark:border-[#99775c] text-[#99775c] dark:text-eae7dd">
+                                class="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring focus:ring-[#50a2a7] focus:border-[#50a2a7] dark:bg-[#2a2b2a] dark:border-[#99775c] text-[#99775c] dark:text-[#eae7dd]">
                                 <option *ngFor="let deudo of deudos" [value]="deudo.idNumber">{{
                                     formatIdNumber(+deudo.idNumber) }}</option>
                             </select>
                             <!-- Select para Direccion -->
                             <select *ngSwitchCase="'address'" [id]="field.name" [formControlName]="field.name"
-                                class="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring focus:ring-[#50a2a7] focus:border-[#50a2a7] dark:bg-[#2a2b2a] dark:border-[#99775c] text-[#99775c] dark:text-eae7dd">
+                                class="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring focus:ring-[#50a2a7] focus:border-[#50a2a7] dark:bg-[#2a2b2a] dark:border-[#99775c] text-[#99775c] dark:text-[#eae7dd]">
                                 <option *ngFor="let deudo of deudos" [value]="deudo.address">{{ deudo.address }}
                                 </option>
                             </select>
                             <!-- Input para otros campos -->
                             <input *ngSwitchDefault [id]="field.name" [formControlName]="field.name" type="text"
                                 [placeholder]="field.label"
-                                class="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring focus:ring-[#50a2a7] focus:border-[#50a2a7] dark:bg-[#2a2b2a] dark:border-[#99775c] text-[#99775c] dark:text-eae7dd" />
+                                class="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring focus:ring-[#50a2a7] focus:border-[#50a2a7] dark:bg-[#2a2b2a] dark:border-[#99775c] text-[#99775c] dark:text-[#eae7dd]" />
                         </ng-container>
                     </div>
                 </div>
@@ -79,10 +79,10 @@
                 <thead class="bg-[#eae7dd] dark:bg-[#99775c]">
                     <tr>
                         <th *ngFor="let field of tableHeaders"
-                            class="px-8 py-4 text-left text-sm font-medium text-[#99775c] dark:text-eae7dd uppercase">
+                            class="px-8 py-4 text-left text-sm font-medium text-[#99775c] dark:text-[#eae7dd] uppercase">
                             {{ field }}
                         </th>
-                        <th class="px-8 py-4 text-center text-sm font-medium text-[#99775c] dark:text-eae7dd uppercase">
+                        <th class="px-8 py-4 text-center text-sm font-medium text-[#99775c] dark:text-[#eae7dd] uppercase">
                             Acciones</th>
                     </tr>
                 </thead>
