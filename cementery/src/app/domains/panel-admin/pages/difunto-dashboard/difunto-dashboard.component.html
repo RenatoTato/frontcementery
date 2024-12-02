@@ -1,43 +1,37 @@
 <div class="flex space-x-4">
   <!-- Botón para mostrar el formulario -->
   <button (click)="mostrarFormularioDifunto()"
-    class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700">
+    class=" text-left bg-[#ffffff] text-[#99775c] border border-[#50a2a7] px-4 py-2 rounded-lg hover:bg-[#50a2a7] hover:text-[#ffffff] transition">
     Formulario Difunto
   </button>
   <!-- Botón para mostrar el formulario -->
   <button (click)="mostrarFormularioDeudo()"
-    class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700">
+    class=" text-left bg-[#ffffff] text-[#99775c] border border-[#50a2a7] px-4 py-2 rounded-lg hover:bg-[#50a2a7] hover:text-[#ffffff] transition">
     Formulario Deudo
   </button>
 
   <!-- Botón para mostrar la edición -->
   <button (click)="mostrarEdicionDifunto()"
-    class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600">
+    class=" text-left bg-[#ffffff] text-[#99775c] border border-[#50a2a7] px-4 py-2 rounded-lg hover:bg-[#50a2a7] hover:text-[#ffffff] transition">
     Modificar Difunto
   </button>
   <!-- Botón para mostrar la edición -->
   <button (click)="mostrarEdicionDeudo()"
-    class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600">
+    class=" text-left bg-[#ffffff] text-[#99775c] border border-[#50a2a7] px-4 py-2 rounded-lg hover:bg-[#50a2a7] hover:text-[#ffffff] transition">
     Modificar Deudo
   </button>
-  <!-- Botón para mostrar la edición -->
-  <button (click)="mostrarReporte()" class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600">
-    Reporte Difunto
-  </button>
+
 </div>
 
-<div *ngIf="estadoActual === 'formularioDeudo'">
-  <app-deudoForm />
+<div *ngIf="estadoActual === 'formularioDeudo'" class="bg-eae7dd dark:bg-2a2b2a rounded-lg p-4 shadow-md">
+  <app-deudoForm></app-deudoForm>
 </div>
-<div *ngIf="estadoActual === 'formularioDifunto'">
-  <app-difuntoForm />
+<div *ngIf="estadoActual === 'formularioDifunto'" class="bg-eae7dd dark:bg-2a2b2a rounded-lg p-4 shadow-md">
+  <app-difuntoForm></app-difuntoForm>
 </div>
-<div *ngIf="estadoActual === 'edicionDifunto'">
-  <app-difunto-editar />
+<div *ngIf="estadoActual === 'edicionDifunto'" class="bg-eae7dd dark:bg-2a2b2a rounded-lg p-4 shadow-md">
+  <app-difunto-editar></app-difunto-editar>
 </div>
-<div *ngIf="estadoActual === 'edicionDeudo'">
-  <app-deudo-editar />
-</div>
-<div *ngIf="estadoActual === 'reporte'">
-  <app-difunto-reporte />
+<div *ngIf="estadoActual === 'edicionDeudo'" class="bg-eae7dd dark:bg-2a2b2a rounded-lg p-4 shadow-md">
+  <app-deudo-editar></app-deudo-editar>
 </div>

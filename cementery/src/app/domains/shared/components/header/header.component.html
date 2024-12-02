@@ -1,8 +1,9 @@
 <header class="bg-[#eae7dd] text-[#ffffff] border-b border-[#2a2b2a]">
   <div class="container mx-auto flex items-center justify-between px-4 py-3">
     <!-- Logo -->
-    <a href="#" class="flex items-center">
-      <img src="assets\image\logo\logo600cafe.svg" alt="Logo Cementerio del Condado" class="h-8 md:h-12">
+    <a href="#" class="flex items-center p-1">
+      <img src="assets/image/logo/logo600cafe.svg" alt="Logo Cementerio del Condado" class="h-8 md:h-12"
+        style="transform: scale(1.7);">
     </a>
 
     <!-- Navigation Links -->
@@ -15,58 +16,24 @@
 
     <!-- Action Buttons -->
     <div class="flex items-center space-x-4">
-      <!-- Dark Mode Toggle -->
-      <button
-        (click)="toggleDarkMode()"
-        class="p-2 rounded bg-[#99775c] hover:bg-[#50a2a7] transition"
-        aria-label="Toggle Dark Mode"
-      >
-        <ng-container *ngIf="isDarkMode; else lightIcon">
-          <!-- Sun Icon -->
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#eae7dd]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="5"></circle>
-            <line x1="12" y1="1" x2="12" y2="3"></line>
-            <line x1="12" y1="21" x2="12" y2="23"></line>
-            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-            <line x1="1" y1="12" x2="3" y2="12"></line>
-            <line x1="21" y1="12" x2="23" y2="12"></line>
-            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-          </svg>
-        </ng-container>
-        <ng-template #lightIcon>
-          <!-- Moon Icon -->
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#eae7dd]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-          </svg>
-        </ng-template>
-      </button>
 
       <!-- Login/Logout -->
       <ng-container *ngIf="!isAuthenticated(); else loggedInTemplate">
-        <button
-          (click)="navigateToLogin()"
-          class="px-4 py-2 rounded bg-[#99775c] hover:bg-[#50a2a7] text-[#eae7dd] transition"
-        >
+        <button (click)="navigateToLogin()"
+          class="px-4 py-2 rounded bg-[#99775c] hover:bg-[#50a2a7] text-[#eae7dd] transition">
           Login
         </button>
       </ng-container>
       <ng-template #loggedInTemplate>
-        <button
-          (click)="logout()"
-          class="px-4 py-2 rounded bg-[#99775c] hover:bg-[#50a2a7] text-[#eae7dd] transition"
-        >
+        <button (click)="logout()" class="px-4 py-2 rounded bg-[#99775c] hover:bg-[#50a2a7] text-[#eae7dd] transition">
           Logout
         </button>
       </ng-template>
 
       <!-- Mobile Menu Toggle -->
-      <button
-        class="md:hidden p-2 rounded bg-[#99775c] hover:bg-[#50a2a7] transition"
-        aria-label="Open Menu"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#eae7dd]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <button class="md:hidden p-2 rounded bg-[#99775c] hover:bg-[#50a2a7] transition" aria-label="Open Menu">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#eae7dd]" fill="none" viewBox="0 0 24 24"
+          stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
         </svg>
       </button>

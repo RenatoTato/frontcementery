@@ -3,7 +3,8 @@ import { Component} from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { User } from '@externo/models/auth/user.model';
+import { User, BasicUserInfo } from '@externo/models/auth/user.model';
+import { AuthService } from '@externo/services/auth.service';
 @Component({
   selector: 'app-siderbar',
   standalone: true,
@@ -16,21 +17,42 @@ export class SiderbarComponent {
   isCementerioOpen = false; // Controla la visibilidad de las subcategorías
   isInformativoOpen = false; // Controla la visibilidad de las subcategorías
   isSidebarCollapsed = false;
-  user: User | null = null; // Almacena la información del usuario
+  user: BasicUserInfo | null = null;
 
   constructor(private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private authService: AuthService
   ) { this.isDarkMode = document.body.classList.contains('dark'); }
 
   ngOnInit(): void {
-    this.getProfile().subscribe({
-      next: (data) => {
-        this.user = data; // Asigna los datos obtenidos al objeto `user`
-      },
-      error: (err) => {
-        console.error('Error fetching user profile:', err);
+    const token = localStorage.getItem('token');
+    if (token) {
+      // Decodifica el token
+      const decodedToken = this.authService.decodeToken(token);
+
+      if (decodedToken) {
+        // Establece los datos básicos del usuario
+        this.user = {
+          first_name: decodedToken.first_name || '',
+          last_name: decodedToken.last_name || '',
+          email: decodedToken.email || '',
+        };
       }
-    });
+
+      // Intenta obtener el perfil completo si es necesario
+      this.authService.getProfile().subscribe({
+        next: (data) => {
+          this.user = {
+            first_name: data.first_name,
+            last_name: data.last_name,
+            email: data.email,
+          };
+        },
+        error: (err) => {
+          console.error('Error fetching user profile:', err);
+        },
+      });
+    }
   }
 
   // Método para obtener los datos del usuario desde el backend

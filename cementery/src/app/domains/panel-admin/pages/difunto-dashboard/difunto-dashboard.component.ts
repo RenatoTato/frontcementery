@@ -3,21 +3,21 @@ import { CommonModule } from '@angular/common';
 import { DifuntoFormComponent } from "@admin/components/difuntos/difuntoForm/difuntoForm.component";
 import { DeudoFormComponent } from "@admin/components/difuntos/deudoForm/deudoForm.component";
 import { DifuntoEditarComponent } from "../../components/difuntos/difunto-editar/difunto-editar.component";
-import { DifuntoReporteComponent } from "../../components/difuntos/difunto-reporte/difunto-reporte.component";
+
 import { DeudoEditarComponent } from "../../components/difuntos/deudo-editar/deudo-editar.component";
 @Component({
   selector: 'app-difunto-dashboard',
   standalone: true,
-  imports: [CommonModule, DifuntoFormComponent, DeudoFormComponent, DifuntoEditarComponent, DifuntoReporteComponent, DeudoEditarComponent],
+  imports: [CommonModule, DifuntoFormComponent, DeudoFormComponent, DifuntoEditarComponent,  DeudoEditarComponent],
   templateUrl: './difunto-dashboard.component.html',
   styleUrl: './difunto-dashboard.component.css'
 })
 export class DifuntoDashboardComponent {
   // Estado actual del componente
-  estadoActual: 'formularioDeudo' | 'formularioDifunto' | 'edicionDifunto' | 'edicionDeudo' | 'reporte' = 'formularioDeudo';
+  estadoActual: 'formularioDeudo' | 'formularioDifunto' | 'edicionDifunto' | 'edicionDeudo' = 'formularioDeudo';
 
   // Método genérico para cambiar el estado
-  cambiarEstado(nuevoEstado: 'formularioDeudo' | 'formularioDifunto' | 'edicionDifunto' | 'edicionDeudo' | 'reporte'): void {
+  cambiarEstado(nuevoEstado: 'formularioDeudo' | 'formularioDifunto' | 'edicionDifunto' | 'edicionDeudo'): void {
     this.estadoActual = nuevoEstado;
   }
 
@@ -36,10 +36,5 @@ export class DifuntoDashboardComponent {
 
   mostrarEdicionDeudo(): void {
     this.cambiarEstado('edicionDeudo');
-  }
-
-  mostrarReporte(): void {
-    this.cambiarEstado('reporte');
-  }
-  
+  }  
 }

@@ -26,3 +26,8 @@ export interface RefreshModel{
     refresh:string;
     access:string;
 }
+export interface BasicUserInfo {
+    first_name: string;
+    last_name: string;
+    email: string;
+  }

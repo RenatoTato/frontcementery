@@ -16,7 +16,7 @@ export class ArticuloPinfoComponent implements OnInit {
   categorias: string[] = []; // Categorías únicas extraídas de los artículos
   filtro: ArticuloFilter = {}; // Filtros para artículos
   page = 1; // Página actual
-  pageSize = 10; // Tamaño de la página
+  pageSize = 6; // Tamaño de la página
   totalArticulos = 0; // Total de artículos para paginación
 
   constructor(private articuloService: ArticuloService) {}

@@ -1,9 +1,9 @@
-<div class="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 p-4">
-    <h1 class="text-2xl font-bold mb-6 text-center dark:text-white">Dashboard</h1>
+<div class="min-h-screen bg-[#eae7dd] text-[#2a2b2a] p-4">
+    <h1 class="text-2xl font-bold mb-6 text-center text-[#2a2b2a]">Dashboard</h1>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <!-- Gráfico de Estado de Servicios -->
-        <div class="bg-white dark:bg-gray-800 p-4 rounded shadow-lg col-span-1 md:col-span-2">
-            <h2 class="text-xl font-bold mb-4 dark:text-white">Estado de Servicios</h2>
+        <div class="bg-[#ffffff] p-4 rounded shadow-lg col-span-1 md:col-span-2">
+            <h2 class="text-xl font-bold mb-4 text-[#2a2b2a]">Estado de Servicios</h2>
             <apx-chart *ngIf="servicioChartOptions" [series]="servicioChartOptions.series"
                 [chart]="servicioChartOptions.chart" [xaxis]="servicioChartOptions.xaxis"
                 [yaxis]="servicioChartOptions.yaxis" [plotOptions]="servicioChartOptions.plotOptions">
@@ -11,64 +11,63 @@
         </div>
 
         <!-- Gráfico de Difuntos -->
-        <div class="bg-white dark:bg-gray-800 p-4 rounded shadow-lg col-span-1">
-            <h2 class="text-xl font-bold mb-4 dark:text-white">Difuntos por Servicio</h2>
+        <div class="bg-[#ffffff] p-4 rounded shadow-lg col-span-1">
+            <h2 class="text-xl font-bold mb-4 text-[#2a2b2a]">Difuntos por Servicio</h2>
             <apx-chart *ngIf="difuntoChartOptions" [series]="difuntoChartOptions.series"
                 [chart]="difuntoChartOptions.chart" [labels]="difuntoChartOptions.labels">
             </apx-chart>
         </div>
 
-
         <!-- Gráfico de Estado de Tumbas -->
-        <div class="bg-white dark:bg-gray-800 p-4 rounded shadow-lg col-span-1">
-            <h2 class="text-xl font-bold mb-4 dark:text-white">Estado de Tumbas</h2>
+        <div class="bg-[#ffffff] p-4 rounded shadow-lg col-span-1">
+            <h2 class="text-xl font-bold mb-4 text-[#2a2b2a]">Estado de Tumbas</h2>
             <apx-chart *ngIf="tumbaChartOptions" [series]="tumbaChartOptions.series" [chart]="tumbaChartOptions.chart"
                 [labels]="tumbaChartOptions.labels">
             </apx-chart>
         </div>
+
         <!-- Gráfico de Ocupación de Lotes -->
-        <div class="bg-white dark:bg-gray-800 p-4 rounded shadow-lg col-span-1 md:col-span-2">
-            <h2 class="text-xl font-bold mb-4 dark:text-white">Ocupación por Lotes</h2>
+        <div class="bg-[#ffffff] p-4 rounded shadow-lg col-span-1 md:col-span-2">
+            <h2 class="text-xl font-bold mb-4 text-[#2a2b2a]">Ocupación por Lotes</h2>
             <!-- Botón para mostrar/ocultar filtros -->
             <div class="mb-4">
                 <button (click)="toggleFilters()"
-                    class="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600">
+                    class="flex items-center gap-2 bg-[#99775c] text-white px-4 py-2 rounded-lg shadow-sm hover:bg-[#50a2a7] transition">
                     <img src="assets/image/icono/filter.svg" alt="Icono comparar" class="w-4 h-4" />
-                    <!-- {{ showFilters ? 'Ocultar ' : 'Mostrar ' }} -->
                 </button>
             </div>
             <!-- Filtros -->
-            <div *ngIf="showFilters" class="bg-gray-200 dark:bg-gray-700 p-4 rounded-lg mb-4">
+            <div *ngIf="showFilters" class="bg-[#eae7dd] p-4 rounded-lg mb-4">
                 <form [formGroup]="filterForm" (ngSubmit)="applyFilters()" class="space-y-4">
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
-                            <label for="blockName" class="block text-sm font-medium mb-2 dark:text-gray-200">Número de
+                            <label for="blockName" class="block text-sm font-medium mb-2 text-[#2a2b2a]">Número de
                                 Lote</label>
                             <input id="blockName" formControlName="blockName" type="text" placeholder="Número de Lote"
-                                class="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                                class="w-full px-4 py-2 border border-[#99775c] rounded-lg shadow-sm focus:ring-[#50a2a7] focus:border-[#50a2a7]">
                         </div>
                         <div>
-                            <label for="typeblock" class="block text-sm font-medium mb-2 dark:text-gray-200">Tipo de
+                            <label for="typeblock" class="block text-sm font-medium mb-2 text-[#2a2b2a]">Tipo de
                                 Bloque</label>
                             <input id="typeblock" formControlName="typeblock" type="text" placeholder="Tipo de Bloque"
-                                class="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                                class="w-full px-4 py-2 border border-[#99775c] rounded-lg shadow-sm focus:ring-[#50a2a7] focus:border-[#50a2a7]">
                         </div>
                         <div>
-                            <label for="numbersblock" class="block text-sm font-medium mb-2 dark:text-gray-200">Número
+                            <label for="numbersblock" class="block text-sm font-medium mb-2 text-[#2a2b2a]">Número
                                 de Bloque</label>
                             <input id="numbersblock" formControlName="numbersblock" type="text"
                                 placeholder="Número de Bloque"
-                                class="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                                class="w-full px-4 py-2 border border-[#99775c] rounded-lg shadow-sm focus:ring-[#50a2a7] focus:border-[#50a2a7]">
                         </div>
                     </div>
                     <div class="flex justify-end space-x-4 mt-4">
                         <button type="button" (click)="resetFilters()"
-                            class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600" [title]="'Refrescar'">
-                            <img src="assets\image\icono\refresh-ccw.svg" alt="Icono comparar" class="w-4 h-4 " />
+                            class="bg-[#99775c] text-white px-4 py-2 rounded-lg shadow-sm hover:bg-[#50a2a7] transition">
+                            <img src="assets/image/icono/refresh-ccw.svg" alt="Icono refrescar" class="w-4 h-4">
                         </button>
                         <button type="submit"
-                            class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600" [title]="'Buscar'">
-                            <img src="assets\image\icono\search.svg" alt="Icono comparar" class="w-4 h-4 " />
+                            class="bg-[#99775c] text-white px-4 py-2 rounded-lg shadow-sm hover:bg-[#50a2a7] transition">
+                            <img src="assets/image/icono/search.svg" alt="Icono buscar" class="w-4 h-4">
                         </button>
                     </div>
                 </form>

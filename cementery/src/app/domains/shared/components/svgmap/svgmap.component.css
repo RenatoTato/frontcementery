@@ -71,14 +71,14 @@
 }
 
 ::ng-deep .cls-available {
-    fill: #34fd88e7;
+    fill: #50a2a7;
     /* verde para disponible */
     stroke: #1d1d1b;
     stroke-miterlimit: 10;
 }
 
 ::ng-deep .cls-intermediate {
-    fill: #fffd8fea;
+    fill: #eae7dd;
     /* amarillo para el estado intermedio */
     stroke: #1d1d1b;
     stroke-miterlimit: 10;
@@ -164,6 +164,6 @@
 }
 
 .intermedio {
-    background-color: #fcfc9b;
+    background-color: #50a2a7;
     /* Color para el estado intermedio */
 }
