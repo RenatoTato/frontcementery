@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '@externo/models/auth/user.model';
+import jwt_decode from 'jwt-decode';
 @Injectable({
   providedIn: 'root'
 })
@@ -9,6 +10,14 @@ export class AuthService {
   private tokenUrl = 'http://127.0.0.1:8000/api/token/'; // Ruta para obtener el token
   private refreshUrl = 'http://127.0.0.1:8000/api/token/refresh/'; // Ruta para refrescar el token
 
+  decodeToken(token: string): any {
+    try {
+      return jwt_decode(token);
+    } catch (error) {
+      console.error('Invalid token:', error);
+      return null;
+    }
+  }
   constructor(private http:HttpClient) { }
   login(username: string, password: string): Observable<any> {
     return this.http.post(this.tokenUrl, { username, password });
@@ -30,7 +39,7 @@ export class AuthService {
   getProfile(): Observable<User> {
     const token = localStorage.getItem('token');
     if (token) {
-      return this.http.get<User>('http://127.0.0.1:8000/api/profile', {
+      return this.http.get<User>('http://127.0.0.1:8000/api/profile/', {
         headers: { Authorization: `Bearer ${token}` } // Incluye el token de acceso en el encabezado de la solicitud
       });
     }

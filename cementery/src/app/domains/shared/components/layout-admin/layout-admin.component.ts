@@ -14,10 +14,12 @@ import { SiderbarComponent } from "../siderbar/siderbar.component";
 export class LayoutAdminComponent {
 
   sidebarVisible = false; // Propiedad que controla la visibilidad del sidebar
+  isSidebarCollapsed = true;
 
   // Método para alternar la visibilidad del sidebar
+
   toggleSidebar(): void {
-    this.sidebarVisible = !this.sidebarVisible;
+    this.isSidebarCollapsed = !this.isSidebarCollapsed;
   }
 
 }

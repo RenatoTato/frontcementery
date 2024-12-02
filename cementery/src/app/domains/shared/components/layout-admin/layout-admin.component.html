@@ -1,16 +1,44 @@
 <div class="min-h-screen flex flex-col">
   <!-- Header -->
-  <app-header class="flex-none" (toggleSidebar)="toggleSidebar()"/>
+  <app-header class="flex-none"></app-header>
 
   <!-- Contenido Principal con Sidebar a la izquierda -->
-  <div class="flex flex-1" >
+  <div class="flex flex-1 relative">
     <!-- Sidebar a la izquierda -->
+    <ng-container *ngIf="!isSidebarCollapsed">
+      <app-siderbar
+        class="bg-gray-800 text-white w-64 flex-shrink-0 absolute md:relative"
+      ></app-siderbar>
+    </ng-container>
 
-    <app-siderbar class="w-64 bg-gray-800 text-white" app-sidebar *ngIf="sidebarVisible"/>
+    <!-- Botón al lado derecho del sidebar -->
+    <button
+      (click)="toggleSidebar()"
+      class="absolute top-16 z-50 bg-[#eae7dd] p-2 rounded shadow hover:bg-[#50a2a7]"
+      [ngStyle]="{
+        left: isSidebarCollapsed ? '1rem' : '16rem'
+      }"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-6 w-6 text-[#99775c]"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path
+          [attr.d]="isSidebarCollapsed ? 'M10 3L16 9l-6 6M4 9h11' : 'M10 3L4 9l6 6M20 9H4'"
+        />
+      </svg>
+    </button>
 
     <!-- Contenido Principal a la derecha -->
-    <main class="flex-1 p-4">
-      <router-outlet/>
+    <main
+      [ngClass]="{'ml-1': !isSidebarCollapsed, 'ml-0': isSidebarCollapsed}"
+      class="flex-1 p-4 transition-all duration-300"
+    >
+      <router-outlet></router-outlet>
     </main>
   </div>
 </div>

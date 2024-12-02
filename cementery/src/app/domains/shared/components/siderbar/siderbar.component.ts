@@ -1,6 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component} from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { User } from '@externo/models/auth/user.model';
 @Component({
   selector: 'app-siderbar',
   standalone: true,
@@ -12,13 +15,50 @@ export class SiderbarComponent {
   isDarkMode = false;
   isCementerioOpen = false; // Controla la visibilidad de las subcategorías
   isInformativoOpen = false; // Controla la visibilidad de las subcategorías
+  isSidebarCollapsed = false;
+  user: User | null = null; // Almacena la información del usuario
 
+  constructor(private router: Router,
+    private http: HttpClient
+  ) { this.isDarkMode = document.body.classList.contains('dark'); }
+
+  ngOnInit(): void {
+    this.getProfile().subscribe({
+      next: (data) => {
+        this.user = data; // Asigna los datos obtenidos al objeto `user`
+      },
+      error: (err) => {
+        console.error('Error fetching user profile:', err);
+      }
+    });
+  }
+
+  // Método para obtener los datos del usuario desde el backend
+  getProfile(): Observable<User> {
+    const token = localStorage.getItem('token');
+    if (token) {
+      return this.http.get<User>('http://127.0.0.1:8000/api/profile', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+    }
+    return new Observable(observer => {
+      observer.error('No token available');
+    });
+  }
   toggleCementerio(): void {
     this.isCementerioOpen = !this.isCementerioOpen; // Alterna entre mostrar y ocultar
   }
   
   toggleInformativo(): void {
     this.isInformativoOpen = !this.isInformativoOpen; // Alterna entre mostrar y ocultar
+  }
+  toggleSidebar(): void {
+    this.isSidebarCollapsed = !this.isSidebarCollapsed;
+  }
+  logout(): void {
+    localStorage.removeItem('token');
+    localStorage.removeItem('refresh_token');
+    this.router.navigate(['/']);
   }
   toggleDarkMode(): void {
     this.isDarkMode = !this.isDarkMode;
