@@ -32,6 +32,7 @@ export class DeudoFormComponent {
       phoneNumber: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       address: [''],
+      tipo: ['', Validators.required],
     });
   }
 
