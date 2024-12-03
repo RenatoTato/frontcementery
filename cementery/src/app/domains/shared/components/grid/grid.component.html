@@ -1,1 +1,123 @@
-<p>grid works!</p>
+<div class="flex w-full h-screen">
+    <div class="w-1/4 bg-gradient-to-t from-[#eae7dd] p-5 h-full flex items-start">
+        <div class="svg-container w-full h-full">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 438.89 771.62">
+                <g id="LotesTitulo">
+                    <g id="lotess">
+                        <rect class="cls-10" x="32.53" y="659" width="172.05" height="111.83" />
+                        <rect class="cls-10" x="32.53" y="585.88" width="169.59" height="73.12" />
+                        <rect class="cls-10" x="32.53" y="474.05" width="169.59" height="111.83" />
+                        <rect class="cls-10" x="235.73" y="474.19" width="154.84" height="90.32" />
+                        <rect class="cls-10" x="32.53" y="383.72" width="154.84" height="90.32" />
+                        <rect class="cls-10" x="235.73" y="383.72" width="154.84" height="90.32" />
+                        <rect class="cls-10" x="32.53" y="280.35" width="146.24" height="103.23" />
+                        <rect class="cls-10" x="235.73" y="280.35" width="154.84" height="103.23" />
+                        <rect class="cls-10" x="32.53" y="181.42" width="133.34" height="98.93" />
+                        <rect class="cls-10" x="240.03" y="181.42" width="150.54" height="98.93" />
+                        <rect class="cls-10" x="32.53" y="56.68" width="124.73" height="124.73" />
+                        <rect class="cls-10" x="261.53" y="56.68" width="129.04" height="124.73" />
+                        <rect class="cls-10" x="235.73" y="564.66" width="154.84" height="206.46" />
+                    </g>
+                    <g id="Numeracion">
+                        <text class="cls-6" transform="translate(422.58 519.35)">
+                            <tspan x="0" y="0">4</tspan>
+                        </text>
+                        <text class="cls-6" transform="translate(.64 428.88)">
+                            <tspan x="0" y="0">5</tspan>
+                        </text>
+                        <text class="cls-6" transform="translate(.64 332.13)">
+                            <tspan x="0" y="0">7</tspan>
+                        </text>
+                        <text class="cls-6" transform="translate(1.27 230.88)">
+                            <tspan x="0" y="0">9</tspan>
+                        </text>
+                        <text class="cls-6" transform="translate(422.81 429.05)">
+                            <tspan x="0" y="0">6</tspan>
+                        </text>
+                        <text class="cls-6" transform="translate(422.81 331.96)">
+                            <tspan x="0" y="0">8</tspan>
+                        </text>
+                        <text class="cls-6" transform="translate(423.32 230.88)">
+                            <tspan x="0" y="0">10</tspan>
+                        </text>
+                        <text class="cls-6" transform="translate(1.27 119.05)">
+                            <tspan x="0" y="0">11</tspan>
+                        </text>
+                        <text class="cls-6" transform="translate(423.32 119.05)">
+                            <tspan x="0" y="0">12</tspan>
+                        </text>
+                        <text class="cls-6" transform="translate(0 714.91)">
+                            <tspan x="0" y="0">1</tspan>
+                        </text>
+                        <text class="cls-6" transform="translate(.64 622.44)">
+                            <tspan x="0" y="0">2</tspan>
+                        </text>
+                        <text class="cls-6" transform="translate(0 529.96)">
+                            <tspan x="0" y="0">3</tspan>
+                        </text>
+                    </g>
+                    <g id="Cementerio">
+                        <text class="cls-5" transform="translate(25.89 23.24)">
+                            <tspan class="cls-9" x="0" y="0">C</tspan>
+                            <tspan x="18.54" y="0">E</tspan>
+                            <tspan class="cls-9" x="34.47" y="0">M</tspan>
+                            <tspan x="58.12" y="0">E</tspan>
+                            <tspan class="cls-8" x="74.04" y="0">N</tspan>
+                            <tspan class="cls-4" x="94.34" y="0">TE</tspan>
+                            <tspan class="cls-3" x="124.95" y="0">R</tspan>
+                            <tspan x="142.24" y="0">IO DEL </tspan>
+                            <tspan class="cls-13" x="233.74" y="0">C</tspan>
+                            <tspan class="cls-12" x="252.31" y="0">O</tspan>
+                            <tspan class="cls-2" x="272.57" y="0">N</tspan>
+                            <tspan class="cls-1" x="292.95" y="0">D</tspan>
+                            <tspan x="312.18" y="0">ADO</tspan>
+                        </text>
+                    </g>
+                </g>
+                <g *ngFor="let lote of ocupacionLote" class="cursor-pointer hover:opacity-80 transition-opacity duration-200">
+                    <rect [ngClass]="getFillColor(lote.id)" [attr.x]="lote.x" [attr.y]="lote.y"
+                        [attr.width]="lote.width" [attr.height]="lote.height"
+                        [attr.transform]="lote.rotation ? 'rotate(' + lote.rotation + ',' + lote.x + ',' + lote.y + ')' : null"
+                        (click)="verDetallesBloque(lote.id)"></rect>
+                    <text class="cls-7"
+                        [attr.transform]="lote.rotation ? 'translate(' + lote.text_x + ' ' + lote.text_y + ') rotate(' + lote.rotation + ')' : 'translate(' + lote.text_x + ' ' + lote.text_y + ')'">
+                        <tspan x="0" y="0">{{ lote.label }}</tspan>
+                    </text>
+                </g>
+            </svg>
+        </div>
+    </div>
+    <div class="w-1/3 bg-white p-5">
+        <h3 class="text-lg font-semibold">Ocupación Lotes</h3>
+        <div class="flex items-center mb-2">
+            <div class="w-5 h-5 bg-red-600 mr-2"></div>
+            <span>Completo</span>
+        </div>
+        <div class="flex items-center mb-2">
+            <div class="w-5 h-5 bg-[#eae7dd] mr-2"></div>
+            <span>Parcial</span>
+        </div>
+        <div class="flex items-center">
+            <div class="w-5 h-5 bg-[#50a2a7] mr-2"></div>
+            <span>Disponible</span>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para Detalles del Lote -->
+<div class="modal" *ngIf="selectedBlockId">
+    <div class="modal-content">
+        <button class="close-btn" (click)="cerrarDetalles()">×</button>
+        <h3>Detalles del Lote {{ selectedBlockId }}</h3>
+        <div class="grid" [style.gridTemplateColumns]="'repeat(' + columnas + ', 1fr)'">
+            <div class="nicho" *ngFor="let tumba of tumbasEstado">
+                <div [ngClass]="{'ocupado': !tumba.available, 'disponible': tumba.available}">
+                    <p>{{ getNichoDisplayText(tumba) }}</p>
+                    <p *ngIf="!tumba.available">{{ tumba.difunto?.names.split(' ')[0] }} {{
+                        tumba.difunto?.last_names.split(' ')[0] }}</p>
+                    <p *ngIf="!tumba.available">{{ getShortDate(tumba.servicio[0].startDate) }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
