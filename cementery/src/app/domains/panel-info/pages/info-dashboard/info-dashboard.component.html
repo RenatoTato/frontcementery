@@ -1,13 +1,41 @@
-<p>info-dashboard works!</p>
-<app-articulo-info
-  [articulo]="{
-    id: 1,
-    category: 'Technology',
-    title: 'The Future of AI',
-    description: 'A comprehensive look at how AI will shape the world.',
-    image: 'https://via.placeholder.com/300',
-    publication_date: '2024-11-25',
-    author: 'John Doe',
-    is_featured: true
-  }"
-></app-articulo-info>
+<div class="bg-[#eae7dd] text-[#2a2b2a] font-sans">
+  <!-- Sección de Introducción -->
+  <div class="hero bg-[#99775c] text-white py-10 text-center">
+    <h1 class="text-4xl font-bold">Bienvenido al Portal de Servicios</h1>
+    <p class="mt-2 text-lg">Facilitando la memoria y gestión de nuestros seres queridos.</p>
+  </div>
+
+  <section class="py-10">
+    <div class="container mx-auto">
+      <h2 class="text-3xl font-bold mb-6 text-center">Artículos Destacados</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <app-articulo-info *ngFor="let articulo of articulos" [articulo]="articulo"></app-articulo-info>
+      </div>
+    </div>
+  </section>
+
+  <!-- Obituarios -->
+  <section class="py-10">
+    <div class="container mx-auto">
+      <h2 class="text-3xl font-bold mb-6 text-center">Obituarios</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <app-obituario-infos *ngFor="let obituario of obituarios" [obituario]="obituario"></app-obituario-infos>
+      </div>
+    </div>
+  </section>
+
+  <!-- Iglesias -->
+  <section class="py-10 bg-[#eae7dd]">
+    <div class="container mx-auto">
+      <h2 class="text-3xl font-bold mb-6 text-center">Iglesias Disponibles</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <app-iglrsias-infos *ngFor="let iglesia of iglesias" [iglesia]="iglesia"></app-iglrsias-infos>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-[#2a2b2a] text-white py-6 text-center">
+    <p>&copy; 2024 Portal de Servicios. Todos los derechos reservados.</p>
+  </footer>
+</div>

@@ -9,4 +9,5 @@ export interface Obituario {
     name?: string;
     deceased: Difunto;  // ID del difunto (relación uno a uno)
     difuntoDetails?: string;
+    description?:string;
   }

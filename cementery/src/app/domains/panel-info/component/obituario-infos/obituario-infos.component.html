@@ -1,0 +1,21 @@
+<div class="max-w-md rounded-lg shadow-lg bg-white dark:bg-gray-800 overflow-hidden">
+    <div class="p-4">
+      <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-2">{{ obituario.name }}</h2>
+      <p class="text-gray-600 dark:text-gray-300 mb-4">
+        Fecha de Fallecimiento: {{ obituario.date | date: 'mediumDate' }}
+      </p>
+      <p *ngIf="obituario.description" class="text-gray-600 dark:text-gray-300 mb-4">
+        {{ obituario.description }}
+      </p>
+      <p *ngIf="obituario.obituary_detail" class="text-gray-600 dark:text-gray-300 mb-4">
+        {{ obituario.obituary_detail | slice: 0:200 }}...
+      </p>
+      <p *ngIf="obituario.place" class="text-gray-600 dark:text-gray-300 mb-2">
+        Lugar: {{ obituario.place }}
+      </p>
+      <p *ngIf="obituario.cementery" class="text-gray-600 dark:text-gray-300 mb-2">
+        Cementerio: {{ obituario.cementery }}
+      </p>
+    </div>
+  </div>
+  
