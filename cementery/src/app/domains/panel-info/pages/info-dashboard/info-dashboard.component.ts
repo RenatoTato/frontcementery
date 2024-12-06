@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ArticuloService } from '@externo/services/articulo.service';
 import { InfoService } from '@externo/services/info.service';
-import { ObituarioService } from '@externo/services/obituario.service'; 
-import { IglesiaService } from '@externo/services/iglesia.service'; 
+import { ObituarioService } from '@externo/services/obituario.service';
+import { IglesiaService } from '@externo/services/iglesia.service';
 import { CommonModule } from '@angular/common';
 import { Articulo } from '@externo/models/articulo/articulo.model';
-import { ArticuloInfoComponent } from '@info/component/articulo-info/articulo-info.component'; 
-import { IglrsiasInfosComponent } from '@info/component/iglrsias-infos/iglrsias-infos.component'; 
-import { ObituarioInfosComponent } from '@info/component/obituario-infos/obituario-infos.component'; 
+import { ArticuloInfoComponent } from '@info/component/articulo-info/articulo-info.component';
+import { IglrsiasInfosComponent } from '@info/component/iglrsias-infos/iglrsias-infos.component';
+import { ObituarioInfosComponent } from '@info/component/obituario-infos/obituario-infos.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-info-dashboard',
@@ -16,7 +17,7 @@ import { ObituarioInfosComponent } from '@info/component/obituario-infos/obituar
   templateUrl: './info-dashboard.component.html',
   styleUrl: './info-dashboard.component.css'
 })
-export class InfoDashboardComponent  implements OnInit {
+export class InfoDashboardComponent implements OnInit {
   articulos: Articulo[] = [];
   servicios: any[] = [];
   obituarios: any[] = [];
@@ -26,8 +27,9 @@ export class InfoDashboardComponent  implements OnInit {
     private articuloService: ArticuloService,
     private infoService: InfoService,
     private obituarioService: ObituarioService,
-    private iglesiaService: IglesiaService
-  ) {}
+    private iglesiaService: IglesiaService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
     this.loadArticulos();
@@ -58,5 +60,8 @@ export class InfoDashboardComponent  implements OnInit {
     this.iglesiaService.getReadIglesias().subscribe((data) => {
       this.iglesias = data;
     });
+  }
+  verArticulo(id: number): void {
+    this.router.navigate(['/articulos', id]); // Navega a la ruta con el ID
   }
 }

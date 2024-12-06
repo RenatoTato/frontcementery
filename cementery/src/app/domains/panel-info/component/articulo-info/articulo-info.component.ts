@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { Articulo } from '@externo/models/articulo/articulo.model';
 
 @Component({
@@ -10,5 +10,21 @@ import { Articulo } from '@externo/models/articulo/articulo.model';
   styleUrl: './articulo-info.component.css'
 })
 export class ArticuloInfoComponent {
-  @Input() articulo!: Articulo;
+  @Input() articulos: Articulo[] = [];
+  @Input() paginacion = false;
+  @Input() page = 1;
+  @Input() pageSize = 6;
+  @Input() totalArticulos = 0;
+  @Input() onPageChange!: (page: number) => void;
+
+  @Output() onArticuloSeleccionado = new EventEmitter<number>();
+
+  verArticulo(id: number): void {
+    this.onArticuloSeleccionado.emit(id); // Emite el ID del artículo seleccionado
+  }
+
+  // Llamada al método en el evento de cambio de página
+  cambiarPagina(page: number): void {
+    this.onPageChange(page); // Notifica al componente padre
+  }
 }

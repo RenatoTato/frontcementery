@@ -27,6 +27,10 @@ export const routes: Routes = [
                 path: 'articulos',
                 loadComponent: ()=>import('@info/pages/articulos/articulos.component').then(m=>m.ArticulosComponent)
             },
+            {
+                path: 'articulos/:id',
+                loadComponent: ()=>import('@info/pages/articulos/articulos.component').then(m=>m.ArticulosComponent)
+            },
         ]
     },
     {

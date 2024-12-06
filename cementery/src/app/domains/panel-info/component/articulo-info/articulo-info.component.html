@@ -1,23 +1,40 @@
-<div class="max-w-md rounded-lg shadow-lg bg-white dark:bg-gray-800 overflow-hidden">
-  <img *ngIf="articulo.image" [src]="articulo.image" alt="{{ articulo.title }}" class="w-full h-48 object-cover" />
-  <div class="p-4">
-    <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">
-      {{ articulo.category }} - {{ articulo.publication_date | date: 'mediumDate' }}
-    </p>
-    <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-2">
-      {{ articulo.title }}
-    </h2>
-    <p class="text-gray-600 dark:text-gray-300 mb-4">{{ articulo.description }}</p>
-    <div *ngIf="articulo.references || articulo.external_source" class="text-sm">
-      <p *ngIf="articulo.references" class="text-blue-500 hover:underline">
-        <a [href]="articulo.references" target="_blank">References</a>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  <div
+    *ngFor="let articulo of articulos"
+    (click)="verArticulo(articulo.id)"
+    class="bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden cursor-pointer hover:shadow-lg transition"
+  >
+    <img
+      *ngIf="articulo.image"
+      [src]="articulo.image"
+      alt="{{ articulo.title }}"
+      class="w-full h-48 object-cover"
+    />
+    <div class="p-4">
+      <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">
+        {{ articulo.category }} - {{ articulo.publication_date | date: 'mediumDate' }}
       </p>
-      <p *ngIf="articulo.external_source" class="text-blue-500 hover:underline">
-        <a [href]="articulo.external_source" target="_blank">External Source</a>
+      <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-2">
+        {{ articulo.title }}
+      </h2>
+      <p class="text-[#99775c] mb-4">
+        {{ articulo.description | slice: 0:100 }}<button class="text-[#50a2a7] hover:underline">...Leer más</button>
+      </p>
+      <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">
+        Author: {{ articulo.author }}
       </p>
     </div>
-    <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">
-      Author: {{ articulo.author }}
-    </p>
   </div>
+</div>
+<!-- Paginación -->
+<div *ngIf="paginacion" class="flex justify-center mt-6">
+  <button *ngIf="page > 1" (click)="cambiarPagina(page - 1)"
+    class="bg-[#99775c] text-[#ffffff] px-4 py-2 rounded-lg hover:bg-[#50a2a7] transition" [title]="'Página anterior'">
+    <img src="assets\image\icono\play.svg" alt="Icono comparar" class="w-4 h-4 rotate-180" />
+  </button>
+  <span class="px-4 py-2 text-[#2a2b2a]">{{ page }}</span>
+  <button (click)="cambiarPagina(page + 1)" [disabled]="page * pageSize >= totalArticulos"
+    class="bg-[#99775c] text-[#ffffff] px-4 py-2 rounded-lg hover:bg-[#50a2a7] transition" [title]="'Página siguiente'">
+    <img src="assets\image\icono\play.svg" alt="Icono comparar" class="w-4 h-4" />
+  </button>
 </div>

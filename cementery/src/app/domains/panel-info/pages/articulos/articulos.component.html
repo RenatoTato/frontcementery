@@ -1,2 +1,84 @@
+<div class="container mx-auto px-4 py-6 bg-[#ffffff]">
+    <h1 class="text-3xl font-bold text-center mb-6 text-[#99775c]">
+        {{ articuloSeleccionadoId ? articulo.title : 'Artículos' }}
+    </h1>
+    <p *ngIf="articuloSeleccionadoId;" class="text-sm text-center text-gray-600 dark:text-gray-400 mb-6">
+        Publicado el {{ articulo.publication_date | date: 'mediumDate' }}
+    </p>
 
-<app-articulo-pinfo/>
+    <!-- Diseño de dos columnas -->
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <!-- Contenido principal (Artículos o detalles del artículo) -->
+        <div class="lg:col-span-3">
+            <!-- Si hay un artículo seleccionado, mostrar los detalles -->
+            <div *ngIf="articuloSeleccionadoId; else listaArticulos">
+                <!-- Botón para volver a la lista -->
+                <button (click)="volverALaLista()" class="mb-4 text-[#50a2a7] hover:underline">
+                    ← Volver a la lista
+                </button>
+
+                <!-- Detalles del artículo -->
+                <div *ngIf="articulo" class="mb-6">
+                    <!-- Imagen destacada -->
+                    <div class="mb-2">
+                        <img *ngIf="articulo.image" [src]="articulo.image" alt="{{ articulo.title }}"
+                            class="w-full object-cover rounded-lg shadow-md" style="height: auto; max-height: 600px;" />
+                    </div>
+
+                    <!-- Fecha y autor -->
+                    <p class="text-sm text-center text-gray-600 dark:text-gray-400 mb-6">
+                        Autor: {{ articulo.author }}
+                    </p>
+
+                    <!-- Descripción -->
+                    <p class="text-lg text-gray-800 dark:text-gray-200 leading-relaxed mb-4">
+                        {{ articulo.description_short}}
+                    </p>
+                    <hr class="my-6" />
+                </div>
+
+                <!-- Secciones relacionadas -->
+                <div *ngFor="let seccion of secciones" class="mb-8">
+                    <h2 class="text-2xl font-semibold text-[#99775c] mb-4">{{ seccion.subtitle }}</h2>
+                    <p class="text-gray-700 dark:text-gray-300 text-lg leading-relaxed">{{ seccion.content }}</p>
+                </div>
+
+                <!-- Referencias -->
+                <div *ngIf="articulo.references" class="mt-8 border-t border-gray-200 pt-4">
+                    <h3 class="text-lg font-semibold text-[#2a2b2a]">Referencias</h3>
+                    <p class="text-gray-700 dark:text-gray-300">{{ articulo.references }}</p>
+                </div>
+            </div>
+
+            <!-- Lista de artículos -->
+            <ng-template #listaArticulos>
+                <app-articulo-info [articulos]="articulos" [paginacion]="true" [page]="page" [pageSize]="pageSize"
+                    [totalArticulos]="totalArticulos" [onPageChange]="cambiarPagina.bind(this)"
+                    (onArticuloSeleccionado)="verArticulo($event)">
+                </app-articulo-info>
+            </ng-template>
+        </div>
+
+        <!-- Barra lateral derecha -->
+        <div class="space-y-6">
+            <!-- Búsqueda -->
+            <div>
+                <input type="text" placeholder="Buscar por título"
+                    class="border border-[#99775c] w-full px-4 py-2 rounded-lg focus:ring-[#50a2a7] focus:outline-none"
+                    (input)="onInput($event) ; volverALaLista()" />
+            </div>
+
+            <!-- Categorías -->
+            <div>
+                <h2 class="text-xl font-semibold mb-4 text-[#2a2b2a]">Categorías</h2>
+                <div class="flex flex-col gap-2">
+                    <button *ngFor="let categoria of categorias"
+                        (click)="filtrarPorCategoria(categoria); volverALaLista()"
+                        class="block w-full text-left bg-[#ffffff] text-[#99775c] px-4 py-2 rounded-lg hover:bg-[#50a2a7] hover:text-[#ffffff] transition">
+                        {{ categoria }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

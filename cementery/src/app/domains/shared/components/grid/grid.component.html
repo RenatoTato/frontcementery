@@ -68,19 +68,21 @@
                                 </text>
                             </g>
                         </g>
-                        <g *ngFor="let lote of ocupacionLote"
-                            class="cursor-pointer hover:opacity-80 transition-opacity duration-200">
-                            <!-- Rectángulo del lote -->
-                            <rect [ngClass]="getFillColor(lote.id)" [attr.x]="lote.x" [attr.y]="lote.y"
-                                [attr.width]="getBlockSize(lote.typeblock).width"
-                                [attr.height]="getBlockSize(lote.typeblock).height" [attr.transform]="getTransform(lote)"
-                                (click)="verDetallesBloque(lote.id)">
-                            </rect>
-    
-                            <!-- Texto dentro del lote -->
-                            <text class="cls-7" [attr.transform]="getTextTransform(lote)">
-                                <tspan x="0" y="0">{{ lote.typeblock }}</tspan>
-                            </text>
+                        <g *ngFor="let lote of ocupacionLote">
+                            <g (click)="verDetallesBloque(lote.id)"
+                                class="cursor-pointer hover:opacity-80 transition-opacity duration-200">
+                                <!-- Rectángulo del lote -->
+                                <rect [ngClass]="getFillColor(lote.id)" [attr.x]="lote.x" [attr.y]="lote.y"
+                                    [attr.width]="getBlockSize(lote.typeblock).width"
+                                    [attr.height]="getBlockSize(lote.typeblock).height" [attr.transform]="getTransform(lote)"
+                                    >
+                                </rect>
+        
+                                <!-- Texto dentro del lote -->
+                                <text class="cls-7" [attr.transform]="getTextTransform(lote)">
+                                    <tspan x="0" y="0">{{ lote.typeblock }}</tspan>
+                                </text>
+                            </g>
                         </g>
                     </g>
                 </svg>

@@ -7,8 +7,7 @@
 
     <!-- Contenedor del carrusel -->
     <div class="relative w-full max-w-7xl overflow-hidden">
-        <div
-            class="flex gap-12 snap-x snap-mandatory overflow-x-scroll scrollbar-hide scroll-smooth px-8 py-4">
+        <div class="flex gap-12 snap-x snap-mandatory overflow-x-scroll scrollbar-hide scroll-smooth px-8 py-4">
             <!-- Tarjeta de precio -->
             <div *ngFor="let info of infos"
                 class="flex flex-col p-8 bg-[#ffffff] border border-[#99775c] rounded-lg text-center shadow-lg w-[400px] flex-shrink-0">
@@ -30,7 +29,8 @@
                 <!-- Características -->
                 <ul>
                     <h4 class="text-lg font-semibold mb-2 text-[#2a2b2a]">Características del Paquete:</h4>
-                    <li *ngFor="let feature of formatFeaturesOrExclusions(info.features)" class="flex items-center gap-2">
+                    <li *ngFor="let feature of formatFeaturesOrExclusions(info.features)"
+                        class="flex items-center gap-2">
                         <img src="assets/image/icono/benefit.svg" alt="Benefit Icon" class="w-4 h-4">
                         <span class="text-sm text-[#99775c]">{{ feature }}</span>
                     </li>
@@ -39,7 +39,8 @@
                 <!-- Exclusiones -->
                 <ul *ngIf="info.exclusions" class="mt-4">
                     <h4 class="text-lg font-semibold mb-2 text-[#2a2b2a]">No incluye:</h4>
-                    <li *ngFor="let exclusion of formatFeaturesOrExclusions(info.exclusions)" class="flex items-center gap-2">
+                    <li *ngFor="let exclusion of formatFeaturesOrExclusions(info.exclusions)"
+                        class="flex items-center gap-2">
                         <img src="assets/image/icono/coin-slash.svg" alt="Exclusion Icon" class="w-4 h-4">
                         <span class="text-sm text-[#99775c]">{{ exclusion }}</span>
                     </li>
@@ -57,13 +58,17 @@
 
         <!-- Controles -->
         <div class="absolute top-1/2 -translate-y-1/2 left-4 z-10">
-            <button class="bg-[#99775c] text-white rounded-full p-2 hover:bg-[#50a2a7] transition" (click)="scrollCarousel(-1)">
-                &#9664;
+            <button
+                class="bg-[#99775c] text-white rounded-full p-2 hover:bg-[#50a2a7] transition focus:outline-none focus:ring-2 focus:ring-[#50a2a7] focus:ring-offset-2"
+                (click)="scrollCarousel(-1)">
+                <img src="assets\image\icono\play-solid.svg" alt="Icono comparar" class="w-4 h-4 sm:w-3 sm:h-3 md:w-4 md:h-4 lg:w-6 lg:h-6 rotate-180" />
             </button>
         </div>
         <div class="absolute top-1/2 -translate-y-1/2 right-4 z-10">
-            <button class="bg-[#99775c] text-white rounded-full p-2 hover:bg-[#50a2a7] transition" (click)="scrollCarousel(1)">
-                &#9654;
+            <button
+                class="bg-[#99775c] text-white rounded-full p-2 hover:bg-[#50a2a7] transition focus:outline-none focus:ring-2 focus:ring-[#50a2a7] focus:ring-offset-2"
+                (click)="scrollCarousel(1)">
+                <img src="assets\image\icono\play-solid.svg" alt="Icono comparar" class="w-4 h-4 sm:w-3 sm:h-3 md:w-4 md:h-4 lg:w-6 lg:h-6" />
             </button>
         </div>
     </div>
