@@ -149,11 +149,19 @@
     border: 1px solid #ccc;
     padding: 20px;
     text-align: center;
-    min-width: 100px;
-    min-height: 100px;
+    min-width: 130px;
+    min-height: 130px;
     box-sizing: border-box;
 }
-
+.icono {
+    display: block;
+    margin: 0 auto 10px; /* Centrar la imagen y dar espacio debajo */
+    width: 40px; /* Ancho de la imagen */
+    height: 40px; /* Altura de la imagen */
+}
+.tumba-id {
+    font-weight: normal; /* Por defecto, texto normal */
+}
 /* Colores de ocupación aplicados a toda la celda */
 .ocupado {
     background-color: #ffcccc;

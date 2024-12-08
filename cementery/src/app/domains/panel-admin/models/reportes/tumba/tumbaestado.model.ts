@@ -4,7 +4,8 @@ export interface TumbaEstado {
   available: boolean;
   difunto: DifuntoE | null;  // Puede ser null si no hay un difunto asignado
   nameLote: number;
-  servicio: ServicioE[];     // Puede contener varios servicios o estar vacío
+  servicio: ServicioE[]; 
+  isSelected?: boolean; // Propiedad opcional para resaltar la tumba seleccionada    // Puede contener varios servicios o estar vacío
 }
 
 export interface DifuntoE {

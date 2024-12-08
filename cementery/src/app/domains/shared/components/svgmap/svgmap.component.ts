@@ -67,61 +67,70 @@ export class SvgmapComponent implements OnInit {
   
     const nombres = palabras.slice(0, palabras.length - 2).join(' ');
     const apellidos = palabras.slice(-2).join(' ');
-  
-    this.tumbaService.getTumbasEstado(undefined, undefined, {
-      nombre_difunto: nombres,
-      apellido_difunto: apellidos,
-    }).subscribe(
-      (data) => {
-        if (data.results.length > 0) {
-          const tumbaEncontrada = data.results[0];
-          this.loteSeleccionado = this.ocupacionLote.find(
-            (lote) => lote.id === tumbaEncontrada.nameLote
-          );
-  
-          if (this.loteSeleccionado) {
-            this.columnas = this.loteSeleccionado.columnas;
-            this.loadTumbasEstado(this.loteSeleccionado.id);
+
+    this.tumbaService
+      .getTumbasEstado(undefined, undefined, {
+        nombre_difunto: nombres,
+        apellido_difunto: apellidos,
+      })
+      .subscribe(
+        (data) => {
+          if (data.results.length > 0) {
+            const tumbaEncontrada = data.results[0];
+
+            // Identifica el lote de la tumba encontrada
+            this.loteSeleccionado = this.ocupacionLote.find(
+              (lote) => lote.id === tumbaEncontrada.nameLote
+            );
+
+            if (this.loteSeleccionado) {
+              this.columnas = this.loteSeleccionado.columnas;
+
+              // Cargar todas las tumbas del lote
+              this.loadTumbasEstado(this.loteSeleccionado.id, tumbaEncontrada.nicheNumber);
+            } else {
+              alert('No se encontró el lote correspondiente al difunto.');
+              this.resetSeleccion();
+            }
           } else {
-            alert('No se encontró el lote correspondiente al difunto.');
+            alert('No se encontró ningún difunto con ese nombre.');
             this.resetSeleccion();
           }
-        } else {
-          alert('No se encontró ningún difunto con ese nombre.');
-          this.resetSeleccion();
+        },
+        (error) => {
+          console.error('Error al buscar el difunto:', error);
         }
-      },
-      (error) => {
-        console.error('Error al buscar el difunto:', error);
-      }
-    );
+      );
   }
   getDifuntoFirstName(difunto: any): string {
     return difunto?.names?.split(' ')[0] ?? '';
   }
-  
+
   getDifuntoLastName(difunto: any): string {
     return difunto?.last_names?.split(' ')[0] ?? '';
   }
-  
-  
+
+
   resetSeleccion(): void {
     this.loteSeleccionado = null;
     this.tumbasEstado = [];
   }
 
   // Carga las tumbas del lote utilizando el filtro `nameLote`
-  loadTumbasEstado(loteId: number): void {
+  loadTumbasEstado(loteId: number, nicheNumber?: number): void {
     this.tumbaService.getTumbasEstado(undefined, undefined, { nameLote: loteId }).subscribe(
       (data) => {
-        this.tumbasEstado = data.results;
+        // Si nicheNumber está definido, marca solo esa tumba como seleccionada
+        this.tumbasEstado = data.results.map((tumba) => ({
+          ...tumba,
+          isSelected: nicheNumber ? tumba.nicheNumber === nicheNumber : false,
+        }));
       },
       (error) => {
-        console.error('Error al cargar el estado de tumbas:', error);
+        console.error('Error al cargar las tumbas del lote:', error);
       }
     );
   }
-
 
   // Obtiene la clase para el color del lote
   getFillColor(loteId: number): string {
@@ -144,14 +153,14 @@ export class SvgmapComponent implements OnInit {
   }
   verDetallesBloque(bloqueId: number): void {
     const loteSeleccionado = this.ocupacionLote.find((lote) => lote.id === bloqueId);
-
+  
     if (loteSeleccionado) {
       // Asegúrate de que `loteSeleccionado` no sea undefined antes de asignar
       this.loteSeleccionado = { ...loteSeleccionado, id: bloqueId }; // Asignar el objeto completo
       this.columnas = loteSeleccionado.columnas;
-
-      // Cargar las tumbas del bloque seleccionado
-      this.loadTumbasEstado(bloqueId);
+  
+      // Cargar las tumbas del bloque seleccionado sin filtrar por `nicheNumber`
+      this.loadTumbasEstado(bloqueId, undefined);
     } else {
       console.error('Lote no encontrado');
     }

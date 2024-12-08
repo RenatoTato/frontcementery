@@ -18,6 +18,7 @@
         <div class="px-9"></div>
         <div class="flex w-full h-full justify-between p-5">
             <!-- Contenedor del SVG -->
+            
             <div class="svg-container w-full h-full flex justify-center items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 771.62 438.89" preserveAspectRatio="xMidYMid meet"
                     class="w-full h-full max-w-5xl max-h-[90vh]">
@@ -97,29 +98,30 @@
                     </g>
                 </svg>
             </div>
-            <div *ngIf="loteSeleccionado" class="modal-content">
-                <h3>Detalles del Lote {{ loteSeleccionado.id }}</h3>
-                <div class="grid" [style.gridTemplateColumns]="'repeat(' + columnas + ', 1fr)'">
-                    <!-- Iterar sobre las tumbas del lote -->
-                    <div class="nicho" *ngFor="let tumba of tumbasEstado">
-                        <!-- Imagen solo para tumbas ocupadas -->
-                        <div *ngIf="!tumba.available">
-                            <img src="assets/fotos/vela.svg" alt="Tumba ocupada" class="icono" />
-                        </div>
-
-                        <!-- Número de la tumba -->
-                        <p class="tumba-id" [ngClass]="{'disponible-text': tumba.available}">
-                            {{ getNichoDisplayText(tumba) }}
-                        </p>
-
-                        <!-- Información adicional solo para tumbas ocupadas -->
-                        <p *ngIf="!tumba.available">
-                            {{ getDifuntoFirstName(tumba.difunto) }} {{ getDifuntoLastName(tumba.difunto) }}
-                          </p>
-                        <p *ngIf="!tumba.available">
-                            {{ getShortDate(tumba.servicio[0].startDate) }}
-                        </p>
+        </div>
+        <div *ngIf="loteSeleccionado" class="modal-content">
+            <h3>Detalles del Lote {{ loteSeleccionado.id }}</h3>
+            <div class="grid" [style.gridTemplateColumns]="'repeat(' + columnas + ', 1fr)'">
+                <!-- Iterar sobre las tumbas del lote -->
+                <div class="nicho" *ngFor="let tumba of tumbasEstado">
+                    <!-- Imagen solo para la tumba seleccionada -->
+                    <div *ngIf="tumba.isSelected">
+                        <img src="assets/fotos/vela.svg" alt="Tumba seleccionada" class="icono" />
                     </div>
+
+                    <!-- Número de la tumba -->
+                    <p class="tumba-id"
+                        [ngClass]="{'disponible-text': tumba.available, 'seleccionado-text': tumba.isSelected}">
+                        {{ getNichoDisplayText(tumba) }}
+                    </p>
+
+                    <!-- Información adicional solo para la tumba seleccionada -->
+                    <p *ngIf="tumba.isSelected">
+                        {{ getDifuntoFirstName(tumba.difunto) }} {{ getDifuntoLastName(tumba.difunto) }}
+                    </p>
+                    <p *ngIf="tumba.isSelected">
+                        {{ getShortDate(tumba.servicio[0].startDate) }}
+                    </p>
                 </div>
             </div>
         </div>
