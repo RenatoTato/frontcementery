@@ -6,7 +6,7 @@
         </h1>
     </div>
     <div class="items-center">
-        <div class= "px-9"></div>
+        <div class="px-9"></div>
         <div class="flex w-full h-full justify-between p-5">
             <!-- Contenedor del SVG -->
             <div class="svg-container w-full h-full ">
@@ -74,10 +74,10 @@
                                 <!-- Rectángulo del lote -->
                                 <rect [ngClass]="getFillColor(lote.id)" [attr.x]="lote.x" [attr.y]="lote.y"
                                     [attr.width]="getBlockSize(lote.typeblock).width"
-                                    [attr.height]="getBlockSize(lote.typeblock).height" [attr.transform]="getTransform(lote)"
-                                    >
+                                    [attr.height]="getBlockSize(lote.typeblock).height"
+                                    [attr.transform]="getTransform(lote)">
                                 </rect>
-        
+
                                 <!-- Texto dentro del lote -->
                                 <text class="cls-7" [attr.transform]="getTextTransform(lote)">
                                     <tspan x="0" y="0">{{ lote.typeblock }}</tspan>
@@ -113,14 +113,29 @@
         <button class="close-btn" (click)="cerrarDetalles()">×</button>
         <h3>Detalles del Lote {{ selectedBlockId }}</h3>
         <div class="grid" [style.gridTemplateColumns]="'repeat(' + columnas + ', 1fr)'">
+
             <div class="nicho" *ngFor="let tumba of tumbasEstado">
-                <div [ngClass]="{'ocupado': !tumba.available, 'disponible': tumba.available}">
-                    <p>{{ getNichoDisplayText(tumba) }}</p>
-                    <p *ngIf="!tumba.available">{{ tumba.difunto?.names.split(' ')[0] }} {{
-                        tumba.difunto?.last_names.split(' ')[0] }}</p>
-                    <p *ngIf="!tumba.available">{{ getShortDate(tumba.servicio[0].startDate) }}</p>
+                <div>
+                    <!-- Imagen solo para tumbas ocupadas -->
+                    <div *ngIf="!tumba.available">
+                        <img src="assets/fotos/vela.svg" alt="Tumba ocupada" class="icono" />
+                    </div>
+
+                    <!-- Número de la tumba -->
+                    <p class="tumba-id" [ngClass]="{'disponible-text': tumba.available}">
+                        {{ getNichoDisplayText(tumba) }}
+                    </p>
+
+                    <!-- Información adicional solo para tumbas ocupadas -->
+                    <p *ngIf="!tumba.available">
+                        {{ tumba.difunto?.names.split(' ')[0] }} {{ tumba.difunto?.last_names.split(' ')[0] }}
+                    </p>
+                    <p *ngIf="!tumba.available">
+                        {{ getShortDate(tumba.servicio[0].startDate) }}
+                    </p>
                 </div>
             </div>
+
         </div>
     </div>
 </div>

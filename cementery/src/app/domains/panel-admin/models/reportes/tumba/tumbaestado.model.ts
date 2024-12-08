@@ -3,6 +3,7 @@ export interface TumbaEstado {
   nicheType: string;
   available: boolean;
   difunto: DifuntoE | null;  // Puede ser null si no hay un difunto asignado
+  nameLote: number;
   servicio: ServicioE[];     // Puede contener varios servicios o estar vacío
 }
 

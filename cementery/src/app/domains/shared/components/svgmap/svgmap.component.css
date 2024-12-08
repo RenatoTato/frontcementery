@@ -45,7 +45,7 @@
 
 
 ::ng-deep .cls-10 {
-    fill: #fff;
+    fill: #a4c3a2;
     stroke: #1d1d1b;
     stroke-miterlimit: 10;
 }
@@ -58,7 +58,17 @@
 ::ng-deep .cls-12 {
     letter-spacing: 0em;
 }
-
+::ng-deep .cls-selected {
+    fill: #50a2a7; /* Color distintivo para el lote seleccionado */
+    stroke: #1d1d1b;
+    stroke-width: 2;
+  }
+  
+::ng-deep .cls-default {
+    fill: #eae7dd; /* Color base para lotes no seleccionados */
+    stroke: #1d1d1b;
+    stroke-width: 1;
+  }
 ::ng-deep .cls-13 {
     letter-spacing: .01em;
 }

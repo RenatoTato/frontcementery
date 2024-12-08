@@ -3,7 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Lote } from '@externo/models/tumba/lote.model';
 import { Tumba } from '@externo/models/tumba/tumba.model';
-import { TumbaEstado, TumbaEstadoResponse } from '@admin/models/reportes/tumba/tumbaestado.model';
+import { TumbaEstadoResponse } from '@admin/models/reportes/tumba/tumbaestado.model';
+import { TumbaEstadoFilter } from '@admin/models/reportes/tumba/tumba-estadob.model';
 import { LoteFilter } from '@externo/models/tumba/loteb.model';
 import { TumbaFilter } from '@externo/models/tumba/tumbab.model';
 import { LoteOcupacion } from '@admin/models/reportes/tumba/loteocupacion.model';
@@ -92,7 +93,7 @@ export class TumbaService {
     return this.http.get<Tumba[]>(this.tumbaReadUrl, { params });
   }
 
-  getTumbasEstado(page?: number, pageSize?: number, filterParams?: TumbaFilter): Observable<TumbaEstadoResponse> {
+  getTumbasEstado(page?: number, pageSize?: number, filterParams?: TumbaEstadoFilter): Observable<TumbaEstadoResponse> {
     let params = this.generateParams(filterParams);
 
     // Si hay paginación, se configura solo si `nameLote` no está en filtros

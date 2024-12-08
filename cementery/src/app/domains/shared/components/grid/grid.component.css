@@ -112,14 +112,20 @@
 }
 
 .close-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 24px;
-    background: transparent;
-    border: none;
-    color: #333;
-    cursor: pointer;
+    position: fixed; /* Fijar posición en la modal */
+    top: 20px; /* Margen superior */
+    right: 20px; /* Margen derecho */
+    font-size: 32px; /* Ajusta el tamaño de la "X" */
+    font-weight: bold; /* Asegura que sea visible */
+    background: transparent; /* Fondo transparente */
+    border: none; /* Sin bordes */
+    color: #333; /* Color de la "X" */
+    cursor: pointer; /* Cambia el cursor al pasar por encima */
+    z-index: 1001; /* Asegura que esté por encima del contenido */
+}
+
+.close-btn:hover {
+    color: #50a2a7; /* Cambiar el color al pasar el mouse (opcional) */
 }
 
 .grid {
@@ -135,24 +141,34 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    text-align: center;
     background-color: #f8f8f8;
     border: 1px solid #ccc;
-    padding: 20px;
-    text-align: center;
-    min-width: 100px;
-    min-height: 100px;
     box-sizing: border-box;
+    min-width: 150px;
+    min-height: 150px;
+    width: 100%;
+    aspect-ratio: 1; /* Bloques cuadrados */
+    padding: 6px; /* Espaciado interno */
 }
 
+.nicho p {
+    margin: 5px 0; /* Espaciado entre líneas */
+}
+
+.icono {
+    display: block;
+    margin: 0 auto 10px; /* Centrar la imagen y dar espacio debajo */
+    width: 40px; /* Ancho de la imagen */
+    height: 40px; /* Altura de la imagen */
+}
 /* Colores de ocupación aplicados a toda la celda */
-.ocupado {
-    background-color: #ffcccc;
-    /* Rojo para ocupado */
+.tumba-id {
+    font-weight: normal; /* Por defecto, texto normal */
 }
 
-.disponible {
-    background-color: #ccffcc;
-    /* Verde para disponible */
+.disponible-text {
+    font-weight: bold; /* Negritas para tumbas disponibles */
 }
 
 .Lleno {
