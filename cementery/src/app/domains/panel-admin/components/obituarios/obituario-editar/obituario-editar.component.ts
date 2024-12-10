@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, FormsModule, Validators } 
 import { ObituarioService } from '@externo/services/obituario.service';
 import { Obituario } from '@externo/models/obituario/obituario.model';
 import { Difunto } from '@externo/models/difunto/difunto.model';
-import { ObituarioFilter } from '@externo/models/obituario/obituariob.mode';
+import { ObituarioFilter } from '@externo/models/obituario/obituariob.model';
 import { DifuntoService } from '@externo/services/difunto.service';
 
 @Component({

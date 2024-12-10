@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { Obituario } from '@externo/models/obituario/obituario.model';
 import { EtapasObituario } from '@externo/models/obituario/etapas.model';
 import { Memoria } from '@externo/models/obituario/memoria.model';
-import { ObituarioFilter } from '@externo/models/obituario/obituariob.mode';
+import { ObituarioFilter } from '@externo/models/obituario/obituariob.model';
 import { MemoriaFilter } from '@externo/models/obituario/memoriab.model';
 import { EtapaFilter } from '@externo/models/obituario/etapasb.model';
 

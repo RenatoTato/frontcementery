@@ -1,0 +1,125 @@
+<div class="container mx-auto px-4 py-6">
+    <!-- Barra de búsqueda -->
+    <div class="flex items-center mb-6">
+        <input type="text" placeholder="Buscar..." class="w-full border border-[#99775c] px-3 py-2 rounded-md"
+            (input)="setSearch($event)" />
+    </div>
+
+    <!-- Filtros y resultados -->
+    <div class="flex flex-col lg:flex-row gap-6">
+        <!-- Barra lateral izquierda -->
+        <div class="w-full lg:w-1/4 bg-[#ffffff] rounded-lg shadow-md p-4">
+            <h2 class="text-lg font-semibold mb-4 text-[#2a2b2a]">Filtros</h2>
+            
+            <p class=" text-sm mb-4 text-[#2a2b2a]">Selecciona las casillas a continuación para reducir la cantidad de resultados.</p>
+
+            <!-- Rango de fechas -->
+            <div class="mb-6">
+                <h3 class="text-md font-medium mb-2 text-[#2a2b2a]">Fecha de fallecimiento</h3>
+                <div class="flex flex-col gap-2">
+                    <label>
+                        <input type="radio" name="dateRange" (change)="setDateRange('365')" /> Último año
+                    </label>
+                    <label>
+                        <input type="radio" name="dateRange" (change)="setDateRange('1825')" /> Últimos 5 años
+                    </label>
+                    <label>
+                        <input type="radio" name="dateRange" (change)="setDateRange('3650')" /> Últimos 10 años
+                    </label>
+                    <label>
+                        <input type="radio" name="dateRange" checked (change)="setDateRange('all')" /> Mostrar Todos
+                    </label>
+                </div>
+            </div>
+
+            <!-- Fecha de nacimiento -->
+            <div class="mb-6">
+                <h3 class="text-md font-medium mb-2 text-[#2a2b2a]">Fecha de nacimiento</h3>
+                <div>
+                    <div class="space-y-2">
+                      <!-- Opción para "Mostrar Todos" -->
+                      <label class="flex items-center cursor-pointer">
+                        <input
+                          type="radio"
+                          name="decade"
+                          value=""
+                          (change)="setDecadeRange(null)"
+                          class="form-radio text-blue-600"
+                        />
+                        <span class="ml-2 text-gray-700 text-[#2a2b2a]">Mostrar Todos</span>
+                      </label>
+                      <!-- Opciones para cada década -->
+                      <label
+                        *ngFor="let decade of [1900, 1910, 1920, 1930, 1940, 1950, 1960, 1970, 1980, 1990, 2000]"
+                        class="flex items-center cursor-pointer text-[#2a2b2a]"
+                      >
+                        <input
+                          type="radio"
+                          name="decade"
+                          [value]="decade"
+                          (change)="setDecadeRange(decade)"
+                          class="form-radio text-blue-600"
+                        />
+                        <span class="ml-2 text-gray-700">{{ decade }}s</span>
+                      </label>
+                    </div>
+                  </div>
+            </div>
+
+            <!-- Lugar -->
+            <div class="mb-6">
+                <h3 class="text-md font-medium mb-2 text-[#2a2b2a]">Lugar</h3>
+                <input type="text" placeholder="Ingrese lugar"
+                    class="w-full border border-[#99775c] px-3 py-2 rounded-md" (input)="setPlace($event)" />
+            </div>
+
+            <!-- Cementerio -->
+            <div class="mb-6">
+                <h3 class="text-md font-medium mb-2 text-[#2a2b2a]">Cementerio</h3>
+                <input type="text" placeholder="Ingrese cementerio"
+                    class="w-full border border-[#99775c] px-3 py-2 rounded-md" (input)="setCemetery($event)" />
+            </div>
+
+            <!-- Botón Limpiar Todo -->
+            <button (click)="clearFilters()"
+                class="w-full border border-[#50a2a7] text-[#99775c] py-2 rounded-lg hover:bg-[#50a2a7] hover:text-[#ffffff] transition">
+                Limpiar todo
+            </button>
+        </div>
+
+        <!-- Lista de Obituarios -->
+        <div class="w-full lg:w-3/4">
+            <h1 class="text-2xl font-bold mb-6 text-center text-[#99775c] text-2xl ">Obituarios</h1>
+            <div class="space-y-4">
+                <div *ngFor="let obituario of obituarios" class="flex gap-4 bg-[#ffffff] p-4 rounded-lg shadow-md">
+                    <img *ngIf="obituario.image_dif" [src]="obituario.image_dif" alt="{{ obituario.name }}"
+                        class="w-24 h-24 object-cover rounded-lg" />
+                    <div>
+                        <h3 class="text-lg font-semibold text-[#2a2b2a]">
+                            {{ obituario.name ? formatName(obituario.name) : 'Nombre no disponible' }}
+                          </h3>
+                        <p class="text-sm text-[#99775c]">
+                            {{ obituario.date_born | date: 'MM/dd/yyyy' }} - {{ obituario.date_dead | date: 'MM/dd/yyyy'
+                            }}
+                        </p>
+                        <p class="text-[#2a2b2a] mt-2">
+                            {{ obituario.obituary_detail | slice: 0:200 }}...
+                        </p>
+                    </div>
+                </div>
+                <!-- Paginación -->
+                <div class="flex justify-center mt-6">
+                    <button (click)="onPageChange(page - 1)" [disabled]="page === 1"
+                        class="px-4 py-2 border border-[#50a2a7] text-[#2a2b2a] py-2 rounded-lg hover:bg-[#50a2a7] hover:text-[#ffffff] transition">
+                        Anterior
+                    </button>
+                    <span class="px-4 py-2 text-[#99775c]">{{ page }}</span>
+                    <button (click)="onPageChange(page + 1)" [disabled]="page * pageSize >= totalObituarios"
+                        class="px-4 py-2 border border-[#50a2a7] text-[#2a2b2a] py-2 rounded-lg hover:bg-[#50a2a7] hover:text-[#ffffff] transition">
+                        Siguiente
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

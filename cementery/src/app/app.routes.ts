@@ -31,6 +31,14 @@ export const routes: Routes = [
                 path: 'articulos/:id',
                 loadComponent: ()=>import('@info/pages/articulos/articulos.component').then(m=>m.ArticulosComponent)
             },
+            {
+                path: 'obituarios',
+                loadComponent: ()=>import('@info/pages/obituarios-pinfo/obituarios-pinfo.component').then(m=>m.ObituariosPinfoComponent)
+            },
+            {
+                path: 'articulos/:id',
+                loadComponent: ()=>import('@info/pages/articulos/articulos.component').then(m=>m.ArticulosComponent)
+            },
         ]
     },
     {
