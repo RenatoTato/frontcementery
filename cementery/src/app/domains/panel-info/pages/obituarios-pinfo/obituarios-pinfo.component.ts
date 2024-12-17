@@ -5,6 +5,8 @@ import { ObituarioFilter } from '@externo/models/obituario/obituariob.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ObituarioInfosComponent } from "../../component/obituario-infos/obituario-infos.component";
+import { EtapasObituario } from '@externo/models/obituario/etapas.model';
+import { Memoria } from '@externo/models/obituario/memoria.model';
 
 @Component({
   selector: 'app-obituarios-pinfo',
@@ -15,6 +17,15 @@ import { ObituarioInfosComponent } from "../../component/obituario-infos/obituar
 })
 export class ObituariosPinfoComponent implements OnInit {
   obituarios: Obituario[] = [];
+  selectedObituario: Obituario | null = null; // Obituario seleccionado
+  etapas: EtapasObituario[] = [];
+  memorias: Memoria[] = [];
+  showMemoryForm: boolean = false;
+  nuevaMemoria: { names: string; text: string; relationship: string } = {
+    names: '',
+    text: '',
+    relationship: ''
+  };
   filter: ObituarioFilter = {
     place: undefined,
     name: undefined,
@@ -48,7 +59,47 @@ export class ObituariosPinfoComponent implements OnInit {
     this.page = 1; // Reinicia la paginación
     this.loadObituarios();
   }
+  viewDetail(obituario: Obituario): void {
+    this.selectedObituario = obituario;
+    this.loadEtapas(obituario.id!);
+    this.loadMemorias(obituario.id!);
+  }
+  loadEtapas(obituaryId: number): void {
+    this.obituarioService.getReadEtapas({ obituary: obituaryId }).subscribe((etapas) => {
+      this.etapas = etapas;
+    });
+  }
 
+  loadMemorias(obituaryId: number): void {
+    this.obituarioService.getReadMemorias({ obituary: obituaryId }).subscribe((memorias) => {
+      this.memorias = memorias;
+    });
+  }
+  backToList(): void {
+    this.selectedObituario = null; // Regresa a la lista
+    this.etapas = [];
+    this.memorias = [];
+  }
+  toggleMemoryForm(): void {
+    this.showMemoryForm = !this.showMemoryForm;
+  }
+
+  agregarMemoria(): void {
+    if (!this.selectedObituario?.id) return;
+  
+    const nuevaMemoriaData: Memoria = {
+      ...this.nuevaMemoria,
+      obituary: this.selectedObituario.id, // Pasar solo el ID
+    };
+  
+    this.obituarioService.createMemoria(nuevaMemoriaData, null).subscribe(() => {
+      if (this.selectedObituario?.id) {
+        this.loadMemorias(this.selectedObituario.id);
+      }
+      this.toggleMemoryForm();
+      this.nuevaMemoria = { names: '', text: '', relationship: '' }; // Limpiar el formulario
+    });
+  }
   clearFilters(): void {
     this.filter = {
       place: undefined,

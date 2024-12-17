@@ -22,6 +22,10 @@ export class InfoDashboardComponent implements OnInit {
   servicios: any[] = [];
   obituarios: any[] = [];
   iglesias: any[] = [];
+  currentIndex: number = 0; // Índice actual del carrusel
+  visibleCards: number = 3; // Número de cards visibles
+  maxIndex: number = 0; // Máximo índice desplazable
+  obituariosPerPage: number = 5; // Máximo de obituarios por "página"
 
   constructor(
     private articuloService: ArticuloService,
@@ -50,6 +54,40 @@ export class InfoDashboardComponent implements OnInit {
     });
   }
 
+   // Calcular el máximo índice al cargar los obituarios
+   calculateMaxIndex(): void {
+    this.maxIndex = Math.max(0, this.obituarios.length - this.visibleCards);
+  }
+
+  // Mover a la izquierda
+  moveLeft(): void {
+    if (this.currentIndex > 0) {
+      this.currentIndex--;
+    }
+  }
+
+  // Mover a la derecha
+  moveRight(): void {
+    if (this.currentIndex < this.maxIndex) {
+      this.currentIndex++;
+    }
+  }
+
+  // Ver más obituarios (puedes personalizar esto)
+  loadMoreObituarios(): void {
+    console.log("Cargar más obituarios...");
+    // Aquí puedes hacer una nueva llamada al backend o manejar más lógica.
+  }
+  nextSlide(): void {
+    const totalObituarios = this.obituarios.length;
+    const nextIndex = this.currentIndex + this.obituariosPerPage;
+
+    if (nextIndex < totalObituarios) {
+      this.currentIndex = nextIndex;
+    } else {
+      this.currentIndex = 0; // Reinicia el carrusel si llega al final
+    }
+  }
   private loadObituarios() {
     this.obituarioService.getReadObituarios().subscribe((data) => {
       this.obituarios = data;

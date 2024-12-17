@@ -1,17 +1,18 @@
 <div class="container mx-auto px-4 py-6">
     <!-- Barra de búsqueda -->
-    <div class="flex items-center mb-6">
+    <div *ngIf="!selectedObituario" class="flex items-center mb-6">
         <input type="text" placeholder="Buscar..." class="w-full border border-[#99775c] px-3 py-2 rounded-md"
             (input)="setSearch($event)" />
     </div>
 
     <!-- Filtros y resultados -->
-    <div class="flex flex-col lg:flex-row gap-6">
+    <div *ngIf="!selectedObituario" class="flex flex-col lg:flex-row gap-6">
         <!-- Barra lateral izquierda -->
         <div class="w-full lg:w-1/4 bg-[#ffffff] rounded-lg shadow-md p-4">
             <h2 class="text-lg font-semibold mb-4 text-[#2a2b2a]">Filtros</h2>
-            
-            <p class=" text-sm mb-4 text-[#2a2b2a]">Selecciona las casillas a continuación para reducir la cantidad de resultados.</p>
+
+            <p class=" text-sm mb-4 text-[#2a2b2a]">Selecciona las casillas a continuación para reducir la cantidad de
+                resultados.</p>
 
             <!-- Rango de fechas -->
             <div class="mb-6">
@@ -37,33 +38,21 @@
                 <h3 class="text-md font-medium mb-2 text-[#2a2b2a]">Fecha de nacimiento</h3>
                 <div>
                     <div class="space-y-2">
-                      <!-- Opción para "Mostrar Todos" -->
-                      <label class="flex items-center cursor-pointer">
-                        <input
-                          type="radio"
-                          name="decade"
-                          value=""
-                          (change)="setDecadeRange(null)"
-                          class="form-radio text-blue-600"
-                        />
-                        <span class="ml-2 text-gray-700 text-[#2a2b2a]">Mostrar Todos</span>
-                      </label>
-                      <!-- Opciones para cada década -->
-                      <label
-                        *ngFor="let decade of [1900, 1910, 1920, 1930, 1940, 1950, 1960, 1970, 1980, 1990, 2000]"
-                        class="flex items-center cursor-pointer text-[#2a2b2a]"
-                      >
-                        <input
-                          type="radio"
-                          name="decade"
-                          [value]="decade"
-                          (change)="setDecadeRange(decade)"
-                          class="form-radio text-blue-600"
-                        />
-                        <span class="ml-2 text-gray-700">{{ decade }}s</span>
-                      </label>
+                        <!-- Opción para "Mostrar Todos" -->
+                        <label class="flex items-center cursor-pointer">
+                            <input type="radio" name="decade" value="" (change)="setDecadeRange(null)"
+                                class="form-radio text-blue-600" />
+                            <span class="ml-2 text-gray-700 text-[#2a2b2a]">Mostrar Todos</span>
+                        </label>
+                        <!-- Opciones para cada década -->
+                        <label *ngFor="let decade of [1900, 1910, 1920, 1930, 1940, 1950, 1960, 1970, 1980, 1990, 2000]"
+                            class="flex items-center cursor-pointer text-[#2a2b2a]">
+                            <input type="radio" name="decade" [value]="decade" (change)="setDecadeRange(decade)"
+                                class="form-radio text-blue-600" />
+                            <span class="ml-2 text-gray-700">{{ decade }}s</span>
+                        </label>
                     </div>
-                  </div>
+                </div>
             </div>
 
             <!-- Lugar -->
@@ -91,13 +80,14 @@
         <div class="w-full lg:w-3/4">
             <h1 class="text-2xl font-bold mb-6 text-center text-[#99775c] text-2xl ">Obituarios</h1>
             <div class="space-y-4">
-                <div *ngFor="let obituario of obituarios" class="flex gap-4 bg-[#ffffff] p-4 rounded-lg shadow-md">
+                <div *ngFor="let obituario of obituarios" class="flex gap-4 bg-[#ffffff] p-4 rounded-lg shadow-md"
+                    (click)="viewDetail(obituario)">
                     <img *ngIf="obituario.image_dif" [src]="obituario.image_dif" alt="{{ obituario.name }}"
                         class="w-24 h-24 object-cover rounded-lg" />
                     <div>
                         <h3 class="text-lg font-semibold text-[#2a2b2a]">
                             {{ obituario.name ? formatName(obituario.name) : 'Nombre no disponible' }}
-                          </h3>
+                        </h3>
                         <p class="text-sm text-[#99775c]">
                             {{ obituario.date_born | date: 'MM/dd/yyyy' }} - {{ obituario.date_dead | date: 'MM/dd/yyyy'
                             }}
@@ -118,6 +108,78 @@
                         class="px-4 py-2 border border-[#50a2a7] text-[#2a2b2a] py-2 rounded-lg hover:bg-[#50a2a7] hover:text-[#ffffff] transition">
                         Siguiente
                     </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Vista de detalle -->
+    <div *ngIf="selectedObituario">
+        <button
+            class="mb-4 px-4 py-2 border border-[#50a2a7] text-[#99775c] rounded-lg hover:bg-[#50a2a7] hover:text-[#ffffff] transition"
+            (click)="backToList()">
+            ← Volver a la lista
+        </button>
+
+        <div *ngFor="let obituario of obituarios" class="container mx-auto px-4 py-6">
+            <!-- Encabezado del Obituario -->
+            <div  class="text-center mb-6">
+                <h1 class="text-3xl font-semibold text-[#2a2b2a]">{{ obituario?.name }}</h1>
+                <p class="text-md text-[#99775c]">
+                    {{ obituario?.date_born | date: 'longDate' }} - {{ obituario?.date_dead | date: 'longDate' }}
+                </p>
+                <p class="text-sm text-[#50a2a7]">{{ obituario?.cementery }}</p>
+            </div>
+
+            <!-- Detalle del Obituario -->
+            <div class="bg-[#ffffff] shadow-md rounded-lg p-6 mb-6">
+                <p class="text-[#2a2b2a] leading-relaxed">{{ obituario?.obituary_detail }}</p>
+            </div>
+
+            <!-- Etapas del Obituario -->
+            <h2 class="text-2xl font-semibold text-[#99775c] mb-4">Servicios</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                <div *ngFor="let etapa of etapas" class="p-4 border rounded-lg shadow-md bg-[#f8f8f8]">
+                    <h3 class="text-lg font-semibold text-[#2a2b2a]">{{ etapa.stage_ceremony }}</h3>
+                    <p class="text-sm text-[#99775c]">{{ etapa.place }} | {{ etapa.date | date: 'longDate' }}</p>
+                </div>
+            </div>
+
+            <!-- Botón para agregar memoria -->
+            <div class="text-center mb-6">
+                <button (click)="toggleMemoryForm()"
+                    class="bg-[#50a2a7] text-white px-4 py-2 rounded-md hover:bg-[#2a2b2a]">
+                    Agregar un recuerdo
+                </button>
+            </div>
+
+            <!-- Formulario para agregar memoria -->
+            <div *ngIf="showMemoryForm" class="bg-[#ffffff] shadow-md rounded-lg p-6 mb-6">
+                <input [(ngModel)]="nuevaMemoria.names" placeholder="Nombre"
+                    class="w-full border mb-4 px-3 py-2 rounded-md" />
+                <input [(ngModel)]="nuevaMemoria.relationship" placeholder="Relación"
+                    class="w-full border mb-4 px-3 py-2 rounded-md" />
+                <textarea [(ngModel)]="nuevaMemoria.text" placeholder="Recuerdo" rows="3"
+                    class="w-full border px-3 py-2 rounded-md"></textarea>
+                <button (click)="agregarMemoria()"
+                    class="bg-[#50a2a7] text-white px-4 py-2 rounded-md mt-4">Guardar</button>
+            </div>
+
+            <!-- Memorias -->
+            <h2 class="text-2xl font-semibold text-[#99775c] mb-4">Recuerdos</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                <div *ngFor="let memoria of memorias" class="p-4 border rounded-lg shadow-md bg-[#f8f8f8]">
+                    <h3 class="text-md font-semibold text-[#2a2b2a]">{{ memoria.names }}</h3>
+                    <p class="text-sm text-[#99775c]">{{ memoria.relationship }}</p>
+                    <p class="text-[#2a2b2a]">{{ memoria.text }}</p>
+                </div>
+            </div>
+
+            <!-- Artículos relacionados -->
+            <h2 class="text-2xl font-semibold text-[#99775c] mb-4">Artículos relacionados</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="p-4 border rounded-lg shadow-md bg-[#ffffff]" *ngFor="let articulo of [1,2,3]">
+                    <h3 class="text-md font-semibold text-[#2a2b2a]">Artículo {{ articulo }}</h3>
+                    <p class="text-sm text-[#99775c]">Enlace al artículo relacionado.</p>
                 </div>
             </div>
         </div>

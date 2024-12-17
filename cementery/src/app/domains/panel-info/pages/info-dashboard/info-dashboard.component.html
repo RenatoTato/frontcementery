@@ -8,22 +8,53 @@
   <section class="py-10">
     <div class="container mx-auto">
       <h2 class="text-3xl font-bold mb-6 text-center">Artículos Destacados</h2>
-      <app-articulo-info
-        [articulos]="articulos"
-        (onArticuloSeleccionado)="verArticulo($event)">
+      <app-articulo-info [articulos]="articulos" (onArticuloSeleccionado)="verArticulo($event)">
       </app-articulo-info>
     </div>
   </section>
 
-  <!-- Obituarios -->
+  <!-- Sección de Obituarios con Carrusel -->
   <section class="py-10">
     <div class="container mx-auto">
-      <h2 class="text-3xl font-bold mb-6 text-center">Obituarios</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <app-obituario-infos *ngFor="let obituario of obituarios" [obituario]="obituario"></app-obituario-infos>
+      <h2 class="text-3xl font-bold mb-6 text-center text-[#99775c]">Obituarios</h2>
+
+      <div class="relative overflow-hidden">
+        <!-- Carrusel -->
+        <div class="flex transition-transform duration-500"
+          [style.transform]="'translateX(-' + currentIndex * 33.33 + '%)'">
+          <!-- Mostrar los obituarios en el carrusel -->
+          <div *ngFor="let obituario of obituarios" class="w-1/3 flex-shrink-0 p-2">
+            <div class="bg-white shadow-md rounded-lg p-4 text-center">
+              <app-obituario-infos [obituario]="obituario"></app-obituario-infos>
+            </div>
+          </div>
+        </div>
+
+        <!-- Botón Izquierdo -->
+        <button
+          class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-[#50a2a7] text-white px-4 py-2 rounded-md hover:bg-[#2a2b2a] transition"
+          (click)="moveLeft()" [disabled]="currentIndex === 0">
+          ←
+        </button>
+
+        <!-- Botón Derecho -->
+        <button
+          class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-[#50a2a7] text-white px-4 py-2 rounded-md hover:bg-[#2a2b2a] transition"
+          (click)="moveRight()" [disabled]="currentIndex >= maxIndex">
+          →
+        </button>
+      </div>
+
+      <!-- Botón central: Ver más obituarios -->
+      <div class="text-center mt-6">
+        <button routerLink="/obituarios"
+          class="bg-[#99775c] text-white px-6 py-2 rounded-lg hover:bg-[#2a2b2a] transition">
+          Más Obituarios
+        </button>
       </div>
     </div>
   </section>
+
 
   <!-- Iglesias -->
   <section class="py-10 bg-[#eae7dd]">

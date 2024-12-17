@@ -178,8 +178,6 @@ export class DeudoHistorialComponent implements OnInit {
     );
   }
 
-
-
   // Restaurar una versión específica
   restaurarVersion(versionId: number): void {
     this.deudoHistoryService.restoreDeudoVersion(versionId).subscribe(
