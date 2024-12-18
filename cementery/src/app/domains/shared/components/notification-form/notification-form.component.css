@@ -1,0 +1,38 @@
+.notification-form {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  
+  .notification-form h2 {
+    margin-bottom: 20px;
+  }
+  
+  .notification-form .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .notification-form .form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .notification-form .btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .notification-form .btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }

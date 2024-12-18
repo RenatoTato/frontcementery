@@ -20,11 +20,9 @@ export class LoginComponent {
 
   login(): void {
     this.authService.login(this.username, this.password).subscribe(
-      (response: any) => {
-        // Guardar los tokens en el localStorage
-        localStorage.setItem('token', response.access); // Token de acceso
-        localStorage.setItem('refresh_token', response.refresh); // Token de actualización
-        this.router.navigate(['/admin']); // Redirigir al PanelAdmin
+      () => {
+        // Redirigir al PanelAdmin después de un inicio de sesión exitoso
+        this.router.navigate(['/admin']);
       },
       error => {
         console.error('Error de autenticación', error); // Manejar errores si el login falla

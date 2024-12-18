@@ -9,11 +9,12 @@ import { ArticuloInfoComponent } from '@info/component/articulo-info/articulo-in
 import { IglrsiasInfosComponent } from '@info/component/iglrsias-infos/iglrsias-infos.component';
 import { ObituarioInfosComponent } from '@info/component/obituario-infos/obituario-infos.component';
 import { Router } from '@angular/router';
+import { NotificationFormComponent } from "@shared/components/notification-form/notification-form.component";
 
 @Component({
   selector: 'app-info-dashboard',
   standalone: true,
-  imports: [CommonModule, ArticuloInfoComponent, IglrsiasInfosComponent, ObituarioInfosComponent],
+  imports: [CommonModule, ArticuloInfoComponent, IglrsiasInfosComponent, ObituarioInfosComponent, NotificationFormComponent],
   templateUrl: './info-dashboard.component.html',
   styleUrl: './info-dashboard.component.css'
 })

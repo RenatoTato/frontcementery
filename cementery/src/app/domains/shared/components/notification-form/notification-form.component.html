@@ -1,0 +1,72 @@
+<div class="notification-form" id="notification-section">
+    <h2>Enviar Notificación</h2>
+    <form (ngSubmit)="onSubmit()" #notificationForm="ngForm">
+      <div class="form-group">
+        <label for="name">Nombre Completo</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          [(ngModel)]="notification.name"
+          required
+          class="form-control"
+          placeholder="Escribe tu nombre"
+        />
+      </div>
+  
+      <div class="form-group">
+        <label for="contact_number">Teléfono</label>
+        <input
+          type="text"
+          id="contact_number"
+          name="contact_number"
+          [(ngModel)]="notification.contact_number"
+          required
+          class="form-control"
+          placeholder="Escribe tu número de teléfono"
+        />
+      </div>
+  
+      <div class="form-group">
+        <label for="email">Correo Electrónico (opcional)</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          [(ngModel)]="notification.email"
+          class="form-control"
+          placeholder="Escribe tu correo electrónico"
+        />
+      </div>
+  
+      <div class="form-group">
+        <label for="area">Área</label>
+        <select
+          id="area"
+          name="area"
+          [(ngModel)]="notification.area"
+          required
+          class="form-control"
+        >
+          <option value="correccion_datos">Corrección de Datos</option>
+          <option value="soporte">Soporte Técnico</option>
+          <option value="paquetes">Información de Paquetes</option>
+        </select>
+      </div>
+  
+      <div class="form-group">
+        <label for="message">Mensaje</label>
+        <textarea
+          id="message"
+          name="message"
+          [(ngModel)]="notification.message"
+          required
+          class="form-control"
+          placeholder="Describe tu solicitud"
+        ></textarea>
+      </div>
+  
+      <button type="submit" class="btn btn-primary" [disabled]="notificationForm.invalid">Enviar</button>
+    </form>
+  </div>
+  

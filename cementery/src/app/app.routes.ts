@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { authGuard } from './shared/guards/auth.guard';
 import { LayoutAdminComponent } from '@shared/components/layout-admin/layout-admin.component';
 import { LayoutComponent } from '@shared/components/layout/layout.component';
+import { adminGuard } from '@externo/guards/admin.guard';
 export const routes: Routes = [
     {
         path: '',
@@ -88,7 +89,8 @@ export const routes: Routes = [
             },
             {
                 path:'historial',
-                loadComponent: ()=>import('@admin/pages/historial/historial.component').then(m=>m.HistorialComponent)
+                loadComponent: ()=>import('@admin/pages/historial/historial.component').then(m=>m.HistorialComponent),
+                canActivate: [adminGuard], // Aplica el guard aqu
             }
         ]
     },
