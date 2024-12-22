@@ -100,6 +100,12 @@ export class ObituariosPinfoComponent implements OnInit {
       this.nuevaMemoria = { names: '', text: '', relationship: '' }; // Limpiar el formulario
     });
   }
+  handleKeyPress(event: KeyboardEvent, obituario: any): void {
+    if (event.key === 'Enter' || event.key === ' ') {
+      this.viewDetail(obituario); // Llama a la función del clic
+      event.preventDefault(); // Evita comportamientos como el desplazamiento
+    }
+  }
   clearFilters(): void {
     this.filter = {
       place: undefined,

@@ -85,6 +85,12 @@ export class SiderbarComponent implements OnInit {
     localStorage.removeItem('darkMode');
     this.router.navigate(['/']);
   }
+  handleKeyPress(event: KeyboardEvent, id: number): void {
+    if (event.key === 'Enter' || event.key === ' ') {
+      this.goToNotificationDetail(id); // Llama a la función del clic
+      event.preventDefault(); // Previene desplazamientos no deseados con la barra espaciadora
+    }
+  }
   toggleDarkMode(): void {
     this.isDarkMode = !this.isDarkMode;
     document.documentElement.classList.toggle('dark', this.isDarkMode);

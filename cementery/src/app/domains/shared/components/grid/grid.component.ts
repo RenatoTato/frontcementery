@@ -90,6 +90,12 @@ export class GridComponent implements OnInit {
     return `${translate} ${rotate}`.trim();
   }
 
+  handleKeyPress(event: KeyboardEvent, id: number): void {
+    if (event.key === 'Enter' || event.key === ' ') {
+      this.verDetallesBloque(id); // Llama a la función del clic
+      event.preventDefault(); // Previene desplazamientos por barra espaciadora
+    }
+  }
   getTextTransform(lote: any): string {
     const translate =
       lote.rotation === -180

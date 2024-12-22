@@ -102,6 +102,12 @@ export class SvgmapComponent implements OnInit {
         }
       );
   }
+  handleKeyPress(event: KeyboardEvent, id: number): void {
+    if (event.key === 'Enter' || event.key === ' ') {
+      this.verDetallesBloque(id); // Llama a la función asociada al clic
+      event.preventDefault(); // Previene el desplazamiento si se usa la barra espaciadora
+    }
+  }
   getDifuntoFirstName(difunto: any): string {
     return difunto?.names?.split(' ')[0] ?? '';
   }

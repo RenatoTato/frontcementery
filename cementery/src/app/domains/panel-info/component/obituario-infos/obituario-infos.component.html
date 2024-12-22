@@ -3,7 +3,7 @@
   <img
     *ngIf="obituario.image_dif"
     [src]="obituario.image_dif"
-    alt="Imagen de {{ obituario.name || 'Difunto' }}"
+    alt="{{ obituario.name || 'Difunto' }}"
     class="w-full h-48 object-cover"
   />
 

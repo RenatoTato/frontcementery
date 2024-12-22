@@ -69,8 +69,8 @@
                             </g>
                         </g>
                         <g *ngFor="let lote of ocupacionLote">
-                            <g (click)="verDetallesBloque(lote.id)"
-                                class="cursor-pointer hover:opacity-80 transition-opacity duration-200">
+                            <g (click)="verDetallesBloque(lote.id)" (keydown)="handleKeyPress($event, lote.id)"
+                                tabindex="0" class="cursor-pointer hover:opacity-80 transition-opacity duration-200">
                                 <!-- Rectángulo del lote -->
                                 <rect [ngClass]="getFillColor(lote.id)" [attr.x]="lote.x" [attr.y]="lote.y"
                                     [attr.width]="getBlockSize(lote.typeblock).width"

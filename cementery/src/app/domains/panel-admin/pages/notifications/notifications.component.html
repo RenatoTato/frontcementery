@@ -1,20 +1,23 @@
 <div *ngIf="showList">
-  <h2>Lista de Notificaciones</h2>
-  <ul>
-    <li *ngFor="let notification of notifications" (click)="onSelectNotification(notification.id)"
-      (keydown)="handleKeyPress($event, notification.id)" role="button" tabindex="0"
-      class="cursor-pointer hover:bg-gray-200 p-2 rounded">
-      {{ notification.name }} - {{ notification.area }}
-    </li>
-  </ul>
-</div>
-
-<div *ngIf="!showList && notification">
-  <h2>Detalle de Notificación</h2>
-  <p><strong>ID:</strong> {{ notification.id }}</p>
-  <p><strong>Nombre:</strong> {{ notification.name }}</p>
-  <p><strong>Mensaje:</strong> {{ notification.message }}</p>
-  <p><strong>Área:</strong> {{ notification.area }}</p>
-  <button (click)="markAsAttended()">Marcar como Atendida</button>
-  <button (click)="goBack()">Volver a la Lista</button>
-</div>
+    <h2>Lista de Notificaciones</h2>
+    <ul>
+      <li *ngFor="let notification of notifications" class="p-2">
+        <button 
+          (click)="onSelectNotification(notification.id)"
+          (keydown)="handleKeyPress($event, notification.id)"
+          class="cursor-pointer hover:bg-gray-200 p-2 rounded w-full text-left">
+          {{ notification.name }} - {{ notification.area }}
+        </button>
+      </li>
+    </ul>
+  </div>
+  
+  <div *ngIf="!showList && notification">
+    <h2>Detalle de Notificación</h2>
+    <p><strong>ID:</strong> {{ notification.id }}</p>
+    <p><strong>Nombre:</strong> {{ notification.name }}</p>
+    <p><strong>Mensaje:</strong> {{ notification.message }}</p>
+    <p><strong>Área:</strong> {{ notification.area }}</p>
+    <button (click)="markAsAttended()">Marcar como Atendida</button>
+    <button (click)="goBack()">Volver a la Lista</button>
+  </div>

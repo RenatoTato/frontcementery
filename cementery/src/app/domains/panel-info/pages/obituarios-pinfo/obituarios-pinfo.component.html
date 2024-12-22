@@ -80,8 +80,9 @@
         <div class="w-full lg:w-3/4">
             <h1 class="text-2xl font-bold mb-6 text-center text-[#99775c] text-2xl ">Obituarios</h1>
             <div class="space-y-4">
-                <div *ngFor="let obituario of obituarios" class="flex gap-4 bg-[#ffffff] p-4 rounded-lg shadow-md"
-                    (click)="viewDetail(obituario)">
+                <div *ngFor="let obituario of obituarios"
+                    class="flex gap-4 bg-[#ffffff] p-4 rounded-lg shadow-md cursor-pointer"
+                    (click)="viewDetail(obituario)" (keydown)="handleKeyPress($event, obituario)" tabindex="0">
                     <img *ngIf="obituario.image_dif" [src]="obituario.image_dif" alt="{{ obituario.name }}"
                         class="w-24 h-24 object-cover rounded-lg" />
                     <div>
@@ -122,7 +123,7 @@
 
         <div *ngFor="let obituario of obituarios" class="container mx-auto px-4 py-6">
             <!-- Encabezado del Obituario -->
-            <div  class="text-center mb-6">
+            <div class="text-center mb-6">
                 <h1 class="text-3xl font-semibold text-[#2a2b2a]">{{ obituario?.name }}</h1>
                 <p class="text-md text-[#99775c]">
                     {{ obituario?.date_born | date: 'longDate' }} - {{ obituario?.date_dead | date: 'longDate' }}
