@@ -79,6 +79,12 @@ export class NotificationsComponent implements OnInit {
       );
     }
   }
+  handleKeyPress(event: KeyboardEvent, id: number): void {
+    if (event.key === 'Enter' || event.key === ' ') {
+      this.onSelectNotification(id.toString()); // Convertir número a cadena
+      event.preventDefault();
+    }
+  }
 
   // Volver a la lista
   goBack(): void {

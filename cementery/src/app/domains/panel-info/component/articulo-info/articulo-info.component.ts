@@ -22,6 +22,12 @@ export class ArticuloInfoComponent {
   verArticulo(id: number): void {
     this.onArticuloSeleccionado.emit(id); // Emite el ID del artículo seleccionado
   }
+  handleKeyPress(event: KeyboardEvent, id: number): void {
+    if (event.key === 'Enter' || event.key === ' ') {
+      this.verArticulo(id); // Llama a la función asociada al clic
+      event.preventDefault(); // Previene comportamientos no deseados, como el desplazamiento.
+    }
+  }
 
   // Llamada al método en el evento de cambio de página
   cambiarPagina(page: number): void {
