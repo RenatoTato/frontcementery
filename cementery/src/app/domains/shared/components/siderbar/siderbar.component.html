@@ -252,7 +252,7 @@
       <h4>Notificaciones Pendientes</h4>
       <ul>
         <li *ngFor="let notification of notifications" (click)="goToNotificationDetail(notification.id)"
-          (keydown)="handleKeyPress($event, notification.id)" tabindex="0"
+          (keydown)="handleKeyPress($event, notification.id)" role="button" tabindex="0"
           class="cursor-pointer hover:bg-gray-200 p-2 rounded transition">
           <strong>{{ notification.name }}</strong>: {{ notification.message }}
         </li>

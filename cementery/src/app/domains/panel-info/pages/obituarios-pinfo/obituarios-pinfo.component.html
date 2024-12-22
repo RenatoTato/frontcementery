@@ -82,7 +82,7 @@
             <div class="space-y-4">
                 <div *ngFor="let obituario of obituarios"
                     class="flex gap-4 bg-[#ffffff] p-4 rounded-lg shadow-md cursor-pointer"
-                    (click)="viewDetail(obituario)" (keydown)="handleKeyPress($event, obituario)" tabindex="0">
+                    (click)="viewDetail(obituario)" (keydown)="handleKeyPress($event, obituario)" role="button" tabindex="0">
                     <img *ngIf="obituario.image_dif" [src]="obituario.image_dif" alt="{{ obituario.name }}"
                         class="w-24 h-24 object-cover rounded-lg" />
                     <div>
