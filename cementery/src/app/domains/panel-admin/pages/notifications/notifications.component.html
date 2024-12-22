@@ -2,7 +2,7 @@
   <h2>Lista de Notificaciones</h2>
   <ul>
     <li *ngFor="let notification of notifications" (click)="onSelectNotification(notification.id)"
-      (keydown)="handleKeyPress($event, notification.id)" tabindex="0"
+      (keydown)="handleKeyPress($event, notification.id)" role="button" tabindex="0"
       class="cursor-pointer hover:bg-gray-200 p-2 rounded">
       {{ notification.name }} - {{ notification.area }}
     </li>
