@@ -1,9 +1,9 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { TumbaHistoryService } from '@admin/service/tumba-history/tumba-history.service';
 import { LoteHistory } from '@admin/models/tumba/loteh.model';
 import { VersionCambio } from '@admin/models/cambios/comparar.model';
+import { ServicioHistoryService } from '@admin/service/servicio-history/servicio-history.service';
 
 @Component({
   selector: 'app-lote-historial',
@@ -145,7 +145,7 @@ export class LoteHistorialComponent implements OnInit {
     ];
     constructor(
       private fb: FormBuilder,
-      private loteHistoryService: TumbaHistoryService,
+      private loteHistoryService: ServicioHistoryService,
       private cdRef: ChangeDetectorRef
     ) {
       this.filterForm = this.fb.group({

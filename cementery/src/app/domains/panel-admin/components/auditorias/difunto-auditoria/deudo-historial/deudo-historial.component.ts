@@ -1,11 +1,11 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { DifuntoHistoryService } from '@admin/service/difunto-history/difunto-history.service';
 import { DeudoHistory } from '@admin/models/difunto/deudoh.model';
 import { VersionCambio } from '@admin/models/cambios/comparar.model';
 import { Deudo } from '@externo/models/difunto/deudo.model';
 import { DifuntoService } from '@externo/services/difunto.service';
+import { ServicioHistoryService } from '@admin/service/servicio-history/servicio-history.service';
 
 
 @Component({
@@ -80,7 +80,7 @@ export class DeudoHistorialComponent implements OnInit {
   ];
   constructor(
     private fb: FormBuilder,
-    private deudoHistoryService: DifuntoHistoryService,
+    private deudoHistoryService: ServicioHistoryService,
     private difuntoService:DifuntoService,
     private cdRef: ChangeDetectorRef
   ) {
