@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { TumbaHistoryService } from './tumba-history.service';
+import { PaginationService } from './pagination.service';
 
-describe('TumbaHistoryService', () => {
-  let service: TumbaHistoryService;
+describe('PaginationService', () => {
+  let service: PaginationService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(TumbaHistoryService);
+    service = TestBed.inject(PaginationService);
   });
 
   it('should be created', () => {

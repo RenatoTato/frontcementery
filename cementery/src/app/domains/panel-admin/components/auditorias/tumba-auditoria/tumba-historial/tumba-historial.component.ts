@@ -1,12 +1,12 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { TumbaHistoryService } from '@admin/service/tumba-history/tumba-history.service';
 import { TumbaHistory, } from '@admin/models/tumba/tumbah.model';
 import { VersionCambio } from '@admin/models/cambios/comparar.model';
 import { TumbaService } from '@externo/services/tumba.service';
 import { Lote } from '@externo/models/tumba/lote.model';
 import { FilterOption } from '@admin/models/tumba/tumbaop.model';
+import { ServicioHistoryService } from '@admin/service/servicio-history/servicio-history.service';
 
 @Component({
   selector: 'app-tumba-historial',
@@ -87,7 +87,7 @@ export class TumbaHistorialComponent implements OnInit {
   ];
   constructor(
     private fb: FormBuilder,
-    private tumbaHistoryService: TumbaHistoryService,
+    private tumbaHistoryService: ServicioHistoryService,
     private tumbaService: TumbaService,
     private cdRef: ChangeDetectorRef // Inyectamos ChangeDetectorRef
   ) {
@@ -130,7 +130,7 @@ export class TumbaHistorialComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadHistorial(this.currentPage, this.pageSize); // Cargar todo el historial al inicio  
+    this.loadHistorialTumba(this.currentPage, this.pageSize); // Cargar todo el historial al inicio  
     this.loadlotes();
     this.initializeNicheNumbers();
   }
@@ -150,7 +150,7 @@ export class TumbaHistorialComponent implements OnInit {
     );
   }
 
-  loadHistorial(page: number = 1, pageSize: number = 10): void {
+  loadHistorialTumba(page: number = 1, pageSize: number = 10): void {
     const filterParams = this.filterForm.value;
 
     this.tumbaHistoryService.getTumbaHistorials(page, pageSize, filterParams).subscribe(response => {
@@ -234,7 +234,7 @@ export class TumbaHistorialComponent implements OnInit {
     this.tumbaHistoryService.restoreTumbaVersion(versionId).subscribe(
       (response) => {
         console.log('Restauración exitosa:', response);
-        this.loadHistorial(this.currentPage, this.pageSize); // Recargar el historial después de restaurar
+        this.loadHistorialTumba(this.currentPage, this.pageSize); // Recargar el historial después de restaurar
       },
       (error) => console.error('Error al restaurar la versión:', error)
     );
@@ -253,7 +253,7 @@ export class TumbaHistorialComponent implements OnInit {
     const newPage = this.currentPage + step;
     if (newPage <= this.totalPages) {
       this.currentPage = newPage;
-      this.loadHistorial(this.currentPage, this.pageSize);
+      this.loadHistorialTumba(this.currentPage, this.pageSize);
     }
   }
 
@@ -261,21 +261,21 @@ export class TumbaHistorialComponent implements OnInit {
     const newPage = this.currentPage - step;
     if (newPage >= 1) {
       this.currentPage = newPage;
-      this.loadHistorial(this.currentPage, this.pageSize);
+      this.loadHistorialTumba(this.currentPage, this.pageSize);
     }
   }
 
   goToFirstPage(): void {
     this.currentPage = 1;
-    this.loadHistorial(this.currentPage, this.pageSize);
+    this.loadHistorialTumba(this.currentPage, this.pageSize);
   }
 
   goToLastPage(): void {
     this.currentPage = this.totalPages;
-    this.loadHistorial(this.currentPage, this.pageSize);
+    this.loadHistorialTumba(this.currentPage, this.pageSize);
   }
   resetFilters(): void {
     this.filterForm.reset();
-    this.loadHistorial(1, this.pageSize);
+    this.loadHistorialTumba(1, this.pageSize);
   }
 }
