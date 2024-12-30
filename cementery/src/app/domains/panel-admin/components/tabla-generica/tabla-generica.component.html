@@ -1,12 +1,18 @@
-<table>
-    <thead>
-      <tr>
-        <th *ngFor="let header of headers">{{ header }}</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of data">
-        <td *ngFor="let key of keys">{{ item[key] }}</td>
-      </tr>
-    </tbody>
-  </table>
+<table class="min-w-full bg-[#ffffff] dark:bg-[#2a2b2a] rounded-lg shadow-md overflow-hidden text-center">
+  <thead class="bg-[#eae7dd] dark:bg-[#99775c]">
+    <tr>
+      <th *ngFor="let header of headers"  class="px-6 py-3 text-xs font-medium text-[#99775c] dark:text-[#eae7dd] uppercase">{{ header }}</th>
+      <th *ngIf="actionTemplate"  class="px-6 py-3 text-xs font-medium text-[#99775c] dark:text-[#eae7dd] uppercase">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of data" class="border-b border-gray-200 dark:border-gray-700">
+      <td *ngFor="let key of keys" class="px-6 py-4 text-sm text-[#2a2b2a] dark:text-[#eae7dd]">
+        {{ getMappedValue(key, item[key]) }} <!-- Aquí se aplica el mapeo -->
+      </td>
+      <td *ngIf="actionTemplate" class="px-4 py-2 text-center">
+        <ng-container *ngTemplateOutlet="actionTemplate; context: { $implicit: item }"></ng-container>
+      </td>
+    </tr>
+  </tbody>
+</table>
