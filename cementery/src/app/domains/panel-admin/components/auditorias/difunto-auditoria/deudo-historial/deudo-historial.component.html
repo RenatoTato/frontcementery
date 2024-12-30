@@ -102,50 +102,22 @@
         </div>
         <!-- Tabla de Historial -->
         <div class="bg-[#ffffff] dark:bg-[#2a2b2a] rounded-lg shadow-md overflow-x-auto mb-6">
-            <table class="min-w-full bg-[#ffffff] dark:bg-[#2a2b2a] rounded-lg shadow-md overflow-hidden text-center">
-                <thead class="bg-[#eae7dd] dark:bg-[#99775c]">
-                    <tr>
-                        <th *ngFor="let header of tableHeaders"
-                        class="px-6 py-3 text-xs font-medium text-[#99775c] dark:text-[#eae7dd] uppercase">
-                            {{ header }}
-                        </th>
-                        <th
-                        class="px-6 py-3 text-xs font-medium text-[#99775c] dark:text-[#eae7dd] uppercase">
-                            Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let item of historialItems" class="border-b border-gray-200 dark:border-gray-700">
-                        <td class="px-6 py-4 text-sm text-[#2a2b2a] dark:text-[#eae7dd]">{{ mapUser(item.history_user) }}
-                        </td>
-                        <td class="px-6 py-4 text-sm text-[#2a2b2a] dark:text-[#eae7dd]">{{ item.id }}</td>
-                        <td class="px-6 py-4 text-sm text-[#2a2b2a] dark:text-[#eae7dd]">{{ item.names }}</td>
-                        <td class="px-6 py-4 text-sm text-[#2a2b2a] dark:text-[#eae7dd]">{{ item.last_names }}</td>
-                        <td class="px-6 py-4 text-sm text-[#2a2b2a] dark:text-[#eae7dd]">{{ formatIdNumber(+item.idNumber) }}</td>
-                        <td class="px-6 py-4 text-sm text-[#2a2b2a] dark:text-[#eae7dd]">0{{ item.phoneNumber }}</td>
-                        <td class="px-6 py-4 text-sm text-[#2a2b2a] dark:text-[#eae7dd]">{{ item.address }}</td>
-                        <td class="px-6 py-4 text-sm text-[#2a2b2a] dark:text-[#eae7dd]">{{ item.tipo }}</td>
-                        <td class="px-6 py-4 text-sm text-[#2a2b2a] dark:text-[#eae7dd]">{{ item.loadDate | date:
-                            'shortDate' }}</td>
-                        <td class="px-6 py-4 text-sm text-[#2a2b2a] dark:text-[#eae7dd]">{{ item.updateDate | date:
-                            'shortDate' }}</td>
-                        <td class="px-6 py-4 text-sm text-[#2a2b2a] dark:text-[#eae7dd]">{{
-                            mapHistoryType(item.history_type) }}</td>
-                        <td class="px-6 py-4 text-sm text-[#2a2b2a] dark:text-[#eae7dd]">{{ item.history_date | date:
-                            'shortDate' }}</td>
-                        <td class="px-4 py-2 text-center">
-                            <button (click)="restaurarVersion(item.history_id)"
-                            class="bg-[#a83232] text-white px-2 py-1 rounded-lg hover:bg-[#8c2929] dark:bg-[#a83232] dark:hover:bg-[#8c2929]"
-                                [title]="'Restaurar'"><img src="assets\image\icono\database-restore.svg"
-                                    alt="Icono comparar" class="w-4 h-4" /></button>
-                            <button (click)="compararVersiones(item.id)"
-                            class="bg-[#50a2a7] text-white px-2 py-1 rounded-lg hover:bg-[#99775c] dark:bg-[#50a2a7] dark:hover:bg-[#99775c]"
-                                [title]="'Comparar'"><img src="assets/image/icono/git-compare.svg" alt="Icono comparar"
-                                    class="w-4 h-4" /></button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <app-tabla-generica [headers]="tableHeaders" [data]="historialItems" [keys]="tableKeys"
+                [actionTemplate]="actionTemplate"
+                class="min-w-full bg-[#ffffff] dark:bg-[#2a2b2a] rounded-lg shadow-md overflow-hidden text-center">
+            </app-tabla-generica>
+            <ng-template #actionTemplate let-item>
+                <button (click)="restaurarVersion(item.history_id)"
+                    class="bg-[#a83232] text-white px-2 py-1 rounded-lg hover:bg-[#8c2929] dark:bg-[#a83232] dark:hover:bg-[#8c2929]"
+                    [title]="'Restaurar'">
+                    <img src="assets/image/icono/database-restore.svg" alt="Restaurar" class="w-4 h-4" />
+                </button>
+                <button (click)="compararVersiones(item.id)"
+                    class="bg-[#50a2a7] text-white px-2 py-1 rounded-lg hover:bg-[#99775c] dark:bg-[#50a2a7] dark:hover:bg-[#99775c]"
+                    [title]="'Comparar'">
+                    <img src="assets/image/icono/git-compare.svg" alt="Comparar" class="w-4 h-4" />
+                </button>
+            </ng-template>
         </div>
         <!-- Paginación -->
         <div class="flex justify-evenly mt-4">
@@ -154,27 +126,32 @@
                 <img src="assets\image\icono\skip-forward.svg" alt="Icono comparar" class="w-4 h-4 rotate-180" />
             </button>
 
-            <button (click)="previousPage(5)" [disabled]="currentPage <= 5"
-                class="px-4 py-2 rounded-lg shadow-sm bg-[#50a2a7] text-[#eae7dd] hover:bg-[#99775c] dark:bg-[#50a2a7] dark:hover:bg-[#99775c]" [title]="'Retroceder 5'">
+            <button (click)="changePage(-5)" [disabled]="currentPage <= 5"
+                class="px-4 py-2 rounded-lg shadow-sm bg-[#50a2a7] text-[#eae7dd] hover:bg-[#99775c] dark:bg-[#50a2a7] dark:hover:bg-[#99775c]"
+                [title]="'Retroceder 5'">
                 <img src="assets\image\icono\fast-forward.svg" alt="Icono comparar" class="w-4 h-4 rotate-180" />
             </button>
 
-            <button (click)="previousPage(1)" [disabled]="currentPage === 1"
-                class="px-4 py-2 rounded-lg shadow-sm bg-[#50a2a7] text-[#eae7dd] hover:bg-[#99775c] dark:bg-[#50a2a7] dark:hover:bg-[#99775c]" [title]="'Página anterior'">
+            <button (click)="changePage(-1)" [disabled]="currentPage === 1"
+                class="px-4 py-2 rounded-lg shadow-sm bg-[#50a2a7] text-[#eae7dd] hover:bg-[#99775c] dark:bg-[#50a2a7] dark:hover:bg-[#99775c]"
+                [title]="'Página anterior'">
                 <img src="assets\image\icono\play.svg" alt="Icono comparar" class="w-4 h-4 rotate-180" />
             </button>
 
-            <span class="px-4 py-2 text-[#99775c] dark:text-[#eae7dd]">Página {{ currentPage }} de {{ totalPages }}</span>
+            <span class="text-gray-700 dark:text-gray-200">Página {{ currentPage }} de {{ totalPages }}</span>
 
-            <button (click)="nextPage(1)" [disabled]="currentPage === totalPages"
-            class="px-4 py-2 rounded-lg shadow-sm bg-[#50a2a7] text-[#eae7dd] hover:bg-[#99775c] dark:bg-[#50a2a7] dark:hover:bg-[#99775c]" [title]="'Página siguiente'">
+            <button (click)="changePage(1)" [disabled]="currentPage === totalPages"
+                class="px-4 py-2 rounded-lg shadow-sm bg-[#50a2a7] text-[#eae7dd] hover:bg-[#99775c] dark:bg-[#50a2a7] dark:hover:bg-[#99775c]"
+                [title]="'Página siguiente'">
                 <img src="assets\image\icono\play.svg" alt="Icono comparar" class="w-4 h-4" />
             </button>
 
-            <button (click)="nextPage(5)" [disabled]="currentPage + 5 > totalPages"
-                class="px-4 py-2 rounded-lg shadow-sm bg-[#50a2a7] text-[#eae7dd] hover:bg-[#99775c] dark:bg-[#50a2a7] dark:hover:bg-[#99775c]" [title]="'Avanzar 5'">
+            <button (click)="changePage(5)" [disabled]="currentPage + 5 > totalPages"
+                class="px-4 py-2 rounded-lg shadow-sm bg-[#50a2a7] text-[#eae7dd] hover:bg-[#99775c] dark:bg-[#50a2a7] dark:hover:bg-[#99775c]"
+                [title]="'Avanzar 5'">
                 <img src="assets\image\icono\fast-forward.svg" alt="Icono comparar" class="w-4 h-4" />
             </button>
+
 
             <button (click)="goToLastPage()" [disabled]="currentPage === totalPages"
             class="px-4 py-2 rounded-lg shadow-sm bg-[#50a2a7] text-[#eae7dd] hover:bg-[#99775c] dark:bg-[#50a2a7] dark:hover:bg-[#99775c]" [title]="'Ultima página'">

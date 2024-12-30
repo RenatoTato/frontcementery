@@ -22,7 +22,7 @@ import { Field } from '@admin/models/cambios/field.model';
 })
 export class DifuntoHistorialComponent implements OnInit {
   
-
+  deudosFormatted: { idNumber: number, formattedId: string }[] = [];
   filterFields: any[] = []; // Declarar la propiedad como un array vacío
   filterForm: FormGroup; // Declarar filterForm si aún no está
   filterOptions: any = {}; // Declaración de filterOptions
@@ -151,6 +151,11 @@ export class DifuntoHistorialComponent implements OnInit {
     ];
 
     // Métodos de mapeo dinámico
+    this.difuntos = this.difuntos.map(difunto => ({
+      ...difunto,
+      formattedRequest: this.mapService.formatRequestNumber(Number(difunto.requestNumber)),
+      formattedId: this.mapService.formatIdNumber(Number(difunto.idNumber))
+    }));
     this.mapMethods = {
       history_user: (value: string) => this.mapService.mapUser(value),
       idNumber: (value: string) => this.mapService.formatIdNumber(Number(value)),
@@ -180,11 +185,14 @@ export class DifuntoHistorialComponent implements OnInit {
   }
   loadDifuntos(): void {
     this.difuntoService.getReadDifuntos().subscribe(
-      (difuntos: Difunto[]) => {
-        this.difuntos = difuntos;
-        console.log('difunto:', this.difuntos);
+      (difuntos) => {
+        this.difuntos = difuntos.map(difunto => ({
+          ...difunto,
+          formattedRequest: this.mapService.formatRequestNumber(Number(difunto.requestNumber)),
+          formattedId: this.mapService.formatIdNumber(Number(difunto.idNumber))
+        }));
       },
-      (error) => console.error('Error al obtener las difuntos:', error)
+      (error) => console.error('Error al obtener los difuntos:', error)
     );
   }
 
@@ -258,15 +266,7 @@ export class DifuntoHistorialComponent implements OnInit {
   mapHistoryType(type: string): string {
     return this.mapService.mapHistoryType(type as string); // Forzar el tipo a string
   }
-  formatRequestNumber(requestNumber: number): string {
-    const formattedNumber = requestNumber.toString().padStart(8, '0');
-    return `S${formattedNumber}`;
-  }
-  // Comparar versiones
-  formatIdNumber(requestNumber: number): string {
-    const formattedNumber = requestNumber.toString().padStart(10, '0');
-    return `${formattedNumber}`;
-  }
+
   // Comparar versiones
   toggleFilters(): void {
     this.showFilters = !this.showFilters;
@@ -338,25 +338,26 @@ export class DifuntoHistorialComponent implements OnInit {
     );
   }
 
-
-  // Paginación
   get totalPages(): number {
     return Math.ceil(this.totalItems / this.pageSize);
   }
+
+
   changePage(step: number): void {
     this.currentPage = this.paginationService.validatePageChange(this.currentPage, step, this.totalPages);
-    this.loadHistorial(this.currentPage, this.pageSize);
+    this.loadHistorial(); // Llamar a la carga de datos para la nueva página
   }
 
   goToFirstPage(): void {
-    this.currentPage = 1;
-    this.loadHistorial(this.currentPage, this.pageSize);
+    this.currentPage = this.paginationService.goToFirstPage();
+    this.loadHistorial(); // Llamar a la carga de datos para la primera página
   }
 
   goToLastPage(): void {
-    this.currentPage = this.totalPages;
-    this.loadHistorial(this.currentPage, this.pageSize);
+    this.currentPage = this.paginationService.goToLastPage(this.totalPages);
+    this.loadHistorial(); // Llamar a la carga de datos para la última página
   }
+
   resetFilters(): void {
     this.filterForm.reset();
     this.loadHistorial(1, this.pageSize);

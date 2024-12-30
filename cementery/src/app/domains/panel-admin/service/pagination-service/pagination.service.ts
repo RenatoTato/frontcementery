@@ -11,5 +11,12 @@ export class PaginationService {
     const newPage = currentPage + step;
     return Math.max(1, Math.min(newPage, totalPages));
   }
+  goToFirstPage(): number {
+    return 1; // Siempre la primera página
+  }
+
+  goToLastPage(totalPages: number): number {
+    return totalPages; // Retorna la última página
+  }
 }
 

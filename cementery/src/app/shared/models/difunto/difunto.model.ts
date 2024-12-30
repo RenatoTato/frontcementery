@@ -15,4 +15,6 @@ export interface Difunto {
     isEditing?: boolean;
     deudoDetails?:string;
     tumbaDetails?:string;
+    formattedRequest?: string; // Propiedad opcional
+    formattedId?: string;      // Propiedad opcional
 }

@@ -32,20 +32,7 @@
                                 type="date"
                                 class="w-full px-4 py-2 border border-[#99775c] rounded-lg shadow-sm focus:ring focus:ring-[#50a2a7] focus:border-[#50a2a7] dark:bg-[#2a2b2a] dark:border-[#99775c] text-[#99775c] dark:text-[#eae7dd]" />
 
-                            <!-- Select para Tipo de Acción -->
-                            <select *ngSwitchCase="'history_type'" [id]="field.name" [formControlName]="field.name"
-                                 class="w-full px-4 py-2 border border-[#99775c] rounded-lg shadow-sm focus:ring focus:ring-[#50a2a7] focus:border-[#50a2a7] dark:bg-[#2a2b2a] dark:border-[#99775c] text-[#99775c] dark:text-[#eae7dd]">
-                                <option *ngFor="let option of filterOptions.history_type" [value]="option.value">
-                                    {{ option.label }}
-                                </option>
-                            </select>
-
-                            <select *ngSwitchCase="'user'" [id]="field.name" [formControlName]="field.name"
-                                 class="w-full px-4 py-2 border border-[#99775c] rounded-lg shadow-sm focus:ring focus:ring-[#50a2a7] focus:border-[#50a2a7] dark:bg-[#2a2b2a] dark:border-[#99775c] text-[#99775c] dark:text-[#eae7dd]">
-                                <option *ngFor="let option of filterOptions.user" [value]="option.value">
-                                    {{ option.label }}
-                                </option>
-                            </select>
+                            
                             <!-- Select para Deudo -->
                             <select *ngSwitchCase="'deudo'" [id]="field.name" [formControlName]="field.name"
                                 class="w-full px-4 py-2 border border-[#99775c] rounded-lg shadow-sm focus:ring focus:ring-[#50a2a7] focus:border-[#50a2a7] dark:bg-[#2a2b2a] dark:border-[#99775c] text-[#99775c] dark:text-[#eae7dd]">
@@ -64,18 +51,33 @@
                                 <option *ngFor="let difunto of difuntos" [value]="difunto.last_names">{{
                                     difunto.last_names }}</option>
                             </select>
+                            <!-- Select para Tipo de Acción -->
+                            <select *ngSwitchCase="'history_type'" [id]="field.name" [formControlName]="field.name"
+                                 class="w-full px-4 py-2 border border-[#99775c] rounded-lg shadow-sm focus:ring focus:ring-[#50a2a7] focus:border-[#50a2a7] dark:bg-[#2a2b2a] dark:border-[#99775c] text-[#99775c] dark:text-[#eae7dd]">
+                                <option *ngFor="let option of filterOptions.history_type" [value]="option.value">
+                                    {{ option.label }}
+                                </option>
+                            </select>
+
+                            <select *ngSwitchCase="'user'" [id]="field.name" [formControlName]="field.name"
+                                 class="w-full px-4 py-2 border border-[#99775c] rounded-lg shadow-sm focus:ring focus:ring-[#50a2a7] focus:border-[#50a2a7] dark:bg-[#2a2b2a] dark:border-[#99775c] text-[#99775c] dark:text-[#eae7dd]">
+                                <option *ngFor="let option of filterOptions.user" [value]="option.value">
+                                    {{ option.label }}
+                                </option>
+                            </select>
                             <!-- Select para Numero de solicitud -->
                             <select *ngSwitchCase="'requestNumber'" [id]="field.name" [formControlName]="field.name"
                                 class="w-full px-4 py-2 border border-[#99775c] rounded-lg shadow-sm focus:ring focus:ring-[#50a2a7] focus:border-[#50a2a7] dark:bg-[#2a2b2a] dark:border-[#99775c] text-[#99775c] dark:text-[#eae7dd]">
                                 <option *ngFor="let difunto of difuntos" [value]="difunto.requestNumber">{{
-                                    formatRequestNumber(+difunto.requestNumber) }}</option>
+                                    difunto.formattedRequest  }}</option>
                             </select>
                             <!-- Select para Numero de cedula -->
                             <select *ngSwitchCase="'idNumber'" [id]="field.name" [formControlName]="field.name"
                                 class="w-full px-4 py-2 border border-[#99775c] rounded-lg shadow-sm focus:ring focus:ring-[#50a2a7] focus:border-[#50a2a7] dark:bg-[#2a2b2a] dark:border-[#99775c] text-[#99775c] dark:text-[#eae7dd]">
                                 <option *ngFor="let difunto of difuntos" [value]="difunto.idNumber">{{
-                                    formatIdNumber(+difunto.idNumber) }}</option>
+                                     difunto.formattedId }}</option>
                             </select>
+
 
                             <!-- Input para otros campos -->
                             <input *ngSwitchDefault [id]="field.name" [formControlName]="field.name" type="text"
