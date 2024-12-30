@@ -3,13 +3,13 @@ import { Component } from '@angular/core';
 // import { LoteHistorialComponent } from "../../components/auditorias/tumba-auditoria/lote-historial/lote-historial.component";
 // import { TumbaHistorialComponent } from "../../components/auditorias/tumba-auditoria/tumba-historial/tumba-historial.component";
 import { DifuntoHistorialComponent } from "../../components/auditorias/difunto-auditoria/difunto-historial/difunto-historial.component";
-// import { DeudoHistorialComponent } from "../../components/auditorias/difunto-auditoria/deudo-historial/deudo-historial.component";
+import { DeudoHistorialComponent } from "../../components/auditorias/difunto-auditoria/deudo-historial/deudo-historial.component";
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-historial',
   standalone: true,
-  imports: [DifuntoHistorialComponent, CommonModule],
+  imports: [DifuntoHistorialComponent,DeudoHistorialComponent, CommonModule],
   templateUrl: './historial.component.html',
   styleUrl: './historial.component.css'
 })

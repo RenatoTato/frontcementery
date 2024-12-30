@@ -22,17 +22,19 @@ import { Field } from '@admin/models/cambios/field.model';
 })
 export class DeudoHistorialComponent implements OnInit {
     deudos: Deudo[] = [];
+    filtersInitialized = false;
     historialItems: DeudoHistory[] = [];
+    mapMethods: { [key: string]: (value: any) => string } = {}; // Inicializar mapMethods
     totalItems: number = 0;
     currentPage: number = 1;
     pageSize: number = 17;
     comparacion: VersionCambio[] = [];
-    filterForm: FormGroup;
+    filterFields: any[] = []; // Declarar la propiedad como un array vacío
+    filterForm: FormGroup; // Declarar filterForm si aún no está
+    filterOptions: any = {}; // Declaración de filterOptions
     defaultObjectId: number = 1;
     showFilters: boolean = false;
-    // Campos de filtros y encabezados
-
-    tableHeaders = [
+    tableHeaders: string[] = [
         'Usuario',
         'ID Deudo',
         'Nombres',
@@ -45,7 +47,22 @@ export class DeudoHistorialComponent implements OnInit {
         'Fecha de Modificación',
         'Acción',
         'Fecha del Cambio'
-    ];
+    ];    // Campos de filtros y encabezados
+    tableKeys: string[] = [
+        'history_user',
+        'id',
+        'names',
+        'last_names',
+        'idNumber',
+        'phoneNumber',
+        'address',
+        'tipo',
+        'loadDate',
+        'updateDate',
+        'historyTypeText',
+        'history_date',
+    ]; // Declarar tableHeaders si también falta
+
     constructor(
         private fb: FormBuilder,
         private deudoHistoryService: ServicioHistoryService,
@@ -56,96 +73,138 @@ export class DeudoHistorialComponent implements OnInit {
         private cdRef: ChangeDetectorRef
     ) {
         this.filterForm = this.fb.group({
-            start_date: [''],
-            end_date: [''],
-            entity_id: [''],
-            names: [''],
-            last_names: [''],
-            idNumber: [''],
-            phoneNumber: [''],
-            address: [''],
-            tipo: [''],
-            history_type: [''],
-            user: ['']
+            start_date: [null], // O algún rango por defecto si es necesario
+            end_date: [null],
+            entity_id: [null],
+            names: [null],
+            last_names: [null],
+            idNumber: [null],
+            phoneNumber: [null],
+            address: [null],
+            tipo: [null],
+            history_type: [null],
+            user: [null],
         });
     }
 
-    ngOnInit(): void {
-        this.loadHistorial(this.currentPage, this.pageSize); // Cargar todo el historial al inicio  
-        this.loadDeudos();
+    private buildDynamicFilterForm(): void {
+        const formGroup: { [key: string]: any } = {};
+
+        this.filterFields.forEach(field => {
+            formGroup[field.name] = ['']; // Inicializa cada campo como vacío
+        });
+
+        this.filterForm = this.fb.group(formGroup);
+        console.log('Formulario dinámico:', this.filterForm.value); // Verifica que contenga `history_type` y `user`
     }
-    loadDeudos(): void {
-        this.deudoService.getReadDeudos().subscribe(
-            (deudos: Deudo[]) => {
-                this.deudos = deudos;
-                console.log('deudo:', this.deudos);
-            },
-            (error) => console.error('Error al obtener las difuntos:', error)
-        );
+    private getFilterOptions(fields: any[]): any {
+        const options: any = {};
+        fields.forEach((field) => {
+            if (field.type === 'select' && field.options) {
+                options[field.name] = field.options;
+            }
+        });
+        return options;
     }
-    loadHistorial(page: number = 1, pageSize: number = 10): void {
-        const filterParams = this.filterForm.value;
-    
-        this.deudoHistoryService.getHistorials<DeudoHistory>(
-          'deudo',
-          page,
-          pageSize,
-          filterParams
-        ).subscribe(
-          (response: { results: DeudoHistory[]; count: number }) => {
-            console.log('Datos originales antes de los mapeos:', response.results); // Verifica los datos originales
-    
-            // Ajusta los datos al orden especificado en tableKeys
-            this.historialItems = response.results.map(item => {
-              console.log('Item original:', item); // Verifica cada elemento antes del mapeo
-    
-              // Generar el item mapeado
-              const mappedItem: Partial<DeudoHistory> = {
-                ...item, // Mantiene los campos originales
-                history_user: this.mapService.mapUser(item.history_user), // Usuario (mapeado)
-                idNumber: item.idNumber ? this.mapService.formatIdNumber(Number(item.idNumber)) : 'N/A',
-                requestNumber: item.requestNumber ? this.mapService.formatRequestNumber(Number(item.requestNumber)) : 'N/A',
-                loadDate: this.mapService.formatDate(item.loadDate), // Fecha de creación formateada
-                updateDate: this.mapService.formatDate(item.updateDate), // Fecha de actualización formateada
-                historyTypeText: this.mapService.mapHistoryType(item.history_type), // Texto legible para la tabla
-                history_date: this.mapService.formatDate(item.history_date), // Fecha de modificación formateada
-                deudoDetails: 'Cargando...' // Inicialmente asignar "Cargando..."
-              };
-    
-              // Obtener detalles del deudo si existe
-              if (item.deudo && typeof item.deudo === 'number') {
-                this.mapService.getDeudoDetails(item.deudo).subscribe(
-                  deudoDetails => {
-                    mappedItem.deudoDetails = deudoDetails; // Actualizar detalles del deudo
-                    this.cdRef.detectChanges(); // Asegurar que la vista se actualice
-                  },
-                  error => {
-                    console.error(`Error al obtener detalles del deudo con ID ${item.deudo}:`, error);
-                    mappedItem.deudoDetails = 'Información no disponible'; // Manejar error
-                  }
-                );
-              } else {
-                mappedItem.deudoDetails = 'Sin asignar'; // Si no hay deudo
-              }
-    
-              return mappedItem as DifuntoHistory; // Cast explícito para cumplir con el tipo
-            });
-    
-            console.log('Datos transformados:', this.historialItems); // Verifica los datos transformados
-            this.totalItems = response.count;
-            this.compararVersiones(this.defaultObjectId);
-          },
-          error => {
-            console.error('Error al cargar el historial:', error);
-          }
-        );
-      }
-      formatIdNumber(requestNumber: number): string {
-        const formattedNumber = requestNumber.toString().padStart(10, '0');
-        return `${formattedNumber}`;
-      }
+    private async initializeFilters(): Promise<void> {
+        return new Promise((resolve, reject) => {
+            try {
+                const config = this.configService.getConfig('deudo');
+                if (config) {
+                    this.filterFields = config.fields || [];
+                    this.buildDynamicFilterForm();
+                    this.filterOptions = this.getFilterOptions(this.filterFields); // Usar el método aquí
+                    resolve(); // Filtros inicializados correctamente
+                } else {
+                    throw new Error('No se encontró configuración para "deudo"');
+                }
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
     
 
+    ngOnInit(): void {
+        this.initializeFilters().then(() => {
+            this.filtersInitialized = true;
+            this.loadHistorial(this.currentPage, this.pageSize);
+        });
+    
+        this.tableHeaders = [
+            'Usuario', 'ID Deudo', 'Nombres', 'Apellidos', 'Cédula',
+            'Teléfono', 'Dirección', 'Relación', 'Fecha de Creación',
+            'Fecha de Modificación', 'Acción', 'Fecha del Cambio'
+        ];
+    
+        this.tableKeys = [
+            'history_user', 'id', 'names', 'last_names', 'idNumber',
+            'phoneNumber', 'address', 'tipo', 'loadDate', 'updateDate',
+            'historyTypeText', 'history_date'
+        ];
+    
+        this.mapMethods = {
+            history_user: (value: string) => this.mapService.mapUser(value),
+            idNumber: (value: string) => this.mapService.formatIdNumber(Number(value)),
+            loadDate: (value: string) => this.mapService.formatDate(value),
+            updateDate: (value: string) => this.mapService.formatDate(value),
+            history_type: (value: string) => this.mapService.mapHistoryType(value),
+            history_date: (value: string) => this.mapService.formatDate(value),
+        };
+        this.deudos = this.deudos.map(deudo => ({
+            ...deudo,
+            formattedId: this.mapService.formatIdNumber(Number(deudo.idNumber))
+          }));
+    
+        // Cargar datos iniciales
+        this.loadDeudos();
+        this.loadHistorial(this.currentPage, this.pageSize);
+    }
+    
+    loadDeudos(): void {
+        this.deudoService.getReadDeudos().subscribe(
+          (deudos) => {
+            this.deudos = deudos.map(deudo => ({
+              ...deudo,
+              formattedId: this.mapService.formatIdNumber(Number(deudo.idNumber))
+            }));
+          },
+          (error) => console.error('Error al obtener los difuntos:', error)
+        );
+      }
+
+    loadHistorial(page: number = 1, pageSize: number = 10): void {
+        console.log('Cargando historial con filtros:', this.filterForm.value);
+        this.deudoHistoryService.getHistorials<DeudoHistory>(
+            'deudo', page, pageSize, { ...this.filterForm.value }
+        ).subscribe(
+            (response) => {
+                console.log('Datos de historial:', response.results);
+                this.historialItems = response.results.map(item => ({
+                    ...item,
+                    history_user: this.mapService.mapUser(item.history_user),
+                    idNumber: this.mapService.formatIdNumber(Number(item.idNumber)),
+                    loadDate: this.mapService.formatDate(item.loadDate),
+                    updateDate: this.mapService.formatDate(item.updateDate),
+                    historyTypeText: this.mapService.mapHistoryType(item.history_type),
+                    history_date: this.mapService.formatDate(item.history_date),
+                }));
+                this.totalItems = response.count;
+                this.compararVersiones(this.defaultObjectId);
+            },
+            (error) => console.error('Error al cargar el historial:', error)
+        );
+    }
+    
+    
+    // Mapear valores para history_type
+    mapUser(userId: string | undefined): string {
+        return this.mapService.mapUser(userId as string); // Forzar el tipo a string si es necesario
+    }
+
+    mapHistoryType(type: string): string {
+        return this.mapService.mapHistoryType(type as string); // Forzar el tipo a string
+    }
     campoLabels: { [key: string]: string } = {
         history_id: 'ID de Historial',
         history_user: 'Usuario',
@@ -167,9 +226,7 @@ export class DeudoHistorialComponent implements OnInit {
         this.showFilters = !this.showFilters;
     }
 
-
     // Paginación
-
     changePage(step: number): void {
         this.currentPage = this.paginationService.validatePageChange(this.currentPage, step, this.totalPages);
         this.loadHistorial(); // Llamar a la carga de datos para la nueva página
@@ -193,7 +250,7 @@ export class DeudoHistorialComponent implements OnInit {
     }
 
     compararVersiones(objectId: number): void {
-        this.deudoHistoryService.compareVersions<VersionCambio>('difunto', objectId).subscribe(
+        this.deudoHistoryService.compareVersions<VersionCambio>('deudo', objectId).subscribe(
             (data) => {
                 this.comparacion = data.cambios;
                 this.cdRef.detectChanges();
@@ -203,13 +260,11 @@ export class DeudoHistorialComponent implements OnInit {
     }
 
     restaurarVersion(versionId: number): void {
-        this.deudoHistoryService.restoreVersion('difunto', versionId).subscribe(
+        this.deudoHistoryService.restoreVersion('deudo', versionId).subscribe(
             () => {
                 this.loadHistorial(this.currentPage, this.pageSize);
             },
             (error) => console.error('Error al restaurar la versión:', error)
         );
     }
-
-    
 }

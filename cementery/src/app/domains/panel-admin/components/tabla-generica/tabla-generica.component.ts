@@ -1,4 +1,3 @@
-import { MapService } from '@admin/service/map-service/map.service';
 import { CommonModule } from '@angular/common';
 import { Component, Input, TemplateRef } from '@angular/core';
 

@@ -15,4 +15,5 @@ export interface DeudoHistory {
     history_date: string;             // Fecha de la modificación histórica
     history_change_reason?: string | null; // Razón del cambio (opcional)
     history_type: '+' | '~' | '-';    // Tipo de acción en el historial: "+" (creado), "~" (actualizado), "-" (eliminado)
+    historyTypeText?: string;    // Texto legible del tipo de cambio (calculado)
 }

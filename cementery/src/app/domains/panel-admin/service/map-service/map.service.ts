@@ -8,7 +8,7 @@ import { Deudo } from '@externo/models/difunto/deudo.model'; // Asegúrate de qu
   providedIn: 'root'
 })
 export class MapService {
-  constructor(private difuntoService: DifuntoService) {} // Inyectamos el servicio DifuntoService
+  constructor(private difuntoService: DifuntoService) { } // Inyectamos el servicio DifuntoService
   formatDate(dateString: string): string {
     const date = new Date(dateString);
     return date.toLocaleDateString('es-ES', { // Cambia 'es-ES' al idioma deseado
@@ -36,6 +36,7 @@ export class MapService {
   }
 
   mapUser(userId: string | undefined): string {
+    console.log('userId recibido:', userId);
     const userMap: { [key: string]: string } = {
       'renato': 'Renato',
       'pricila': 'Priscila Rodríguez',
@@ -45,7 +46,7 @@ export class MapService {
     };
     return userId ? userMap[userId] || userId : 'Desconocido';
   }
-  mapCeremony(ceremony:string | undefined): string {
+  mapCeremony(ceremony: string | undefined): string {
     const ceremonyrMap: { [key: string]: string } = {
       'Cremacion': 'Cremación',
       'Inhumacion': 'Inhumación',

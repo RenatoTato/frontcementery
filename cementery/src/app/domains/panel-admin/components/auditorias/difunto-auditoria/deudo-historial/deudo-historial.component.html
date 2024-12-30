@@ -16,7 +16,8 @@
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <!-- Campo de entrada para cada atributo con validación -->
                     <div *ngFor="let field of filterFields">
-                        <label [for]="field.name" class="block text-sm font-medium mb-2 text-[#99775c] dark:text-[#eae7dd]">
+                        <label [for]="field.name"
+                            class="block text-sm font-medium mb-2 text-[#99775c] dark:text-[#eae7dd]">
                             {{ field.label }}
                         </label>
                         <!-- Desplegable para campos específicos -->
@@ -40,7 +41,7 @@
                             </select>
                             <!-- Select para tipo -->
                             <select *ngSwitchCase="'tipo'" [id]="field.name" [formControlName]="field.name"
-                            class="w-full px-4 py-2 border border-[#99775c] rounded-lg shadow-sm focus:ring focus:ring-[#50a2a7] focus:border-[#50a2a7] dark:bg-[#2a2b2a] dark:border-[#99775c] text-[#99775c] dark:text-[#eae7dd]">
+                                class="w-full px-4 py-2 border border-[#99775c] rounded-lg shadow-sm focus:ring focus:ring-[#50a2a7] focus:border-[#50a2a7] dark:bg-[#2a2b2a] dark:border-[#99775c] text-[#99775c] dark:text-[#eae7dd]">
                                 <option *ngFor="let option of filterOptions.tipo" [value]="option.value">
                                     {{ option.label }}
                                 </option>
@@ -56,27 +57,32 @@
                             <!-- Select para Nombre -->
                             <select *ngSwitchCase="'names'" [id]="field.name" [formControlName]="field.name"
                                 class="w-full px-4 py-2 border border-[#99775c] rounded-lg shadow-sm focus:ring focus:ring-[#50a2a7] focus:border-[#50a2a7] dark:bg-[#2a2b2a] dark:border-[#99775c] text-[#99775c] dark:text-[#eae7dd]">
-                                <option *ngFor="let deudo of deudos" [value]="deudo.names">{{ deudo.names }}</option>
+                                <option *ngFor="let difunto of deudos" [value]="difunto.names">{{ difunto.names }}
+                                </option>
                             </select>
                             <!-- Select para Apellido -->
                             <select *ngSwitchCase="'last_names'" [id]="field.name" [formControlName]="field.name"
                                 class="w-full px-4 py-2 border border-[#99775c] rounded-lg shadow-sm focus:ring focus:ring-[#50a2a7] focus:border-[#50a2a7] dark:bg-[#2a2b2a] dark:border-[#99775c] text-[#99775c] dark:text-[#eae7dd]">
-                                <option *ngFor="let deudo of deudos" [value]="deudo.last_names">{{ deudo.last_names }}</option>
+                                <option *ngFor="let deudo of deudos" [value]="deudo.last_names">{{ deudo.last_names }}
+                                </option>
                             </select>
                             <!-- Select para Numero de solicitud -->
                             <select *ngSwitchCase="'phoneNumber'" [id]="field.name" [formControlName]="field.name"
                                 class="w-full px-4 py-2 border border-[#99775c] rounded-lg shadow-sm focus:ring focus:ring-[#50a2a7] focus:border-[#50a2a7] dark:bg-[#2a2b2a] dark:border-[#99775c] text-[#99775c] dark:text-[#eae7dd]">
-                                <option *ngFor="let deudo of deudos" [value]="deudo.phoneNumber">0{{ deudo.phoneNumber }}</option>
+                                <option *ngFor="let deudo of deudos" [value]="deudo.phoneNumber">0{{ deudo.phoneNumber
+                                    }}</option>
                             </select>
                             <!-- Select para Numero de cedula -->
                             <select *ngSwitchCase="'idNumber'" [id]="field.name" [formControlName]="field.name"
                                 class="w-full px-4 py-2 border border-[#99775c] rounded-lg shadow-sm focus:ring focus:ring-[#50a2a7] focus:border-[#50a2a7] dark:bg-[#2a2b2a] dark:border-[#99775c] text-[#99775c] dark:text-[#eae7dd]">
-                                <option *ngFor="let deudo of deudos" [value]="deudo.idNumber">{{ formatIdNumber(+deudo.idNumber) }}</option>
+                                <option *ngFor="let deudo of deudos" [value]="deudo.idNumber">{{ deudo.formattedId }}
+                                </option>
                             </select>
                             <!-- Select para Direccion -->
                             <select *ngSwitchCase="'address'" [id]="field.name" [formControlName]="field.name"
                                 class="w-full px-4 py-2 border border-[#99775c] rounded-lg shadow-sm focus:ring focus:ring-[#50a2a7] focus:border-[#50a2a7] dark:bg-[#2a2b2a] dark:border-[#99775c] text-[#99775c] dark:text-[#eae7dd]">
-                                <option *ngFor="let deudo of deudos" [value]="deudo.address">{{ deudo.address }}</option>
+                                <option *ngFor="let deudo of deudos" [value]="deudo.address">{{ deudo.address }}
+                                </option>
                             </select>
                             <!-- Input para otros campos -->
                             <input *ngSwitchDefault [id]="field.name" [formControlName]="field.name" type="text"
@@ -88,12 +94,12 @@
                 </div>
                 <div class="flex justify-end space-x-4">
                     <button type="button" (click)="resetFilters()"
-                    class="bg-[#99775c] text-white px-5 py-2 rounded-lg shadow-sm hover:bg-[#50a2a7] dark:bg-[#99775c] dark:hover:bg-[#50a2a7]"
+                        class="bg-[#99775c] text-white px-5 py-2 rounded-lg shadow-sm hover:bg-[#50a2a7] dark:bg-[#99775c] dark:hover:bg-[#50a2a7]"
                         [title]="'Refrescar'">
                         <img src="assets\image\icono\refresh-ccw.svg" alt="Icono comparar" class="w-4 h-4 " />
                     </button>
                     <button type="submit"
-                    class="bg-[#50a2a7] text-white px-5 py-2 rounded-lg shadow-sm hover:bg-[#99775c] dark:bg-[#50a2a7] dark:hover:bg-[#99775c]"
+                        class="bg-[#50a2a7] text-white px-5 py-2 rounded-lg shadow-sm hover:bg-[#99775c] dark:bg-[#50a2a7] dark:hover:bg-[#99775c]"
                         [title]="'Buscar'">
                         <img src="assets\image\icono\search.svg" alt="Icono comparar" class="w-4 h-4 " />
                     </button>
@@ -103,7 +109,7 @@
         <!-- Tabla de Historial -->
         <div class="bg-[#ffffff] dark:bg-[#2a2b2a] rounded-lg shadow-md overflow-x-auto mb-6">
             <app-tabla-generica [headers]="tableHeaders" [data]="historialItems" [keys]="tableKeys"
-                [actionTemplate]="actionTemplate"
+                [mapMethods]="mapMethods" [actionTemplate]="actionTemplate"
                 class="min-w-full bg-[#ffffff] dark:bg-[#2a2b2a] rounded-lg shadow-md overflow-hidden text-center">
             </app-tabla-generica>
             <ng-template #actionTemplate let-item>
@@ -122,7 +128,8 @@
         <!-- Paginación -->
         <div class="flex justify-evenly mt-4">
             <button (click)="goToFirstPage()" [disabled]="currentPage === 1"
-                class="px-4 py-2 rounded-lg shadow-sm bg-[#50a2a7] text-[#eae7dd] hover:bg-[#99775c] dark:bg-[#50a2a7] dark:hover:bg-[#99775c]" [title]="'Primera página'">
+                class="px-4 py-2 rounded-lg shadow-sm bg-[#50a2a7] text-[#eae7dd] hover:bg-[#99775c] dark:bg-[#50a2a7] dark:hover:bg-[#99775c]"
+                [title]="'Primera página'">
                 <img src="assets\image\icono\skip-forward.svg" alt="Icono comparar" class="w-4 h-4 rotate-180" />
             </button>
 
@@ -154,28 +161,28 @@
 
 
             <button (click)="goToLastPage()" [disabled]="currentPage === totalPages"
-            class="px-4 py-2 rounded-lg shadow-sm bg-[#50a2a7] text-[#eae7dd] hover:bg-[#99775c] dark:bg-[#50a2a7] dark:hover:bg-[#99775c]" [title]="'Ultima página'">
+                class="px-4 py-2 rounded-lg shadow-sm bg-[#50a2a7] text-[#eae7dd] hover:bg-[#99775c] dark:bg-[#50a2a7] dark:hover:bg-[#99775c]"
+                [title]="'Ultima página'">
                 <img src="assets\image\icono\skip-forward.svg" alt="Icono comparar" class="w-4 h-4" />
             </button>
         </div>
         <h2 class="text-2xl font-bold mb-4 text-[#99775c] dark:text-[#ffffff]">Comparación de Versiones</h2>
         <div class="bg-[#ffffff] dark:bg-[#2a2b2a] rounded-lg shadow-md overflow-x-auto mb-6">
-            
+
             <table class="min-w-full bg-[#ffffff] dark:bg-[#2a2b2a] rounded-lg shadow-md overflow-hidden text-center">
                 <thead class="bg-[#eae7dd] dark:bg-[#99775c]">
-                    <tr >
-                        <th  class="px-6 py-3 text-xs font-medium text-[#99775c] dark:text-[#eae7dd] uppercase">
+                    <tr>
+                        <th class="px-6 py-3 text-xs font-medium text-[#99775c] dark:text-[#eae7dd] uppercase">
                             Versión ID</th>
-                        <th  class="px-6 py-3 text-xs font-medium text-[#99775c] dark:text-[#eae7dd] uppercase">
+                        <th class="px-6 py-3 text-xs font-medium text-[#99775c] dark:text-[#eae7dd] uppercase">
                             Fecha</th>
-                        <th  class="px-6 py-3 text-xs font-medium text-[#99775c] dark:text-[#eae7dd] uppercase">
+                        <th class="px-6 py-3 text-xs font-medium text-[#99775c] dark:text-[#eae7dd] uppercase">
                             Campo</th>
-                        <th  class="px-6 py-3 text-xs font-medium text-[#99775c] dark:text-[#eae7dd] uppercase">
+                        <th class="px-6 py-3 text-xs font-medium text-[#99775c] dark:text-[#eae7dd] uppercase">
                             Valor Anterior</th>
-                        <th  class="px-6 py-3 text-xs font-medium text-[#99775c] dark:text-[#eae7dd] uppercase">
+                        <th class="px-6 py-3 text-xs font-medium text-[#99775c] dark:text-[#eae7dd] uppercase">
                             Valor Actual</th>
-                        <th
-                            class="px-6 py-3 text-xs font-medium text-[#99775c] dark:text-[#eae7dd] uppercase">
+                        <th class="px-6 py-3 text-xs font-medium text-[#99775c] dark:text-[#eae7dd] uppercase">
                             Acciones</th>
                     </tr>
                 </thead>

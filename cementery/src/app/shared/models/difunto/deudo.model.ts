@@ -13,4 +13,5 @@ export interface Deudo {
     address?: string;
     tipo?: Relacion;
     description?: string;
+    formattedId?: string;      // Propiedad opcional
 }
