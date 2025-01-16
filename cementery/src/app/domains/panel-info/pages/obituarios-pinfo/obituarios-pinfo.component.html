@@ -75,14 +75,13 @@
                 Limpiar todo
             </button>
         </div>
-
         <!-- Lista de Obituarios -->
         <div class="w-full lg:w-3/4">
-            <h1 class="text-2xl font-bold mb-6 text-center text-[#99775c] text-2xl ">Obituarios</h1>
+            <h1 class="text-2xl font-bold mb-6 text-center text-[#99775c]">Obituarios</h1>
             <div class="space-y-4">
                 <div *ngFor="let obituario of obituarios"
                     class="flex gap-4 bg-[#ffffff] p-4 rounded-lg shadow-md cursor-pointer"
-                    (click)="viewDetail(obituario)" (keydown)="handleKeyPress($event, obituario)" role="button" tabindex="0">
+                    (click)="obituario.id ? navigateToDetail(obituario.id) : null">
                     <img *ngIf="obituario.image_dif" [src]="obituario.image_dif" alt="{{ obituario.name }}"
                         class="w-24 h-24 object-cover rounded-lg" />
                     <div>
@@ -98,6 +97,7 @@
                         </p>
                     </div>
                 </div>
+
                 <!-- Paginación -->
                 <div class="flex justify-center mt-6">
                     <button (click)="onPageChange(page - 1)" [disabled]="page === 1"
@@ -113,42 +113,46 @@
             </div>
         </div>
     </div>
-    <!-- Vista de detalle -->
-    <div *ngIf="selectedObituario">
-        <button
-            class="mb-4 px-4 py-2 border border-[#50a2a7] text-[#99775c] rounded-lg hover:bg-[#50a2a7] hover:text-[#ffffff] transition"
-            (click)="backToList()">
-            ← Volver a la lista
-        </button>
 
-        <div *ngFor="let obituario of obituarios" class="container mx-auto px-4 py-6">
-            <!-- Encabezado del Obituario -->
-            <div class="text-center mb-6">
-                <h1 class="text-3xl font-semibold text-[#2a2b2a]">{{ obituario?.name }}</h1>
-                <p class="text-md text-[#99775c]">
-                    {{ obituario?.date_born | date: 'longDate' }} - {{ obituario?.date_dead | date: 'longDate' }}
+    <!-- Vista de Detalle -->
+    <div *ngIf="selectedObituario">
+        <div class="container mx-auto px-20 py-6">
+            <button (click)="navigateToList()"
+                class="mb-4 px-4 py-2 border border-[#50a2a7] text-[#99775c] rounded-lg hover:bg-[#50a2a7] hover:text-[#ffffff] transition">
+                ← Volver a la lista
+            </button>
+
+            <!-- Obituario -->
+            <div class="text-center mb-10">
+                <p class="text-lg text-[#4a3c31] font-medium">OBITUARIO</p>
+                <h1 class="text-4xl font-bold text-[#2a2b2a] mb-4">{{ selectedObituario.name }}</h1>
+
+                <p class="text-lg text-[#4a3c31] mb-4">
+                    {{ selectedObituario.date_born | date: 'longDate' }} - {{ selectedObituario.date_dead | date:
+                    'longDate'
+                    }}
                 </p>
-                <p class="text-sm text-[#50a2a7]">{{ obituario?.cementery }}</p>
+
+                <!-- Imagen del Obituario -->
+                <div class="flex justify-center mb-6">
+                    <img *ngIf="selectedObituario.image_dif" [src]="selectedObituario.image_dif"
+                        alt="{{ selectedObituario.name }}"
+                        class="w-48 h-48 object-cover rounded-full border-4 border-[#99775c] shadow-md" />
+                </div>
+
+                <p class="text-sm text-[#4a3c31] font-semibold uppercase tracking-wide">AL CUIDADO DEL CEMENTERIO</p>
+                <p class="text-lg text-[#4a3c31] font-medium mt-2">{{ selectedObituario.cementery | uppercase }}</p>
             </div>
 
             <!-- Detalle del Obituario -->
-            <div class="bg-[#ffffff] shadow-md rounded-lg p-6 mb-6">
-                <p class="text-[#2a2b2a] leading-relaxed">{{ obituario?.obituary_detail }}</p>
+            <div class="bg-[#ffffff]  rounded-lg p-6 mb-6">
+                <p class="text-[#2a2b2a] leading-relaxed">{{ selectedObituario.obituary_detail }}</p>
             </div>
-
-            <!-- Etapas del Obituario -->
-            <h2 class="text-2xl font-semibold text-[#99775c] mb-4">Servicios</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                <div *ngFor="let etapa of etapas" class="p-4 border rounded-lg shadow-md bg-[#f8f8f8]">
-                    <h3 class="text-lg font-semibold text-[#2a2b2a]">{{ etapa.stage_ceremony }}</h3>
-                    <p class="text-sm text-[#99775c]">{{ etapa.place }} | {{ etapa.date | date: 'longDate' }}</p>
-                </div>
-            </div>
-
             <!-- Botón para agregar memoria -->
             <div class="text-center mb-6">
+                <h2 class="text-2xl font-semibold text-[#4a3c31] mb-4">Muestra tu apoyo</h2>
                 <button (click)="toggleMemoryForm()"
-                    class="bg-[#50a2a7] text-white px-4 py-2 rounded-md hover:bg-[#2a2b2a]">
+                    class="bg-[#50a2a7] text-white px-4 py-2 rounded-md hover:bg-[#99775c]">
                     Agregar un recuerdo
                 </button>
             </div>
@@ -157,32 +161,57 @@
             <div *ngIf="showMemoryForm" class="bg-[#ffffff] shadow-md rounded-lg p-6 mb-6">
                 <input [(ngModel)]="nuevaMemoria.names" placeholder="Nombre"
                     class="w-full border mb-4 px-3 py-2 rounded-md" />
+
                 <input [(ngModel)]="nuevaMemoria.relationship" placeholder="Relación"
                     class="w-full border mb-4 px-3 py-2 rounded-md" />
+
                 <textarea [(ngModel)]="nuevaMemoria.text" placeholder="Recuerdo" rows="3"
                     class="w-full border px-3 py-2 rounded-md"></textarea>
+
+                <!-- Botón para agregar imagen -->
+                <div class="text-center mb-4">
+                    <button (click)="imageInput.click()"
+                        class="bg-[#99775c] text-white px-4 py-2 rounded-md hover:bg-[#50a2a7] transition">
+                        Agregar Imagen
+                    </button>
+                    <!-- Campo oculto para cargar la imagen -->
+                    <input #imageInput type="file" (change)="onFileSelected($event)" accept="image/*" hidden />
+                </div>
+
                 <button (click)="agregarMemoria()"
-                    class="bg-[#50a2a7] text-white px-4 py-2 rounded-md mt-4">Guardar</button>
-            </div>
-
-            <!-- Memorias -->
-            <h2 class="text-2xl font-semibold text-[#99775c] mb-4">Recuerdos</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                <div *ngFor="let memoria of memorias" class="p-4 border rounded-lg shadow-md bg-[#f8f8f8]">
-                    <h3 class="text-md font-semibold text-[#2a2b2a]">{{ memoria.names }}</h3>
-                    <p class="text-sm text-[#99775c]">{{ memoria.relationship }}</p>
-                    <p class="text-[#2a2b2a]">{{ memoria.text }}</p>
-                </div>
-            </div>
-
-            <!-- Artículos relacionados -->
-            <h2 class="text-2xl font-semibold text-[#99775c] mb-4">Artículos relacionados</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="p-4 border rounded-lg shadow-md bg-[#ffffff]" *ngFor="let articulo of [1,2,3]">
-                    <h3 class="text-md font-semibold text-[#2a2b2a]">Artículo {{ articulo }}</h3>
-                    <p class="text-sm text-[#99775c]">Enlace al artículo relacionado.</p>
-                </div>
+                    class="bg-[#50a2a7] text-white px-4 py-2 rounded-md hover:bg-[#99775c]">
+                    Guardar
+                </button>
             </div>
         </div>
+
+
+        <!-- Etapas -->
+        <h2 class="text-2xl font-semibold text-[#4a3c31] text-center mb-4">Servicios</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <div *ngFor="let etapa of etapas" class="p-4 border rounded-lg shadow-md bg-[#f8f8f8]">
+                <h3 class="text-lg font-semibold text-[#2a2b2a]">{{ etapa.stage_ceremony }}</h3>
+                <p class="text-sm text-[#99775c]">{{ etapa.place }} | {{ etapa.date | date: 'longDate' }}</p>
+            </div>
+        </div>
+
+
+        <!-- Memorias -->
+        <h2 class="text-2xl font-semibold text-[#4a3c31] text-center mb-4">Recuerdos</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <div *ngFor="let memoria of memorias" class="p-4 border rounded-lg shadow-md bg-[#f8f8f8]">
+                <h3 class="text-md font-semibold text-[#2a2b2a]">{{ memoria.names }}</h3>
+                <p class="text-sm text-[#99775c]">{{ memoria.relationship }}</p>
+                <p class="text-[#2a2b2a]">{{ memoria.text }}</p>
+            </div>
+        </div>
+        <section class="py-10">
+            <div class="container mx-auto">
+                <h2 class="text-3xl font-bold mb-6 text-center">Artículos Recomendados
+                </h2>
+                <app-articulo-info [articulos]="articulos" (onArticuloSeleccionado)="verArticulo($event)">
+                </app-articulo-info>
+            </div>
+        </section>
     </div>
 </div>

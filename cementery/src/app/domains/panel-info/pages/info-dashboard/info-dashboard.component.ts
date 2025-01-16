@@ -14,7 +14,7 @@ import { NotificationFormComponent } from "@shared/components/notification-form/
 @Component({
   selector: 'app-info-dashboard',
   standalone: true,
-  imports: [CommonModule, ArticuloInfoComponent, IglrsiasInfosComponent, ObituarioInfosComponent, NotificationFormComponent],
+  imports: [CommonModule, ArticuloInfoComponent, IglrsiasInfosComponent, NotificationFormComponent],
   templateUrl: './info-dashboard.component.html',
   styleUrl: './info-dashboard.component.css'
 })
@@ -23,6 +23,7 @@ export class InfoDashboardComponent implements OnInit {
   servicios: any[] = [];
   obituarios: any[] = [];
   iglesias: any[] = [];
+  visibleObituaries = 3; // Cantidad de obituarios visibles
   currentIndex: number = 0; // Índice actual del carrusel
   visibleCards: number = 3; // Número de cards visibles
   maxIndex: number = 0; // Máximo índice desplazable
@@ -41,6 +42,7 @@ export class InfoDashboardComponent implements OnInit {
     this.loadServicios();
     this.loadObituarios();
     this.loadIglesias();
+    this.startAutoScroll();
   }
 
   private loadArticulos() {
@@ -89,10 +91,21 @@ export class InfoDashboardComponent implements OnInit {
       this.currentIndex = 0; // Reinicia el carrusel si llega al final
     }
   }
-  private loadObituarios() {
-    this.obituarioService.getReadObituarios().subscribe((data) => {
-      this.obituarios = data;
+
+  private loadObituarios(): void {
+    this.obituarioService.getObituarios(1, 9).subscribe((data) => {
+      this.obituarios = Array.isArray(data) ? data : data.results;
+      this.maxIndex = Math.ceil(this.obituarios.length / this.visibleObituaries) - 1;
     });
+  }
+
+  private startAutoScroll(): void {
+    setInterval(() => {
+      this.currentIndex = (this.currentIndex + 1) % (this.maxIndex + 1);
+    }, 3000); // Cambia cada 3 segundos
+  }
+  navigateToList(): void {
+    this.router.navigate(['/obituarios']);
   }
 
   private loadIglesias() {
@@ -102,5 +115,12 @@ export class InfoDashboardComponent implements OnInit {
   }
   verArticulo(id: number): void {
     this.router.navigate(['/articulos', id]); // Navega a la ruta con el ID
+  }
+  navigateToDetail(id: number | undefined): void {
+    if (id === undefined) {
+      console.error('ID is undefined');
+      return;
+    }
+    this.router.navigate(['/obituarios', id]);
   }
 }

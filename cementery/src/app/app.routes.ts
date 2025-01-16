@@ -38,7 +38,7 @@ export const routes: Routes = [
             },
             {
                 path: 'obituarios/:id',
-                loadComponent: () => import('@info/pages/articulos/articulos.component').then(m => m.ArticulosComponent)
+                loadComponent: () => import('@info/pages/obituarios-pinfo/obituarios-pinfo.component').then(m => m.ObituariosPinfoComponent)
             },
         ]
     },

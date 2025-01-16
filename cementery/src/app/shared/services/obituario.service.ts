@@ -38,12 +38,13 @@ export class ObituarioService {
 
   private buildFormDataMemoria(memoriaData: Memoria, file: File | null): FormData {
     const formData = new FormData();
-    // Añadir los campos del modelo Iglesia al FormData
-    formData.append('name', memoriaData.names);
+    formData.append('names', memoriaData.names); // Cambiado de 'name' a 'names'
     formData.append('text', memoriaData.text);
-    formData.append('obituary', memoriaData.obituary.toString() || '');
-    if (memoriaData.relationship) formData.append('relationship', memoriaData.relationship);
-    // Añadir la imagen solo si se ha seleccionado una
+    formData.append('obituary', memoriaData.obituary.toString()); // Asegura que no sea undefined
+    formData.append('description', memoriaData.description || ''); // Proporciona un valor por defecto
+    if (memoriaData.relationship) {
+      formData.append('relationship', memoriaData.relationship);
+    }
     if (file) {
       formData.append('image', file, file.name);
     }

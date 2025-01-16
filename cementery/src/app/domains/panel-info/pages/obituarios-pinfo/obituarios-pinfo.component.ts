@@ -4,21 +4,27 @@ import { Obituario } from '@externo/models/obituario/obituario.model';
 import { ObituarioFilter } from '@externo/models/obituario/obituariob.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ObituarioInfosComponent } from "../../component/obituario-infos/obituario-infos.component";
 import { EtapasObituario } from '@externo/models/obituario/etapas.model';
 import { Memoria } from '@externo/models/obituario/memoria.model';
+import { Articulo } from '@externo/models/articulo/articulo.model';
+import { ArticuloService } from '@externo/services/articulo.service';
+import { ArticuloInfoComponent } from '@info/component/articulo-info/articulo-info.component';
 
 @Component({
   selector: 'app-obituarios-pinfo',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ArticuloInfoComponent],
   templateUrl: './obituarios-pinfo.component.html',
   styleUrl: './obituarios-pinfo.component.css'
 })
 export class ObituariosPinfoComponent implements OnInit {
+  selectedFile: File | null = null; // Archivo seleccionado
   obituarios: Obituario[] = [];
   selectedObituario: Obituario | null = null; // Obituario seleccionado
   etapas: EtapasObituario[] = [];
+  articulos: Articulo[] = [];
   memorias: Memoria[] = [];
   showMemoryForm: boolean = false;
   nuevaMemoria: { names: string; text: string; relationship: string } = {
@@ -26,6 +32,7 @@ export class ObituariosPinfoComponent implements OnInit {
     text: '',
     relationship: ''
   };
+  
   filter: ObituarioFilter = {
     place: undefined,
     name: undefined,
@@ -40,19 +47,57 @@ export class ObituariosPinfoComponent implements OnInit {
   page = 1;
   pageSize = 10;
   totalObituarios = 0;
+  
 
-  constructor(private obituarioService: ObituarioService) { }
+  constructor(
+    private obituarioService: ObituarioService,
+    private articuloService: ArticuloService,
+    private router: Router ,
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit(): void {
-    this.loadObituarios();
+    this.route.params.subscribe((params) => {
+      const id = params['id'];
+      if (id) {
+        this.loadObituarioDetail(+id);
+        this.loadArticulos();
+      } else {
+        this.loadObituarios();
+      }
+    });
   }
+
 
   loadObituarios(): void {
     this.obituarioService
       .getObituarios(this.page, this.pageSize, this.filter)
       .subscribe((data) => {
-        this.obituarios = Array.isArray(data) ? data : data.results;
+        if ('results' in data && 'count' in data) {
+          // Caso cuando la API devuelve un objeto con 'results' y 'count'
+          this.obituarios = data.results;
+          this.totalObituarios = data.count;
+        } else if (Array.isArray(data)) {
+          // Caso cuando la API devuelve un array directo
+          this.obituarios = data;
+          this.totalObituarios = data.length; // Si necesitas el total de resultados
+        } else {
+          console.error('Formato de respuesta inesperado:', data);
+        }
       });
+  }
+
+  private loadObituarioDetail(id: number): void {
+    this.obituarioService.getObituarioId(id).subscribe((obituario) => {
+      this.selectedObituario = obituario;
+      this.loadEtapas(id);
+      this.loadMemorias(id);
+    });
+  }
+  private loadArticulos() {
+    this.articuloService.getReadArticulos({ is_featured: true }).subscribe((data) => {
+      this.articulos = data;
+    });
   }
 
   applyFilter(): void {
@@ -61,20 +106,42 @@ export class ObituariosPinfoComponent implements OnInit {
   }
   viewDetail(obituario: Obituario): void {
     this.selectedObituario = obituario;
-    this.loadEtapas(obituario.id!);
-    this.loadMemorias(obituario.id!);
+    const id = obituario.id; // id ya no será undefined si Obituario tiene id siempre
+    if (id !== undefined) {
+      this.loadEtapas(id);
+      this.loadMemorias(id);
+    }
   }
-  loadEtapas(obituaryId: number): void {
+   private loadEtapas(obituaryId: number): void {
     this.obituarioService.getReadEtapas({ obituary: obituaryId }).subscribe((etapas) => {
       this.etapas = etapas;
     });
   }
 
-  loadMemorias(obituaryId: number): void {
+  private loadMemorias(obituaryId: number): void {
     this.obituarioService.getReadMemorias({ obituary: obituaryId }).subscribe((memorias) => {
       this.memorias = memorias;
     });
   }
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      this.selectedFile = input.files[0];
+    }
+  }
+  navigateToDetail(id: number | undefined): void {
+    if (id === undefined) {
+      console.error('ID is undefined');
+      return;
+    }
+    this.router.navigate(['/obituarios', id]);
+  }
+
+  navigateToList(): void {
+    this.router.navigate(['/obituarios']);
+  }
+
   backToList(): void {
     this.selectedObituario = null; // Regresa a la lista
     this.etapas = [];
@@ -86,18 +153,21 @@ export class ObituariosPinfoComponent implements OnInit {
 
   agregarMemoria(): void {
     if (!this.selectedObituario?.id) return;
-  
+
     const nuevaMemoriaData: Memoria = {
       ...this.nuevaMemoria,
-      obituary: this.selectedObituario.id, // Pasar solo el ID
+      obituary: this.selectedObituario.id,
+      description: 'Memoria agregada desde el frontend',
     };
-  
-    this.obituarioService.createMemoria(nuevaMemoriaData, null).subscribe(() => {
+
+    // Llama al servicio para enviar la memoria con la imagen opcional
+    this.obituarioService.createMemoria(nuevaMemoriaData, this.selectedFile).subscribe(() => {
       if (this.selectedObituario?.id) {
         this.loadMemorias(this.selectedObituario.id);
       }
       this.toggleMemoryForm();
-      this.nuevaMemoria = { names: '', text: '', relationship: '' }; // Limpiar el formulario
+      this.nuevaMemoria = { names: '', text: '', relationship: '' }; // Limpia el formulario
+      this.selectedFile = null; // Limpia el archivo seleccionado
     });
   }
   handleKeyPress(event: KeyboardEvent, obituario: any): void {
@@ -165,19 +235,21 @@ export class ObituariosPinfoComponent implements OnInit {
       .map(word => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ');
   }
-  
+
   setCemetery(event: Event): void {
     const input = event.target as HTMLInputElement; // Conversión de tipo aquí
     this.filter.cementery = input?.value || ''; // Asigna el valor al filtro
     this.applyFilter();
   }
-  
+
   setSearch(event: Event): void {
     const input = event.target as HTMLInputElement; // Conversión de tipo aquí
     this.filter.name = input?.value || ''; // Asigna el valor al filtro
     this.applyFilter();
   }
-
+  verArticulo(id: number): void {
+    this.router.navigate(['/articulos', id]); // Navega a la ruta con el ID
+  }
 
   onPageChange(page: number): void {
     this.page = page;

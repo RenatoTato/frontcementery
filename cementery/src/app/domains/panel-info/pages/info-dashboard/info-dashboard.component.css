@@ -1,18 +1,38 @@
 /* obituarios-pinfo.component.css */
 .relative {
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .flex {
-    display: flex;
-    transition: transform 0.5s ease-in-out;
-  }
-  
-  .w-1\/3 {
-    flex: 0 0 33.33%; /* Cada card ocupa el 33.33% (3 por fila) */
-  }
-  
-  button {
-    z-index: 10; /* Asegura que los botones estén por encima */
-  }
+  position: relative;
+  overflow: hidden;
+}
+
+.flex {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.w-1\/3 {
+  flex: 0 0 33.33%;
+  /* Cada card ocupa el 33.33% (3 por fila) */
+}
+
+button {
+  z-index: 10;
+  /* Asegura que los botones estén por encima */
+}
+
+img {
+  display: block;
+  margin: 0 auto;
+}
+.text-center {
+  text-align: center;
+}
+.w-32 {
+  width: 8rem; /* 128px */
+}
+.h-32 {
+  height: 8rem; /* 128px */
+}
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}

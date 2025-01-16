@@ -7,5 +7,6 @@ export interface Memoria {
   text: string;
   image?: string;
   obituary: number | Obituario; // Permite un número (ID) o el objeto completo
+  description?:string;
   obituarioDetails?:string;
 }
