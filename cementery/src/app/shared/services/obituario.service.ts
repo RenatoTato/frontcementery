@@ -24,7 +24,7 @@ export class ObituarioService {
 
   private generateParams(filterParams?: any): HttpParams {
     let params = new HttpParams();
-  
+
     if (filterParams) {
       for (const key in filterParams) {
         if (filterParams[key]) {
@@ -32,7 +32,7 @@ export class ObituarioService {
         }
       }
     }
-  
+
     return params;
   }
 
@@ -81,6 +81,7 @@ export class ObituarioService {
   updateObituario(id: number, data: Obituario): Observable<Obituario> {
     return this.http.put<Obituario>(`${this.obituarioUrl}${id}/`, data)
   }
+  
   // Eliminar un artículo
   deleteObituario(id: number): Observable<void> {
     return this.http.delete<void>(`${this.obituarioUrl}${id}/`)
@@ -117,6 +118,12 @@ export class ObituarioService {
   updateMemoria(id: number, memoriaData: Memoria, file: File | null): Observable<Memoria> {
     const formData = this.buildFormDataMemoria(memoriaData, file);
     return this.http.put<Memoria>(`${this.memoriaUrl}${id}/`, formData)
+  }
+  updateDescription(id: number | undefined, description: string): Observable<any> {
+    if (id === undefined) {
+      throw new Error('El ID no puede ser undefined');
+    }
+    return this.http.patch<any>(`${this.memoriaUrl}${id}/`, { description });
   }
   // Eliminar un artículo
   deleteMemoria(id: number): Observable<void> {

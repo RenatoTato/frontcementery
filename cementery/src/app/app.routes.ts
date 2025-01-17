@@ -40,6 +40,14 @@ export const routes: Routes = [
                 path: 'obituarios/:id',
                 loadComponent: () => import('@info/pages/obituarios-pinfo/obituarios-pinfo.component').then(m => m.ObituariosPinfoComponent)
             },
+            {
+                path: 'iglesias',
+                loadComponent: () => import('@info/pages/iglesia-pinfo/iglesia-pinfo.component').then(m => m.IglesiaPinfoComponent)
+            },
+            {
+                path: 'iglesias/:id',
+                loadComponent: () => import('@info/pages/iglesia-pinfo/iglesia-pinfo.component').then(m => m.IglesiaPinfoComponent)
+            },
         ]
     },
     {

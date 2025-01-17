@@ -150,11 +150,40 @@
             </div>
             <!-- Botón para agregar memoria -->
             <div class="text-center mb-6">
-                <h2 class="text-2xl font-semibold text-[#4a3c31] mb-4">Muestra tu apoyo</h2>
-                <button (click)="toggleMemoryForm()"
-                    class="bg-[#50a2a7] text-white px-4 py-2 rounded-md hover:bg-[#99775c]">
-                    Agregar un recuerdo
-                </button>
+                <h2 class="text-2xl font-semibold text-[#4a3c31] mb-6">Muestra tu apoyo</h2>
+                <div class="grid grid-cols-2 gap-6">
+                    <!-- Botón Agregar un recuerdo -->
+                    <div class="flex flex-col items-center p-4 border border-[#50a2a7] rounded-lg hover:shadow-lg hover:bg-[#f0f0f0] transition cursor-pointer"
+                        (click)="toggleMemoryForm()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none"
+                            stroke="#50a2a7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="mb-2 feather feather-heart">
+                            <path
+                                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                            </path>
+                        </svg>
+                        <h3 class="text-lg font-semibold text-[#4a3c31]">Agregar un recuerdo</h3>
+                        <p class="text-sm text-[#4a3c31]">Envía una nota, comparte una historia o sube una foto.</p>
+                    </div>
+                    <!-- Botón Compartir obituario -->
+                    <div class="flex flex-col items-center p-4 border border-[#50a2a7] rounded-lg hover:shadow-lg hover:bg-[#f0f0f0] transition cursor-pointer"
+                        (click)="copiarLink()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 25 22" fill="none"
+                            stroke="#50a2a7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                            class="mb-2">
+                            <path
+                                d="M2.738 21.18h15.2a1.336 1.336 0 0 0 1.338-1.338v-8.368L25 7.075l-7.62-5.862v3.094H2.738A1.336 1.336 0 0 0 1.4 5.645v14.2a1.336 1.336 0 0 0 1.338 1.335Z"
+                                fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"
+                                stroke-width="1.5"></path>
+                            <path
+                                d="M17.364 1.2v3.585C13.206 5.836 9.478 9.8 7.518 15.778c2.1-1.864 3.633-3.441 5.353-4.684a8.792 8.792 0 0 1 4.493-1.721v3.585l7.648-5.879Z"
+                                fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"
+                                stroke-width="1.5"></path>
+                        </svg>
+                        <h3 class="text-lg font-semibold text-[#4a3c31]">Compartir obituario</h3>
+                        <p class="text-sm text-[#4a3c31]">Informe a los demás sobre la muerte de su ser querido.</p>
+                    </div>
+                </div>
             </div>
 
             <!-- Formulario para agregar memoria -->
@@ -162,55 +191,184 @@
                 <input [(ngModel)]="nuevaMemoria.names" placeholder="Nombre"
                     class="w-full border mb-4 px-3 py-2 rounded-md" />
 
-                <input [(ngModel)]="nuevaMemoria.relationship" placeholder="Relación"
-                    class="w-full border mb-4 px-3 py-2 rounded-md" />
-
-                <textarea [(ngModel)]="nuevaMemoria.text" placeholder="Recuerdo" rows="3"
-                    class="w-full border px-3 py-2 rounded-md"></textarea>
-
+                <!-- Selector para la relación -->
+                <select [(ngModel)]="nuevaMemoria.relationship"
+                    class="w-full border mb-4 px-3 py-2 rounded-md bg-white text-[#2a2b2a]">
+                    <option value="" disabled selected>Seleccionar relación</option>
+                    <option value="Familia">Familia</option>
+                    <option value="Amigo">Amigo/a</option>
+                    <option value="Compañero">Compañero/a</option>
+                    <option value="Otro">Otro</option>
+                </select>
                 <!-- Botón para agregar imagen -->
                 <div class="text-center mb-4">
                     <button (click)="imageInput.click()"
-                        class="bg-[#99775c] text-white px-4 py-2 rounded-md hover:bg-[#50a2a7] transition">
-                        Agregar Imagen
+                        class="w-full mb-4 px-4 py-2 border border-[#50a2a7] text-[#99775c] rounded-lg hover:bg-[#50a2a7] hover:text-[#ffffff] transition">
+                        Agregar Foto o Imagen
                     </button>
                     <!-- Campo oculto para cargar la imagen -->
                     <input #imageInput type="file" (change)="onFileSelected($event)" accept="image/*" hidden />
                 </div>
+                <textarea [(ngModel)]="nuevaMemoria.text" placeholder="Recuerdo" rows="3"
+                    class="w-full border px-3 py-2 rounded-md"></textarea>
+                <!-- Botón para guardar -->
+                <div class="flex justify-end">
+                    <button (click)="agregarMemoria()"
+                        class="mb-4 px-4 py-2 border border-[#50a2a7] text-[#99775c] rounded-lg hover:bg-[#50a2a7] hover:text-[#ffffff] transition">
+                        Guardar
+                    </button>
+                </div>
 
-                <button (click)="agregarMemoria()"
-                    class="bg-[#50a2a7] text-white px-4 py-2 rounded-md hover:bg-[#99775c]">
-                    Guardar
-                </button>
+            </div>
+        </div>
+        <div class="bg-[#f4f3f0]">
+            <div class="container mx-auto px-20 py-6">
+                <h2 class="text-2xl py-10 font-semibold text-[#4a3c31] text-center mb-4">Servicios</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-8">
+                    <div *ngFor="let etapa of etapas" class="bg-white pt-4 px-4">
+                        <!-- Fecha en un color diferente con espacio al inicio -->
+                        <div class="bg-[#def0f0] text-center py-2 pl-4">
+                            <p class="text-lg font-semibold text-[#2a2b2a]">
+                                {{ etapa.date | date: 'EEEE, dd MMMM yyyy' | uppercase }}
+                            </p>
+                        </div>
+                        <!-- Detalles del servicio -->
+                        <div class="p-6">
+                            <h3 class="text-lg font-semibold text-[#2a2b2a] text-center">
+                                {{ stageCeremonyMap[etapa.stage_ceremony] || etapa.stage_ceremony }}
+                            </h3>
+                            <p class="text-md text-[#a7a7a7f2] text-center my-2">{{ etapa.date | date: 'HH:mm' }} horas
+                            </p>
+                            <h4 class="text-center text-[#2a2b2a] font-semibold mt-4">CEMENTERIO SAN JOSÉ DEL CONDADO
+                            </h4>
+
+                            <!-- Dirección y SVG centrados -->
+                            <div class="flex items-center justify-center text-sm text-[#50a2a7] mt-4">
+                                <!-- SVG -->
+                                <div class="flex-shrink-0">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" viewBox="0 0 57 57">
+                                        <g clip-path="url(#clip-path)">
+                                            <g>
+                                                <path
+                                                    d="M33.082 35.392a51.572 51.572 0 0 0-4.549 9.049 51.572 51.572 0 0 0-4.549-9.049c-2.696-4.634-5.484-9.426-5.484-13.469C18.5 13.869 23.683 11 28.532 11s10.032 2.869 10.032 10.923c.001 4.043-2.787 8.835-5.482 13.469Z"
+                                                    fill="none" stroke="#50a2a7" stroke-width="2"></path>
+                                            </g>
+                                            <g transform="translate(22.5 15.415)" fill="none" stroke="#50a2a7"
+                                                stroke-width="2">
+                                                <circle cx="6" cy="6" r="6" stroke="none"></circle>
+                                                <circle cx="6" cy="6" r="5"></circle>
+                                            </g>
+                                        </g>
+                                        <defs>
+                                            <clipPath id="clip-path">
+                                                <rect width="57" height="57" fill="#fff"></rect>
+                                            </clipPath>
+                                        </defs>
+                                    </svg>
+                                </div>
+                                <!-- Texto de la dirección -->
+                                <div class="ml-4 text-center">
+                                    <h3 class="text-[#4a3c31] underline decoration-[#50a2a7]">PIEDRAS NEGRAS Y SAN JOSÉ
+                                    </h3>
+                                    <h3 class="text-[#4a3c31] underline decoration-[#50a2a7]">
+                                        DEL CONDADO 203, UIO170103
+                                    </h3>
+                                </div>
+                            </div>
+                            <!-- Botones -->
+                            <div class="grid grid-cols-2 gap-4 mt-6">
+
+                                <div class="flex items-center justify-center bg-white text-[#50a2a7] py-2 px-4 "
+                                    (click)="copiarLink()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="57" viewBox="0 0 25 22">
+                                        <path
+                                            d="M2.738 21.18h15.2a1.336 1.336 0 0 0 1.338-1.338v-8.368L25 7.075l-7.62-5.862v3.094H2.738A1.336 1.336 0 0 0 1.4 5.645v14.2a1.336 1.336 0 0 0 1.338 1.335Z"
+                                            fill="none" stroke="#50a2a7" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-miterlimit="10" stroke-width="1.5"></path>
+                                        <path
+                                            d="M17.364 1.2v3.585C13.206 5.836 9.478 9.8 7.518 15.778c2.1-1.864 3.633-3.441 5.353-4.684a8.792 8.792 0 0 1 4.493-1.721v3.585l7.648-5.879Z"
+                                            fill="none" stroke="#50a2a7" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-miterlimit="10" stroke-width="1.5"></path>
+                                    </svg>
+                                    <h3 class="text-[#4a3c31] decoration-[#50a2a7] hover:underline">
+                                        Compartir
+                                    </h3>
+
+                                </div>
+                                <button class="flex items-center justify-center bg-white text-[#50a2a7] py-2 px-4"
+                                    (click)="toggleMemoryForm()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24"
+                                        fill="none" stroke="#50a2a7" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" class="feather feather-heart">
+                                        <path
+                                            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                                        </path>
+                                    </svg>
+                                    <h3 class="text-[#4a3c31] decoration-[#50a2a7] hover:underline">
+                                        Añadir Recuerdo
+                                    </h3>
+
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Memorias -->
+                <h2 class="text-2xl py-10 font-semibold text-[#4a3c31] text-center mb-4">Recuerdos</h2>
+                <div class="flex flex-wrap gap-6 mb-6 items-start">
+                    <div *ngFor="let memoria of memorias; let i = index" class="flex-none w-[calc(50%-12px)]">
+                        <div class="p-6 border rounded-lg shadow-md bg-[#f8f8f8]">
+                            <!-- Foto -->
+                            <div *ngIf="memoria.image" class="mb-4">
+                                <img [src]="memoria.image" alt="Recuerdo" class="w-full rounded-lg object-cover">
+                            </div>
+                            <!-- Nombre y Fecha -->
+                            <div class="flex justify-between items-center mb-2">
+                                <h3 class="text-md font-semibold text-[#2a2b2a]">{{ memoria.names }}</h3>
+                                <p class="text-sm text-[#a7a7a7f2]">{{ memoria.date | date: 'dd/MM/yyyy' }}</p>
+                            </div>
+                            <!-- Relación -->
+                            <p class="text-sm font-medium text-[#a7a7a7f2] mb-2">{{ memoria.relationship }}</p>
+                            <!-- Recuerdo -->
+                            <p class="text-[#2a2b2a] mb-4">{{ memoria.text }}</p>
+                            <!-- Botón Añadir Comentario -->
+                            <div class="border-t pt-4">
+                                <button (click)="toggleComentario(i)"
+                                    class="w-full px-4 py-2 border border-[#50a2a7] text-[#50a2a7] rounded-lg text-sm hover:bg-[#50a2a7] hover:text-white transition">
+                                    Añadir Comentario
+                                </button>
+                                <!-- Formulario de Comentario -->
+                                <div *ngIf="comentarioActivo[i]" class="mt-4">
+                                    <textarea [(ngModel)]="memoria.description" rows="3"
+                                        placeholder="Añadir un comentario"
+                                        class="w-full p-2 border rounded-md text-sm text-[#2a2a2a] focus:outline-none focus:border-[#50a2a7]"></textarea>
+                                    <button *ngIf="memoria.id"
+                                        (click)="guardarComentario(memoria.id, memoria.description ?? '', i)"
+                                        class="mt-2 px-4 py-2 bg-[#50a2a7] text-white rounded-lg text-sm hover:bg-[#3a8a8d] transition">
+                                        Guardar Comentario
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
 
-        <!-- Etapas -->
-        <h2 class="text-2xl font-semibold text-[#4a3c31] text-center mb-4">Servicios</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-            <div *ngFor="let etapa of etapas" class="p-4 border rounded-lg shadow-md bg-[#f8f8f8]">
-                <h3 class="text-lg font-semibold text-[#2a2b2a]">{{ etapa.stage_ceremony }}</h3>
-                <p class="text-sm text-[#99775c]">{{ etapa.place }} | {{ etapa.date | date: 'longDate' }}</p>
-            </div>
-        </div>
-
-
-        <!-- Memorias -->
-        <h2 class="text-2xl font-semibold text-[#4a3c31] text-center mb-4">Recuerdos</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-            <div *ngFor="let memoria of memorias" class="p-4 border rounded-lg shadow-md bg-[#f8f8f8]">
-                <h3 class="text-md font-semibold text-[#2a2b2a]">{{ memoria.names }}</h3>
-                <p class="text-sm text-[#99775c]">{{ memoria.relationship }}</p>
-                <p class="text-[#2a2b2a]">{{ memoria.text }}</p>
-            </div>
-        </div>
+        <!-- Articulos -->
         <section class="py-10">
             <div class="container mx-auto">
-                <h2 class="text-3xl font-bold mb-6 text-center">Artículos Recomendados
+                <h2 class="text-3xl font-bold mb-6 text-center text-[#4a3c31]">Artículos Recomendados
                 </h2>
                 <app-articulo-info [articulos]="articulos" (onArticuloSeleccionado)="verArticulo($event)">
                 </app-articulo-info>
+            </div>
+            <div class="text-center mb-4 py-10">
+                <button (click)="volverALaLista()"
+                    class="mb-4 px-4 py-2 border border-[#50a2a7] text-[#99775c] rounded-lg hover:bg-[#50a2a7] hover:text-[#ffffff] transition">
+                    VER TODOS LOS ARTICULOS
+                </button>
             </div>
         </section>
     </div>

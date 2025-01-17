@@ -1,21 +1,51 @@
-<div class="max-w-md rounded-lg shadow-lg bg-white dark:bg-gray-800 overflow-hidden">
-    <img *ngIf="iglesia.image" [src]="iglesia.image" alt="{{ iglesia.name }}" class="w-full h-48 object-cover" />
+<div class="max-w-md rounded-lg shadow-lg bg-white dark:bg-gray-800 overflow-hidden" (click)="onClick()">
+  <!-- Iglesia -->
+  <ng-container *ngIf="iglesia">
+    <!-- Imagen -->
+    <img *ngIf="iglesia.image" [src]="iglesia.image" alt="{{ iglesia.name }}" class="w-full object-cover" 
+      [ngClass]="{ 'h-48': modo === 'lista', 'h-64': modo === 'detalle' }" />
+
     <div class="p-4">
-      <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-2">{{ iglesia.name }}</h2>
-      <p class="text-gray-600 dark:text-gray-300 mb-4">
-        Dirección: {{ iglesia.address }}
-      </p>
-      <p *ngIf="iglesia.phone" class="text-gray-600 dark:text-gray-300 mb-2">
-        Teléfono: {{ iglesia.phone }}
-      </p>
-      <p *ngIf="iglesia.email" class="text-gray-600 dark:text-gray-300 mb-2">
-        Correo: <a href="mailto:{{ iglesia.email }}" class="text-blue-500 hover:underline">{{ iglesia.email }}</a>
-      </p>
-      <p *ngIf="iglesia.schedule" class="text-gray-600 dark:text-gray-300 mb-2">
-        Horarios: {{ iglesia.schedule }}
-      </p>
-      <p *ngIf="iglesia.priest" class="text-gray-600 dark:text-gray-300 mb-2">
-        Sacerdote: {{ iglesia.priest }}
-      </p>
+      <!-- Nombre -->
+      <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-2 text-center">{{ iglesia.name }}</h2>
+
+      <!-- Detalles: Mostrar solo si el modo es 'detalle' -->
+      <ng-container *ngIf="modo === 'detalle'">
+        <p class="text-gray-600 dark:text-gray-300 mb-4">Dirección: {{ iglesia.address }}</p>
+        <p *ngIf="iglesia.phone" class="text-gray-600 dark:text-gray-300 mb-2">Teléfono: {{ iglesia.phone }}</p>
+        <p *ngIf="iglesia.email" class="text-gray-600 dark:text-gray-300 mb-2">
+          Correo: <a href="mailto:{{ iglesia.email }}" class="text-blue-500 hover:underline">{{ iglesia.email }}</a>
+        </p>
+        <p *ngIf="iglesia.schedule" class="text-gray-600 dark:text-gray-300 mb-2">Horarios: {{ iglesia.schedule }}</p>
+        <p *ngIf="iglesia.priest" class="text-gray-600 dark:text-gray-300 mb-2">Sacerdote: {{ iglesia.priest }}</p>
+        <p *ngIf="iglesia.parroquiaDetails" class="text-gray-600 dark:text-gray-300 mb-2">
+          Parroquia: {{ iglesia.parroquiaDetails }}
+        </p>
+      </ng-container>
     </div>
+  </ng-container>
+</div>
+
+<!-- Parroquia -->
+<ng-container *ngIf="parroquia">
+  <div class="p-4">
+    <!-- Nombre -->
+    <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-2">{{ parroquia.name }}</h2>
+    <!-- Detalles -->
+    <p class="text-gray-600 dark:text-gray-300 mb-4">
+      Número de Iglesias: {{ parroquia.churches_number }}
+    </p>
   </div>
+</ng-container>
+
+<!-- Redes sociales -->
+<div *ngIf="socials && socials.length > 0" class="mt-4">
+  <h3 class="text-md font-semibold text-gray-800 dark:text-white mb-2">Redes Sociales</h3>
+  <ul>
+    <li *ngFor="let social of socials" class="text-gray-600 dark:text-gray-300 mb-2">
+      <a [href]="social.url" target="_blank" class="text-blue-500 hover:underline">
+        {{ getSocialPlatformName(social.stage_type) }}
+      </a>
+    </li>
+  </ul>
+</div>

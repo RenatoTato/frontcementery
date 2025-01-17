@@ -25,6 +25,15 @@ export class ObituariosPinfoComponent implements OnInit {
   selectedObituario: Obituario | null = null; // Obituario seleccionado
   etapas: EtapasObituario[] = [];
   articulos: Articulo[] = [];
+  comentarioActivo: boolean[] = [];
+  stageCeremonyMap: { [key: string]: string } = {
+    Velacion: 'Velación',
+    Misa: 'Misa',
+    Recepcion: 'Recepción',
+    Entrega_cenizas: 'Entrega de las Cenizas',
+    Lectura_recuerdos: 'Lectura de Recuerdos',
+    Celebracion_vida: 'Celebración de Vida'
+  };
   memorias: Memoria[] = [];
   showMemoryForm: boolean = false;
   nuevaMemoria: { names: string; text: string; relationship: string } = {
@@ -32,7 +41,7 @@ export class ObituariosPinfoComponent implements OnInit {
     text: '',
     relationship: ''
   };
-  
+
   filter: ObituarioFilter = {
     place: undefined,
     name: undefined,
@@ -47,14 +56,14 @@ export class ObituariosPinfoComponent implements OnInit {
   page = 1;
   pageSize = 10;
   totalObituarios = 0;
-  
+
 
   constructor(
     private obituarioService: ObituarioService,
     private articuloService: ArticuloService,
-    private router: Router ,
+    private router: Router,
     private route: ActivatedRoute
-  ) { }
+  ) { this.comentarioActivo = this.memorias.map(() => false);}
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
@@ -112,7 +121,7 @@ export class ObituariosPinfoComponent implements OnInit {
       this.loadMemorias(id);
     }
   }
-   private loadEtapas(obituaryId: number): void {
+  private loadEtapas(obituaryId: number): void {
     this.obituarioService.getReadEtapas({ obituary: obituaryId }).subscribe((etapas) => {
       this.etapas = etapas;
     });
@@ -254,5 +263,31 @@ export class ObituariosPinfoComponent implements OnInit {
   onPageChange(page: number): void {
     this.page = page;
     this.loadObituarios();
+  }
+  volverALaLista(): void {
+    this.router.navigate(['/articulos']); // Redirige a la vista principal de artículos
+  }
+  copiarLink(): void {
+    const link = window.location.href; // Obtiene el link actual
+    navigator.clipboard.writeText(link).then(() => {
+      alert('Enlace copiado al portapapeles');
+    });
+  }
+  guardarComentario(id: number | undefined, description: string, index: number) {
+    const obituarioId = id ?? 0; // Valor predeterminado para id
+    this.obituarioService.updateDescription(obituarioId, description).subscribe({
+      next: (response) => {
+        console.log('Descripción actualizada:', response);
+  
+        // Cambiar el estado de comentarioActivo a false cuando sea exitoso
+        this.comentarioActivo[index] = false;
+      },
+      error: (err) => {
+        console.error('Error al actualizar la descripción:', err);
+      },
+    });
+  }
+  toggleComentario(index: number) {
+    this.comentarioActivo[index] = !this.comentarioActivo[index];
   }
 }

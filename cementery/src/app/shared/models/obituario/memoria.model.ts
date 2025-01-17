@@ -2,6 +2,7 @@ import { Obituario } from "./obituario.model";
 
 export interface Memoria {
   id?: number;
+  date?:Date;
   names: string;
   relationship?: string;
   text: string;

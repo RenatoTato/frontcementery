@@ -10,6 +10,7 @@ import { IglrsiasInfosComponent } from '@info/component/iglrsias-infos/iglrsias-
 import { ObituarioInfosComponent } from '@info/component/obituario-infos/obituario-infos.component';
 import { Router } from '@angular/router';
 import { NotificationFormComponent } from "@shared/components/notification-form/notification-form.component";
+import { Iglesia } from '@externo/models/iglesia/iglesia.model';
 
 @Component({
   selector: 'app-info-dashboard',
@@ -22,7 +23,8 @@ export class InfoDashboardComponent implements OnInit {
   articulos: Articulo[] = [];
   servicios: any[] = [];
   obituarios: any[] = [];
-  iglesias: any[] = [];
+  iglesias: Iglesia[] = [];
+  iglesiasLimitadas: Iglesia[] = []
   visibleObituaries = 3; // Cantidad de obituarios visibles
   currentIndex: number = 0; // Índice actual del carrusel
   visibleCards: number = 3; // Número de cards visibles
@@ -107,12 +109,15 @@ export class InfoDashboardComponent implements OnInit {
   navigateToList(): void {
     this.router.navigate(['/obituarios']);
   }
-
-  private loadIglesias() {
-    this.iglesiaService.getReadIglesias().subscribe((data) => {
-      this.iglesias = data;
+  loadIglesias(): void {
+    this.iglesiaService.getReadIglesias().subscribe((iglesias) => {
+      this.iglesias = iglesias;
+      this.iglesiasLimitadas = iglesias.slice(3, 7); // Toma solo las primeras 3 iglesias
     });
   }
+
+
+
   verArticulo(id: number): void {
     this.router.navigate(['/articulos', id]); // Navega a la ruta con el ID
   }
@@ -122,5 +127,8 @@ export class InfoDashboardComponent implements OnInit {
       return;
     }
     this.router.navigate(['/obituarios', id]);
+  }
+  verIglesia(id: number): void {
+    this.router.navigate(['/iglesias', id]); // Navega a la ruta del detalle de iglesia
   }
 }

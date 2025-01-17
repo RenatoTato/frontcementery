@@ -1,1 +1,76 @@
-<p>iglesia-pinfo works!</p>
+<div class="container mx-auto px-4 py-6 bg-[#ffffff]">
+    <!-- Título -->
+    <h1 class="text-3xl font-bold text-center mb-6 text-[#99775c]">Iglesias</h1>
+
+    <!-- Barra de búsqueda -->
+
+    <div class="flex flex-col lg:flex-row gap-6">
+        <!-- Lista de parroquias (filtro) -->
+        <div class="lg:w-1/4">
+            <div class="mb-6">
+                <input type="text" placeholder="Buscar por nombre de iglesia"
+                    class="border border-[#99775c] w-full px-4 py-2 rounded-lg focus:ring-[#50a2a7] focus:outline-none"
+                    (input)="onSearchInput($event)" />
+            </div>
+            <h2 class="text-xl font-semibold mb-4 text-[#2a2b2a]">Parroquias</h2>
+            <div class="flex flex-col gap-2">
+                <button (click)="onParroquiaFilterChange($event, null)"
+                    class="block w-full text-left bg-[#ffffff] text-[#99775c] px-4 py-2 rounded-lg hover:bg-[#50a2a7] hover:text-[#ffffff] transition">
+                    Todas las parroquias
+                </button>
+                <button *ngFor="let parroquia of parroquias" (click)="onParroquiaFilterChange($event, parroquia.id)"
+                    class="block w-full text-left bg-[#ffffff] text-[#99775c] px-4 py-2 rounded-lg hover:bg-[#50a2a7] hover:text-[#ffffff] transition">
+                    {{ parroquia.name }}
+                </button>
+            </div>
+        </div>
+
+        <!-- Lista de iglesias -->
+        <div class="lg:col-span-3">
+            <!-- Si hay una iglesia seleccionada, mostrar los detalles -->
+            <div *ngIf="iglesiaSeleccionada; else listaIglesias">
+                <!-- Botón para volver a la lista -->
+                <button (click)="volverALista()" class="mb-4 text-[#50a2a7] hover:underline">
+                    ← Volver a la lista
+                </button>
+
+                <!-- Detalles de la iglesia -->
+                <div *ngIf="iglesiaSeleccionada" class="mb-6">
+                    <!-- Imagen destacada -->
+                    <div class="mb-2">
+                        <img *ngIf="iglesiaSeleccionada.image" [src]="iglesiaSeleccionada.image"
+                            alt="{{ iglesiaSeleccionada.name }}" class="w-full object-cover rounded-lg shadow-md"
+                            style="height: auto; max-height: 600px;" />
+                    </div>
+
+                    <!-- Datos de la iglesia -->
+                    <p class="text-lg text-gray-800 dark:text-gray-200 leading-relaxed mb-4">
+                        Dirección: {{ iglesiaSeleccionada.address }}
+                    </p>
+                    <p *ngIf="iglesiaSeleccionada.phone" class="text-gray-600 dark:text-gray-300 mb-2">
+                        Teléfono: {{ iglesiaSeleccionada.phone }}
+                    </p>
+                    <p *ngIf="iglesiaSeleccionada.email" class="text-gray-600 dark:text-gray-300 mb-2">
+                        Correo: <a href="mailto:{{ iglesiaSeleccionada.email }}"
+                            class="text-blue-500 hover:underline">{{ iglesiaSeleccionada.email }}</a>
+                    </p>
+                    <p *ngIf="iglesiaSeleccionada.schedule" class="text-gray-600 dark:text-gray-300 mb-2">
+                        Horarios: {{ iglesiaSeleccionada.schedule }}
+                    </p>
+                    <p *ngIf="iglesiaSeleccionada.priest" class="text-gray-600 dark:text-gray-300 mb-2">
+                        Sacerdote: {{ iglesiaSeleccionada.priest }}
+                    </p>
+                </div>
+            </div>
+
+            <!-- Lista de iglesias -->
+            <ng-template #listaIglesias>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <app-iglrsias-infos *ngFor="let iglesia of iglesias" [iglesia]="iglesia" modo="lista"
+                        (clickIglesia)="verIglesia($event)">
+                    </app-iglrsias-infos>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+</div>

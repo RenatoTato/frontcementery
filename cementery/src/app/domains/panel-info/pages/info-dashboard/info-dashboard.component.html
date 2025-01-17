@@ -5,19 +5,13 @@
     <p class="mt-2 text-lg">Facilitando la memoria y gestión de nuestros seres queridos.</p>
   </div>
 
-  <section class="py-10">
-    <div class="container mx-auto">
-      <h2 class="text-3xl font-bold mb-6 text-center">Artículos Destacados</h2>
-      <app-articulo-info [articulos]="articulos" (onArticuloSeleccionado)="verArticulo($event)">
-      </app-articulo-info>
-    </div>
-  </section>
+
 
   <!-- Sección de Obituarios con Carrusel -->
   <!-- Carrusel de Obituarios -->
   <section class="py-10">
     <div class="container mx-auto">
-      <h2 class="text-3xl font-bold mb-6 text-center text-[#99775c]">Obituarios</h2>
+      <h2 class="text-3xl font-bold mb-6 text-center text-[#4a3c31]">Obituarios</h2>
 
       <div class="relative overflow-hidden">
         <!-- Carrusel -->
@@ -43,8 +37,8 @@
       <!-- Botón central: Ver más obituarios -->
       <div class="text-center mt-6">
         <button (click)="navigateToList()"
-          class="bg-[#99775c] text-white px-6 py-2 rounded-lg hover:bg-[#2a2b2a] transition"
-          >
+          class="mb-4 px-4 py-2 border border-[#50a2a7] text-[#99775c] rounded-lg hover:bg-[#50a2a7] hover:text-[#ffffff] transition">
+
           Nuestros Obituarios
         </button>
       </div>
@@ -56,12 +50,23 @@
   <!-- Iglesias -->
   <section class="py-10 bg-[#eae7dd]">
     <div class="container mx-auto">
-      <h2 class="text-3xl font-bold mb-6 text-center">Iglesias Disponibles</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <app-iglrsias-infos *ngFor="let iglesia of iglesias" [iglesia]="iglesia"></app-iglrsias-infos>
+      <h2 class="text-3xl font-bold text-[#4a3c31] mb-6 text-center">Iglesias Disponibles</h2>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <app-iglrsias-infos *ngFor="let iglesia of iglesiasLimitadas" [iglesia]="iglesia" modo="lista"
+          (clickIglesia)="iglesia.id ? verIglesia(iglesia.id) : null">
+        </app-iglrsias-infos>
       </div>
     </div>
   </section>
+  <!-- articulo -->
+  <section class="py-10">
+    <div class="container mx-auto">
+      <h2 class="text-3xl text-[#4a3c31] font-bold mb-6 text-center">Artículos Destacados</h2>
+      <app-articulo-info [articulos]="articulos" (onArticuloSeleccionado)="verArticulo($event)">
+      </app-articulo-info>
+    </div>
+  </section>
+
   <app-notification-form />
   <!-- Footer -->
   <footer class="bg-[#2a2b2a] text-white py-6 text-center">
