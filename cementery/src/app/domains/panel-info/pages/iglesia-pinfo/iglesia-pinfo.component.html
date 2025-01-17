@@ -2,11 +2,9 @@
     <!-- Título -->
     <h1 class="text-3xl font-bold text-center mb-6 text-[#99775c]">Iglesias</h1>
 
-    <!-- Barra de búsqueda -->
-
     <div class="flex flex-col lg:flex-row gap-6">
         <!-- Lista de parroquias (filtro) -->
-        <div class="lg:w-1/4">
+        <div class="lg:w-1/4 h-full bg-white rounded-lg overflow-y-auto" style="max-height: 500px;">
             <div class="mb-6">
                 <input type="text" placeholder="Buscar por nombre de iglesia"
                     class="border border-[#99775c] w-full px-4 py-2 rounded-lg focus:ring-[#50a2a7] focus:outline-none"
@@ -25,50 +23,24 @@
             </div>
         </div>
 
-        <!-- Lista de iglesias -->
-        <div class="lg:col-span-3">
+        <!-- Lista de iglesias o detalles -->
+        <div class="lg:col-span-3 lg:w-3/4">
             <!-- Si hay una iglesia seleccionada, mostrar los detalles -->
             <div *ngIf="iglesiaSeleccionada; else listaIglesias">
-                <!-- Botón para volver a la lista -->
-                <button (click)="volverALista()" class="mb-4 text-[#50a2a7] hover:underline">
-                    ← Volver a la lista
-                </button>
-
-                <!-- Detalles de la iglesia -->
-                <div *ngIf="iglesiaSeleccionada" class="mb-6">
-                    <!-- Imagen destacada -->
-                    <div class="mb-2">
-                        <img *ngIf="iglesiaSeleccionada.image" [src]="iglesiaSeleccionada.image"
-                            alt="{{ iglesiaSeleccionada.name }}" class="w-full object-cover rounded-lg shadow-md"
-                            style="height: auto; max-height: 600px;" />
-                    </div>
-
-                    <!-- Datos de la iglesia -->
-                    <p class="text-lg text-gray-800 dark:text-gray-200 leading-relaxed mb-4">
-                        Dirección: {{ iglesiaSeleccionada.address }}
-                    </p>
-                    <p *ngIf="iglesiaSeleccionada.phone" class="text-gray-600 dark:text-gray-300 mb-2">
-                        Teléfono: {{ iglesiaSeleccionada.phone }}
-                    </p>
-                    <p *ngIf="iglesiaSeleccionada.email" class="text-gray-600 dark:text-gray-300 mb-2">
-                        Correo: <a href="mailto:{{ iglesiaSeleccionada.email }}"
-                            class="text-blue-500 hover:underline">{{ iglesiaSeleccionada.email }}</a>
-                    </p>
-                    <p *ngIf="iglesiaSeleccionada.schedule" class="text-gray-600 dark:text-gray-300 mb-2">
-                        Horarios: {{ iglesiaSeleccionada.schedule }}
-                    </p>
-                    <p *ngIf="iglesiaSeleccionada.priest" class="text-gray-600 dark:text-gray-300 mb-2">
-                        Sacerdote: {{ iglesiaSeleccionada.priest }}
-                    </p>
+                <!-- Contenedor del botón "Volver a la lista" -->
+                <div class="flex justify-end mb-4">
+                    <button (click)="volverALista()" class="text-[#50a2a7] hover:underline">
+                        ← Volver a la lista
+                    </button>
                 </div>
+                <app-iglrsias-infos [iglesia]="iglesiaSeleccionada" modo="detalle"></app-iglrsias-infos>
             </div>
-
+        
             <!-- Lista de iglesias -->
             <ng-template #listaIglesias>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <app-iglrsias-infos *ngFor="let iglesia of iglesias" [iglesia]="iglesia" modo="lista"
-                        (clickIglesia)="verIglesia($event)">
-                    </app-iglrsias-infos>
+                        (clickIglesia)="verIglesia($event)"></app-iglrsias-infos>
                 </div>
             </ng-template>
         </div>
