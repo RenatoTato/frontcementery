@@ -162,7 +162,7 @@ export class InfoDashboardComponent implements OnInit {
   loadIglesias(): void {
     this.iglesiaService.getReadIglesias().subscribe((iglesias) => {
       this.iglesias = iglesias;
-      this.iglesiasLimitadas = iglesias.slice(3, 8); // Toma solo las primeras 3 iglesias
+      this.iglesiasLimitadas = iglesias.slice(5, 10); // Toma solo las primeras 3 iglesias
     });
   }
 
