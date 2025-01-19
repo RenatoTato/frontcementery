@@ -25,11 +25,60 @@ export class InfoDashboardComponent implements OnInit {
   obituarios: any[] = [];
   iglesias: Iglesia[] = [];
   iglesiasLimitadas: Iglesia[] = []
-  visibleObituaries = 3; // Cantidad de obituarios visibles
+  visibleObituaries = 4; // Cantidad de obituarios visibles
   currentIndex: number = 0; // Índice actual del carrusel
-  visibleCards: number = 3; // Número de cards visibles
+  visibleCards: number = 4; // Número de cards visibles
   maxIndex: number = 0; // Máximo índice desplazable
-  obituariosPerPage: number = 5; // Máximo de obituarios por "página"
+  obituariosPerPage: number = 6; // Máximo de obituarios por "página"
+
+  parallaxItems = [
+    {
+      image: 'assets/fotos/c1.jpg',
+      type: 'logo',
+    },
+    {
+      image: 'assets/fotos/c10.jpg',
+      title: 'Obituarios Recientes',
+      subtitle: 'Nuestros Seres Queridos',
+      type: 'obituarios',
+    },
+    {
+      image: 'assets/fotos/c4.jpg',
+    },
+    {
+      image: 'assets/fotos/c10.jpg',
+      title: 'Iglesias Disponibles',
+      subtitle: 'Encuentra Paz y Reflexión',
+      type: 'iglesias',
+    },
+    {
+      image: 'assets/fotos/c5.jpg',
+    },
+    {
+      image: 'assets/fotos/c10.jpg',
+      title: 'Artículos Destacados',
+      subtitle: 'Información Importante',
+      type: 'articulos',
+    },
+    {
+      image: 'assets/fotos/c2.jpg',
+    },
+    {
+      image: 'assets/fotos/c10.jpg',
+      title: 'Necesidad Inmedita',
+      subtitle: 'Apoyo en los Momentos Difíciles',
+      type: 'necesidad',
+    },
+    {
+      image: 'assets/fotos/c31.jpg',
+    },
+    {
+      image: 'assets/fotos/c10.jpg',
+      title: 'Contáctenos',
+      subtitle: 'Estamos Aquí para Ayudarte',
+      type: 'contactenos',
+    },
+  ];
 
   constructor(
     private articuloService: ArticuloService,
@@ -45,6 +94,7 @@ export class InfoDashboardComponent implements OnInit {
     this.loadObituarios();
     this.loadIglesias();
     this.startAutoScroll();
+    console.log(this.parallaxItems);
   }
 
   private loadArticulos() {
@@ -95,7 +145,7 @@ export class InfoDashboardComponent implements OnInit {
   }
 
   private loadObituarios(): void {
-    this.obituarioService.getObituarios(1, 9).subscribe((data) => {
+    this.obituarioService.getObituarios(1, 13).subscribe((data) => {
       this.obituarios = Array.isArray(data) ? data : data.results;
       this.maxIndex = Math.ceil(this.obituarios.length / this.visibleObituaries) - 1;
     });
@@ -112,7 +162,7 @@ export class InfoDashboardComponent implements OnInit {
   loadIglesias(): void {
     this.iglesiaService.getReadIglesias().subscribe((iglesias) => {
       this.iglesias = iglesias;
-      this.iglesiasLimitadas = iglesias.slice(3, 7); // Toma solo las primeras 3 iglesias
+      this.iglesiasLimitadas = iglesias.slice(3, 8); // Toma solo las primeras 3 iglesias
     });
   }
 
@@ -130,5 +180,14 @@ export class InfoDashboardComponent implements OnInit {
   }
   verIglesia(id: number): void {
     this.router.navigate(['/iglesias', id]); // Navega a la ruta del detalle de iglesia
+  }
+  volverAListaIglesias(): void {
+    this.router.navigate(['/iglesias']);
+  }
+  volverAListaArticulos(): void {
+    this.router.navigate(['/articulos']);
+  }
+  redirectToGuide() {
+    this.router.navigate(['/guias']); // Ruta configurada en app-routing.module.ts
   }
 }

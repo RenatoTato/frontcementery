@@ -16,6 +16,7 @@ export class ArticuloInfoComponent {
   @Input() pageSize = 6;
   @Input() totalArticulos = 0;
   @Input() onPageChange!: (page: number) => void;
+  @Input() columns: string = 'grid-cols-3';
 
   @Output() onArticuloSeleccionado = new EventEmitter<number>();
 

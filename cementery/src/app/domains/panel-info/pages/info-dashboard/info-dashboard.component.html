@@ -1,75 +1,132 @@
-<div class="bg-[#eae7dd] text-[#2a2b2a] font-sans">
-  <!-- Sección de Introducción -->
-  <div class="hero bg-[#99775c] text-white py-10 text-center">
-    <h1 class="text-4xl font-bold">Bienvenido al Portal de Servicios</h1>
-    <p class="mt-2 text-lg">Facilitando la memoria y gestión de nuestros seres queridos.</p>
+<div class="home-container">
+  <div *ngFor="let item of parallaxItems; let i = index"
+    class="parallax-section bg-fixed bg-cover bg-center flex items-center justify-center"
+    [ngClass]="{'section-c9': item.image.includes('c10')}"
+    [style.minHeight]="item.image.includes('c10') ? '50vh' : '100vh'"
+    [style.backgroundImage]="item.image ? 'url(' + item.image + ')' : ''"
+    [style.backgroundColor]="!item.image ? '#f4f3f0' : ''">
+    <div class="content-overlay w-full p-6 md:p-10" [ngClass]="!item.image ? 'bg-[#f4f3f0]' : ''">
+      <div class="content-container mx-auto text-center max-w-4xl">
+        <!-- Solo muestra el título si existe -->
+        <h2 *ngIf="item.title" class="content-title py-8 text-3xl md:text-4xl font-bold text-[#2a2b2a] mb-4" >
+          {{ item.title }}
+        </h2>
+        <ng-container [ngSwitch]="item.type">
+          <!-- Logos -->
+          <section class="flex justify-center items-center h-auto px-6" *ngSwitchCase="'logo'">
+            <img
+              src="assets/image/logo/logohome-removebg.png"
+              alt="Logo Cementerio San José del Condado"
+              class="w-full md:w-3/4 lg:w-2/3"
+            />
+          </section>
+               
+          <!-- Carrusel de Obituarios -->
+          <section *ngSwitchCase="'obituarios'" class="py-12">
+            <div class="container mx-auto">
+              <div class="relative overflow-hidden">
+                <div 
+                  class="flex transition-transform duration-500"
+                  [style.transform]="'translateX(-' + currentIndex * 25 + '%)'"> 
+                  <div 
+                    *ngFor="let obituario of obituarios" 
+                    class="w-1/4 flex-shrink-0 p-4"> <!-- Cambiado de p-2 a p-4 para más espacio -->
+                    <div 
+                      class="text-center cursor-pointer"
+                      (click)="obituario.id ? navigateToDetail(obituario.id) : null">
+                      <!-- Imagen -->
+                      <img 
+                        *ngIf="obituario.image_dif" 
+                        [src]="obituario.image_dif"
+                        alt="{{ obituario.name || 'Difunto' }}"
+                        class="w-40 h-40 object-cover rounded-full border-4 border-[#99775c] shadow-lg mx-auto" /> <!-- Aumentado de w-32 h-32 a w-40 h-40 -->
+                      <!-- Nombre -->
+                      <h3 
+                        class="text-xl font-semibold text-[#2a2b2a] mt-6">
+                        {{ obituario.name || 'Nombre no disponible' }}
+                      </h3>
+                      <!-- Fechas -->
+                      <p class="text-md text-[#99775c]">
+                        {{ obituario.date_born | date: 'yyyy' }} - {{ obituario.date_dead | date: 'yyyy' }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Botón -->
+              <div class="text-center mt-6 py-4">
+                <button 
+                  (click)="navigateToList()"
+                  class="button-primary bg-transparent border border-[#50a2a7] text-[#99775c] py-3 px-6 text-lg rounded-lg hover:bg-[#50a2a7] hover:text-white">
+                  Nuestros Obituarios
+                </button>
+              </div>
+            </div>
+          </section>
+          
+
+          <!-- Iglesias -->
+          <section *ngSwitchCase="'iglesias'">
+            <div class="container mx-auto">
+              <div class="grid grid-cols-1 md:grid-cols-5 gap-6">
+                <app-iglrsias-infos *ngFor="let iglesia of iglesiasLimitadas" [iglesia]="iglesia" modo="lista"
+                  (clickIglesia)="iglesia.id ? verIglesia(iglesia.id) : null">
+                </app-iglrsias-infos>
+              </div>
+              <div class="text-center mt-4 md:mt-6 py-4">
+                <button (click)="volverAListaIglesias()"
+                  class="button-primary bg-transparent border border-[#50a2a7] text-[#99775c] py-2 px-4 rounded-lg hover:bg-[#50a2a7] hover:text-white">
+                  Nuestras Iglesias
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Ayuda Inmediata -->
+          <section class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center py-8 px-6" *ngSwitchCase="'necesidad'">
+            <div class="text-center md:text-left">
+              <p class="text-gray-700 text-lg mb-6">
+                ¿Has perdido a un ser querido y no sabes qué hacer? Sabemos lo difícil que es este momento.
+                En San José del Condado te guiamos paso a paso con los trámites necesarios, como el acta de defunción y
+                permisos legales.
+                Haz clic en el botón de ayuda inmediata para acceder a una guía clara y sencilla, mientras aliviamos tu
+                carga.
+              </p>
+              <button
+                class="bg-black text-white px-6 py-3 rounded-md shadow-md hover:bg-gray-800 transition duration-300"
+                (click)="redirectToGuide()">
+                Ayuda Inmediata
+              </button>
+            </div>
+            <div class="flex justify-center">
+              <img src="assets/fotos/pjesus.png" alt="Estatua representativa" class="max-w-sm h-auto" />
+            </div>
+          </section>
+
+          <!-- Artículos -->
+          <section *ngSwitchCase="'articulos'">
+            <div >
+              <app-articulo-info [articulos]="articulos" [columns]="'grid-cols-1 md:grid-cols-2 lg:grid-cols-4'"
+                (onArticuloSeleccionado)="verArticulo($event)"></app-articulo-info>
+            </div>
+            <div class="text-center mt-4 md:mt-6 py-4">
+              <button (click)="volverAListaArticulos()"
+                class="button-primary bg-transparent border border-[#50a2a7] text-[#99775c] py-2 px-4 rounded-lg hover:bg-[#50a2a7] hover:text-white">
+                Nuestros Artículos
+              </button>
+            </div>
+          </section>
+
+        </ng-container>
+      </div>
+    </div>
   </div>
 
-
-
-  <!-- Sección de Obituarios con Carrusel -->
-  <!-- Carrusel de Obituarios -->
-  <section class="py-10">
-    <div class="container mx-auto">
-      <h2 class="text-3xl font-bold mb-6 text-center text-[#4a3c31]">Obituarios</h2>
-
-      <div class="relative overflow-hidden">
-        <!-- Carrusel -->
-        <div class="flex transition-transform duration-500"
-          [style.transform]="'translateX(-' + currentIndex * 33.33 + '%)'">
-          <!-- Mostrar los obituarios en el carrusel -->
-          <div *ngFor="let obituario of obituarios" class="w-1/3 flex-shrink-0 p-2">
-            <!-- Contenido del Obituario -->
-            <div class="text-center" (click)="obituario.id ? navigateToDetail(obituario.id) : null">
-
-              <img *ngIf="obituario.image_dif" [src]="obituario.image_dif" alt="{{ obituario.name || 'Difunto' }}"
-                class="w-48 h-48 object-cover rounded-full border-4 border-[#99775c] shadow-md" />
-              <h3 class="text-lg font-semibold text-[#2a2b2a] mt-2">
-                {{ obituario.name || 'Nombre no disponible' }}
-              </h3>
-              <p class="text-sm text-[#99775c]">
-                {{ obituario.date_born | date: 'yyyy' }} - {{ obituario.date_dead | date: 'yyyy' }}
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Botón central: Ver más obituarios -->
-      <div class="text-center mt-6">
-        <button (click)="navigateToList()"
-          class="mb-4 px-4 py-2 border border-[#50a2a7] text-[#99775c] rounded-lg hover:bg-[#50a2a7] hover:text-[#ffffff] transition">
-
-          Nuestros Obituarios
-        </button>
-      </div>
-    </div>
-  </section>
-
-
-
-  <!-- Iglesias -->
-  <section class="py-10 bg-[#eae7dd]">
-    <div class="container mx-auto">
-      <h2 class="text-3xl font-bold text-[#4a3c31] mb-6 text-center">Iglesias Disponibles</h2>
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <app-iglrsias-infos *ngFor="let iglesia of iglesiasLimitadas" [iglesia]="iglesia" modo="lista"
-          (clickIglesia)="iglesia.id ? verIglesia(iglesia.id) : null">
-        </app-iglrsias-infos>
-      </div>
-    </div>
-  </section>
-  <!-- articulo -->
-  <section class="py-10">
-    <div class="container mx-auto">
-      <h2 class="text-3xl text-[#4a3c31] font-bold mb-6 text-center">Artículos Destacados</h2>
-      <app-articulo-info [articulos]="articulos" (onArticuloSeleccionado)="verArticulo($event)">
-      </app-articulo-info>
-    </div>
-  </section>
-
-  <app-notification-form />
   <!-- Footer -->
-  <footer class="bg-[#2a2b2a] text-white py-6 text-center">
-    <p>&copy; 2024 Portal de Servicios. Todos los derechos reservados.</p>
-  </footer>
+  <div class="parallax-section bg-fixed bg-center flex items-center justify-center min-h-[30vh] bg-[#2a2b2a]">
+    <footer class="text-white py-6 text-center w-full">
+      <app-notification-form></app-notification-form>
+      <p>&copy; 2024 Portal de Servicios. Todos los derechos reservados.</p>
+    </footer>
+  </div>
 </div>

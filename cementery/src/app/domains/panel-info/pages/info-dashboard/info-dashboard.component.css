@@ -1,38 +1,132 @@
-/* obituarios-pinfo.component.css */
+
+.parallax-section {
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+/* Fondo del contenido */
+.content-overlay {
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+/* Contenedor del contenido */
+.content-container {
+  max-width: 960px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* Títulos */
+.content-title {
+  font-size: 1.7rem;
+  font-weight: bold;
+  color: #2a2b2a;
+  margin-bottom: 1rem;
+}
+
+/* Fotos entre secciones */
+.photo-section {
+  height: 100vh; /* Asegura que las fotos muestren todo su alto */
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Carrusel de obituarios */
 .relative {
   position: relative;
-  overflow: hidden;
+  overflow: hidden; /* Oculta contenido fuera del carrusel */
 }
 
 .flex {
   display: flex;
-  transition: transform 0.5s ease-in-out;
+  transition: transform 0.5s ease-in-out; /* Animación suave */
 }
 
 .w-1\/3 {
-  flex: 0 0 33.33%;
-  /* Cada card ocupa el 33.33% (3 por fila) */
+  flex: 0 0 33.33%; /* Cada card ocupa el 33.33% del ancho */
 }
 
 button {
-  z-index: 10;
-  /* Asegura que los botones estén por encima */
+  z-index: 10; /* Asegura que los botones estén por encima */
 }
 
 img {
   display: block;
   margin: 0 auto;
 }
+
 .text-center {
   text-align: center;
 }
+
 .w-32 {
   width: 8rem; /* 128px */
 }
+
 .h-32 {
   height: 8rem; /* 128px */
 }
+
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
+}
+
+.obituary-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin: 10px;
+  padding: 20px;
+  border: 1px solid #eae7dd;
+  border-radius: 10px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.obituary-card img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%; /* Imagen circular */
+  object-fit: cover;
+  border: 3px solid #99775c;
+  margin-bottom: 15px;
+}
+
+.obituary-card h3 {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #2a2b2a;
+  margin-bottom: 5px;
+}
+
+.obituary-card p {
+  font-size: 0.9rem;
+  color: #99775c;
+}
+
+/* Botones */
+.button-primary {
+  padding: 10px 20px;
+  border: 1px solid #50a2a7;
+  background-color: transparent;
+  color: #99775c;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.button-primary:hover {
+  background-color: #50a2a7;
+  color: #ffffff;
+}
+
+/* Footer */
+footer {
+  background-color: #2a2b2a;
+  color: white;
+  text-align: center;
+  padding: 20px 0;
 }
