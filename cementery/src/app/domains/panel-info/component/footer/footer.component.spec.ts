@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ArticuloPinfoComponent } from './articulo-pinfo.component';
+import { FooterComponent } from './footer.component';
 
-describe('ArticuloPinfoComponent', () => {
-  let component: ArticuloPinfoComponent;
-  let fixture: ComponentFixture<ArticuloPinfoComponent>;
+describe('FooterComponent', () => {
+  let component: FooterComponent;
+  let fixture: ComponentFixture<FooterComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ArticuloPinfoComponent]
+      imports: [FooterComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ArticuloPinfoComponent);
+    fixture = TestBed.createComponent(FooterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

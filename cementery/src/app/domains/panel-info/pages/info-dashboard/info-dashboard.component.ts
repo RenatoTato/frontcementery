@@ -11,11 +11,12 @@ import { ObituarioInfosComponent } from '@info/component/obituario-infos/obituar
 import { Router } from '@angular/router';
 import { NotificationFormComponent } from "@shared/components/notification-form/notification-form.component";
 import { Iglesia } from '@externo/models/iglesia/iglesia.model';
+import { FooterComponent } from "../../component/footer/footer.component";
 
 @Component({
   selector: 'app-info-dashboard',
   standalone: true,
-  imports: [CommonModule, ArticuloInfoComponent, IglrsiasInfosComponent, NotificationFormComponent],
+  imports: [CommonModule, ArticuloInfoComponent, IglrsiasInfosComponent, NotificationFormComponent, FooterComponent],
   templateUrl: './info-dashboard.component.html',
   styleUrl: './info-dashboard.component.css'
 })
@@ -38,46 +39,46 @@ export class InfoDashboardComponent implements OnInit {
     },
     {
       image: 'assets/fotos/c10.jpg',
-      title: 'Obituarios Recientes',
-      subtitle: 'Nuestros Seres Queridos',
+      imageTitle: 'assets/fotos/obituario_title.png',
       type: 'obituarios',
     },
     {
       image: 'assets/fotos/c4.jpg',
+      type: 'telefono',
     },
     {
       image: 'assets/fotos/c10.jpg',
-      title: 'Iglesias Disponibles',
-      subtitle: 'Encuentra Paz y Reflexión',
-      type: 'iglesias',
+      imageTitle: 'assets/fotos/necesidad.png',
+      title: 'Necesidad Inmedita',
+      subtitle: 'Apoyo en los Momentos Difíciles',
+      type: 'necesidad',
     },
     {
       image: 'assets/fotos/c5.jpg',
     },
     {
       image: 'assets/fotos/c10.jpg',
-      title: 'Artículos Destacados',
-      subtitle: 'Información Importante',
-      type: 'articulos',
+      imageTitle: 'assets/fotos/iglesias.png',
+      title: 'Iglesias Disponibles',
+      subtitle: 'Encuentra Paz y Reflexión',
+      type: 'iglesias',
     },
     {
       image: 'assets/fotos/c2.jpg',
     },
     {
       image: 'assets/fotos/c10.jpg',
-      title: 'Necesidad Inmedita',
-      subtitle: 'Apoyo en los Momentos Difíciles',
-      type: 'necesidad',
+      imageTitle: 'assets/fotos/articulo.png',
+      title: 'Artículos Destacados',
+      subtitle: 'Información Importante',
+      type: 'articulos',
     },
+
     {
       image: 'assets/fotos/c31.jpg',
-    },
-    {
-      image: 'assets/fotos/c10.jpg',
-      title: 'Contáctenos',
-      subtitle: 'Estamos Aquí para Ayudarte',
       type: 'contactenos',
     },
+
   ];
 
   constructor(

@@ -3,11 +3,14 @@
   <ng-container *ngIf="iglesia">
     <!-- Modo Lista -->
     <ng-container *ngIf="modo === 'lista'">
-      <img *ngIf="iglesia.image" [src]="iglesia.image" alt="{{ iglesia.name }}" class="w-full object-cover h-48" />
-      <div class="p-4">
-        <h2 class="text-lg font-semibold text-gray-600 dark:text-white mb-2 text-center">{{ iglesia.name }}</h2>
+      <div class="border border-[#99775c] rounded-lg overflow-hidden">
+        <img *ngIf="iglesia.image" [src]="iglesia.image" alt="{{ iglesia.name }}" class="w-full object-cover h-48" />
+        <div class="p-4">
+          <h2 class="text-lg font-semibold text-[#2a2b2a] dark:text-[#eae7dd] mb-2 text-center">{{ iglesia.name }}</h2>
+        </div>
       </div>
     </ng-container>
+    
 
     <!-- Modo Detalle -->
     <ng-container *ngIf="modo === 'detalle'">

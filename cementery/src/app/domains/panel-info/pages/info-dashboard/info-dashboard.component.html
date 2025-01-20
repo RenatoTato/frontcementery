@@ -8,41 +8,41 @@
     <div class="content-overlay w-full p-6 md:p-10" [ngClass]="!item.image ? 'bg-[#f4f3f0]' : ''">
       <div class="content-container mx-auto text-center max-w-4xl">
         <!-- Solo muestra el título si existe -->
-        <h2 *ngIf="item.title" class="content-title py-8 text-3xl md:text-4xl font-bold text-[#2a2b2a] mb-4" >
-          {{ item.title }}
-        </h2>
+        <ng-container *ngIf="item.imageTitle; else textContent">
+          <!-- Imagen si existe imageTitle -->
+          <img [src]="item.imageTitle" alt="Imagen del Título" class="max-w-[40%] max-h-[40%]">
+        </ng-container>
+        <ng-template #textContent>
+          <!-- Título y subtítulo si no hay imageTitle -->
+          <div class="text-center text-[#99775c] space-y-2">
+            <h2 class="text-2xl font-bold">{{ item.title }}</h2>
+            <p class="text-lg">{{ item.subtitle }}</p>
+          </div>
+        </ng-template>
         <ng-container [ngSwitch]="item.type">
           <!-- Logos -->
           <section class="flex justify-center items-center h-auto px-6" *ngSwitchCase="'logo'">
-            <img
-              src="assets/image/logo/logohome-removebg.png"
-              alt="Logo Cementerio San José del Condado"
-              class="w-full md:w-3/4 lg:w-2/3"
-            />
+            <img src="assets/image/logo/logohome-removebg.png" alt="Logo Cementerio San José del Condado"
+              class="w-full md:w-3/4 lg:w-2/3" />
           </section>
-               
+
           <!-- Carrusel de Obituarios -->
           <section *ngSwitchCase="'obituarios'" class="py-12">
             <div class="container mx-auto">
               <div class="relative overflow-hidden">
-                <div 
-                  class="flex transition-transform duration-500"
-                  [style.transform]="'translateX(-' + currentIndex * 25 + '%)'"> 
-                  <div 
-                    *ngFor="let obituario of obituarios" 
-                    class="w-1/4 flex-shrink-0 p-4"> <!-- Cambiado de p-2 a p-4 para más espacio -->
-                    <div 
-                      class="text-center cursor-pointer"
+                <div class="flex transition-transform duration-500"
+                  [style.transform]="'translateX(-' + currentIndex * 25 + '%)'">
+                  <div *ngFor="let obituario of obituarios" class="w-1/4 flex-shrink-0 p-4">
+                    <!-- Cambiado de p-2 a p-4 para más espacio -->
+                    <div class="text-center cursor-pointer"
                       (click)="obituario.id ? navigateToDetail(obituario.id) : null">
                       <!-- Imagen -->
-                      <img 
-                        *ngIf="obituario.image_dif" 
-                        [src]="obituario.image_dif"
+                      <img *ngIf="obituario.image_dif" [src]="obituario.image_dif"
                         alt="{{ obituario.name || 'Difunto' }}"
-                        class="w-40 h-40 object-cover rounded-full border-4 border-[#99775c] shadow-lg mx-auto" /> <!-- Aumentado de w-32 h-32 a w-40 h-40 -->
+                        class="w-40 h-40 object-cover rounded-full border-4 border-[#99775c] shadow-lg mx-auto" />
+                      <!-- Aumentado de w-32 h-32 a w-40 h-40 -->
                       <!-- Nombre -->
-                      <h3 
-                        class="text-xl font-semibold text-[#2a2b2a] mt-6">
+                      <h3 class="text-xl font-semibold text-[#2a2b2a] mt-6">
                         {{ obituario.name || 'Nombre no disponible' }}
                       </h3>
                       <!-- Fechas -->
@@ -55,18 +55,17 @@
               </div>
               <!-- Botón -->
               <div class="text-center mt-6 py-4">
-                <button 
-                  (click)="navigateToList()"
+                <button (click)="navigateToList()"
                   class="button-primary bg-transparent border border-[#50a2a7] text-[#99775c] py-3 px-6 text-lg rounded-lg hover:bg-[#50a2a7] hover:text-white">
                   Nuestros Obituarios
                 </button>
               </div>
             </div>
           </section>
-          
+
 
           <!-- Iglesias -->
-          <section *ngSwitchCase="'iglesias'">
+          <section *ngSwitchCase="'iglesias'" class="py-12">
             <div class="container mx-auto">
               <div class="grid grid-cols-1 md:grid-cols-5 gap-6">
                 <app-iglrsias-infos *ngFor="let iglesia of iglesiasLimitadas" [iglesia]="iglesia" modo="lista"
@@ -93,7 +92,7 @@
                 carga.
               </p>
               <button
-                class="bg-black text-white px-6 py-3 rounded-md shadow-md hover:bg-gray-800 transition duration-300"
+                class="bg-black text-white px-6 py-3 rounded-md shadow-md hover:bg-[#FFC857] hover:text-black transition duration-300"
                 (click)="redirectToGuide()">
                 Ayuda Inmediata
               </button>
@@ -107,19 +106,41 @@
           <section *ngSwitchCase="'articulos'" class="py-12">
             <div class="container mx-auto max-w-[100%]"> <!-- Ampliado a un 90% del ancho de la pantalla -->
               <div>
-                <app-articulo-info 
-                  [articulos]="articulos" 
-                  [columns]="'grid-cols-1 md:grid-cols-2 lg:grid-cols-4'" 
+                <app-articulo-info [articulos]="articulos" [columns]="'grid-cols-1 md:grid-cols-2 lg:grid-cols-4'"
                   (onArticuloSeleccionado)="verArticulo($event)">
                 </app-articulo-info>
               </div>
               <div class="text-center mt-4 md:mt-6 py-4">
-                <button 
-                  (click)="volverAListaArticulos()"
+                <button (click)="volverAListaArticulos()"
                   class="button-primary bg-transparent border border-[#50a2a7] text-[#99775c] py-2 px-4 rounded-lg hover:bg-[#50a2a7] hover:text-white">
                   Nuestros Artículos
                 </button>
               </div>
+            </div>
+          </section>
+          <section *ngSwitchCase="'contactenos'" class="text-rifth item-center space-y-40">
+            <div
+              class=" col-span-2 flex flex-col justify-center items-center text-center space-y-4 bg-black/5 rounded-lg shadow-sm w-full max-w-5xl mx-auto">
+              <!-- Contenedor de imágenes con ancho igual al formulario -->
+              <img src="assets/fotos/contactenos5.png" alt="" class="max-w-[40%] max-h-[40%] mt-4">
+              <img src="assets/fotos/ayuda.png" alt="Título Icono" class="max-w-[40%] max-h-[40%] mb-4">
+            </div>
+            <!-- Formulario con el mismo ancho que el contenedor de las imágenes -->
+            <app-notification-form class="w-full max-w-3xl mx-auto mt-6"></app-notification-form>
+          </section>
+          <section *ngSwitchCase="'telefono'"
+            class="h-screen flex flex-col justify-end items-center bg-fixed bg-cover bg-center"
+            [style.backgroundImage]="'url(' + parallaxItems[2].image + ')'">
+            <div class="text-rifth bg-black/50 w-full max-w-5xl mx-auto text-center py-8 shadow-lg">
+              <h3 class="text-white text-lg font-medium w-full mt-6">
+                Si necesitas nuestros servicios, puedes contactarnos al siguiente número.
+              </h3>
+              <!-- Imagen -->
+              <div class="flex justify-center">
+                <img src="assets/fotos/telefonos2.png" alt="Título Icono" class="max-w-[40%] max-h-[40%]">
+              </div>
+              <!-- Texto al final -->
+
             </div>
           </section>
 
@@ -129,10 +150,9 @@
   </div>
 
   <!-- Footer -->
-  <div class="parallax-section bg-fixed bg-center flex items-center justify-center min-h-[30vh] bg-[#2a2b2a]">
-    <footer class="text-white py-6 text-center w-full">
-      <app-notification-form></app-notification-form>
-      <p>&copy; 2024 Portal de Servicios. Todos los derechos reservados.</p>
-    </footer>
+  <div class="parallax-section bg-fixed bg-center flex items-center justify-center min-h-[30vh] bg-[#99775c]">
+    <div class="container mx-auto w-full px-14">
+      <app-footer />
+    </div>
   </div>
 </div>

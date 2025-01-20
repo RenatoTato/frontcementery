@@ -1,54 +1,54 @@
 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center p-6 bg-black/60 rounded-lg shadow-lg max-w-5xl mx-auto">
   <!-- Formulario -->
   <div class="space-y-6">
-    <h2 class="text-2xl font-bold text-white text-center">Enviar Notificación</h2>
     <form (ngSubmit)="onSubmit()" #notificationForm="ngForm" class="space-y-4">
       <div class="form-group">
-        <label for="name" class="block text-sm text-white">Nombre Completo</label>
+        <label for="name" class="block text-sm text-[#FFFFFF]"></label>
         <input
           type="text"
           id="name"
           name="name"
           [(ngModel)]="notification.name"
           required
-          class="form-control w-full p-2 bg-transparent border border-gray-300 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
-          placeholder="Escribe tu nombre"
+          class="form-control w-full p-2 bg-transparent border border-gray-300 text-[#FFFFFF] rounded-md focus:outline-none focus:ring-2 focus:ring-[#FFFFFF]"
+          placeholder="NOMBRE Y APELLIDO"
         />
       </div>
 
       <div class="form-group">
-        <label for="contact_number" class="block text-sm text-white">Teléfono</label>
+        <label for="contact_number" class="block text-sm text-[#FFFFFF]"></label>
         <input
           type="text"
           id="contact_number"
           name="contact_number"
           [(ngModel)]="notification.contact_number"
           required
-          class="form-control w-full p-2 bg-transparent border border-gray-300 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
-          placeholder="Escribe tu número de teléfono"
+          class="form-control w-full p-2 bg-transparent border border-gray-300 text-[#FFFFFF] rounded-md focus:outline-none focus:ring-2 focus:ring-[#FFFFFF]"
+          placeholder="TELEFONO"
         />
       </div>
 
       <div class="form-group">
-        <label for="email" class="block text-sm text-white">Correo Electrónico (opcional)</label>
+        <label for="email" class="block text-sm text-[#FFFFFF]"></label>
         <input
           type="email"
           id="email"
           name="email"
           [(ngModel)]="notification.email"
-          class="form-control w-full p-2 bg-transparent border border-gray-300 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
-          placeholder="Escribe tu correo electrónico"
+          class="form-control w-full p-2 bg-transparent border border-gray-300 text-[#FFFFFF] rounded-md focus:outline-none focus:ring-2 focus:ring-[#FFFFFF]"
+          placeholder="EMAIL"
         />
       </div>
 
       <div class="form-group">
-        <label for="area" class="block text-sm text-white">Área</label>
+        <label for="area" class="block text-sm text-[#FFFFFF] justify-start"></label>
         <select
           id="area"
           name="area"
           [(ngModel)]="notification.area"
           required
-          class="form-control w-full p-2 bg-transparent border border-gray-300 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
+          class="form-control w-full p-2 bg-transparent border border-gray-300  rounded-md focus:outline-none focus:ring-2 focus:ring-[#FFFFFF]"
+          placeholder="ÁREA"
         >
           <option value="correccion_datos">Corrección de Datos</option>
           <option value="soporte">Soporte Técnico</option>
@@ -57,20 +57,20 @@
       </div>
 
       <div class="form-group">
-        <label for="message" class="block text-sm text-white">Mensaje</label>
+        <label for="message" class="block text-sm text-[#FFFFFF]"></label>
         <textarea
           id="message"
           name="message"
           [(ngModel)]="notification.message"
           required
-          class="form-control w-full p-2 bg-transparent border border-gray-300 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
-          placeholder="Describe tu solicitud"
+          class="form-control w-full p-2 bg-transparent border border-gray-300 text-[#FFFFFF] rounded-md focus:outline-none focus:ring-2 focus:ring-[#FFFFFF]"
+          placeholder="MENSAJE"
         ></textarea>
       </div>
 
       <button
         type="submit"
-        class="w-full py-2 px-4 bg-yellow-400 text-black font-bold rounded-md hover:bg-yellow-500 focus:outline-none"
+        class=" w-full bg-white item-center text-black px-6 py-2 rounded-md shadow-md hover:bg-[#FFC857] hover:text-black transition duration-300"
         [disabled]="notificationForm.invalid"
       >
         Enviar
@@ -79,20 +79,9 @@
   </div>
 
   <!-- Números de contacto -->
-  <div class="space-y-6 text-white text-center md:text-left">
-    <div class="flex items-center space-x-4">
-      <img src="assets/image/icono/phone.svg" alt="Teléfono" class="w-6 h-6">
-      <div>
-        <p class="text-lg font-semibold">PBX</p>
-        <p class="text-sm">02 - 380 9120</p>
-      </div>
+  <div class="space-y-6 text-[#FFFFFF] text-center md:text-left">
+    <div class="flex items-center">
+      <img src="assets/image/icono/telefonos-removebg-preview.png" alt="Teléfono" class="w-90 h-80"> <!-- Tamaño aumentado -->
     </div>
-    <div class="flex items-center space-x-4">
-      <img src="assets/image/icono/whatsapp.svg" alt="WhatsApp" class="w-6 h-6">
-      <div>
-        <p class="text-lg font-semibold">WhatsApp</p>
-        <p class="text-sm">098 229 4465</p>
-      </div>
-    </div>
-  </div>
+  </div>  
 </div>

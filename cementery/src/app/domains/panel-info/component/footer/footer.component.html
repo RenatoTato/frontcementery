@@ -1,0 +1,74 @@
+<footer class="bg-[#99775c] text-[#eae7dd] text-sm py-8">
+    <div class="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+        <!-- Primera columna -->
+        <div>
+            <ul class="space-y-2 md:ml-40">
+                <!-- Ícono para el correo -->
+                <li class="flex items-center space-x-2">
+                    <img src="assets/image/icono/mail (2).svg" alt="Correo" class="w-5 h-5" />
+                    <a href="mailto:texcersice@gmail.com" class="hover:underline">{{mail}}</a>
+                </li>
+                <!-- Sin ícono para Quito, Ecuador -->
+                <li class="flex items-center space-x-2">
+                    <img src="assets/image/icono/map-pin.svg" alt="Teléfono" class="w-5 h-5" />
+                    <span>Av. La Prensa y Pablo Picazo</span>
+                </li>
+                <li class="flex items-center space-x-2">
+                    <img src="assets/image/icono/map.svg" alt="Teléfono" class="w-5 h-5" />
+                    <span>Quito, Ecuador</span>
+                </li>
+                <!-- Ícono para teléfono -->
+                <li class="flex items-center space-x-2">
+                    <img src="assets/image/icono/phone (1).svg" alt="Teléfono" class="w-5 h-5" />
+                    <span>Teléfono:</span>
+                    <a href="tel:022493337" class="hover:underline">02 2493 337</a>
+                </li>
+                <!-- Ícono para WhatsApp -->
+                <li class="flex items-center space-x-2">
+                    <img src="assets/image/icono/smartphone.svg" alt="WhatsApp" class="w-5 h-5" />
+                    <span>WhatsApp:</span>
+                    <a href="https://wa.me/5930999013072" class="hover:underline whitespace-nowrap">099 901 3072</a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Segunda columna (Obituarios) -->
+        <div class="md:ml-40">
+            <ul class="space-y-2">
+                <li> <a routerLink="/obituarios" class="hover:underline">Obituarios</a></li>
+                <li><a routerLink="/servicios" class="hover:underline">Servicios</a></li>
+                <li><a routerLink="/iglesias" class="hover:underline">Iglesias</a></li>
+            </ul>
+        </div>
+
+        <!-- Tercera columna (Buscar Tumba) -->
+        <div>
+            <ul class="space-y-2">
+                <li><a routerLink="/consulta-ser-queirodo" class="hover:underline">Buscar Tumba</a></li>
+                <li><a routerLink="/guias" class="hover:underline">Guía</a></li>
+                <li><a routerLink="/articulos" class="hover:underline">Artículos</a></li>
+            </ul>
+        </div>
+
+        <!-- Cuarta columna -->
+        <div>
+            <ng-container *ngIf="!isAuthenticated(); ">
+                <button (click)="navigateToLogin()"
+                    class="flex items-center space-x-2 bg-[#eae7dd] text-[#99775c] text-sm py-2 px-4 rounded hover:bg-[#50a2a7] hover:text-white transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="feather feather-lock">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                    </svg>
+                    <span>Acceso</span>
+                </button>
+            </ng-container>
+        </div>        
+    </div>
+
+    <!-- Sección de copyright centrada -->
+    <div class="container mx-auto mt-8 text-center text-[#eae7dd]">
+        <p>&copy; 2004 - 25 Renato Carvajal. Todos los derechos reservados.</p>
+    </div>
+</footer>

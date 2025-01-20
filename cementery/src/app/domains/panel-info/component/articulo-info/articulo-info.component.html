@@ -1,7 +1,10 @@
 <div class="grid gap-6" [ngClass]="columns">
-  <div *ngFor="let articulo of articulos" (click)="verArticulo(articulo.id)"
-    (keydown)="handleKeyPress($event, articulo.id)" role="button" tabindex="0" 
-    class="bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden cursor-pointer hover:shadow-lg transition">
+  <div *ngFor="let articulo of articulos" 
+    (click)="verArticulo(articulo.id)" 
+    (keydown)="handleKeyPress($event, articulo.id)" 
+    role="button" 
+    tabindex="0" 
+    class="bg-white dark:bg-gray-800 border border-[#50a2a7] shadow-md rounded-lg overflow-hidden cursor-pointer hover:shadow-lg transition">
     <img *ngIf="articulo.image" [src]="articulo.image" alt="{{ articulo.title }}" class="w-full h-48 object-cover" />
     <div class="p-4">
       <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">
@@ -11,7 +14,8 @@
         {{ articulo.title }}
       </h2>
       <p class="text-[#99775c] mb-4">
-        {{ articulo.description | slice: 0:100 }}<button class="text-[#50a2a7] hover:underline">...Leer más</button>
+        {{ articulo.description | slice: 0:100 }}
+        <button class="text-[#50a2a7] hover:underline">...Leer más</button>
       </p>
       <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">
         Author: {{ articulo.author }}
@@ -19,6 +23,7 @@
     </div>
   </div>
 </div>
+
 <!-- Paginación -->
 <div *ngIf="paginacion" class="flex justify-center mt-6">
   <button *ngIf="page > 1" (click)="cambiarPagina(page - 1)"
