@@ -53,18 +53,19 @@ export class SiderbarComponent implements OnInit {
   // Método para obtener los datos del usuario desde el backend
 
   loadNotifications(): void {
-    this.notificationService.getNotifications({ is_attended: false }).subscribe(
-      (data) => {
-        this.notifications = data;
+    this.notificationService.getNotifications(1, 10, { is_attended: 'false' }).subscribe(
+      (response) => {
+        this.notifications = response.results || response; // Asigna las notificaciones pendientes
+        console.log(`Notificaciones pendientes cargadas: ${this.notifications.length}`);
       },
       (error) => {
-        console.error('Error al cargar notificaciones:', error);
+        console.error('Error al cargar las notificaciones pendientes:', error);
       }
     );
   }
 
   goToNotificationDetail(id: number): void {
-    this.router.navigate([`/admin/notificaciones/${id}`]); // Ajusta la ruta
+    this.router.navigate([`/admin/notificaciones`]); // Ajusta la ruta
   }
   toggleCementerio(): void {
     this.isCementerioOpen = !this.isCementerioOpen; // Alterna entre mostrar y ocultar

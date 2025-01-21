@@ -16,7 +16,7 @@ import { CommonModule } from '@angular/common';
 export class HistorialComponent {
 
   // Estado actual del componente
-  estadoActual: 'HistorialDeudo' | 'HistorialDifunto' | 'HistorialTumba' | 'HistorialLote' | 'HistorialSevicio' = 'HistorialDeudo';
+  estadoActual: 'HistorialDeudo' | 'HistorialDifunto' | 'HistorialTumba' | 'HistorialLote' | 'HistorialSevicio' = 'HistorialDifunto';
 
   // Método genérico para cambiar el estado
   cambiarEstado(nuevoEstado: 'HistorialDeudo' | 'HistorialDifunto' | 'HistorialTumba' | 'HistorialLote' | 'HistorialSevicio'): void {

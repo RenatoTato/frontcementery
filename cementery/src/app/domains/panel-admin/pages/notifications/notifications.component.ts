@@ -1,95 +1,149 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NotificationService } from '@externo/services/notification.service';
+import { Notificacion } from '@externo/models/notifications/notificacion.model';
 
 @Component({
   selector: 'app-notifications',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './notifications.component.html',
   styleUrl: './notifications.component.css'
 })
 export class NotificationsComponent implements OnInit {
-  showList = true; // Controla si se muestra la lista o el detalle
-  notifications: any[] = []; // Lista de notificaciones
-  notification: any | null = null; // Notificación seleccionada
-  filters: any = {}; // Filtros aplicados
+  notifications: Notificacion[] = [];
+  paginatedNotifications: Notificacion[] = [];
+  notificationFilterForm!: FormGroup;
+  currentPage = 1;
+  pageSize = 10;
+  totalItems = 0;
+  showFilters = false;
+
+  filterFields = [
+    { name: 'name', label: 'Nombre' },
+    { name: 'area', label: 'areaOptions' },
+    { name: 'created_at', label: 'Fecha de Creación' },
+    { name: 'is_attended', label: 'Atendido (true/false)' },
+  ];
+  areaOptions = [
+    { value: 'correccion_datos', label: 'Datos' },
+    { value: 'soporte', label: 'Soporte' },
+    { value: 'paquetes', label: 'Paquetes' },
+  ];
 
   constructor(
+    private fb: FormBuilder,
     private notificationService: NotificationService,
-    private route: ActivatedRoute,
-    private router: Router
-  ) {}
+    private cdRef: ChangeDetectorRef
+  ) { }
 
   ngOnInit(): void {
-    // Suscribirse a los cambios de parámetros en la ruta
-    this.route.paramMap.subscribe((params) => {
-      const id = params.get('id');
-      if (id) {
-        this.loadNotificationById(id);
-        this.showList = false;
-      } else {
-        this.loadNotifications();
-        this.showList = true;
-      }
+    this.initForm();
+    this.loadNotifications(this.currentPage, this.pageSize);
+    this.setupFilterListener();
+  }
+
+  initForm(): void {
+    this.notificationFilterForm = this.fb.group({
+      name: [''],
+      area: [''],
+      created_at: [''],
+      is_attended: [''],
+    });
+    this.setupFilterListener();
+  }
+
+  setupFilterListener(): void {
+    this.notificationFilterForm.valueChanges.subscribe((filters) => {
+      this.loadNotifications(1, this.pageSize, filters);
     });
   }
 
-  // Cargar todas las notificaciones
-  loadNotifications(): void {
-    this.notificationService.getNotifications(this.filters).subscribe(
-      (data) => {
-        this.notifications = data;
+  loadNotifications(page: number, pageSize: number, filters?: any): void {
+    this.notificationService.getNotifications(page, pageSize, filters).subscribe(
+      (response) => {
+        // Asignar directamente los valores esperados
+        this.notifications = response.results;
+        this.totalItems = response.count;
+        this.paginatedNotifications = [...this.notifications];
       },
-      (error) => {
-        console.error('Error al cargar notificaciones:', error);
-      }
+      (error) => console.error('Error al cargar notificaciones:', error)
     );
   }
 
-  // Cargar una notificación específica por ID
-  loadNotificationById(id: string): void {
-    this.notificationService.getNotificationById(id).subscribe(
-      (data) => {
-        this.notification = data;
-      },
-      (error) => {
-        console.error('Error al cargar el detalle de la notificación:', error);
+
+  nextPage(step: number): void {
+    if (this.currentPage + step <= this.totalPages) {
+      this.currentPage += step;
+      this.loadNotifications(this.currentPage, this.pageSize);
+    }
+  }
+
+  previousPage(step: number): void {
+    if (this.currentPage - step >= 1) {
+      this.currentPage -= step;
+      this.loadNotifications(this.currentPage, this.pageSize);
+    }
+  }
+
+  goToFirstPage(): void {
+    this.currentPage = 1;
+    this.loadNotifications(this.currentPage, this.pageSize);
+  }
+
+  goToLastPage(): void {
+    this.currentPage = this.totalPages;
+    this.loadNotifications(this.currentPage, this.pageSize);
+  }
+
+  get totalPages(): number {
+    return Math.ceil(this.totalItems / this.pageSize);
+  }
+
+  toggleFilters(): void {
+    this.showFilters = !this.showFilters;
+  }
+
+  onSubmit(): void {
+    const filters = this.notificationFilterForm.value;
+    this.loadNotifications(1, this.pageSize, filters);
+  }
+
+  resetFilters(): void {
+    this.notificationFilterForm.reset();
+    this.loadNotifications(1, this.pageSize);
+  }
+
+  markAsAttended(notification: any): void {
+    if (confirm('¿Estás seguro de que quiere marcar como atendido?')) {
+      if (notification.is_attended) {
+        return;
       }
-    );
-  }
 
-  // Seleccionar una notificación
-  onSelectNotification(id: string): void {
-    this.router.navigate([`/admin/notificaciones/${id}`]); // Navega al detalle
-  }
-
-  // Marcar como atendida
-  markAsAttended(): void {
-    if (this.notification) {
-      this.notificationService.markAsAttended(this.notification.id).subscribe(
+      this.notificationService.markAsAttended(notification.id).subscribe(
         () => {
-          alert('Notificación marcada como atendida.');
-          this.goBack();
+          notification.is_attended = true;
+          console.log(`Notificación ${notification.id} marcada como atendida.`);
         },
-        (error) => {
-          console.error('Error al marcar como atendida:', error);
-        }
+        (error) => console.error('Error al marcar como atendida:', error)
       );
     }
+
   }
-  handleKeyPress(event: KeyboardEvent, id: number): void {
-    if (event.key === 'Enter' || event.key === ' ') {
-      this.onSelectNotification(id.toString()); // Convertir número a cadena
-      event.preventDefault();
+  transformArea(area: string): string {
+    switch (area) {
+      case 'correccion_datos':
+        return 'Datos';
+      case 'soporte':
+        return 'Soporte';
+      case 'paquetes':
+        return 'Paquetes';
+      default:
+        return area; // Devuelve el valor original si no coincide
     }
   }
-
-  // Volver a la lista
-  goBack(): void {
-    this.notification = null;
-    this.showList = true;
-    this.router.navigate(['/admin/notificaciones']);
-  }
 }
+
+

@@ -120,9 +120,9 @@
           </section>
           <section *ngSwitchCase="'contactenos'" class="text-rifth item-center space-y-40">
             <div
-              class=" col-span-2 flex flex-col justify-center items-center text-center space-y-4 bg-black/5 rounded-lg shadow-sm w-full max-w-5xl mx-auto">
+              class=" col-span-2 flex flex-col justify-center items-center text-center space-y-4  w-full max-w-5xl mx-auto">
               <!-- Contenedor de imágenes con ancho igual al formulario -->
-              <img src="assets/fotos/contactenos5.png" alt="" class="max-w-[40%] max-h-[40%] mt-4">
+              <img src="assets/fotos/contactenos4.png" alt="" class="max-w-[40%] max-h-[40%] mt-4">
               <img src="assets/fotos/ayuda.png" alt="Título Icono" class="max-w-[40%] max-h-[40%] mb-4">
             </div>
             <!-- Formulario con el mismo ancho que el contenedor de las imágenes -->
@@ -143,6 +143,22 @@
 
             </div>
           </section>
+          <section
+            class="order-1 bg-[#2a2b2a] space-y-4 text-white py-8 px-6 text-center rounded-lg shadow-md bg-black/30 max-w-3xl mx-auto"
+            *ngSwitchCase="'buscar'">
+            <img src="assets/fotos/querido.png" alt="" class="max-w-[80%] max-h-[80%] mt-4">
+            <div>
+              <p class="text-lg mb-6">
+                ¿Buscas el lugar donde descansa tu ser querido? Con su nombre completo podrás obtener las referencias en
+                el croquis del cementerio y visualizar de forma gráfica la ubicación exacta de su tumba.
+              </p>
+              <a routerLink="/consulta-ser-queirodo"
+                class="w-full bg-white item-center text-black px-6 py-2 rounded-md shadow-md hover:bg-[#FFC857] hover:text-black transition duration-300">
+                Buscar
+              </a>
+            </div>
+          </section>
+
 
         </ng-container>
       </div>

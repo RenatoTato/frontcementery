@@ -1,23 +1,163 @@
-<div *ngIf="showList">
-    <h2>Lista de Notificaciones</h2>
-    <ul>
-      <li *ngFor="let notification of notifications" class="p-2">
-        <button 
-          (click)="onSelectNotification(notification.id)"
-          (keydown)="handleKeyPress($event, notification.id)"
-          class="cursor-pointer hover:bg-gray-200 p-2 rounded w-full text-left">
-          {{ notification.name }} - {{ notification.area }}
-        </button>
-      </li>
-    </ul>
+<div
+  class="min-h-screen dark:bg-[#2a2b2a] text-[#2a2b2a] dark:text-[#eae7dd] flex flex-col justify-center items-center p-8">
+
+  <h1 class="text-2xl font-bold mb-4 dark:text-[#ffffff] text-center">
+    Lista de Notificaciones
+  </h1>
+  <div class="container mx-auto p-4">
+    <!-- Formulario de Filtros -->
+    <div class="w-full flex justify-end mb-4">
+      <button (click)="toggleFilters()"
+        class="flex items-end gap-2 bg-[#50a2a7] text-white px-4 py-2 rounded-lg shadow-sm hover:bg-[#99775c] dark:bg-[#50a2a7] dark:hover:bg-[#99775c]">
+        <img src="assets/image/icono/filter.svg" alt="Icono comparar" class="w-4 h-4" />
+      </button>
+    </div>
+
+    <!-- Filtros -->
+    <div *ngIf="showFilters" class="w-full max-w-4xxl bg-[#ffffff] dark:bg-[#2a2b2a] rounded-lg shadow-md p-6">
+      <h2 class="text-2xl font-bold mb-6 text-[#99775c] dark:text-[#ffffff]">Filtrar Notificaciones</h2>
+      <form [formGroup]="notificationFilterForm" (ngSubmit)="onSubmit()" class="space-y-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <!-- Campo de Área -->
+          <div>
+            <label for="area" class="block text-sm font-medium text-[#99775c] dark:text-[#eae7dd]">Área</label>
+            <select
+              id="area"
+              formControlName="area"
+              class="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring focus:ring-[#50a2a7] focus:border-[#50a2a7] dark:bg-[#2a2b2a] dark:border-[#99775c] text-[#99775c] dark:text-[#eae7dd]">
+              <option value="">Todas</option>
+              <option *ngFor="let option of areaOptions" [value]="option.value">
+                {{ option.label }}
+              </option>
+            </select>
+          </div>
+    
+          <!-- Campo de Atendido -->
+          <div>
+            <label for="is_attended" class="block text-sm font-medium text-[#99775c] dark:text-[#eae7dd]">Atendido</label>
+            <select
+              id="is_attended"
+              formControlName="is_attended"
+              class="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring focus:ring-[#50a2a7] focus:border-[#50a2a7] dark:bg-[#2a2a2a] dark:border-[#99775c] text-[#99775c] dark:text-[#eae7dd]">
+              <option value="">Todos</option>
+              <option [value]="true">Atendido</option>
+              <option [value]="false">No Atendido</option>
+            </select>
+          </div>
+    
+          <!-- Campo de Fecha de Creación -->
+          <div>
+            <label for="created_at" class="block text-sm font-medium text-[#99775c] dark:text-[#eae7dd]">Fecha de Creación</label>
+            <input
+              id="created_at"
+              type="date"
+              formControlName="created_at"
+              class="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring focus:ring-[#50a2a7] focus:border-[#50a2a7] dark:bg-[#2a2b2a] dark:border-[#99775c] text-[#99775c] dark:text-[#eae7dd]" />
+          </div>
+          <div>
+            <label for="name" class="block text-sm font-medium text-[#99775c] dark:text-[#eae7dd]">Nombre</label>
+            <input
+              id="name"
+              type="text"
+              formControlName="name"
+              placeholder="Ingrese el nombre"
+              class="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring focus:ring-[#50a2a7] focus:border-[#50a2a7] dark:bg-[#2a2a2a] dark:border-[#99775c] text-[#99775c] dark:text-[#eae7dd]" />
+          </div>
+
+        </div>
+        
+        <div class="flex justify-end space-x-6">
+          <button type="button" (click)="resetFilters()"
+            class="bg-[#99775c] text-white px-5 py-2 rounded-lg shadow-sm hover:bg-[#50a2a7] dark:bg-[#99775c] dark:hover:bg-[#50a2a7]">
+            <img src="assets/image/icono/refresh-ccw.svg" alt="Icono editar" class="w-6 h-6" />
+          </button>
+          <button type="submit"
+            class="bg-[#50a2a7] text-white px-5 py-2 rounded-lg shadow-sm hover:bg-[#99775c] dark:bg-[#50a2a7] dark:hover:bg-[#99775c]">
+            <img src="assets/image/icono/search(2).svg" alt="Icono editar" class="w-6 h-6" />
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Tabla de Notificaciones -->
+    <div class="w-full max-w-4xxl bg-[#ffffff] dark:bg-[#2a2b2a] rounded-lg shadow-md overflow-x-auto mb-6 mt-4">
+      <table class="min-w-full bg-[#ffffff] dark:bg-[#2a2b2a] rounded-lg shadow-md overflow-hidden">
+        <thead class="bg-[#eae7dd] dark:bg-[#99775c]">
+          <tr>
+            <th class="px-8 py-4 text-left text-sm font-medium text-[#99775c] dark:text-[#eae7dd] uppercase">Nombre</th>
+            <th class="px-8 py-4 text-left text-sm font-medium text-[#99775c] dark:text-[#eae7dd] uppercase">Teléfono
+            </th>
+            <th class="px-8 py-4 text-left text-sm font-medium text-[#99775c] dark:text-[#eae7dd] uppercase">Area
+            </th>
+            <th class="px-8 py-4 text-left text-sm font-medium text-[#99775c] dark:text-[#eae7dd] uppercase">Fecha
+            </th>
+            <th class="px-8 py-4 text-left text-sm font-medium text-[#99775c] dark:text-[#eae7dd] uppercase">Atendida el
+            </th>
+            <th class="px-8 py-4 text-left text-sm font-medium text-[#99775c] dark:text-[#eae7dd] uppercase">Mensaje
+            </th>
+            <th class="px-8 py-4 text-center text-sm font-medium text-[#99775c] dark:text-[#eae7dd] uppercase">
+              Atendido
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let notification of paginatedNotifications" class="border-b border-gray-200 dark:border-gray-700">
+            <td class="px-8 py-4 text-sm text-gray-900 dark:text-gray-100">{{ notification.name }}</td>
+            <td class="px-8 py-4 text-sm text-gray-900 dark:text-gray-100">{{ notification.contact_number }}</td>
+            <td class="px-8 py-4 text-sm text-gray-900 dark:text-gray-100">{{ transformArea(notification.area)}}</td>
+            <td class="px-8 py-4 text-sm text-gray-900 dark:text-gray-100">{{ notification.created_at| date:'shortDate'
+              }}</td>
+            <td class="px-8 py-4 text-sm text-gray-900 dark:text-gray-100">
+              {{ notification.is_attended ? (notification.attended_at | date:'shortDate') : '' }}
+            </td>
+            <td class="px-8 py-4 text-sm text-gray-900 dark:text-gray-100">{{ notification.message }}</td>
+            <td class="px-8 py-4 text-center">
+              <button (click)="markAsAttended(notification)" [disabled]="notification.is_attended"
+                class="text-[#50a2a7] hover:text-[#99775c] dark:text-[#50a2a7] dark:hover:text-[#99775c] disabled:opacity-50">
+                <!-- SVG según el estado de la notificación -->
+                <svg *ngIf="!notification.is_attended" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                  viewBox="0 0 24 24" fill="none" stroke="#50a2a7" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" class="feather feather-check-square">
+                  <polyline points="9 11 12 14 22 4"></polyline>
+                  <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                </svg>
+                <svg *ngIf="notification.is_attended" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                  viewBox="0 0 24 24" fill="none" stroke="#50a2a7" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" class="feather feather-user-check">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="8.5" cy="7" r="4"></circle>
+                  <polyline points="17 11 19 13 23 9"></polyline>
+                </svg>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Paginación -->
+    <div class="flex justify-evenly mt-4">
+      <button (click)="goToFirstPage()" [disabled]="currentPage === 1"
+        class="bg-[#99775c] text-white px-4 py-2 rounded-lg shadow-sm" [title]="'Primera página'">
+        <img src="assets/image/icono/skip-forward.svg" alt="Icono comparar" class="w-4 h-4 rotate-180" />
+      </button>
+
+      <button (click)="previousPage(1)" [disabled]="currentPage === 1"
+        class="bg-[#99775c] text-white px-4 py-2 rounded-lg shadow-sm" [title]="'Página anterior'">
+        <img src="assets/image/icono/play.svg" alt="Icono comparar" class="w-4 h-4 rotate-180" />
+      </button>
+
+      <span class="text-gray-700 dark:text-gray-200">Página {{ currentPage }} de {{ totalPages }}</span>
+
+      <button (click)="nextPage(1)" [disabled]="currentPage === totalPages"
+        class="bg-[#50a2a7] text-white px-4 py-2 rounded-lg shadow-sm" [title]="'Página siguiente'">
+        <img src="assets/image/icono/play.svg" alt="Icono comparar" class="w-4 h-4" />
+      </button>
+
+      <button (click)="goToLastPage()" [disabled]="currentPage === totalPages"
+        class="bg-[#50a2a7] text-white px-4 py-2 rounded-lg shadow-sm" [title]="'Última página'">
+        <img src="assets/image/icono/skip-forward.svg" alt="Icono comparar" class="w-4 h-4" />
+      </button>
+    </div>
   </div>
-  
-  <div *ngIf="!showList && notification">
-    <h2>Detalle de Notificación</h2>
-    <p><strong>ID:</strong> {{ notification.id }}</p>
-    <p><strong>Nombre:</strong> {{ notification.name }}</p>
-    <p><strong>Mensaje:</strong> {{ notification.message }}</p>
-    <p><strong>Área:</strong> {{ notification.area }}</p>
-    <button (click)="markAsAttended()">Marcar como Atendida</button>
-    <button (click)="goBack()">Volver a la Lista</button>
-  </div>
+</div>

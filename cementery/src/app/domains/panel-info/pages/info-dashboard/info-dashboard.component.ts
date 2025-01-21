@@ -8,7 +8,7 @@ import { Articulo } from '@externo/models/articulo/articulo.model';
 import { ArticuloInfoComponent } from '@info/component/articulo-info/articulo-info.component';
 import { IglrsiasInfosComponent } from '@info/component/iglrsias-infos/iglrsias-infos.component';
 import { ObituarioInfosComponent } from '@info/component/obituario-infos/obituario-infos.component';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { NotificationFormComponent } from "@shared/components/notification-form/notification-form.component";
 import { Iglesia } from '@externo/models/iglesia/iglesia.model';
 import { FooterComponent } from "../../component/footer/footer.component";
@@ -16,7 +16,7 @@ import { FooterComponent } from "../../component/footer/footer.component";
 @Component({
   selector: 'app-info-dashboard',
   standalone: true,
-  imports: [CommonModule, ArticuloInfoComponent, IglrsiasInfosComponent, NotificationFormComponent, FooterComponent],
+  imports: [CommonModule, RouterModule, ArticuloInfoComponent, IglrsiasInfosComponent, NotificationFormComponent, FooterComponent],
   templateUrl: './info-dashboard.component.html',
   styleUrl: './info-dashboard.component.css'
 })
@@ -65,6 +65,7 @@ export class InfoDashboardComponent implements OnInit {
     },
     {
       image: 'assets/fotos/c2.jpg',
+      type: 'buscar',
     },
     {
       image: 'assets/fotos/c10.jpg',
@@ -75,10 +76,9 @@ export class InfoDashboardComponent implements OnInit {
     },
 
     {
-      image: 'assets/fotos/c31.jpg',
+      image: 'assets/fotos/c16.jpg',
       type: 'contactenos',
     },
-
   ];
 
   constructor(
