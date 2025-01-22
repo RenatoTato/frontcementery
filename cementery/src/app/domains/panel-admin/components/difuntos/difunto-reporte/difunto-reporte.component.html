@@ -1,22 +1,40 @@
-<div class="min-h-screen bg-[#eae7dd] dark:bg-[#2a2b2a] text-[#2a2b2a] dark:text-[#eae7dd] flex flex-col items-center p-4">
-  <h1 class="text-2xl font-bold mb-6">Reporte de Difuntos por Tipo de Servicio</h1>
+<div
+    class="min-h-screen bg-[#eae7dd] dark:bg-[#2a2b2a] text-center text-[#2a2b2a] dark:text-[#eae7dd] flex flex-col items-center p-4">
+    <h1 class="text-3xl font-boston mb-8 mt-4 text-[#99775c]">Reporte de Difuntos por Tipo de Servicio</h1>
 
-  <!-- Botón para alternar el tipo de gráfico -->
-  <button (click)="toggleChartType()"
-      class="px-4 py-2 mb-4 bg-[#50a2a7] text-[#ffffff] rounded-lg shadow-sm hover:bg-[#99775c] dark:bg-[#50a2a7] dark:hover:bg-[#99775c]">
-      Cambiar a {{ chartType === 'bar' ? 'Gráfico Circular' : 'Gráfico de Barras' }}
-  </button>
+    <!-- Botón para alternar el tipo de gráfico -->
+    <button (click)="toggleChartType()"
+        class="px-4 py-2 mb-4 bg-[#50a2a7] text-[#ffffff] rounded-lg shadow-sm hover:bg-[#99775c] dark:bg-[#50a2a7] dark:hover:bg-[#99775c]">
+        Cambiar a {{ chartType === 'bar' ? 'Gráfico Circular' : 'Gráfico de Barras' }}
+    </button>
 
-  <!-- Gráfico de ocupación -->
-  <div class="container mx-auto p-4 bg-[#ffffff] dark:bg-[#2a2b2a] rounded-lg shadow-lg">
-      <apx-chart *ngIf="chartOptions"
-          [series]="chartOptions.series"
-          [chart]="chartOptions.chart"
-          [labels]="chartOptions.labels"
-          [dataLabels]="chartOptions.dataLabels"
-          [xaxis]="chartOptions.xaxis"
-          [yaxis]="chartOptions.yaxis"
-          [plotOptions]="chartOptions.plotOptions">
-      </apx-chart>
-  </div>
+    <!-- Gráfico de ocupación -->
+    <div class="container mx-auto p-4 bg-[#ffffff] dark:bg-[#2a2b2a] rounded-lg shadow-lg">
+        <apx-chart *ngIf="chartOptions" [series]="chartOptions.series" [chart]="chartOptions.chart"
+            [labels]="chartOptions.labels" [dataLabels]="chartOptions.dataLabels" [xaxis]="chartOptions.xaxis"
+            [yaxis]="chartOptions.yaxis" [plotOptions]="chartOptions.plotOptions">
+        </apx-chart>
+    </div>
+    <h2 class="text-2xl font-boston mb-4 text-[#99775c] dark:text-[#eae7dd] py-6 mt-4">Datos del Reporte</h2>
+    <div class="container mx-auto text-center item-center p-4 bg-[#ffffff] dark:bg-[#2a2b2a] rounded-lg shadow-lg">
+        
+        <table class="w-full mx-auto bg-[#ffffff] dark:bg-[#2a2b2a] rounded-lg shadow-md text-center">
+            <thead class="bg-[#50a2a7]">
+                <tr class="items-center">
+                    <th class="px-6 py-3 text-center text-xs font-medium text-white dark:text-[#eae7dd] uppercase">
+                        Tipo de Servicio
+                    </th>
+                    <th class="px-6 py-3 text-center text-xs font-medium text-white dark:text-[#eae7dd] uppercase">
+                        Número de Difuntos
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of servicioDifuntoData" class="border-b border-[#99775c] dark:border-[#eae7dd]">
+                    <td class="px-6 py-4 text-sm text-[#2a2b2a] dark:text-[#eae7dd]">{{ data.ceremony }}</td>
+                    <td class="px-6 py-4 text-sm text-[#2a2b2a] dark:text-[#eae7dd]">{{ data.difunto_count }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>

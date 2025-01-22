@@ -2,3 +2,37 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@font-face {
+    font-family: 'Boston Angel';
+    src: url('/assets/fonts/boston-angel/Boston Angel Regular.ttf') format('truetype');
+    font-weight: 400; /* Regular */
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Boston Angel';
+    src: url('/assets/fonts/boston-angel/Boston Angel Bold.ttf') format('truetype');
+    font-weight: 700; /* Bold */
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Boston Angel';
+    src: url('/assets/fonts/boston-angel/Boston Angel Light.ttf') format('truetype');
+    font-weight: 300; /* Light */
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Boston Angel';
+    src: url('/assets/fonts/boston-angel/Boston Angel Medium.ttf') format('truetype');
+    font-weight: 500; /* Medium */
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Boston Angel';
+    src: url('/assets/fonts/boston-angel/Boston Angel Thin.ttf') format('truetype');
+    font-weight: 200; /* Thin */
+    font-style: normal;
+  }

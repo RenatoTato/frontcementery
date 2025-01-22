@@ -93,14 +93,17 @@ export class DashboardComponent implements OnInit {
 
   // Cargar datos de Estado de Tumbas
   loadTumbaEstadoData(): void {
-    this.tumbaService.getTumbasEstado().subscribe((response: TumbaEstadoResponse) => {
+    // Crear el filtro con nameLote = 153
+    const filterParams = { nameLote: 153 };
+  
+    this.tumbaService.getTumbasEstado(undefined, undefined, filterParams).subscribe((response: TumbaEstadoResponse) => {
       // Extraer los datos del array
       const data = response.results;
-
+  
       // Procesar los datos
       const disponibles = data.filter(t => t.available).length;
       const ocupadas = data.length - disponibles;
-
+  
       // Configurar las opciones del gráfico
       this.tumbaChartOptions = {
         series: [disponibles, ocupadas],

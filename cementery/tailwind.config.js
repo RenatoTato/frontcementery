@@ -11,6 +11,7 @@ module.exports = {
       },
       fontFamily: {
         cormorant: ['Cormorant Garamond', 'serif'],
+        boston: ['"Boston Angel"', 'cursive'], // Agrega la fuente personalizada
         cinzel: ['Cinzel', 'serif'],
         vollkorn: ['Vollkorn SC', 'serif'],
       },

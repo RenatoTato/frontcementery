@@ -41,7 +41,7 @@ export class NotificationsComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
-    this.loadNotifications(this.currentPage, this.pageSize);
+    this.loadNotifications(this.currentPage, this.pageSize, this.notificationFilterForm.value);
     this.setupFilterListener();
   }
 
@@ -50,7 +50,7 @@ export class NotificationsComponent implements OnInit {
       name: [''],
       area: [''],
       created_at: [''],
-      is_attended: [''],
+      is_attended: [false],
     });
     this.setupFilterListener();
   }
