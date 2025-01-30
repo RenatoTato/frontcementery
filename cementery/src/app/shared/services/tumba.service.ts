@@ -63,7 +63,7 @@ export class TumbaService {
     return this.http.get<Lote>(`${this.loteUrl}${id}/`)
   }
   // Crear un nuevo lote
-  createLote(data: Lote): Observable<Lote> {
+  createLote(data: LoteOcupacion): Observable<Lote> {
     return this.http.post<Lote>(this.loteUrl, data)
   }
   // Actualizar un lote existente

@@ -1,66 +1,36 @@
 <div class="flex space-x-4">
   <!-- Botón para mostrar el formulario -->
   <button (click)="mostrarFormularioTumba()"
-    class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700">
+    class=" text-left bg-[#ffffff] text-[#99775c] border border-[#50a2a7] px-4 py-2 rounded-lg hover:bg-[#50a2a7] hover:text-[#ffffff] transition">
     Formulario Tumba
   </button>
 
   <!-- Botón para mostrar el formulario -->
   <button (click)="mostrarFormularioLote()"
-    class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700">
-    Formulario Lote
+    class=" text-left bg-[#ffffff] text-[#99775c] border border-[#50a2a7] px-4 py-2 rounded-lg hover:bg-[#50a2a7] hover:text-[#ffffff] transition">
+    Manejar Lote
   </button>
   <!-- Botón para mostrar el Edicion -->
   <button (click)="mostrarEdicionTumba()"
-    class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700">
+    class=" text-left bg-[#ffffff] text-[#99775c] border border-[#50a2a7] px-4 py-2 rounded-lg hover:bg-[#50a2a7] hover:text-[#ffffff] transition">
     Edicion Tumba
   </button>
 
-  <!-- Botón para mostrar el Edicion -->
-  <button (click)="mostrarEdicionLote()"
-    class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700">
-    Edicion Lote
-  </button>
-
-  <!-- Botón para mostrar la reporte -->
-  <button (click)="mostrarReporteLote()"
-    class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600">
-    Reporte Lote
-  </button>
-
-  <!-- Botón para mostrar la edición -->
-  <button (click)="mostrarReporteTumba()"
-    class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600">
-    Reporte Tumba
-  </button>
 </div>
-
 <!-- Contenido del formulario -->
-<div *ngIf="estadoActual === 'formularioTumba'">
+<div *ngIf="estadoActual === 'formularioTumba'"  class=" dark:bg-2a2b2a rounded-lg p-4 shadow-md">
   <app-tumbaForm />
   <hr>
 </div>
 
 <!-- Contenido de edición -->
-<div *ngIf="estadoActual === 'edicionTumba'">
+<div *ngIf="estadoActual === 'edicionTumba'"  class=" dark:bg-2a2b2a rounded-lg p-4 shadow-md">
   <app-tumba-editar />
 </div>
 
 <!-- Contenido del formulario -->
-<div *ngIf="estadoActual === 'formularioLote'">
+<div *ngIf="estadoActual === 'formularioLote'"  class=" dark:bg-2a2b2a rounded-lg p-4 shadow-md">
   <app-loteForm />
   <hr>
 </div>
 
-<!-- Contenido de edición -->
-<div *ngIf="estadoActual === 'edicionLote'">
-  <app-lote-editar />
-</div>
-<!-- Contenido de edición -->
-<div *ngIf="estadoActual === 'reporteTumba'">
-  <app-tumba-reporte />
-</div>
-<!-- Contenido de edición -->
-<div *ngIf="estadoActual === 'reporteLote'">
-  <app-lote-reporte />
-</div>

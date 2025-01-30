@@ -41,6 +41,7 @@
     "@types/range-parser": "^1.2.7",
     "@types/send": "^0.17.4",
     "autoprefixer": "^10.4.20",
+    "cypress": "^14.0.1",
     "jasmine-core": "~5.2.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",

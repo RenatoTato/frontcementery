@@ -23,7 +23,7 @@ export class SvgmapComponent implements OnInit {
   ngOnInit(): void {
     this.loadOcupacionLote();
   }
-  readonly blockSizes = {
+  readonly blockSizes: Record<string, { width: number; height: number }> = { 
     A: { width: 34.41, height: 9.46 },
     B: { width: 42.58, height: 10.75 },
     C: { width: 15.05, height: 9.46 },

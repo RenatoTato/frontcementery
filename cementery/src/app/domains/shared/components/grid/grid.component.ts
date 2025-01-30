@@ -18,7 +18,7 @@ export class GridComponent implements OnInit {
   tumbasEstado: any[] = [];  // Agrega esta propiedad para almacenar los datos de tumbas
   filas: number = 0;
   columnas: number = 0;
-  readonly blockSizes = {
+  readonly blockSizes: Record<string, { width: number; height: number }> = {
     A: { width: 34.41, height: 9.46 },
     B: { width: 42.58, height: 10.75 },
     C: { width: 15.05, height: 9.46 },
@@ -32,8 +32,7 @@ export class GridComponent implements OnInit {
     N: { width: 72.69, height: 48.17 },
     S: { width: 55.49, height: 29.25 },
     T: { width: 55.49, height: 19.36 },
-  };
-
+};
   constructor(private tumbaService: TumbaService) { }
 
   ngOnInit(): void {

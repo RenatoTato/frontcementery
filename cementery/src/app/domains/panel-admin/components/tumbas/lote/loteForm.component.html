@@ -1,97 +1,175 @@
-<div
-    class="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex justify-center items-center p-4">
-    <div class="w-full max-w-2xl bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+<div class="w-full space-y-4 min-h-screen bg-gradient-to-t from-[#eae7dd] flex flex-col justify-start">
+    <!-- Título -->
+    <div class="w-full text-center py-4">
+        <h1 class="text-5xl font-boston text-[#99775c] dark:text-[#eae7dd]">
+            Cementerio del Condado
+        </h1>
+    </div>
+    <div class="flex w-full justify-end p-4">
+        <!-- Botón para agregar un lote -->
+        <button (click)="toggleLoteModal('add', true)"
+            class="px-4 py-2 rounded bg-[#50a2a7] text-white hover:bg-[#99775c] transition duration-300">
+            Agregar Lote
+        </button>
 
-        <!-- Título del Formulario -->
-        <h1 class="text-2xl font-bold mb-4 dark:text-white">Crear/Editar Lote</h1>
+        <!-- Botón para editar un lote -->
+        <button (click)="toggleLoteModal('edit', true)"
+            class="px-4 py-2 rounded bg-[#99775c] text-white hover:bg-[#50a2a7] transition duration-300 ml-2">
+            Editar Lote
+        </button>
+    </div>
+    <div class="flex flex-col items-center justify-center">
+        <div class="px-9"></div>
+        <div class="flex w-full h-full justify-between p-5">
+            <!-- Contenedor del SVG -->
 
-        <!-- Formulario de Lote -->
-        <form [formGroup]="loteForm" (ngSubmit)="onSubmit()" class="space-y-6">
+            <div class="svg-container w-full h-full flex justify-center items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 771.62 438.89" preserveAspectRatio="xMidYMid meet"
+                    class="w-full h-full max-w-5xl max-h-[90vh]">
+                    <g transform="rotate(90, 385.81, 385.81)">
+                        <g id="LotesTitulo">
+                            <g id="lotess">
+                                <!-- Rectángulos de los lotes -->
+                                <!-- 1 -->
+                                <rect class="cls-10" x="32.53" y="659" width="172.05" height="111.83" />
+                                <!-- 2 -->
+                                <rect class="cls-10" x="32.53" y="585.88" width="169.59" height="73.12" />
+                                <!-- 3 -->
+                                <rect class="cls-10" x="32.53" y="474.05" width="169.59" height="111.83" />
+                                <!-- 4 -->
+                                <rect class="cls-10" x="235.73" y="474.19" width="154.84" height="90.32" />
+                                <!-- 5 -->
+                                <rect class="cls-10" x="32.53" y="383.72" width="154.84" height="90.32" />
+                                <!-- 6 -->
+                                <rect class="cls-10" x="235.73" y="383.72" width="154.84" height="90.32" />
+                                <!-- 7 -->
+                                <rect class="cls-10" x="32.53" y="280.35" width="146.24" height="103.23" />
+                                <!-- 8 -->
+                                <rect class="cls-10" x="235.73" y="280.35" width="154.84" height="103.23" />
+                                <!-- 9 -->
+                                <rect class="cls-10" x="32.53" y="181.42" width="133.34" height="98.93" />
+                                <!-- 10 -->
+                                <rect class="cls-10" x="240.03" y="181.42" width="150.54" height="98.93" />
+                                <!-- 11 -->
+                                <rect class="cls-10" x="32.53" y="56.68" width="124.73" height="124.73" />
+                                <!-- 12 -->
+                                <rect class="cls-10" x="261.53" y="56.68" width="129.04" height="124.73" />
+                                <rect class="cls-10" x="235.73" y="564.66" width="154.84" height="206.46" />
+                            </g>
+                            <g id="Numeracion">
+                                <!-- Números dentro de los lotes -->
+                                <text class="cls-6" transform="translate(422.58 519.35) rotate(270)">
+                                    <tspan x="0" y="0">4</tspan>
+                                </text>
+                                <text class="cls-6" transform="translate(10.64 428.88) rotate(270)">
+                                    <tspan x="0" y="0">5</tspan>
+                                </text>
+                                <text class="cls-6" transform="translate(10.64 332.13) rotate(270)">
+                                    <tspan x="0" y="0">7</tspan>
+                                </text>
+                                <text class="cls-6" transform="translate(10.64 230.88) rotate(270)">
+                                    <tspan x="0" y="0">9</tspan>
+                                </text>
+                                <text class="cls-6" transform="translate(422.81 429.05) rotate(270)">
+                                    <tspan x="0" y="0">6</tspan>
+                                </text>
+                                <text class="cls-6" transform="translate(422.81 331.96) rotate(270)">
+                                    <tspan x="0" y="0">8</tspan>
+                                </text>
+                                <text class="cls-6" transform="translate(423.32 230.88) rotate(270)">
+                                    <tspan x="0" y="0">10</tspan>
+                                </text>
+                                <text class="cls-6" transform="translate(10.64 119.05) rotate(270)">
+                                    <tspan x="0" y="0">11</tspan>
+                                </text>
+                                <text class="cls-6" transform="translate(423.32 119.05) rotate(270)">
+                                    <tspan x="0" y="0">12</tspan>
+                                </text>
+                                <text class="cls-6" transform="translate(10.64 714.91) rotate(-90)">
+                                    <tspan x="0" y="0">1</tspan>
+                                </text>
+                                <text class="cls-6" transform="translate(10.64 622.44) rotate(-90)">
+                                    <tspan x="0" y="0">2</tspan>
+                                </text>
+                                <text class="cls-6" transform="translate(10.64 529.96) rotate(-90)">
+                                    <tspan x="0" y="0">3</tspan>
+                                </text>
+                            </g>
+                        </g>
+                        <g *ngFor="let lote of ocupacionLote">
+                            <g tabindex="0" class="cursor-pointer hover:opacity-80 transition-opacity duration-200"
+                                (mousedown)="startDragging($event, lote)" (mouseup)="stopDragging()">
+                                <!-- Rectángulo del lote -->
+                                <rect [ngClass]="getFillColor(lote.id)" [attr.x]="lote.x" [attr.y]="lote.y"
+                                    [attr.width]="getBlockSize(lote.typeblock).width"
+                                    [attr.height]="getBlockSize(lote.typeblock).height"
+                                    [attr.transform]="getTransform(lote)"></rect>
 
-            <!-- Nombre del bloque -->
-            <div>
-                <label for="blockName" class="block text-sm font-medium mb-2 dark:text-gray-200">Nombre del
-                    Bloque</label>
-                <input id="blockName" formControlName="blockName" type="number"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
-                    placeholder="Ingrese el nombre del bloque">
-                <div *ngIf="loteForm.get('blockName')?.invalid && loteForm.get('blockName')?.touched"
-                    class="text-red-500 mt-2">
-                    El nombre del bloque es obligatorio
-                </div>
+                                <!-- Texto dentro del lote -->
+                                <text class="cls-7" [attr.transform]="getTextTransform(lote)">
+                                    <tspan x="0" y="0">{{ lote.typeblock }}</tspan>
+                                </text>
+                            </g>
+                        </g>
+                    </g>
+                </svg>
             </div>
+        </div>
+    </div>
+</div>
 
-            <!-- Tipo de bloque -->
-            <div>
-                <label for="typeblock" class="block text-sm font-medium mb-2 dark:text-gray-200">Tipo de Bloque</label>
-                <input id="typeblock" formControlName="typeblock" type="text"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
-                    placeholder="Ingrese el tipo de bloque">
-                <div *ngIf="loteForm.get('typeblock')?.invalid && loteForm.get('typeblock')?.touched"
-                    class="text-red-500 mt-2">
-                    El tipo de bloque es obligatorio
-                </div>
-            </div>
+<!-- Modal para agregar lote -->
+<div *ngIf="showAddLoteModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+    <div class="bg-[#eae7dd] dark:bg-[#2a2b2a] rounded-lg shadow-lg w-96 p-6">
+        <h3 class="text-xl font-semibold text-[#2a2b2a] dark:text-[#eae7dd] mb-4">Agregar Lote</h3>
 
-            <!-- Número de tipo -->
-            <div>
-                <label for="numbersblock" class="block text-sm font-medium mb-2 dark:text-gray-200">Número de Tipo
-                    (Opcional)</label>
-                <input id="numbersblock" formControlName="numbersblock" type="number"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
-                    placeholder="Ingrese el número de tipo (opcional)">
-            </div>
+        <div class="flex flex-col gap-4">
+            <label class="text-[#99775c] dark:text-[#eae7dd]">Block Name:</label>
+            <input type="number" [(ngModel)]="newLote.blockName"
+                class="w-full p-2 rounded border border-[#99775c] bg-[#ffffff] text-[#2a2b2a] dark:bg-[#2a2b2a] dark:text-[#eae7dd] dark:border-[#eae7dd] focus:ring-2 focus:ring-[#50a2a7]">
 
-            <!-- Filas -->
-            <div>
-                <label for="filas" class="block text-sm font-medium mb-2 dark:text-gray-200">Número de Filas</label>
-                <input id="filas" formControlName="filas" type="number"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
-                    placeholder="Ingrese el número de filas">
-                <div *ngIf="loteForm.get('filas')?.invalid && loteForm.get('filas')?.touched" class="text-red-500 mt-2">
-                    El número de filas es obligatorio
-                </div>
-            </div>
+            <label class="text-[#99775c] dark:text-[#eae7dd]">Type Block:</label>
+            <select [(ngModel)]="newLote.typeblock" (change)="updateLoteProperties()"
+                class="w-full p-2 rounded border border-[#99775c] bg-[#ffffff] text-[#2a2b2a] dark:bg-[#2a2b2a] dark:text-[#eae7dd] dark:border-[#eae7dd] focus:ring-2 focus:ring-[#50a2a7]">
+                <option *ngFor="let key of blockKeys" [value]="key">{{ key }}</option>
+            </select>
+        </div>
 
-            <!-- Columnas -->
-            <div>
-                <label for="columnas" class="block text-sm font-medium mb-2 dark:text-gray-200">Número de
-                    Columnas</label>
-                <input id="columnas" formControlName="columnas" type="number"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
-                    placeholder="Ingrese el número de columnas">
-                <div *ngIf="loteForm.get('columnas')?.invalid && loteForm.get('columnas')?.touched"
-                    class="text-red-500 mt-2">
-                    El número de columnas es obligatorio
-                </div>
-            </div>
+        <div class="flex justify-end gap-3 mt-6">
+            <button (click)="toggleLoteModal('add', false)"
+                class="px-4 py-2 rounded bg-[#99775c] text-white hover:bg-[#2a2b2a] transition duration-300">Cancelar</button>
+            <button (click)="generateNewLote()"
+                class="px-4 py-2 rounded bg-[#50a2a7] text-white hover:bg-[#99775c] transition duration-300">Continuar</button>
+        </div>
+    </div>
+</div>
 
-            <!-- Límite de espacio -->
-            <div>
-                <label for="limite" class="block text-sm font-medium mb-2 dark:text-gray-200">Límite de Tumbas</label>
-                <input id="limite" formControlName="limite" type="number"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
-                    placeholder="Ingrese el límite de espacio">
-                <div *ngIf="loteForm.get('limite')?.invalid && loteForm.get('limite')?.touched"
-                    class="text-red-500 mt-2">
-                    El límite de Tumbas es obligatorio
-                </div>
-            </div>
+<!-- Modal para editar lote -->
+<div *ngIf="showEditLoteModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+    <div class="bg-[#eae7dd] dark:bg-[#2a2b2a] rounded-lg shadow-lg w-96 p-6">
+        <h3 class="text-xl font-semibold text-[#2a2b2a] dark:text-[#eae7dd] mb-4">Editar Lote</h3>
 
-            <!-- Botones -->
-            <div class="flex justify-end space-x-4">
-                <button type="button"
-                    class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600"
-                    (click)="cancelar()">
-                    Cancelar
-                </button>
-                <button type="submit"
-                    class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
-                    [disabled]="loteForm.invalid">
-                    Guardar Lote
-                </button>
-            </div>
+        <div class="flex flex-col gap-4">
+            <label class="text-[#99775c] dark:text-[#eae7dd] ">Block Name:</label>
+            <input type="number" [(ngModel)]="selectedLote.blockName"
+                class="w-full p-2 rounded border border-[#99775c] bg-[#ffffff] text-[#2a2b2a] dark:bg-[#2a2b2a] dark:text-[#eae7dd] dark:border-[#eae7dd] focus:ring-2 focus:ring-[#50a2a7]">
 
-        </form>
+            <label class="text-[#99775c] dark:text-[#eae7dd]">Type Block:</label>
+            <select [(ngModel)]="selectedLote.typeblock" (change)="updateLoteProperties()"
+                class="w-full p-2 rounded border border-[#99775c] bg-[#ffffff] text-[#2a2b2a] dark:bg-[#2a2b2a] dark:text-[#eae7dd] dark:border-[#eae7dd] focus:ring-2 focus:ring-[#50a2a7]">
+                <option *ngFor="let key of blockKeys" [value]="key">{{ key }}</option>
+            </select>
+
+            <label class="text-[#99775c] dark:text-[#eae7dd]">Numbers Block:</label>
+            <input type="number" [(ngModel)]="selectedLote.numbersblock"
+                class="w-full p-2 rounded border border-[#99775c] bg-[#ffffff] text-[#2a2b2a] dark:bg-[#2a2b2a] dark:text-[#eae7dd] dark:border-[#eae7dd] focus:ring-2 focus:ring-[#50a2a7]">
+        </div>
+
+        <div class="flex justify-end gap-3 mt-6">
+            <button (click)="toggleLoteModal('edit', false)"
+                class="px-4 py-2 rounded bg-[#99775c] text-white hover:bg-[#2a2b2a] transition duration-300">Cancelar</button>
+            <button (click)="enableLoteEditing()"
+                class="px-4 py-2 rounded bg-[#50a2a7] text-white hover:bg-[#99775c] transition duration-300">Continuar</button>
+        </div>
     </div>
 </div>

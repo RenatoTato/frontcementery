@@ -1,7 +1,7 @@
 export interface LoteOcupacion {
     id:number;
     blockName: number;
-    typeblock:  'A' | 'B' | 'C' | 'D' | 'F' | 'G' | 'H' | 'J' | 'L' | 'M' | 'N' | 'S' | 'T';
+    typeblock:  'A' | 'B' | 'C' | 'D' | 'F' | 'G' | 'H' | 'J' | 'L' | 'M' | 'N' | 'S' | 'T'| string;
     numbersblock:number;
     ocupadas: number;
     disponibles: number;
